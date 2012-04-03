@@ -8,13 +8,8 @@ class compress {
 		$this->css_list = array();
 		$this->js_list = array();
 	}
-	
-	public function run() {
-		$this->css();
-		$this->js();
-	}
-	
-	private function css() {
+
+	public function css() {
 		$handle = opendir(UI_CSS);
 		while($file = readdir($handle))
 			if('.' != $file && '..' != $file)
@@ -23,7 +18,7 @@ class compress {
 		
 		sort($this->css_list);
 		
-		$css_package = fopen(STATIC_FOLDER . 'main.css', 'w+');
+		$css_package = fopen(HTDOCS . 'main.css', 'w+');
 		foreach((array)$this->css_list as $filename) {
 			$handle = fopen(UI_CSS . $filename, 'r');
 			while($data = fread($handle, 1024))
@@ -34,7 +29,7 @@ class compress {
 		fclose($css_package);
 	}
 	
-	private function js() {
+	public function js() {
 		$handle = opendir(UI_JS);
 		while($file = readdir($handle))
 			if('.' != $file && '..' != $file)
@@ -43,7 +38,7 @@ class compress {
 		
 		sort($this->js_list);
 		
-		$js_package = fopen(STATIC_FOLDER . 'main.js', 'w+');
+		$js_package = fopen(HTDOCS . 'main.js', 'w+');
 		foreach((array)$this->js_list as $filename) {
 			$handle = fopen(UI_JS . $filename, 'r');
 			while($data = fread($handle, 1024))
