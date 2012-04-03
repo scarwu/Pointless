@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-	<title><?php echo isset($output_data['title']) ? $output_data['title'] . ' | ' : NULL; ?><?php echo BLOG_NAME; ?></title>
+	<title><?php echo isset($blog['title']) ? $blog['title'] . ' | ' : NULL; ?><?php echo BLOG_NAME; ?></title>
 	<meta name="viewport" content="width=640, initial-scale=1">
 	
 	<!-- Load Cascading Style Sheets -->
@@ -14,13 +14,13 @@
 	<div id="main">
 		<header>
 			<hgroup>
-				<h1><?php echo BLOG_NAME; ?></h1>
+				<h1><a href="<?php echo BLOG_PATH; ?>"><?php echo BLOG_NAME; ?></a></h1>
 				<h2><?php echo BLOG_SLOGAN; ?></h2>
 			</hgroup>
 		</header>
-		<div id="nav"></div>
-		<div id="container"><?php echo $output_data['container'] ?></div>
-		<div id="slider"><?php echo $output_data['slider'] ?></div>
+		<div id="nav"><a href="<?php echo BLOG_PATH; ?>">Home</a></div>
+		<div id="container"><?php echo $blog['container'] ?></div>
+		<div id="slider"><?php echo $blog['slider'] ?></div>
 		<footer><?php echo BLOG_FOOTER; ?></footer>
 	</div>
 	<!-- Define and Load Javascript -->

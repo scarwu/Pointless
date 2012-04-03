@@ -56,17 +56,27 @@ class generator {
 	/**
 	 * Binding Page
 	 */
-	private function bindPage($output_data) {
+	private function bindPage($blog, $path) {
+		mkdir($path);
 		// Data Binding and Get Output Buffer
 		ob_start();
 		include UI_TEMPLATE . 'index.php';
-		$page_content = ob_get_contents();
+		$result = ob_get_contents();
 		ob_end_clean();
 		
 		// Write OB to files
-		$handle = fopen($this->article_path . 'index.html', 'w+');
-		fwrite($handle, $page_content);
+		$handle = fopen($path . 'index.html', 'w+');
+		fwrite($handle, $result);
 		fclose($handle);
+	}
+
+	private function bindContainer($data, $target) {
+		ob_start();
+		include UI_TEMPLATE . 'container' . SEPARATOR . $target. '.php';
+		$result = ob_get_contents();
+		ob_end_clean();
+		
+		return $result;
 	}
 
 	/**
@@ -93,24 +103,15 @@ class generator {
 		// Building Article
 		foreach((array)$this->article_list as $index => $output_data) {
 			echo sprintf("Building article/%d", $index+1);
-			
-			$this->article_path = HTDOCS_ARTICLE . ($index+1) . SEPARATOR;
-			mkdir($this->article_path);
 
-			$article_info = $output_data;
-			
 			$md = file_get_contents(ARTICLES . $output_data['number'] . SEPARATOR . 'article.md');
-			$article_info['content'] = Markdown($md);
-			
-			ob_start();
-			include UI_TEMPLATE . 'container' . SEPARATOR . 'article.php';
-			$output_data['container'] = ob_get_contents();
-			ob_end_clean(); 
-			
+			$output_data['content'] = Markdown($md);
+			$output_data['container'] = $this->bindContainer($output_data, 'article');
 			$output_data['slider'] = $this->slider;
+			$output_data['link'] = 'article/' . ($index+1);
 			
 			// Data Binding
-			$this->bindPage($output_data);
+			$this->bindPage($output_data, HTDOCS_ARTICLE . ($index+1) . SEPARATOR);
 			
 			echo "...OK!\n";
 		}
@@ -122,29 +123,19 @@ class generator {
 	private function genCategory() {
 		foreach((array)$this->category_list as $index => $article_list) {
 			echo sprintf("Building category/%s", $index);
-			
-			$this->article_path = HTDOCS_CATEGORY . $index . SEPARATOR;
-			mkdir($this->article_path);
-			
-			$category_info = array(
-				'title' => 'Category: ' . $index
-			);
-			
-			$category_info['content'] = '<ul>';
-			foreach((array)$article_list as $article_info) {
-				$category_info['content'] .= '<li>' . $article_info['title'] . '</li>';
+
+			$output_data['title'] ='Category: ' . $index;
+			$output_data['content'] = '<ul>';
+			foreach((array)$article_list as $article_index => $article_info) {
+				$output_data['content'] .= '<li><a href="' . BLOG_PATH . 'article/' . ($article_index+1) . '">' . $article_info['title'] . '</a></li>';
 			}
-			$category_info['content'] .= '</ul>';
-			
-			ob_start();
-			include UI_TEMPLATE . 'container' . SEPARATOR . 'category.php';
-			$output_data['container'] = ob_get_contents();
-			ob_end_clean(); 
-			
+			$output_data['content'] .= '</ul>';
+			$output_data['container'] = $this->bindContainer($output_data, 'category');
 			$output_data['slider'] = $this->slider;
+			$output_data['link'] = 'category/' . $index;
 			
 			// Data Binding
-			$this->bindPage($output_data);
+			$this->bindPage($output_data, HTDOCS_CATEGORY . $index . SEPARATOR);
 			
 			echo "...OK!\n";
 		}
@@ -156,29 +147,19 @@ class generator {
 	private function genTag() {
 		foreach((array)$this->tag_list as $index => $article_list) {
 			echo sprintf("Building tag/%s", $index);
-			
-			$this->article_path = HTDOCS_TAG . $index . SEPARATOR;
-			mkdir($this->article_path);
-			
-			$tag_info = array(
-				'title' => 'Tag: ' . $index
-			);
-			
-			$tag_info['content'] = '<ul>';
-			foreach((array)$article_list as $article_info) {
-				$tag_info['content'] .= '<li>' . $article_info['title'] . '</li>';
+
+			$output_data['title'] = 'Tag: ' . $index;
+			$output_data['content'] = '<ul>';
+			foreach((array)$article_list as $article_index => $article_info) {
+				$output_data['content'] .= '<li><a href="' . BLOG_PATH . 'article/' . ($article_index+1) . '">' . $article_info['title'] . '</a></li>';
 			}
-			$tag_info['content'] .= '</ul>';
-			
-			ob_start();
-			include UI_TEMPLATE . 'container' . SEPARATOR . 'tag.php';
-			$output_data['container'] = ob_get_contents();
-			ob_end_clean(); 
-			
+			$output_data['content'] .= '</ul>';
+			$output_data['container'] = $this->bindContainer($output_data, 'tag');
 			$output_data['slider'] = $this->slider;
+			$output_data['link'] = 'tag/' . $index;
 			
 			// Data Binding
-			$this->bindPage($output_data);
+			$this->bindPage($output_data, HTDOCS_TAG . $index . SEPARATOR);
 			
 			echo "...OK!\n";
 		}
@@ -192,30 +173,19 @@ class generator {
 		
 		for($index = 1;$index <= $page_number;$index++) {
 			echo sprintf("Building page/%s", $index);
-			
-			$this->article_path = HTDOCS_PAGE . $index . SEPARATOR;
-			mkdir($this->article_path);
-			
-			$page_info = array(
-				'title' => 'Page: ' . $index,
-				'bar' => 'Bar'
-			);
-			
-			$page_info['content'] = '<ul>';
-			foreach((array)$this->article_list as $article_info) {
-				$page_info['content'] .= '<li>' . $article_info['title'] . '</li>';
+
+			$output_data['title'] = 'Page: ' . $index;
+			$output_data['bar'] = 'Bar';
+			$output_data['content'] = '<ul>';
+			foreach((array)$this->article_list as $article_index => $article_info) {
+				$output_data['content'] .= '<li><a href="' . BLOG_PATH . 'article/' . ($article_index+1) . '">' . $article_info['title'] . '</a></li>';
 			}
-			$page_info['content'] .= '</ul>';
-			
-			ob_start();
-			include UI_TEMPLATE . 'container' . SEPARATOR . 'page.php';
-			$output_data['container'] = ob_get_contents();
-			ob_end_clean(); 
-			
+			$output_data['content'] .= '</ul>';
+			$output_data['container'] = $this->bindContainer($output_data, 'page');
 			$output_data['slider'] = $this->slider;
 			
 			// Data Binding
-			$this->bindPage($output_data);
+			$this->bindPage($output_data, HTDOCS_PAGE . $index . SEPARATOR);
 			
 			echo "...OK!\n";
 		}

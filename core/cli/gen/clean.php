@@ -1,12 +1,12 @@
 <?php
 
-class pointless_clean extends CLI {
+class pointless_gen_clean extends CLI {
 	public function __construct() {
 		parent::__construct();
 	}
 	
 	public function run($path = NULL) {
-		echo "Clean Static Pages";
+		echo "Clean Static Files";
 		
 		if(file_exists(NULL == $path ? HTDOCS : $path))
 			$this->rRemoveDir(NULL == $path ? HTDOCS : $path);

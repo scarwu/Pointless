@@ -32,7 +32,7 @@ function autoload($className) {
 	$className = str_replace('_', '/', $className);
 	$className = preg_replace('/^pointless/', CORE . 'cli' , $className);
 
-    require_once "$className.php";
+	require_once "$className.php";
 }
 
 spl_autoload_register('autoload');

@@ -10,7 +10,7 @@ class pointless_gen_all extends CLI {
 		require_once CORE_LIB . 'generator.php';
 		
 		// Clean static pages
-		$clean = new pointless_clean();
+		$clean = new pointless_gen_clean();
 		$clean->run();
 		
 		$this->makeDir();
