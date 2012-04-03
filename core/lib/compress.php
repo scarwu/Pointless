@@ -10,6 +10,8 @@ class compress {
 	}
 
 	public function css() {
+		echo "Compress Cascading Style Sheets";
+		
 		$handle = opendir(UI_CSS);
 		while($file = readdir($handle))
 			if('.' != $file && '..' != $file)
@@ -20,16 +22,31 @@ class compress {
 		
 		$css_package = fopen(HTDOCS . 'main.css', 'w+');
 		foreach((array)$this->css_list as $filename) {
-			$handle = fopen(UI_CSS . $filename, 'r');
-			while($data = fread($handle, 1024))
-				fwrite($css_package, $data, 1024);
-			fwrite($css_package, "\n");
-			fclose($handle);
+			$css = file_get_contents(UI_CSS . $filename);
+			$css = $this->css_compressor($css);
+			fwrite($css_package, $css);
 		}
 		fclose($css_package);
+		
+		echo "...OK!\n";
+	}
+	
+	// Css Compressor
+	private function css_compressor($css) {
+		$css = preg_replace('/(\f|\n|\r|\t|\v)/', '', $css);
+		$css = preg_replace('/\/\*.+?\*\//', '', $css);
+		$css = preg_replace('/[ ]+/', ' ', $css);
+		$css = str_replace(
+			array(' ,', ', ', ': ', ' :', ' {', '{ ', ' }', '} ', ' ;', '; '),
+			array(',', ',', ':', ':', '{', '{', '}', '}', ';', ';'),
+			$css
+		);
+		return $css;
 	}
 	
 	public function js() {
+		echo "Compress Javascript";
+		
 		$handle = opendir(UI_JS);
 		while($file = readdir($handle))
 			if('.' != $file && '..' != $file)
@@ -47,5 +64,7 @@ class compress {
 			fclose($handle);
 		}
 		fclose($js_package);
+		
+		echo "...OK!\n";
 	}
 }

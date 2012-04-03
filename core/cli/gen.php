@@ -6,7 +6,7 @@ class pointless_gen extends CLI {
 	}
 	
 	public function run() {
-		$all = new Pointless_gen_all();
+		$all = new pointless_gen_all();
 		$all->run();
 	}
 }

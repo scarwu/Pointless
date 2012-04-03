@@ -6,15 +6,67 @@ html, body, h1 {
 	padding: 0;
 }
 
+body {
+	/*font-family: Ubuntu, '儷黑Pro', 'LiHei Pro', '微軟正黑體', 'Microsoft JhengHei', Arial, '新細明體', PMingLiU;*/
+	font-family: '微軟正黑體', '儷黑Pro', 'Ubuntu';
+	background: #DFDFDF;
+}
+
 #main {
-	margin: auto;
+	background: #FFF;
+	margin: 30px auto 50px auto;
 	width: 960px;
+	-moz-box-shadow: 0 0 10px #999;
+	-webkit-box-shadow: 0 0 10px #999;
+	box-shadow: 0 0 10px #999;
 }
 
 header {
-	
+	height: 150px;
+}
+
+header > hgroup {
+	margin: auto;
+	width: 800px;
+	padding-top: 45px;
+}
+
+header > hgroup > h1 {
+	vertical-align: bottom;
+	font-weight: 600;
+	font-size: 36px;
+	line-height: 36px;
+}
+
+header > hgroup > h2 {
+	font-size: 14px;
+	color: #999;
+	font-weight: normal;
+	margin-top: 4px;
+}
+
+#nav {
+	border-top: solid 1px #DFDFDF;
+	height: 45px;
+	background: #000;
+}
+
+#container {
+	border-top: solid 1px #DFDFDF;
+	padding: 15px 50px;
+}
+
+#slider {
+	border-top: solid 1px #DFDFDF;
+	min-height: 200px;
 }
 
 footer {
+	border-top: solid 1px #DFDFDF;
+	background: #EFEFEF;
 	text-align: center;
+	height: 50px;
+	line-height: 50px;
+	font-size: 12px;
+	color: #666;
 }

@@ -6,10 +6,12 @@ class pointless_clean extends CLI {
 	}
 	
 	public function run($path = NULL) {
-		echo "Clean Static Pages\n";
+		echo "Clean Static Pages";
 		
 		if(file_exists(NULL == $path ? HTDOCS : $path))
 			$this->rRemoveDir(NULL == $path ? HTDOCS : $path);
+		
+		echo "...OK!\n";
 	}
 	
 	/**

@@ -8,4 +8,4 @@ define('BLOG_PATH', '/');
 define('ARTICLE_QUANTITY', 10);
 
 define('MARKDOWN_EXTRA', TRUE);
-define('GOOGLE_ANALISTIC', '');
+define('GOOGLE_ANALISTIC', NULL);
