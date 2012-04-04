@@ -8,7 +8,7 @@
 		echo '<span class="date">Date: ' . $article_info['post_date'] . '</span>';
 		echo '</div>';
 		echo '<div class="content">' . preg_replace('/<!--more-->(.|\n)*/', '', Markdown($md)) . '</div>';
-		echo '<a class="more" href="' . BLOG_PATH . 'article/' . $article_info['number'] . '">Read more</a>';
+		echo '<a class="more" href="' . BLOG_PATH . 'article/' . $article_info['number'] . '">Read more ...</a>';
 		echo '</article>';
 		echo '<hr>';
 	}

@@ -10,6 +10,6 @@ define('ARTICLE_PATH', 'date'); // date | dirname | title
 
 define('MARKDOWN_EXTRA', TRUE);
 
-define('GOOGLE_ANALISTIC', NULL);
+define('GOOGLE_ANALYSTIC', 'UA-9535314-1');
 
 define('CNAME', 'scar.simcz.tw');

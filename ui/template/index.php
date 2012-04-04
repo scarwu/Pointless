@@ -30,14 +30,12 @@
 	</div>
 	<!-- Define and Load Javascript -->
 	<script src="<?php echo BLOG_PATH; ?>main.js"></script>
-	<?php if(GOOGLE_ANALISTIC): ?>
-	<script>
-		var _gaq = [['_setAccount', '<?php echo GOOGLE_ANALISTIC; ?>'], ['_trackPageview']]; (function(d, t) {
+	<?php if(GOOGLE_ANALYSTIC): ?><script>
+		var _gaq = [['_setAccount', '<?php echo GOOGLE_ANALYSTIC; ?>'], ['_trackPageview']]; (function(d, t) {
 			var g = d.createElement(t), s = d.getElementsByTagName(t)[0];
 			g.src = ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js';
 			s.parentNode.insertBefore(g, s)
 		} (document, 'script'));
-	</script>
-	<?php endif; ?>
+	</script><?php endif; ?>
 </body>
 </html>
