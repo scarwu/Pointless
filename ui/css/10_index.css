@@ -6,6 +6,17 @@ html, body, h1 {
 	padding: 0;
 }
 
+a,
+a:visited {
+	text-decoration: none;
+	color: #333;
+}
+
+a:hover {
+	color: #555;
+	text-decoration: underline;
+}
+
 body {
 	/*font-family: Ubuntu, '儷黑Pro', 'LiHei Pro', '微軟正黑體', 'Microsoft JhengHei', Arial, '新細明體', PMingLiU;*/
 	font-family: '微軟正黑體', '儷黑Pro', 'Ubuntu';
@@ -27,19 +38,23 @@ header {
 
 header > hgroup {
 	margin: auto;
-	width: 800px;
-	padding-top: 45px;
+	padding: 45px 0 0 50px;
 }
 
 header > hgroup > h1 {
 	vertical-align: bottom;
 	font-weight: 600;
-	font-size: 36px;
+	font-size: 48px;
 	line-height: 36px;
 }
 
+header > hgroup > h1 > a:hover {
+	text-decoration: none;
+	color: #999;
+}
+
 header > hgroup > h2 {
-	font-size: 14px;
+	font-size: 16px;
 	color: #999;
 	font-weight: normal;
 	margin-top: 4px;
@@ -49,6 +64,26 @@ header > hgroup > h2 {
 	border-top: solid 1px #DFDFDF;
 	height: 45px;
 	background: #000;
+	padding: 0 75px;
+}
+
+#nav > a,
+#nav > a:visited {
+	text-align: center;
+	display: inline-block;
+	height: 45px;
+	line-height: 45px;
+	padding: 0 15px;
+	color: #DDD;
+}
+
+#nav > a:hover,
+#nav > a:active {
+	background: #EEE;
+	color: #222;
+	-moz-box-shadow: 0 0 10px #999;
+	-webkit-box-shadow: 0 0 10px #999;
+	box-shadow: 0 0 10px #999;
 }
 
 #container {
@@ -56,9 +91,26 @@ header > hgroup > h2 {
 	padding: 15px 50px;
 }
 
+#container .title {
+	font-size: 36px;
+}
+
 #slider {
 	border-top: solid 1px #DFDFDF;
-	min-height: 200px;
+	min-height: 100px;
+	padding: 15px 50px;
+	overflow: hidden;
+}
+
+#slider > div {
+	display: inline-block;
+	width: 33%;
+	min-height: 150px;
+	float: left;
+}
+
+#slider > div .title {
+	font-size: 24px;
 }
 
 footer {

@@ -1,0 +1,26 @@
+#page article {
+	margin-bottom: 50px;
+}
+
+#page article .title {
+	font-weight: bold;
+	margin-bottom: 15px;
+}
+
+#page article .content {
+	margin-bottom: 25px;
+}
+
+#page article .more {
+	display: inline-block;
+	border: 1px #DDD solid;
+	background: #EEE;
+	padding: 5px 20px;
+	text-align: center;
+	text-decoration: none;
+}
+
+#page article .more:hover {
+	color: #EEE;
+	background: #333333;
+}

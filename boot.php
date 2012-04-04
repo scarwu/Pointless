@@ -15,6 +15,7 @@ define('HTDOCS_ARTICLE', HTDOCS . 'article' . SEPARATOR);
 define('HTDOCS_CATEGORY', HTDOCS . 'category' . SEPARATOR);
 define('HTDOCS_TAG', HTDOCS . 'tag' . SEPARATOR);
 define('HTDOCS_PAGE', HTDOCS . 'page' . SEPARATOR);
+define('HTDOCS_ARCHIVE', HTDOCS . 'archive' . SEPARATOR);
 
 define('ARTICLES', ROOT . 'articles' . SEPARATOR);
 

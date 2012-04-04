@@ -32,6 +32,7 @@ class pointless_gen_all extends CLI {
 		mkdir(HTDOCS . 'article');
 		mkdir(HTDOCS . 'category');
 		mkdir(HTDOCS . 'tag');
+		mkdir(HTDOCS . 'archive');
 		
 		echo "...OK!\n";
 	}

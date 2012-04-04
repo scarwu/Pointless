@@ -14,6 +14,7 @@ class generator {
 		$this->article_list = array();
 		$this->tag_list = array();
 		$this->category_list = array();
+		$this->archive_list = array();
 		
 		$handle = opendir(ARTICLES);
 		while($dir = readdir($handle))
@@ -34,6 +35,10 @@ class generator {
 						$this->tag_list[$tag] = array();
 					array_push($this->tag_list[$tag], $info);
 				}
+				// Tag Archive
+				if(!isset($this->archive_list[substr($info['post_date'], 0, 4)]))
+					$this->archive_list[substr($info['post_date'], 0, 4)] = array();
+				array_push($this->archive_list[substr($info['post_date'], 0, 4)], $info);
 				unset($info);
 			}
 		closedir($handle);
@@ -43,6 +48,8 @@ class generator {
 			sort($this->category_list[$key]);
 		foreach((array)$this->tag_list as $key => $value)
 			sort($this->tag_list[$key]);
+		foreach((array)$this->archive_list as $key => $value)
+			sort($this->archive_list[$key]);
 		
 		$this->slider = $this->genSlider();
 		
@@ -50,6 +57,7 @@ class generator {
 		$this->genCategory();
 		$this->genTag();
 		$this->genPage();
+		$this->genArchive();
 		copy(HTDOCS_PAGE . '1' . SEPARATOR . 'index.html', HTDOCS . 'index.html');
 	}
 
@@ -84,15 +92,22 @@ class generator {
 	 */
 	private function genSlider() {
 		$result = '';
+		$list = array();
 		$handle = opendir(UI_TEMPLATE . 'slider' . SEPARATOR);
 		while($file = readdir($handle))
-			if('.' != $file && '..' != $file) {
-				ob_start();
-				include UI_TEMPLATE . 'slider' . SEPARATOR . $file;
-				$result .= ob_get_contents();
-				ob_end_clean();
-			}
+			if('.' != $file && '..' != $file)
+				array_push($list, $file);
 		closedir($handle);
+		
+		sort($list);
+		
+		foreach((array)$list as $filename) {
+			ob_start();
+			include UI_TEMPLATE . 'slider' . SEPARATOR . $filename;
+			$result .= ob_get_contents();
+			ob_end_clean();
+		}
+		
 		return $result;
 	}
 	
@@ -166,6 +181,30 @@ class generator {
 	}
 	
 	/**
+	 * Gen Archive
+	 */
+	private function genArchive() {
+		foreach((array)$this->archive_list as $index => $article_list) {
+			echo sprintf("Building archive/%s", $index);
+
+			$output_data['title'] = 'Archive: ' . $index;
+			$output_data['content'] = '<ul>';
+			foreach((array)$article_list as $article_index => $article_info) {
+				$output_data['content'] .= '<li><a href="' . BLOG_PATH . 'article/' . ($article_index+1) . '">' . $article_info['title'] . '</a></li>';
+			}
+			$output_data['content'] .= '</ul>';
+			$output_data['container'] = $this->bindContainer($output_data, 'archive');
+			$output_data['slider'] = $this->slider;
+			$output_data['link'] = 'tag/' . $index;
+			
+			// Data Binding
+			$this->bindPage($output_data, HTDOCS_ARCHIVE . $index . SEPARATOR);
+			
+			echo "...OK!\n";
+		}
+	}
+	
+	/**
 	 * Gen Page
 	 */
 	private function genPage() {
@@ -173,14 +212,9 @@ class generator {
 		
 		for($index = 1;$index <= $page_number;$index++) {
 			echo sprintf("Building page/%s", $index);
-
-			$output_data['title'] = 'Page: ' . $index;
+			
 			$output_data['bar'] = 'Bar';
-			$output_data['content'] = '<ul>';
-			foreach((array)$this->article_list as $article_index => $article_info) {
-				$output_data['content'] .= '<li><a href="' . BLOG_PATH . 'article/' . ($article_index+1) . '">' . $article_info['title'] . '</a></li>';
-			}
-			$output_data['content'] .= '</ul>';
+			$output_data['article_list'] = $this->article_list;
 			$output_data['container'] = $this->bindContainer($output_data, 'page');
 			$output_data['slider'] = $this->slider;
 			
