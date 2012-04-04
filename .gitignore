@@ -1,3 +1,2 @@
-htdocs
-temp
-articles
+htdocs/*
+articles/*

@@ -23,7 +23,8 @@ class generator {
 				$info['number'] = $dir;
 				
 				// Article List
-				array_push($this->article_list, $info);
+				$this->article_list[$dir] = $info;
+				//array_push($this->article_list, $info);
 				
 				// Category List
 				if(!isset($this->category_list[$info['category']]))
@@ -43,13 +44,13 @@ class generator {
 			}
 		closedir($handle);
 		
-		sort($this->article_list);
+		krsort($this->article_list);
 		foreach((array)$this->category_list as $key => $value)
-			sort($this->category_list[$key]);
+			krsort($this->category_list[$key]);
 		foreach((array)$this->tag_list as $key => $value)
-			sort($this->tag_list[$key]);
+			krsort($this->tag_list[$key]);
 		foreach((array)$this->archive_list as $key => $value)
-			sort($this->archive_list[$key]);
+			krsort($this->archive_list[$key]);
 		
 		$this->slider = $this->genSlider();
 		
@@ -65,7 +66,7 @@ class generator {
 	 * Binding Page
 	 */
 	private function bindPage($blog, $path) {
-		mkdir($path);
+		mkdir($path, 0755, TRUE);
 		// Data Binding and Get Output Buffer
 		ob_start();
 		include UI_TEMPLATE . 'index.php';
@@ -117,16 +118,16 @@ class generator {
 	private function genArticle() {
 		// Building Article
 		foreach((array)$this->article_list as $index => $output_data) {
-			echo sprintf("Building article/%d", $index+1);
+			echo sprintf("Building article/%d", $output_data['number']);
 
 			$md = file_get_contents(ARTICLES . $output_data['number'] . SEPARATOR . 'article.md');
 			$output_data['content'] = Markdown($md);
 			$output_data['container'] = $this->bindContainer($output_data, 'article');
 			$output_data['slider'] = $this->slider;
-			$output_data['link'] = 'article/' . ($index+1);
+			$output_data['link'] = 'article/' . $output_data['number'];
 			
 			// Data Binding
-			$this->bindPage($output_data, HTDOCS_ARTICLE . ($index+1) . SEPARATOR);
+			$this->bindPage($output_data, HTDOCS_ARTICLE . $output_data['number'] . SEPARATOR);
 			
 			echo "...OK!\n";
 		}
@@ -142,7 +143,7 @@ class generator {
 			$output_data['title'] ='Category: ' . $index;
 			$output_data['content'] = '<ul>';
 			foreach((array)$article_list as $article_index => $article_info) {
-				$output_data['content'] .= '<li><a href="' . BLOG_PATH . 'article/' . ($article_index+1) . '">' . $article_info['title'] . '</a></li>';
+				$output_data['content'] .= '<li><a href="' . BLOG_PATH . 'article/' . $article_info['number'] . '">' . $article_info['title'] . '</a></li>';
 			}
 			$output_data['content'] .= '</ul>';
 			$output_data['container'] = $this->bindContainer($output_data, 'category');
@@ -166,7 +167,7 @@ class generator {
 			$output_data['title'] = 'Tag: ' . $index;
 			$output_data['content'] = '<ul>';
 			foreach((array)$article_list as $article_index => $article_info) {
-				$output_data['content'] .= '<li><a href="' . BLOG_PATH . 'article/' . ($article_index+1) . '">' . $article_info['title'] . '</a></li>';
+				$output_data['content'] .= '<li><a href="' . BLOG_PATH . 'article/' . $article_info['number'] . '">' . $article_info['title'] . '</a></li>';
 			}
 			$output_data['content'] .= '</ul>';
 			$output_data['container'] = $this->bindContainer($output_data, 'tag');
@@ -190,7 +191,7 @@ class generator {
 			$output_data['title'] = 'Archive: ' . $index;
 			$output_data['content'] = '<ul>';
 			foreach((array)$article_list as $article_index => $article_info) {
-				$output_data['content'] .= '<li><a href="' . BLOG_PATH . 'article/' . ($article_index+1) . '">' . $article_info['title'] . '</a></li>';
+				$output_data['content'] .= '<li><a href="' . BLOG_PATH . 'article/' . $article_info['number'] . '">' . $article_info['title'] . '</a></li>';
 			}
 			$output_data['content'] .= '</ul>';
 			$output_data['container'] = $this->bindContainer($output_data, 'archive');

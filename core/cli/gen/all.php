@@ -13,7 +13,7 @@ class pointless_gen_all extends CLI {
 		$clean = new pointless_gen_clean();
 		$clean->run();
 		
-		$this->makeDir();
+		mkdir(HTDOCS);
 		
 		$compress = new compress();
 		$compress->js();
@@ -21,19 +21,5 @@ class pointless_gen_all extends CLI {
 		
 		$generator = new generator();
 		$generator->run();
-	}
-	
-	// Make directory
-	private function makeDir() {
-		echo "Make Directory";
-		
-		mkdir(HTDOCS);
-		mkdir(HTDOCS . 'page');
-		mkdir(HTDOCS . 'article');
-		mkdir(HTDOCS . 'category');
-		mkdir(HTDOCS . 'tag');
-		mkdir(HTDOCS . 'archive');
-		
-		echo "...OK!\n";
 	}
 }

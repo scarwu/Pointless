@@ -21,11 +21,12 @@ class pointless_gen_clean extends CLI {
 		if(is_dir($path)) {
 			$handle = @opendir($path);
 			while($file = readdir($handle))
-				if($file != '.' && $file != '..')
+				if($file != '.' && $file != '..' && $file != '.git')
 					$this->rRemoveDir($path . DIRECTORY_SEPARATOR . $file);
 			closedir($handle);
 			
-			return rmdir($path);
+			if($path != HTDOCS)
+				return rmdir($path);
 		}
 		else
 			return unlink($path);
