@@ -6,6 +6,10 @@ define('BLOG_FOOTER', 'Copyright (c) 2011-2012 ScarShow');
 define('BLOG_PATH', '/');
 
 define('ARTICLE_QUANTITY', 10);
+define('ARTICLE_PATH', 'date'); // date | dirname | title
 
 define('MARKDOWN_EXTRA', TRUE);
+
 define('GOOGLE_ANALISTIC', NULL);
+
+define('CNAME', 'scar.simcz.tw');

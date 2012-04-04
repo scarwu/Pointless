@@ -7,6 +7,7 @@ class generator {
 			require_once CORE_PLUGINS . 'markdown-extra' . SEPARATOR . 'markdown.php';
 		else
 			require_once CORE_PLUGINS . 'markdown' . SEPARATOR . 'markdown.php';
+		require_once CORE_PLUGINS . 'custom_sort.php';
 	}
 	
 	public function run() {
@@ -24,18 +25,19 @@ class generator {
 				
 				// Article List
 				$this->article_list[$dir] = $info;
-				//array_push($this->article_list, $info);
 				
 				// Category List
 				if(!isset($this->category_list[$info['category']]))
 					$this->category_list[$info['category']] = array();
 				array_push($this->category_list[$info['category']], $info);
+				
 				// Tag List
 				foreach(explode('|', $info['tag']) as $tag) {
 					if(!isset($this->tag_list[$tag]))
 						$this->tag_list[$tag] = array();
 					array_push($this->tag_list[$tag], $info);
 				}
+				
 				// Tag Archive
 				if(!isset($this->archive_list[substr($info['post_date'], 0, 4)]))
 					$this->archive_list[substr($info['post_date'], 0, 4)] = array();
@@ -44,13 +46,10 @@ class generator {
 			}
 		closedir($handle);
 		
-		krsort($this->article_list);
-		foreach((array)$this->category_list as $key => $value)
-			krsort($this->category_list[$key]);
-		foreach((array)$this->tag_list as $key => $value)
-			krsort($this->tag_list[$key]);
-		foreach((array)$this->archive_list as $key => $value)
-			krsort($this->archive_list[$key]);
+		$this->article_list = article_sort($this->article_list);
+		$this->category_list = count_sort($this->category_list);
+		$this->tag_list = count_sort($this->tag_list);
+		krsort($this->archive_list);
 		
 		$this->slider = $this->genSlider();
 		
@@ -59,7 +58,6 @@ class generator {
 		$this->genTag();
 		$this->genPage();
 		$this->genArchive();
-		copy(HTDOCS_PAGE . '1' . SEPARATOR . 'index.html', HTDOCS . 'index.html');
 	}
 
 	/**
@@ -224,5 +222,7 @@ class generator {
 			
 			echo "...OK!\n";
 		}
+		
+		copy(HTDOCS_PAGE . '1' . SEPARATOR . 'index.html', HTDOCS . 'index.html');
 	}
 }

@@ -10,6 +10,8 @@ define('CORE', ROOT . 'core' . SEPARATOR);
 define('CORE_LIB', CORE . 'lib' . SEPARATOR);
 define('CORE_PLUGINS', CORE . 'plugins' . SEPARATOR);
 
+define('RESOURCE', ROOT . 'resource' . SEPARATOR);
+
 define('HTDOCS', ROOT . 'htdocs' . SEPARATOR);
 define('HTDOCS_ARTICLE', HTDOCS . 'article' . SEPARATOR);
 define('HTDOCS_CATEGORY', HTDOCS . 'category' . SEPARATOR);
