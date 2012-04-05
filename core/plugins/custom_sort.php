@@ -1,8 +1,16 @@
 <?php
 
 function article_sort($list) {
-	krsort($list);
-	return $list;
+	foreach($list as $key => $value)
+		$tmp[$key] = $value['date'] . ' ' . $value['time'];
+	
+	arsort($tmp);
+	
+	$result = array();
+	foreach($tmp as $key => $value)
+		array_push($result, $list[$key]);
+
+	return $result;
 }
 
 function count_sort($list) {

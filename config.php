@@ -6,7 +6,7 @@ define('BLOG_FOOTER', 'Copyright (c) 2011-2012 ScarShow');
 define('BLOG_PATH', '/');
 
 define('ARTICLE_QUANTITY', 10);
-define('ARTICLE_PATH', 'date'); // date | dirname | title
+define('ARTICLE_URL', 2); // 0: date, 1: title, 2: date + title, 3: dirname
 
 define('MARKDOWN_EXTRA', TRUE);
 

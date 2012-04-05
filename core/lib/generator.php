@@ -20,44 +20,84 @@ class generator {
 		$handle = opendir(ARTICLES);
 		while($dir = readdir($handle))
 			if('.' != $dir && '..' != $dir) {
-				$info = json_decode(file_get_contents(ARTICLES . $dir . SEPARATOR . 'info.json'), TRUE);
-				$info['number'] = $dir;
+				$temp = json_decode(file_get_contents(ARTICLES . $dir . SEPARATOR . 'info.json'), TRUE);
 				
+				$article = array();
+				$article['title'] = $temp['title'];
+				$article['content'] = 0;
+				// $article['content'] = Markdown(file_get_contents(ARTICLES . $dir . SEPARATOR . 'article.md'));
+
+				$date = explode('-', $temp['date']);
+				$article['year'] = $date[0];
+				$article['month'] = $date[1];
+				$article['day'] = $date[2];
+				$article['date'] = $temp['date'];
+				
+				$time = explode(':', $temp['time']);
+				$article['hour'] = $time[0];
+				$article['minute'] = $time[1];
+				$article['second'] = $time[2];
+				$article['time'] = $temp['time'];
+				
+				$article['tag'] = explode('|', $temp['tag']);
+				$article['category'] = $temp['category'];
+				
+				$article['dirname'] = $dir;
+				
+				// 0: date, 1: title, 2: date + title, 3: dirname
+				switch(ARTICLE_URL) {
+					case 0:
+						$article['url'] = str_replace('-', '/', $temp['date']);
+						break;
+					case 1:
+						$article['url'] = $temp['url'];
+						break;
+					case 2:
+						$article['url'] = str_replace('-', '/', $temp['date']) . '/' . $temp['url'];
+						break;
+					case 3:
+						$article['url'] = $dir;
+						break;
+				}
+
 				// Article List
-				$this->article_list[$dir] = $info;
-				
+				array_push($this->article_list, $article);
+
 				// Category List
-				if(!isset($this->category_list[$info['category']]))
-					$this->category_list[$info['category']] = array();
-				array_push($this->category_list[$info['category']], $info);
+				if(!isset($this->category_list[$article['category']]))
+					$this->category_list[$article['category']] = array();
+				array_push($this->category_list[$article['category']], $article);
 				
 				// Tag List
-				foreach(explode('|', $info['tag']) as $tag) {
+				foreach($article['tag'] as $tag) {
 					if(!isset($this->tag_list[$tag]))
 						$this->tag_list[$tag] = array();
-					array_push($this->tag_list[$tag], $info);
+					array_push($this->tag_list[$tag], $article);
 				}
 				
 				// Tag Archive
-				if(!isset($this->archive_list[substr($info['post_date'], 0, 4)]))
-					$this->archive_list[substr($info['post_date'], 0, 4)] = array();
-				array_push($this->archive_list[substr($info['post_date'], 0, 4)], $info);
-				unset($info);
+				if(!isset($this->archive_list[$article['year']]))
+					$this->archive_list[$article['year']] = array();
+				if(!isset($this->archive_list[$article['year']][$article['month']]))
+					$this->archive_list[$article['year']][$article['month']] = array();
+				array_push($this->archive_list[$article['year']][$article['month']], $article);
 			}
 		closedir($handle);
 		
 		$this->article_list = article_sort($this->article_list);
 		$this->category_list = count_sort($this->category_list);
 		$this->tag_list = count_sort($this->tag_list);
-		krsort($this->archive_list);
+		// krsort($this->archive_list);
 		
-		$this->slider = $this->genSlider();
+		print_r($this->article_list);
 		
-		$this->genArticle();
-		$this->genCategory();
-		$this->genTag();
-		$this->genPage();
-		$this->genArchive();
+		// $this->slider = $this->genSlider();
+		
+		// $this->genArticle();
+		// $this->genCategory();
+		// $this->genTag();
+		// $this->genPage();
+		// $this->genArchive();
 	}
 
 	/**
@@ -116,16 +156,16 @@ class generator {
 	private function genArticle() {
 		// Building Article
 		foreach((array)$this->article_list as $index => $output_data) {
-			echo sprintf("Building article/%d", $output_data['number']);
+			echo 'Building article/' . $output_data['url'];
 
-			$md = file_get_contents(ARTICLES . $output_data['number'] . SEPARATOR . 'article.md');
+			$md = file_get_contents(ARTICLES . $output_data['dirname'] . SEPARATOR . 'article.md');
 			$output_data['content'] = Markdown($md);
 			$output_data['container'] = $this->bindContainer($output_data, 'article');
 			$output_data['slider'] = $this->slider;
-			$output_data['link'] = 'article/' . $output_data['number'];
+			$output_data['link'] = 'article/' . $output_data['url'];
 			
 			// Data Binding
-			$this->bindPage($output_data, HTDOCS_ARTICLE . $output_data['number'] . SEPARATOR);
+			$this->bindPage($output_data, HTDOCS_ARTICLE . $output_data['url'] . SEPARATOR);
 			
 			echo "...OK!\n";
 		}
@@ -141,7 +181,7 @@ class generator {
 			$output_data['title'] ='Category: ' . $index;
 			$output_data['content'] = '<ul>';
 			foreach((array)$article_list as $article_index => $article_info) {
-				$output_data['content'] .= '<li><a href="' . BLOG_PATH . 'article/' . $article_info['number'] . '">' . $article_info['title'] . '</a></li>';
+				$output_data['content'] .= '<li><a href="' . BLOG_PATH . 'article/' . $article_info['url'] . '">' . $article_info['title'] . '</a></li>';
 			}
 			$output_data['content'] .= '</ul>';
 			$output_data['container'] = $this->bindContainer($output_data, 'category');
@@ -165,7 +205,7 @@ class generator {
 			$output_data['title'] = 'Tag: ' . $index;
 			$output_data['content'] = '<ul>';
 			foreach((array)$article_list as $article_index => $article_info) {
-				$output_data['content'] .= '<li><a href="' . BLOG_PATH . 'article/' . $article_info['number'] . '">' . $article_info['title'] . '</a></li>';
+				$output_data['content'] .= '<li><a href="' . BLOG_PATH . 'article/' . $article_info['url'] . '">' . $article_info['title'] . '</a></li>';
 			}
 			$output_data['content'] .= '</ul>';
 			$output_data['container'] = $this->bindContainer($output_data, 'tag');
@@ -187,11 +227,7 @@ class generator {
 			echo sprintf("Building archive/%s", $index);
 
 			$output_data['title'] = 'Archive: ' . $index;
-			$output_data['content'] = '<ul>';
-			foreach((array)$article_list as $article_index => $article_info) {
-				$output_data['content'] .= '<li><a href="' . BLOG_PATH . 'article/' . $article_info['number'] . '">' . $article_info['title'] . '</a></li>';
-			}
-			$output_data['content'] .= '</ul>';
+			$output_data['article_list'] = $article_list;
 			$output_data['container'] = $this->bindContainer($output_data, 'archive');
 			$output_data['slider'] = $this->slider;
 			$output_data['link'] = 'tag/' . $index;
