@@ -19,7 +19,9 @@ define('HTDOCS_TAG', HTDOCS . 'tag' . SEPARATOR);
 define('HTDOCS_PAGE', HTDOCS . 'page' . SEPARATOR);
 define('HTDOCS_ARCHIVE', HTDOCS . 'archive' . SEPARATOR);
 
-define('ARTICLES', ROOT . 'articles' . SEPARATOR);
+define('MARKDOWN', ROOT . 'markdown' . SEPARATOR);
+define('MARKDOWN_ARTICLES', MARKDOWN . 'articles' . SEPARATOR);
+define('MARKDOWN_STATIC', MARKDOWN . 'static' . SEPARATOR);
 
 define('UI', ROOT . 'ui' . SEPARATOR);
 define('UI_TEMPLATE', UI . 'template' . SEPARATOR);

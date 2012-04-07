@@ -1,10 +1,9 @@
 <?php
 $temp = array();
 foreach((array)$data['article_list'] as $index => $article_info) {
-	$article_month = substr($article_info['post_date'], 5, 2);
-	if(!isset($temp[$article_month]))
-		$temp[$article_month] = array();
-	array_push($temp[$article_month], $article_info);
+	if(!isset($temp[$article_info['month']]))
+		$temp[$article_info['month']] = array();
+	array_push($temp[$article_info['month']], $article_info);
 }
 ?>
 
@@ -19,7 +18,7 @@ foreach((array)$data['article_list'] as $index => $article_info) {
 			echo '<article>';
 			echo '<span>' . $info['title'] . '</span>';
 			// echo '<footer>';
-			echo '<span>Category:' . $info['category'] . '</span>';
+			echo '<span>Category: ' . $info['category'] . '</span>';
 			// echo '</footer>';
 			echo '</article>';
 		}

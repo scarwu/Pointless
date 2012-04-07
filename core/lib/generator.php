@@ -8,26 +8,41 @@ class generator {
 		else
 			require_once CORE_PLUGINS . 'markdown' . SEPARATOR . 'markdown.php';
 		require_once CORE_PLUGINS . 'custom_sort.php';
-	}
-	
-	public function run() {
-		// Load articles directory
+		
+		$this->static_list = array();
+		
 		$this->article_list = array();
 		$this->tag_list = array();
 		$this->category_list = array();
 		$this->archive_list = array();
-		
-		$handle = opendir(ARTICLES);
+	}
+	
+	public function run() {
+		$handle = opendir(MARKDOWN_STATIC);
 		while($filename = readdir($handle))
 			if('.' != $filename && '..' != $filename) {
-				preg_match('/-----((?:.|\n)*)-----((?:.|\n)*)/', file_get_contents(ARTICLES . $filename), $match);
+				preg_match('/-----((?:.|\n)*)-----((?:.|\n)*)/', file_get_contents(MARKDOWN_STATIC . $filename), $match);
+				$temp = json_decode($match[1], TRUE);
+				$static = array();
+				$static['title'] = $temp['title'];
+				$static['url'] = $temp['url'];
+				$static['content'] = Markdown($match[2]);
+
+				array_push($this->static_list, $static);
+			}
+		closedir($handle);
+		
+		
+		$handle = opendir(MARKDOWN_ARTICLES);
+		while($filename = readdir($handle))
+			if('.' != $filename && '..' != $filename) {
+				preg_match('/-----((?:.|\n)*)-----((?:.|\n)*)/', file_get_contents(MARKDOWN_ARTICLES . $filename), $match);
 
 				$temp = json_decode($match[1], TRUE);
 				
 				$article = array();
 				$article['title'] = $temp['title'];
-				$article['content'] = 0;
-				// $article['content'] = Markdown($match[2]);
+				$article['content'] = Markdown($match[2]);
 
 				$date = explode('-', $temp['date']);
 				$article['year'] = $date[0];
@@ -80,33 +95,31 @@ class generator {
 				// Tag Archive
 				if(!isset($this->archive_list[$article['year']]))
 					$this->archive_list[$article['year']] = array();
-				if(!isset($this->archive_list[$article['year']][$article['month']]))
-					$this->archive_list[$article['year']][$article['month']] = array();
-				array_push($this->archive_list[$article['year']][$article['month']], $article);
+				array_push($this->archive_list[$article['year']], $article);
 			}
 		closedir($handle);
 		
 		$this->article_list = article_sort($this->article_list);
 		$this->category_list = count_sort($this->category_list);
 		$this->tag_list = count_sort($this->tag_list);
-		// krsort($this->archive_list);
 		
-		print_r($this->article_list);
+		$this->genSlider();
 		
-		// $this->slider = $this->genSlider();
-		
-		// $this->genArticle();
-		// $this->genCategory();
-		// $this->genTag();
-		// $this->genPage();
-		// $this->genArchive();
+		$this->genStatic();
+		$this->genArticle();
+		$this->genPage();
+		$this->genArchive();
+		$this->genCategory();
+		$this->genTag();
 	}
 
 	/**
 	 * Binding Page
 	 */
 	private function bindPage($blog, $path) {
-		mkdir($path, 0755, TRUE);
+		if(!file_exists($path))
+			mkdir($path, 0755, TRUE);
+		
 		// Data Binding and Get Output Buffer
 		ob_start();
 		include UI_TEMPLATE . 'index.php';
@@ -118,7 +131,10 @@ class generator {
 		fwrite($handle, $result);
 		fclose($handle);
 	}
-
+	
+	/**
+	 * Binding Container
+	 */
 	private function bindContainer($data, $target) {
 		ob_start();
 		include UI_TEMPLATE . 'container' . SEPARATOR . $target. '.php';
@@ -149,7 +165,26 @@ class generator {
 			ob_end_clean();
 		}
 		
-		return $result;
+		$this->slider = $result;
+	}
+	
+	/**
+	 * Gen Static
+	 */
+	private function genStatic() {
+		// Building Article
+		foreach((array)$this->static_list as $index => $output_data) {
+			echo 'Building ' . $output_data['url'];
+
+			$output_data['container'] = $this->bindContainer($output_data, 'static');
+			$output_data['slider'] = $this->slider;
+			$output_data['link'] = 'article/' . $output_data['url'];
+			
+			// Data Binding
+			$this->bindPage($output_data, HTDOCS . $output_data['url'] . SEPARATOR);
+			
+			echo "...OK!\n";
+		}
 	}
 	
 	/**
@@ -160,8 +195,6 @@ class generator {
 		foreach((array)$this->article_list as $index => $output_data) {
 			echo 'Building article/' . $output_data['url'];
 
-			$md = file_get_contents(ARTICLES . $output_data['dirname'] . SEPARATOR . 'article.md');
-			$output_data['content'] = Markdown($md);
 			$output_data['container'] = $this->bindContainer($output_data, 'article');
 			$output_data['slider'] = $this->slider;
 			$output_data['link'] = 'article/' . $output_data['url'];
@@ -232,7 +265,7 @@ class generator {
 			$output_data['article_list'] = $article_list;
 			$output_data['container'] = $this->bindContainer($output_data, 'archive');
 			$output_data['slider'] = $this->slider;
-			$output_data['link'] = 'tag/' . $index;
+			$output_data['link'] = 'archive/' . $index;
 			
 			// Data Binding
 			$this->bindPage($output_data, HTDOCS_ARCHIVE . $index . SEPARATOR);

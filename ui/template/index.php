@@ -23,7 +23,11 @@
 				<h2><?php echo BLOG_SLOGAN; ?></h2>
 			</hgroup>
 		</header>
-		<div id="nav"><a href="<?php echo BLOG_PATH; ?>">Home</a></div>
+		<div id="nav">
+			<a href="<?php echo BLOG_PATH; ?>">Home</a>
+			<a href="<?php echo BLOG_PATH . 'about'; ?>">About</a>
+			<a href="<?php echo BLOG_PATH . 'works'; ?>">Works</a>
+		</div>
 		<div id="container"><?php echo $blog['container'] ?></div>
 		<div id="slider"><?php echo $blog['slider'] ?></div>
 		<footer><?php echo BLOG_FOOTER; ?></footer>
