@@ -18,14 +18,16 @@ class generator {
 		$this->archive_list = array();
 		
 		$handle = opendir(ARTICLES);
-		while($dir = readdir($handle))
-			if('.' != $dir && '..' != $dir) {
-				$temp = json_decode(file_get_contents(ARTICLES . $dir . SEPARATOR . 'info.json'), TRUE);
+		while($filename = readdir($handle))
+			if('.' != $filename && '..' != $filename) {
+				preg_match('/-----((?:.|\n)*)-----((?:.|\n)*)/', file_get_contents(ARTICLES . $filename), $match);
+
+				$temp = json_decode($match[1], TRUE);
 				
 				$article = array();
 				$article['title'] = $temp['title'];
 				$article['content'] = 0;
-				// $article['content'] = Markdown(file_get_contents(ARTICLES . $dir . SEPARATOR . 'article.md'));
+				// $article['content'] = Markdown($match[2]);
 
 				$date = explode('-', $temp['date']);
 				$article['year'] = $date[0];
@@ -42,7 +44,7 @@ class generator {
 				$article['tag'] = explode('|', $temp['tag']);
 				$article['category'] = $temp['category'];
 				
-				$article['dirname'] = $dir;
+				$article['$filename'] = preg_replace('/\.md$/', '', $filename);
 				
 				// 0: date, 1: title, 2: date + title, 3: dirname
 				switch(ARTICLE_URL) {
