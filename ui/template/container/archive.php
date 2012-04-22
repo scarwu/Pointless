@@ -5,15 +5,17 @@ foreach((array)$data['article_list'] as $index => $article_info) {
 		$temp[$article_info['month']] = array();
 	array_push($temp[$article_info['month']], $article_info);
 }
+krsort($temp);
 ?>
 
 <div id="archive">
 	<div class="title"><?php echo $data['title']; ?></div>
 	<?php
-	echo '<div class="month">';
+	
 	foreach((array)$temp as $month => $article_list) {
-		echo '<div>' . $month . '</div>';
 		echo '<div>';
+		echo '<div class="month">' . $month . '</div>';
+		echo '<div class="list">';
 		foreach((array)$article_list as $info) {
 			echo '<article>';
 			echo '<span>' . $info['title'] . '</span>';
@@ -23,7 +25,7 @@ foreach((array)$data['article_list'] as $index => $article_info) {
 			echo '</article>';
 		}
 		echo '</div>';
+		echo '</div>';
 	}
-	echo '</div>';
 	?>
 </div>

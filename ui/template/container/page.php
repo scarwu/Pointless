@@ -1,7 +1,7 @@
 <div id="page">
 	<?php
 	foreach((array)$data['article_list'] as $index => $article_info) {
-				echo '<article>';
+		echo '<article>';
 		echo '<div class="title"><a href="' . BLOG_PATH . 'article/' . $article_info['url'] . '">' . $article_info['title'] . '</a></div>';
 		echo '<div class="info">';
 		echo '<span class="date">Date: ' . $article_info['date'] . '</span>';

@@ -73,7 +73,7 @@ class generator {
 						$article['url'] = str_replace('-', '/', $temp['date']) . '/' . $temp['url'];
 						break;
 					case 3:
-						$article['url'] = $dir;
+						$article['url'] = $filename;
 						break;
 				}
 
@@ -102,7 +102,8 @@ class generator {
 		$this->article_list = article_sort($this->article_list);
 		$this->category_list = count_sort($this->category_list);
 		$this->tag_list = count_sort($this->tag_list);
-		
+		krsort($this->archive_list);
+				
 		$this->genSlider();
 		
 		$this->genStatic();
@@ -178,7 +179,6 @@ class generator {
 
 			$output_data['container'] = $this->bindContainer($output_data, 'static');
 			$output_data['slider'] = $this->slider;
-			$output_data['link'] = 'article/' . $output_data['url'];
 			
 			// Data Binding
 			$this->bindPage($output_data, HTDOCS . $output_data['url'] . SEPARATOR);
@@ -197,7 +197,6 @@ class generator {
 
 			$output_data['container'] = $this->bindContainer($output_data, 'article');
 			$output_data['slider'] = $this->slider;
-			$output_data['link'] = 'article/' . $output_data['url'];
 			
 			// Data Binding
 			$this->bindPage($output_data, HTDOCS_ARTICLE . $output_data['url'] . SEPARATOR);
@@ -214,6 +213,7 @@ class generator {
 			echo sprintf("Building category/%s", $index);
 
 			$output_data['title'] ='Category: ' . $index;
+			// FIXME
 			$output_data['content'] = '<ul>';
 			foreach((array)$article_list as $article_index => $article_info) {
 				$output_data['content'] .= '<li><a href="' . BLOG_PATH . 'article/' . $article_info['url'] . '">' . $article_info['title'] . '</a></li>';
@@ -221,7 +221,6 @@ class generator {
 			$output_data['content'] .= '</ul>';
 			$output_data['container'] = $this->bindContainer($output_data, 'category');
 			$output_data['slider'] = $this->slider;
-			$output_data['link'] = 'category/' . $index;
 			
 			// Data Binding
 			$this->bindPage($output_data, HTDOCS_CATEGORY . $index . SEPARATOR);
@@ -238,6 +237,7 @@ class generator {
 			echo sprintf("Building tag/%s", $index);
 
 			$output_data['title'] = 'Tag: ' . $index;
+			// FIXME
 			$output_data['content'] = '<ul>';
 			foreach((array)$article_list as $article_index => $article_info) {
 				$output_data['content'] .= '<li><a href="' . BLOG_PATH . 'article/' . $article_info['url'] . '">' . $article_info['title'] . '</a></li>';
@@ -245,7 +245,6 @@ class generator {
 			$output_data['content'] .= '</ul>';
 			$output_data['container'] = $this->bindContainer($output_data, 'tag');
 			$output_data['slider'] = $this->slider;
-			$output_data['link'] = 'tag/' . $index;
 			
 			// Data Binding
 			$this->bindPage($output_data, HTDOCS_TAG . $index . SEPARATOR);
@@ -265,7 +264,6 @@ class generator {
 			$output_data['article_list'] = $article_list;
 			$output_data['container'] = $this->bindContainer($output_data, 'archive');
 			$output_data['slider'] = $this->slider;
-			$output_data['link'] = 'archive/' . $index;
 			
 			// Data Binding
 			$this->bindPage($output_data, HTDOCS_ARCHIVE . $index . SEPARATOR);
@@ -280,16 +278,16 @@ class generator {
 	private function genPage() {
 		$page_number = ceil(count($this->article_list) / ARTICLE_QUANTITY);
 		
-		for($index = 1;$index <= $page_number;$index++) {
-			echo sprintf("Building page/%s", $index);
+		for($index = 0;$index < $page_number;$index++) {
+			echo sprintf("Building page/%s", ($index+1));
 			
-			$output_data['bar'] = 'Bar';
-			$output_data['article_list'] = $this->article_list;
+			$output_data['bar'] = ($page_number <= 1 ? '' : 'bar');
+			$output_data['article_list'] = array_slice($this->article_list, ARTICLE_QUANTITY * $index, ARTICLE_QUANTITY);
 			$output_data['container'] = $this->bindContainer($output_data, 'page');
 			$output_data['slider'] = $this->slider;
 			
 			// Data Binding
-			$this->bindPage($output_data, HTDOCS_PAGE . $index . SEPARATOR);
+			$this->bindPage($output_data, HTDOCS_PAGE . ($index+1) . SEPARATOR);
 			
 			echo "...OK!\n";
 		}

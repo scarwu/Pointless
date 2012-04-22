@@ -6,4 +6,5 @@
 		</div>
 		<div class="content"><?php echo $data['content']; ?></div>
 	</article>
+	<hr>
 </div>
