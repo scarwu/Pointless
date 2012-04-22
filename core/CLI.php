@@ -5,10 +5,8 @@ abstract class CLI {
 	static public $prefix;
 	
 	public function __construct() {
-		if(!is_array(CLI::$argv)) {
+		if(!is_array(CLI::$argv))
 			CLI::$argv = array_slice($_SERVER['argv'], 1);
-			CLI::$prefix = 'pointless';
-		}
 	}
 	
 	public function init() {
