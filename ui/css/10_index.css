@@ -95,7 +95,8 @@ header > hgroup > h2 {
 	padding: 15px 50px;
 }
 
-#container .title {
+#container > div > .title,
+#container > div > article > .title {
 	font-size: 28px;
 	font-weight: bold;
 	margin-bottom: 15px;
