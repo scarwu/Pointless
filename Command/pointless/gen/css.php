@@ -14,6 +14,6 @@ class pointless_gen_css extends CLI {
 
 		Text::Write("Compress Cascading Style Sheets ...\n", 'yellow');
 		$Compress = new Compress();
-		$Compress->css(UI_CSS, BLOG_PUBLIC);
+		$Compress->css(UI_RESOURCE_CSS, BLOG_PUBLIC);
 	}
 }

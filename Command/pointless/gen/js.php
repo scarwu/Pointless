@@ -14,6 +14,6 @@ class pointless_gen_js extends CLI {
 
 		Text::Write("Compress Javascript ...\n", 'yellow');
 		$Compress = new Compress();
-		$Compress->js(UI_CSS, BLOG_PUBLIC);
+		$Compress->js(UI_RESOURCE_JS, BLOG_PUBLIC);
 	}
 }

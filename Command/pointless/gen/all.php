@@ -20,13 +20,6 @@ class pointless_gen_all extends CLI {
 		Text::Write("Copy Resource ...\n", 'yellow');
 		$this->rCopy(BLOG_RESOURCE, BLOG_PUBLIC);
 		
-		if(NULL !== GOOGLE_WEBMASTER) {
-			Text::Write("Create Google Webmaster File ...\n", 'yellow');
-			$handle = fopen(BLOG_PUBLIC . GOOGLE_WEBMASTER . '.html', 'w+');
-			fwrite($handle, 'google-site-verification: ' . GOOGLE_WEBMASTER . '.html');
-			fclose($handle);
-		}
-		
 		if(NULL !== CNAME) {
 			Text::Write("Create CNAME ...\n", 'yellow');
 			$handle = fopen(BLOG_PUBLIC . 'CNAME', 'w+');
@@ -44,10 +37,10 @@ class pointless_gen_all extends CLI {
 		$Compress = new Compress();
 		
 		Text::Write("Compress Javascript ...\n", 'yellow');
-		$Compress->js(UI_JS, BLOG_PUBLIC);
+		$Compress->js(UI_RESOURCE_JS, BLOG_PUBLIC);
 		
 		Text::Write("Compress Cascading Style Sheets ...\n", 'yellow');
-		$Compress->css(UI_CSS, BLOG_PUBLIC);
+		$Compress->css(UI_RESOURCE_CSS, BLOG_PUBLIC);
 
 		$Generator = new Generator();
 		$Generator->Run();

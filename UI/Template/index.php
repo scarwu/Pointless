@@ -9,7 +9,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-	<title><?php echo isset($blog['title']) ? $blog['title'] . ' | ' : NULL; ?><?php echo BLOG_NAME; ?></title>
+	<title><?php echo isset($data['title']) ? $data['title'] . ' | ' : NULL; ?><?php echo BLOG_NAME; ?></title>
 	<meta name="viewport" content="width=640, initial-scale=1">
 	
 	<!-- Load Cascading Style Sheets -->
@@ -28,18 +28,20 @@
 			<a href="<?php echo BLOG_PATH . 'about'; ?>">About</a>
 			<a href="<?php echo BLOG_PATH . 'works'; ?>">Works</a>
 		</div>
-		<div id="container"><?php echo $blog['container'] ?></div>
-		<div id="slider"><?php echo $blog['slider'] ?></div>
+		<div id="container"><?php echo $data['container'] ?></div>
+		<div id="slider"><?php echo $data['slider'] ?></div>
 		<footer><?php echo BLOG_FOOTER; ?></footer>
 	</div>
 	<!-- Define and Load Javascript -->
 	<script src="<?php echo BLOG_PATH; ?>main.js"></script>
-	<?php if(GOOGLE_ANALYSTIC): ?><script>
+	<?php if(GOOGLE_ANALYSTIC): ?>
+	<script>
 		var _gaq = [['_setAccount', '<?php echo GOOGLE_ANALYSTIC; ?>'], ['_trackPageview']]; (function(d, t) {
 			var g = d.createElement(t), s = d.getElementsByTagName(t)[0];
 			g.src = ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js';
 			s.parentNode.insertBefore(g, s)
 		} (document, 'script'));
-	</script><?php endif; ?>
+	</script>
+	<?php endif; ?>
 </body>
 </html>
