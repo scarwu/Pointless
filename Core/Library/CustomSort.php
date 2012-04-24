@@ -8,7 +8,7 @@ function article_sort($list) {
 	
 	$result = array();
 	foreach($tmp as $key => $value)
-		array_push($result, $list[$key]);
+		$result[] = $list[$key];
 
 	return $result;
 }

@@ -3,7 +3,7 @@ $temp = array();
 foreach((array)$data['article_list'] as $index => $article_info) {
 	if(!isset($temp[$article_info['month']]))
 		$temp[$article_info['month']] = array();
-	array_push($temp[$article_info['month']], $article_info);
+	$temp[$article_info['month']][] = $article_info;
 }
 krsort($temp);
 ?>

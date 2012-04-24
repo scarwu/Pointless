@@ -26,7 +26,7 @@ class Generator {
 				$static['url'] = $temp['url'];
 				$static['content'] = Markdown($match[2]);
 
-				array_push($this->static_list, $static);
+				$this->static_list[] = $static;
 			}
 		closedir($handle);
 		
@@ -76,24 +76,24 @@ class Generator {
 				}
 
 				// Article List
-				array_push($this->article_list, $article);
+				$this->article_list[] = $article;
 
 				// Category List
 				if(!isset($this->category_list[$article['category']]))
 					$this->category_list[$article['category']] = array();
-				array_push($this->category_list[$article['category']], $article);
+				$this->category_list[$article['category']][] = $article;
 				
 				// Tag List
 				foreach($article['tag'] as $tag) {
 					if(!isset($this->tag_list[$tag]))
 						$this->tag_list[$tag] = array();
-					array_push($this->tag_list[$tag], $article);
+					$this->tag_list[$tag][] = $article;
 				}
 				
 				// Tag Archive
 				if(!isset($this->archive_list[$article['year']]))
 					$this->archive_list[$article['year']] = array();
-				array_push($this->archive_list[$article['year']], $article);
+				$this->archive_list[$article['year']][] = $article;
 			}
 		closedir($handle);
 		
@@ -152,7 +152,7 @@ class Generator {
 		$handle = opendir(UI_TEMPLATE . 'slider' . SEPARATOR);
 		while($file = readdir($handle))
 			if('.' != $file && '..' != $file)
-				array_push($list, $file);
+				$list[] = $file;
 		closedir($handle);
 		
 		sort($list);
