@@ -45,6 +45,7 @@ define('BLOG_PUBLIC_ARCHIVE', BLOG_PUBLIC . 'archive' . SEPARATOR);
 define('BLOG_RESOURCE', BLOG . 'Resource' . SEPARATOR);
 
 require_once CORE . 'CLI.php';
+require_once CORE . 'Text.php';
 require_once COMMAND . 'pointless.php';
 
 /**

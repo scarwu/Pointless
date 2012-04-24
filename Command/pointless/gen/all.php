@@ -17,25 +17,25 @@ class pointless_gen_all extends CLI {
 		if(!file_exists(BLOG_PUBLIC))
 			mkdir(HTDOCS, 0755, TRUE);
 		
-		$this->Text("Copy Resource ...\n", 'yellow');
+		Text::Write("Copy Resource ...\n", 'yellow');
 		$this->rCopy(BLOG_RESOURCE, BLOG_PUBLIC);
 		
 		if(NULL !== GOOGLE_WEBMASTER) {
-			$this->Text("Create Google Webmaster File ...\n", 'yellow');
+			Text::Write("Create Google Webmaster File ...\n", 'yellow');
 			$handle = fopen(BLOG_PUBLIC . GOOGLE_WEBMASTER . '.html', 'w+');
 			fwrite($handle, 'google-site-verification: ' . GOOGLE_WEBMASTER . '.html');
 			fclose($handle);
 		}
 		
 		if(NULL !== CNAME) {
-			$this->Text("Create CNAME ...\n", 'yellow');
+			Text::Write("Create CNAME ...\n", 'yellow');
 			$handle = fopen(BLOG_PUBLIC . 'CNAME', 'w+');
 			fwrite($handle, CNAME);
 			fclose($handle);
 		}
 		
 		if(!file_exists(BLOG_PUBLIC . 'README')) {
-			$this->Text("Create README ...\n", 'yellow');
+			Text::Write("Create README ...\n", 'yellow');
 			$handle = fopen(BLOG_PUBLIC . 'README', 'w+');
 			fwrite($handle, 'Powered by Pointless');
 			fclose($handle);
@@ -43,10 +43,10 @@ class pointless_gen_all extends CLI {
 
 		$Compress = new Compress();
 		
-		$this->Text("Compress Javascript ...\n", 'yellow');
+		Text::Write("Compress Javascript ...\n", 'yellow');
 		$Compress->js(UI_JS, BLOG_PUBLIC);
 		
-		$this->Text("Compress Cascading Style Sheets ...\n", 'yellow');
+		Text::Write("Compress Cascading Style Sheets ...\n", 'yellow');
 		$Compress->css(UI_CSS, BLOG_PUBLIC);
 
 		$Generator = new Generator();

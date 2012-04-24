@@ -213,9 +213,9 @@ class Generator {
 			$output_data['title'] ='Category: ' . $index;
 			// FIXME
 			$output_data['content'] = '<ul>';
-			foreach((array)$article_list as $article_index => $article_info) {
-				$output_data['content'] .= '<li><a href="' . BLOG_PATH . 'article/' . $article_info['url'] . '">' . $article_info['title'] . '</a></li>';
-			}
+			foreach((array)$article_list as $article_index => $article_info)
+				$output_data['content'] .= '<li>' . link_to(BLOG_PATH.'article/'.$article_info['url'], $article_info['title']) . '</li>';
+			
 			$output_data['content'] .= '</ul>';
 			$output_data['container'] = $this->bindContainer($output_data, 'category');
 			$output_data['slider'] = $this->slider;
@@ -237,9 +237,9 @@ class Generator {
 			$output_data['title'] = 'Tag: ' . $index;
 			// FIXME
 			$output_data['content'] = '<ul>';
-			foreach((array)$article_list as $article_index => $article_info) {
-				$output_data['content'] .= '<li><a href="' . BLOG_PATH . 'article/' . $article_info['url'] . '">' . $article_info['title'] . '</a></li>';
-			}
+			foreach((array)$article_list as $article_index => $article_info)
+				$output_data['content'] .= '<li>' . link_to(BLOG_PATH.'article/'.$article_info['url'], $article_info['title']) . '</li>';
+			
 			$output_data['content'] .= '</ul>';
 			$output_data['container'] = $this->bindContainer($output_data, 'tag');
 			$output_data['slider'] = $this->slider;

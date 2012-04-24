@@ -6,7 +6,7 @@ class pointless_gen_clean extends CLI {
 	}
 	
 	public function Run($path = NULL) {
-		$this->Text("Clean Public Files ...\n", 'yellow');
+		Text::Write("Clean Public Files ...\n", 'yellow');
 		if(file_exists(NULL == $path ? BLOG_PUBLIC : $path))
 			$this->rRemoveDir(NULL == $path ? BLOG_PUBLIC : $path);
 	}

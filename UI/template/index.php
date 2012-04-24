@@ -19,7 +19,7 @@
 	<div id="main">
 		<header>
 			<hgroup>
-				<h1><a href="<?php echo BLOG_PATH; ?>"><?php echo BLOG_NAME; ?></a></h1>
+				<h1><?php echo link_to(BLOG_PATH, BLOG_NAME); ?></h1>
 				<h2><?php echo BLOG_SLOGAN; ?></h2>
 			</hgroup>
 		</header>
