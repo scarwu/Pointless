@@ -5,7 +5,7 @@ class pointless_help extends CLI {
 		parent::__construct();
 	}
 	
-	public function run() {
+	public function Run() {
 		echo "help\n";
 	}
 }

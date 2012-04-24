@@ -5,8 +5,8 @@ class pointless_gen extends CLI {
 		parent::__construct();
 	}
 	
-	public function run() {
+	public function Run() {
 		$all = new pointless_gen_all();
-		$all->run();
+		$all->Run();
 	}
 }

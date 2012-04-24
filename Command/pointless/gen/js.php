@@ -5,7 +5,7 @@ class pointless_gen_js extends CLI {
 		parent::__construct();
 	}
 	
-	public function run() {
+	public function Run() {
 		echo "Clean Javascript";
 		
 		require_once CORE_LIB . 'compress.php';
@@ -15,7 +15,7 @@ class pointless_gen_js extends CLI {
 		
 		echo "...OK!\n";
 		
-		$compress = new compress();
-		$compress->js();
+		$Compress = new Compress();
+		$Compress->js();
 	}
 }

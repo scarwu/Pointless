@@ -3,12 +3,12 @@
 class pointless extends CLI {
 	public function __construct() {
 		parent::__construct();
-		CLI::$prefix = 'pointless';
+		CLI::$_prefix = 'pointless';
 	}
 	
-	public function run() {
+	public function Run() {
 		// Clean static pages
-		$clean = new Pointless_help();
-		$clean->run();
+		$clean = new pointless_help();
+		$clean->Run();
 	}
 }

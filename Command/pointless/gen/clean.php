@@ -5,7 +5,7 @@ class pointless_gen_clean extends CLI {
 		parent::__construct();
 	}
 	
-	public function run($path = NULL) {
+	public function Run($path = NULL) {
 		echo "Clean Static Files";
 		
 		if(file_exists(NULL == $path ? HTDOCS : $path))

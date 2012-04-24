@@ -5,7 +5,7 @@ class pointless_gen_css extends CLI {
 		parent::__construct();
 	}
 	
-	public function run() {
+	public function Run() {
 		echo "Clean Cascading Style Sheets";
 		
 		require_once CORE_LIB . 'compress.php';

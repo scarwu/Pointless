@@ -5,7 +5,7 @@ class pointless_gen_all extends CLI {
 		parent::__construct();
 	}
 	
-	public function run() {
+	public function Run() {
 		require_once CORE_LIB . 'compress.php';
 		require_once CORE_LIB . 'generator.php';
 		
