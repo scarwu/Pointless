@@ -3,7 +3,7 @@
 class pointless extends CLI {
 	public function __construct() {
 		parent::__construct();
-		CLI::$_prefix = 'pointless';
+		CLI::$prefix = 'pointless';
 	}
 	
 	public function Run() {

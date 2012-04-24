@@ -1,8 +1,14 @@
 <?php
 
 abstract class CLI {
-	static public $_argv;
-	static public $_prefix;
+	static public $prefix;
+	static private $_argv;
+	static private $_color = array(
+		'red' => '0;31',
+		'green' => '0;32',
+		'blue' => '0;34',
+		'yellow' => '1;33',
+	);
 	
 	public function __construct() {
 		if(!is_array(CLI::$_argv))
@@ -11,8 +17,8 @@ abstract class CLI {
 	
 	public function Init() {
 		if(count(CLI::$_argv) > 0) {
-			CLI::$_prefix .= '_' . array_shift(CLI::$_argv);
-			$class = CLI::$_prefix;
+			CLI::$prefix .= '_' . array_shift(CLI::$_argv);
+			$class = CLI::$prefix;
 			$class = new $class();
 			$class->Init();
 		}
@@ -22,13 +28,10 @@ abstract class CLI {
 	
 	public function Run() {}
 	
-	public function Text($msg, $text_color = NULL, $bg_color = NULL) {
-		if(NULL !== $text_color)
-			$msg = sprintf($format);
-		
-		if(NULL !== $bg_color)
-			$msg = sprintf($format);
-		
+	public function Text($msg, $color = NULL) {
+		if(NULL !== $color && isset(CLI::$_color[$color]))
+			$msg = sprintf("\033[%sm%s\033[m", CLI::$_color[$color], $msg);
+
 		echo $msg;
 	}
 }

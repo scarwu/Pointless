@@ -6,16 +6,14 @@ class pointless_gen_js extends CLI {
 	}
 	
 	public function Run() {
-		echo "Clean Javascript";
+		require_once CORE_LIBRARY . 'Compress.php';
 		
-		require_once CORE_LIB . 'compress.php';
-		
-		if(file_exists(HTDOCS . 'main.js'))
-			unlink(HTDOCS . 'main.js');
-		
-		echo "...OK!\n";
-		
+		$this->Text("Clean Javascript ...\n", 'yellow');
+		if(file_exists(BLOG_PUBLIC . 'main.js'))
+			unlink(BLOG_PUBLIC . 'main.js');
+
+		$this->Text("Compress Javascript ...\n", 'yellow');
 		$Compress = new Compress();
-		$Compress->js();
+		$Compress->js(UI_CSS, BLOG_PUBLIC);
 	}
 }

@@ -6,12 +6,9 @@ class pointless_gen_clean extends CLI {
 	}
 	
 	public function Run($path = NULL) {
-		echo "Clean Static Files";
-		
-		if(file_exists(NULL == $path ? HTDOCS : $path))
-			$this->rRemoveDir(NULL == $path ? HTDOCS : $path);
-		
-		echo "...OK!\n";
+		$this->Text("Clean Public Files ...\n", 'yellow');
+		if(file_exists(NULL == $path ? BLOG_PUBLIC : $path))
+			$this->rRemoveDir(NULL == $path ? BLOG_PUBLIC : $path);
 	}
 	
 	/**
@@ -22,10 +19,10 @@ class pointless_gen_clean extends CLI {
 			$handle = @opendir($path);
 			while($file = readdir($handle))
 				if($file != '.' && $file != '..' && $file != '.git')
-					$this->rRemoveDir($path . DIRECTORY_SEPARATOR . $file);
+					$this->rRemoveDir($path . SEPARATOR . $file);
 			closedir($handle);
 			
-			if($path != HTDOCS)
+			if($path != BLOG_PUBLIC)
 				return rmdir($path);
 		}
 		else

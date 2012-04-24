@@ -1,13 +1,11 @@
 <?php
 
-class generator {
+class Generator {
 	public function __construct() {
 		// Inclide Markdown Library
-		if(MARKDOWN_EXTRA)
-			require_once CORE_PLUGINS . 'markdown-extra' . SEPARATOR . 'markdown.php';
-		else
-			require_once CORE_PLUGINS . 'markdown' . SEPARATOR . 'markdown.php';
-		require_once CORE_PLUGINS . 'custom_sort.php';
+		require_once CORE_PLUGIN . 'Markdown' . SEPARATOR . 'markdown.php';
+		require_once CORE_LIBRARY . 'CustomSort.php';
+		require_once CORE_LIBRARY . 'GeneralFunction.php';
 		
 		$this->static_list = array();
 		
@@ -17,11 +15,11 @@ class generator {
 		$this->archive_list = array();
 	}
 	
-	public function run() {
-		$handle = opendir(MARKDOWN_STATIC);
+	public function Run() {
+		$handle = opendir(BLOG_MARKDOWN_STATIC);
 		while($filename = readdir($handle))
 			if('.' != $filename && '..' != $filename) {
-				preg_match('/-----((?:.|\n)*)-----((?:.|\n)*)/', file_get_contents(MARKDOWN_STATIC . $filename), $match);
+				preg_match('/-----((?:.|\n)*)-----((?:.|\n)*)/', file_get_contents(BLOG_MARKDOWN_STATIC . $filename), $match);
 				$temp = json_decode($match[1], TRUE);
 				$static = array();
 				$static['title'] = $temp['title'];
@@ -33,10 +31,10 @@ class generator {
 		closedir($handle);
 		
 		
-		$handle = opendir(MARKDOWN_ARTICLES);
+		$handle = opendir(BLOG_MARKDOWN_ARTICLE);
 		while($filename = readdir($handle))
 			if('.' != $filename && '..' != $filename) {
-				preg_match('/-----((?:.|\n)*)-----((?:.|\n)*)/', file_get_contents(MARKDOWN_ARTICLES . $filename), $match);
+				preg_match('/-----((?:.|\n)*)-----((?:.|\n)*)/', file_get_contents(BLOG_MARKDOWN_ARTICLE . $filename), $match);
 
 				$temp = json_decode($match[1], TRUE);
 				
@@ -181,7 +179,7 @@ class generator {
 			$output_data['slider'] = $this->slider;
 			
 			// Data Binding
-			$this->bindPage($output_data, HTDOCS . $output_data['url'] . SEPARATOR);
+			$this->bindPage($output_data, BLOG_PUBLIC . $output_data['url'] . SEPARATOR);
 			
 			echo "...OK!\n";
 		}
@@ -199,7 +197,7 @@ class generator {
 			$output_data['slider'] = $this->slider;
 			
 			// Data Binding
-			$this->bindPage($output_data, HTDOCS_ARTICLE . $output_data['url'] . SEPARATOR);
+			$this->bindPage($output_data, BLOG_PUBLIC_ARTICLE . $output_data['url'] . SEPARATOR);
 			
 			echo "...OK!\n";
 		}
@@ -223,7 +221,7 @@ class generator {
 			$output_data['slider'] = $this->slider;
 			
 			// Data Binding
-			$this->bindPage($output_data, HTDOCS_CATEGORY . $index . SEPARATOR);
+			$this->bindPage($output_data, BLOG_PUBLIC_CATEGORY . $index . SEPARATOR);
 			
 			echo "...OK!\n";
 		}
@@ -247,7 +245,7 @@ class generator {
 			$output_data['slider'] = $this->slider;
 			
 			// Data Binding
-			$this->bindPage($output_data, HTDOCS_TAG . $index . SEPARATOR);
+			$this->bindPage($output_data, BLOG_PUBLIC_TAG . $index . SEPARATOR);
 			
 			echo "...OK!\n";
 		}
@@ -266,7 +264,7 @@ class generator {
 			$output_data['slider'] = $this->slider;
 			
 			// Data Binding
-			$this->bindPage($output_data, HTDOCS_ARCHIVE . $index . SEPARATOR);
+			$this->bindPage($output_data, BLOG_PUBLIC_ARCHIVE . $index . SEPARATOR);
 			
 			echo "...OK!\n";
 		}
@@ -287,11 +285,11 @@ class generator {
 			$output_data['slider'] = $this->slider;
 			
 			// Data Binding
-			$this->bindPage($output_data, HTDOCS_PAGE . ($index+1) . SEPARATOR);
+			$this->bindPage($output_data, BLOG_PUBLIC_PAGE . ($index+1) . SEPARATOR);
 			
 			echo "...OK!\n";
 		}
 		
-		copy(HTDOCS_PAGE . '1' . SEPARATOR . 'index.html', HTDOCS . 'index.html');
+		copy(BLOG_PUBLIC_PAGE . '1' . SEPARATOR . 'index.html', BLOG_PUBLIC . 'index.html');
 	}
 }

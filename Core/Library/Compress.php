@@ -1,6 +1,6 @@
 <?php
 
-class compress {
+class Compress {
 	private $css_list;
 	private $js_list;
 	
@@ -9,30 +9,27 @@ class compress {
 		$this->js_list = array();
 	}
 
-	public function css() {
-		echo "Compress Cascading Style Sheets";
-		
-		$handle = opendir(UI_CSS);
+	public function css($src, $dest) {
+		$handle = opendir($src);
 		while($file = readdir($handle))
 			if('.' != $file && '..' != $file)
-				array_push($this->css_list, $file);
+				$this->css_list[] = $file;
+
 		closedir($handle);
 		
 		sort($this->css_list);
 		
-		$css_package = fopen(HTDOCS . 'main.css', 'w+');
+		$css_package = fopen($dest . 'main.css', 'w+');
 		foreach((array)$this->css_list as $filename) {
-			$css = file_get_contents(UI_CSS . $filename);
-			$css = $this->css_compressor($css);
+			$css = file_get_contents($src . $filename);
+			$css = $this->CssCompressor($css);
 			fwrite($css_package, $css);
 		}
 		fclose($css_package);
-		
-		echo "...OK!\n";
 	}
 	
 	// Css Compressor
-	private function css_compressor($css) {
+	private function CssCompressor($css) {
 		$css = preg_replace('/(\f|\n|\r|\t|\v)/', '', $css);
 		$css = preg_replace('/\/\*.+?\*\//', '', $css);
 		$css = preg_replace('/[ ]+/', ' ', $css);
@@ -44,27 +41,23 @@ class compress {
 		return $css;
 	}
 	
-	public function js() {
-		echo "Compress Javascript";
-		
-		$handle = opendir(UI_JS);
+	public function js($src, $dest) {
+		$handle = opendir($src);
 		while($file = readdir($handle))
 			if('.' != $file && '..' != $file)
-				array_push($this->js_list, $file);
+				$this->js_list[] = $file;
 		closedir($handle);
 		
 		sort($this->js_list);
 		
-		$js_package = fopen(HTDOCS . 'main.js', 'w+');
+		$js_package = fopen($dest . 'main.js', 'w+');
 		foreach((array)$this->js_list as $filename) {
-			$handle = fopen(UI_JS . $filename, 'r');
+			$handle = fopen($src . $filename, 'r');
 			while($data = fread($handle, 1024))
 				fwrite($js_package, $data, 1024);
 			fwrite($js_package, "\n");
 			fclose($handle);
 		}
 		fclose($js_package);
-		
-		echo "...OK!\n";
 	}
 }

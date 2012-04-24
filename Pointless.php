@@ -15,8 +15,8 @@ define('COMMAND', ROOT . 'Command' . SEPARATOR);
  * Core
  */
 define('CORE', ROOT . 'Core' . SEPARATOR);
-define('CORE_LIB', CORE . 'Library' . SEPARATOR);
-define('CORE_PLUGINS', CORE . 'Plugins' . SEPARATOR);
+define('CORE_LIBRARY', CORE . 'Library' . SEPARATOR);
+define('CORE_PLUGIN', CORE . 'Plugin' . SEPARATOR);
 
 /**
  * UI Path
@@ -32,7 +32,7 @@ define('UI_JS', UI . 'js' . SEPARATOR);
 define('BLOG', ROOT . 'Blog' . SEPARATOR);
 
 define('BLOG_MARKDOWN', BLOG . 'Markdown' . SEPARATOR);
-define('BLOG_MARKDOWN_ARTICLES', BLOG_MARKDOWN . 'Article' . SEPARATOR);
+define('BLOG_MARKDOWN_ARTICLE', BLOG_MARKDOWN . 'Article' . SEPARATOR);
 define('BLOG_MARKDOWN_STATIC', BLOG_MARKDOWN . 'Static' . SEPARATOR);
 
 define('BLOG_PUBLIC', BLOG . 'Public' . SEPARATOR);
