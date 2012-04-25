@@ -7,8 +7,8 @@
 		<div class="content"><?php echo $data['content']; ?></div>
 	</article>
 	<hr>
-	<div id="disqus_thread"></div>
 	<!-- DISQUS -->
+	<div id="disqus_thread"></div>
 	<script type="text/javascript">
 	    var disqus_shortname = '<?php echo DISQUS_SHORTNAME; ?>';
 	    (function() {

@@ -1,0 +1,37 @@
+#tag .month_archive {
+	position: relative;
+	margin-bottom: 10px;
+}
+
+#tag .month {
+	display: inline-block;
+	font-size: 28px;
+	margin-right: 10px;
+	top: -5px;
+	position: absolute;
+}
+
+#tag .list {
+	display: inline-block;
+	margin-left: 40px;
+}
+
+#tag .list .title {
+	display: block;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+#tag .list .archive {
+	display: inline-block;
+	width: 175px;
+}
+
+#tag .list .category {
+	display: inline-block;
+	width: 175px;
+}
+
+#tag .list article {
+	margin-bottom: 10px;
+}

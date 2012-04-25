@@ -22,22 +22,21 @@ class Tag {
 	
 	public function Gen($slider) {
 		$this->_list = count_sort($this->_list);
+		$max = array(0, NULL);
 		
 		foreach((array)$this->_list as $index => $article_list) {
 			Text::Write(sprintf("Building tag/%s", $index) . "\n");
-		
-			$output_data['title'] = 'Tag: ' . $index;
-			// FIXME
-			$output_data['content'] = '<ul>';
-			foreach((array)$article_list as $article_index => $article_info)
-				$output_data['content'] .= '<li>' . link_to(BLOG_PATH.'article/'.$article_info['url'], $article_info['title']) . '</li>';
+			$max = count($article_list) > $max[0] ? array(count($article_list), $index) : $max;
 			
-			$output_data['content'] .= '</ul>';
+			$output_data['title'] = 'Tag: ' . $index;
+			$output_data['article_list'] = $article_list;
 			$output_data['container'] = bind_data($output_data, UI_TEMPLATE.'Container'.SEPARATOR.'Tag.php');
 			$output_data['slider'] = $slider;
 			
 			$result = bind_data($output_data, UI_TEMPLATE.'index.php');
 			write_to($result, BLOG_PUBLIC_TAG.$index.SEPARATOR);
 		}
+		
+		copy(BLOG_PUBLIC_TAG.$max[1].SEPARATOR.'index.html', BLOG_PUBLIC_TAG.'index.html');
 	}
 }

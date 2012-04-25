@@ -35,8 +35,4 @@ class Page {
 		
 		copy(BLOG_PUBLIC_PAGE.'1'.SEPARATOR.'index.html', BLOG_PUBLIC.'index.html');
 	}
-	
-	public function Result() {
-		
-	}
 }

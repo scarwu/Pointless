@@ -7,7 +7,6 @@ foreach((array)$data['article_list'] as $index => $article_info) {
 }
 krsort($temp);
 ?>
-
 <div id="archive">
 	<div class="title"><?php echo $data['title']; ?></div>
 	<?php
