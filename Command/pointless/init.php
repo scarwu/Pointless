@@ -16,9 +16,6 @@ class pointless_init extends CLI {
 			mkdir(BLOG_RESOURCE, 0755, TRUE);
 		
 		if(!file_exists(BLOG . 'Config.php'))
-			copy(ROOT . 'ConfigSample.php', BLOG . 'Config.php');
-
-		// $name = trim(fgets(STDIN));
-		// echo strlen($name) . ' ' . $name;
+			copy(ROOT . 'Sample' . SEPARATOR . 'Config.php', BLOG . 'Config.php');
 	}
 }

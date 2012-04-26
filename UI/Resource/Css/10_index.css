@@ -18,6 +18,10 @@ code {
 	font-family: 'monospace', 'Courier';
 }
 
+*:focus {
+    outline: none;
+}
+
 a,
 a:visited {
 	text-decoration: none;
@@ -85,6 +89,7 @@ header > hgroup > h2 {
 	color: #DDD;
 }
 
+#nav > a:focus,
 #nav > a:hover,
 #nav > a:active {
 	background: #EEE;
@@ -92,6 +97,28 @@ header > hgroup > h2 {
 	-moz-box-shadow: 0 0 10px #999;
 	-webkit-box-shadow: 0 0 10px #999;
 	box-shadow: 0 0 10px #999;
+}
+
+#nav > .search {
+	float: right;
+	line-height: 45px;
+}
+
+#nav > .search form {
+	display: inline;
+}
+
+#nav > .search input[type=text] {
+	padding: 3px 5px;
+	margin: 0 0 0 10px;
+	border: 1px #333 solid;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
+
+#nav > .search input[type=submit] {
+	display: none;
 }
 
 #container {

@@ -27,6 +27,13 @@
 			<a href="<?php echo BLOG_PATH; ?>">Home</a>
 			<a href="<?php echo BLOG_PATH . 'about'; ?>">About</a>
 			<a href="<?php echo BLOG_PATH . 'works'; ?>">Works</a>
+			<a class="search" href="#">Search
+				<form action="http://www.google.com/search?q=as" target="_blank" method="get">
+					<input type="hidden" name="q" value="site:<?php echo BLOG_DNS; ?>" />
+					<input type="text" name="q" />
+					<input type="submit" />
+				</form>
+			</a>
 		</div>
 		<div id="container"><?php echo $data['container'] ?></div>
 		<div id="slider"><?php echo $data['slider'] ?></div>
