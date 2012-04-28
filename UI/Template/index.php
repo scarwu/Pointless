@@ -27,7 +27,7 @@
 			<a href="<?php echo BLOG_PATH; ?>">Home</a>
 			<a href="<?php echo BLOG_PATH . 'about'; ?>">About</a>
 			<a href="<?php echo BLOG_PATH . 'works'; ?>">Works</a>
-			<a class="search" href="#">Search
+			<a class="search" href="javascript:void(0);">Search
 				<form action="http://www.google.com/search?q=as" target="_blank" method="get">
 					<input type="hidden" name="q" value="site:<?php echo BLOG_DNS; ?>" />
 					<input type="text" name="q" />

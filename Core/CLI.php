@@ -11,10 +11,16 @@ abstract class CLI {
 	
 	public function Init() {
 		if(count(CLI::$_argv) > 0) {
-			CLI::$prefix .= '_' . array_shift(CLI::$_argv);
+			$command = array_shift(CLI::$_argv);
+			CLI::$prefix .= '_' . $command;
 			$class = CLI::$prefix;
-			$class = new $class();
-			$class->Init();
+			try {
+				$class = new $class();
+				$class->Init();
+			}
+			catch(Exception $e) {
+				Text::Write("Command $command is not found.\n", 'red');
+			}
 		}
 		else
 			$this->Run();

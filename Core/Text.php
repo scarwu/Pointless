@@ -11,7 +11,9 @@ class Text {
 	public static function Write($msg, $color = NULL) {
 		if(NULL !== $color && isset(Text::$_color[$color]))
 			$msg = sprintf("\033[%sm%s\033[m", Text::$_color[$color], $msg);
-
-		echo $msg;
+		$handle = fopen('php://stdout', 'w');
+		fwrite($handle, $msg);
+		// echo $msg;
+		fclose($handle);
 	}
 }

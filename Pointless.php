@@ -1,5 +1,4 @@
 #!/usr/bin/php
-
 <?php
 define('SEPARATOR', DIRECTORY_SEPARATOR);
 
@@ -62,7 +61,7 @@ function autoload($class_name) {
 	if(file_exists(COMMAND . "$class_name.php"))
 		require_once COMMAND . "$class_name.php";
 	else 
-		throw new Exception("Command is not defined", 1);
+		throw new Exception("Command is not found.");
 }
 
 spl_autoload_register('autoload');
@@ -71,9 +70,5 @@ spl_autoload_register('autoload');
  * Execute
  */
 $CLI = new pointless();
-try {
-	$CLI->Init();
-}
-catch(Exception $e) {
-	Text::Write("Command is not defined\n", 'red');
-}
+$CLI->Init();
+	
