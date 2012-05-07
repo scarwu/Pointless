@@ -6,7 +6,11 @@ class pointless_gen_all extends NanoCLI {
 	}
 	
 	public function Run() {
+		// Inclide Markdown Library
+		require_once CORE_PLUGIN . 'Markdown' . SEPARATOR . 'markdown.php';
 		require_once CORE_LIBRARY . 'Compress.php';
+		require_once CORE_LIBRARY . 'CustomSort.php';
+		require_once CORE_LIBRARY . 'GeneralFunction.php';
 		require_once CORE_LIBRARY . 'Generator.php';
 		require_once BLOG . 'Config.php';
 		
@@ -18,7 +22,7 @@ class pointless_gen_all extends NanoCLI {
 			mkdir(HTDOCS, 0755, TRUE);
 		
 		Text::Write("Copy Resource ...\n", 'yellow');
-		$this->rCopy(BLOG_RESOURCE, BLOG_PUBLIC);
+		recusive_copy(BLOG_RESOURCE, BLOG_PUBLIC);
 		
 		if(NULL !== CNAME) {
 			Text::Write("Create CNAME ...\n", 'yellow');
@@ -44,19 +48,5 @@ class pointless_gen_all extends NanoCLI {
 
 		$Generator = new Generator();
 		$Generator->Run();
-	}
-	
-	private function rCopy($src, $dest) {
-		if(is_dir($src)) {
-			if(!file_exists($dest))
-				mkdir($dest, 0755, TRUE);
-			$handle = @opendir($src);
-			while($file = readdir($handle))
-				if($file != '.' && $file != '..' && $file != '.git')
-					$this->rCopy($src . DIRECTORY_SEPARATOR . $file, $dest . DIRECTORY_SEPARATOR . $file);
-			closedir($handle);
-		}
-		else
-			copy($src, $dest);
 	}
 }

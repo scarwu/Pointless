@@ -21,3 +21,17 @@ function write_to($data, $path) {
 	fwrite($handle, $data);
 	fclose($handle);
 }
+
+function recusive_copy($src, $dest) {
+	if(is_dir($src)) {
+		if(!file_exists($dest))
+			mkdir($dest, 0755, TRUE);
+		$handle = @opendir($src);
+		while($file = readdir($handle))
+			if($file != '.' && $file != '..' && $file != '.git')
+				recusive_copy($src . DIRECTORY_SEPARATOR . $file, $dest . DIRECTORY_SEPARATOR . $file);
+		closedir($handle);
+	}
+	else
+		copy($src, $dest);
+}

@@ -33,6 +33,7 @@ class Page {
 			write_to($result, BLOG_PUBLIC_PAGE.($index+1).SEPARATOR);
 		}
 		
-		copy(BLOG_PUBLIC_PAGE.'1'.SEPARATOR.'index.html', BLOG_PUBLIC.'index.html');
+		if(file_exists(BLOG_PUBLIC_PAGE.'1'.SEPARATOR.'index.html'))
+			copy(BLOG_PUBLIC_PAGE.'1'.SEPARATOR.'index.html', BLOG_PUBLIC.'index.html');
 	}
 }

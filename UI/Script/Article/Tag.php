@@ -37,6 +37,7 @@ class Tag {
 			write_to($result, BLOG_PUBLIC_TAG.$index.SEPARATOR);
 		}
 		
-		copy(BLOG_PUBLIC_TAG.$max[1].SEPARATOR.'index.html', BLOG_PUBLIC_TAG.'index.html');
+		if(file_exists(BLOG_PUBLIC_TAG.$max[1].SEPARATOR.'index.html'))
+			copy(BLOG_PUBLIC_TAG.$max[1].SEPARATOR.'index.html', BLOG_PUBLIC_TAG.'index.html');
 	}
 }

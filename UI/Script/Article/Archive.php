@@ -34,6 +34,7 @@ class Archive {
 			write_to($result, BLOG_PUBLIC_ARCHIVE.$index.SEPARATOR);
 		}
 		
-		copy(BLOG_PUBLIC_ARCHIVE.$max.SEPARATOR.'index.html', BLOG_PUBLIC_ARCHIVE.'index.html');
+		if(file_exists(BLOG_PUBLIC_ARCHIVE.$max.SEPARATOR.'index.html'))
+			copy(BLOG_PUBLIC_ARCHIVE.$max.SEPARATOR.'index.html', BLOG_PUBLIC_ARCHIVE.'index.html');
 	}
 }

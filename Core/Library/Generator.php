@@ -5,11 +5,6 @@ class Generator {
 	private $_slider;
 	
 	public function __construct() {
-		// Inclide Markdown Library
-		require_once CORE_PLUGIN . 'Markdown' . SEPARATOR . 'markdown.php';
-		require_once CORE_LIBRARY . 'CustomSort.php';
-		require_once CORE_LIBRARY . 'GeneralFunction.php';
-
 		$this->_template = array();
 		$this->_template['Article'] = array();
 		$this->_template['BlogPage'] = array();
