@@ -23,6 +23,10 @@ Static blog generator
 
 	poi init
 	
-#### Generate Sample Blog
+Default Folder on /path/to/Pointless/Blog/
+	
+#### Generate Blog
 
 	poi gen
+	
+Default Static Page Folder on /path/to/Pointless/Blog/Public
