@@ -1,6 +1,6 @@
 <?php
 
-class pointless_blogpage_create extends NanoCLI {
+class pointless_blogpage_add extends NanoCLI {
 	public function __construct() {
 		parent::__construct();
 	}
@@ -28,9 +28,9 @@ class pointless_blogpage_create extends NanoCLI {
 			fwrite($handle, '	"url": "' . $info['url'] . '"' . "\n");
 			fwrite($handle, "}\n-----\n");
 			
-			Text::Write($filename . " was create.\n");
+			Text::Write("\n" . $filename . " was create.\n");
 		}
 		else
-			Text::Write($filename . " is exsist.\n");
+			Text::Write("\n" . $filename . " is exsist.\n");
 	}
 }

@@ -1,6 +1,6 @@
 <?php
 
-class pointless_article_create extends NanoCLI {
+class pointless_article_add extends NanoCLI {
 	public function __construct() {
 		parent::__construct();
 	}
@@ -29,7 +29,7 @@ class pointless_article_create extends NanoCLI {
 		while('' == $info['category'] = Text::Read());
 		
 		$time = time();
-		$filename = date("Y_m_d_H_i_s", $time) . '.md';
+		$filename = date("Y_md_His", $time) . '.md';
 		$info['date'] = date("Y-m-d", $time);
 		$info['time'] = date("H:i:s", $time);
 		
@@ -44,9 +44,9 @@ class pointless_article_create extends NanoCLI {
 			fwrite($handle, '	"time": "' . $info['time'] . '"' . "\n");
 			fwrite($handle, "}\n-----\n");
 			
-			Text::Write($filename . " was create.\n");
+			Text::Write("\n" . $filename . " was create.\n");
 		}
 		else
-			Text::Write($filename . " is exsist.\n");
+			Text::Write("\n" . $filename . " is exsist.\n");
 	}
 }
