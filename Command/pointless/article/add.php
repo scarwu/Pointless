@@ -44,9 +44,9 @@ class pointless_article_add extends NanoCLI {
 			fwrite($handle, '	"time": "' . $info['time'] . '"' . "\n");
 			fwrite($handle, "}\n-----\n");
 			
-			Text::Write("\n" . $filename . " was create.\n");
+			Text::Write("\n" . BLOG_MARKDOWN_ARTICLE . $filename . " was create.\n");
 		}
 		else
-			Text::Write("\n" . $filename . " is exsist.\n");
+			Text::Write("\n" . BLOG_MARKDOWN_ARTICLE . $filename . " is exsist.\n");
 	}
 }

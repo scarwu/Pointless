@@ -10,7 +10,5 @@ define('ARTICLE_QUANTITY', 10);
 define('ARTICLE_URL', 0); // 0: date, 1: title, 2: date + title, 3: dirname
 
 define('DISQUS_SHORTNAME', NULL);
-
 define('GOOGLE_ANALYSTIC', NULL);
-
-define('CNAME', NULL);
+define('GITHUB_CNAME', NULL);

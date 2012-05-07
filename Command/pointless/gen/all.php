@@ -24,10 +24,10 @@ class pointless_gen_all extends NanoCLI {
 		Text::Write("Copy Resource ...\n", 'yellow');
 		recusive_copy(BLOG_RESOURCE, BLOG_PUBLIC);
 		
-		if(NULL !== CNAME) {
-			Text::Write("Create CNAME ...\n", 'yellow');
+		if(NULL !== GITHUB_CNAME) {
+			Text::Write("Create Github CNAME ...\n", 'yellow');
 			$handle = fopen(BLOG_PUBLIC . 'CNAME', 'w+');
-			fwrite($handle, CNAME);
+			fwrite($handle, GITHUB_CNAME);
 			fclose($handle);
 		}
 		

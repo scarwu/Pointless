@@ -28,9 +28,9 @@ class pointless_blogpage_add extends NanoCLI {
 			fwrite($handle, '	"url": "' . $info['url'] . '"' . "\n");
 			fwrite($handle, "}\n-----\n");
 			
-			Text::Write("\n" . $filename . " was create.\n");
+			Text::Write("\n" . BLOG_MARKDOWN_BLOGPAGE . $filename . " was create.\n");
 		}
 		else
-			Text::Write("\n" . $filename . " is exsist.\n");
+			Text::Write("\n" . BLOG_MARKDOWN_BLOGPAGE . $filename . " is exsist.\n");
 	}
 }
