@@ -1,0 +1,5 @@
+script: ./Bin/poi init
+  
+php:
+  - 5.3
+  - 5.4
