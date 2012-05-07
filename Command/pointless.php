@@ -1,9 +1,8 @@
 <?php
 
-class pointless extends CLI {
+class pointless extends NanoCLI {
 	public function __construct() {
 		parent::__construct();
-		CLI::$prefix = 'pointless';
 	}
 	
 	public function Run() {

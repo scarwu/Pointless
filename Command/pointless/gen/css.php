@@ -1,6 +1,6 @@
 <?php
 
-class pointless_gen_css extends CLI {
+class pointless_gen_css extends NanoCLI {
 	public function __construct() {
 		parent::__construct();
 	}

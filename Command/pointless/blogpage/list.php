@@ -1,6 +1,6 @@
 <?php
 
-class pointless_blogpage_list extends CLI {
+class pointless_blogpage_list extends NanoCLI {
 	public function __construct() {
 		parent::__construct();
 	}
@@ -13,7 +13,7 @@ class pointless_blogpage_list extends CLI {
 			if('.' != $filename && '..' != $filename) {
 				preg_match($regex_rule, file_get_contents(BLOG_MARKDOWN_BLOGPAGE . $filename), $match);
 				$temp = json_decode($match[1], TRUE);
-				echo $temp['title'] . "\n";
+				Text::Write($temp['title'] . "\n");
 			}
 		closedir($handle);
 	}

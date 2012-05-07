@@ -1,6 +1,6 @@
 <?php
 
-class pointless_blogpage extends CLI {
+class pointless_blogpage extends NanoCLI {
 	public function __construct() {
 		parent::__construct();
 	}
