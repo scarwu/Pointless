@@ -11,11 +11,11 @@ Static blog generator
 
 ### Installation
 
-#### Clone Pointless
+#### Clone Pointless from github
 
 	git clone git://github.com/scarwu/Pointless.git
 	
-#### Add this line on `.bashrc` or `.zshrc`
+#### Add this line to `.bashrc` or `.zshrc` file
 	
 	export PATH=$PATH:/path/to/Pointless/Bin/
 
