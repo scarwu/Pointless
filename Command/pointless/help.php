@@ -13,6 +13,7 @@ class pointless_help extends NanoCLI {
 		Text::Write("    gen (all)       - Generate Blog.\n");
 		Text::Write("    gen css         - Generate and Compress CSS.\n");
 		Text::Write("    gen js          - Generate and Compress JavaScript.\n");
+		Text::Write("    gen clean       - Clean Blog Files.\n");
 		Text::Write("    article (list)  - List Your Articles.\n");
 		Text::Write("    article add     - Create New Articles.\n");
 		Text::Write("    blogpage (list) - List Your Blog Pages.\n");

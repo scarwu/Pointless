@@ -12,7 +12,7 @@ class Generator {
 	}
 	
 	public function Run() {
-		$regex_rule = '/-----((?:.|\n)*)-----((?:.|\n)*)/';
+		$regex_rule = '/^-----\n((?:.|\n)*)\n-----\n((?:.|\n)*)/';
 		
 		/**
 		 * Load Blog Page
