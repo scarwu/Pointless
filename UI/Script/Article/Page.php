@@ -30,7 +30,7 @@ class Page {
 			$output_data['slider'] = $slider;
 			
 			$result = bind_data($output_data, UI_TEMPLATE.'index.php');
-			write_to($result, BLOG_PUBLIC_PAGE.($index+1).SEPARATOR);
+			write_to($result, BLOG_PUBLIC_PAGE.($index+1));
 		}
 		
 		if(file_exists(BLOG_PUBLIC_PAGE.'1'.SEPARATOR.'index.html'))

@@ -34,7 +34,7 @@ class Tag {
 			$output_data['slider'] = $slider;
 			
 			$result = bind_data($output_data, UI_TEMPLATE.'index.php');
-			write_to($result, BLOG_PUBLIC_TAG.$index.SEPARATOR);
+			write_to($result, BLOG_PUBLIC_TAG.$index);
 		}
 		
 		if(file_exists(BLOG_PUBLIC_TAG.$max[1].SEPARATOR.'index.html'))

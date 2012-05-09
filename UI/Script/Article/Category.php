@@ -32,7 +32,7 @@ class Category {
 			$output_data['slider'] = $slider;
 			
 			$result = bind_data($output_data, UI_TEMPLATE.'index.php');
-			write_to($result, BLOG_PUBLIC_CATEGORY.$index.SEPARATOR);
+			write_to($result, BLOG_PUBLIC_CATEGORY.$index);
 		}
 		
 		if(file_exists(BLOG_PUBLIC_CATEGORY.$max[1].SEPARATOR.'index.html'))

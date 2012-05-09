@@ -26,7 +26,7 @@ class Article {
 			$output_data['slider'] = $slider;
 			
 			$result = bind_data($output_data, UI_TEMPLATE.'index.php');
-			write_to($result, BLOG_PUBLIC_ARTICLE.$output_data['url'].SEPARATOR);
+			write_to($result, BLOG_PUBLIC_ARTICLE.$output_data['url']);
 		}
 	}
 }

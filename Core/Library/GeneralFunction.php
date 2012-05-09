@@ -13,11 +13,15 @@ function bind_data($data, $path) {
 	return $result;
 }
 
+// FIXME and UI/Script/*/*.php
 function write_to($data, $path) {
-	if(!file_exists($path))
-		mkdir($path, 0755, TRUE);
-	
-	$handle = fopen($path . 'index.html', 'w+');
+	if(!preg_match('/\.html$/', $path)) {
+		if(!file_exists($path))
+			mkdir($path, 0755, TRUE);
+		$path = $path . SEPARATOR .  'index.html';
+	}
+
+	$handle = fopen($path, 'w+');
 	fwrite($handle, $data);
 	fclose($handle);
 }

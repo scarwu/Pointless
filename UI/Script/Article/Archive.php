@@ -31,7 +31,7 @@ class Archive {
 			$output_data['slider'] = $slider;
 
 			$result = bind_data($output_data, UI_TEMPLATE.'index.php');
-			write_to($result, BLOG_PUBLIC_ARCHIVE.$index.SEPARATOR);
+			write_to($result, BLOG_PUBLIC_ARCHIVE.$index);
 		}
 		
 		if(file_exists(BLOG_PUBLIC_ARCHIVE.$max.SEPARATOR.'index.html'))
