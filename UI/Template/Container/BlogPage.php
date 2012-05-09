@@ -6,7 +6,6 @@
 	</article>
 	<hr>
 	<?php if($data['message']): ?>
-	<?php echo $data['message']; ?>
 	<!-- DISQUS -->
 	<div id="disqus_thread"></div>
 	<script type="text/javascript">
