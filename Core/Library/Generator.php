@@ -35,6 +35,7 @@ class Generator {
 				$blog_page['title'] = $temp['title'];
 				$blog_page['url'] = $temp['url'];
 				$blog_page['content'] = Markdown($match[2]);
+				$blog_page['message'] = isset($temp['message']) ? $temp['message'] : TRUE;
 				
 				foreach((array)$this->_template['BlogPage'] as $class)
 					$class->Add($blog_page);

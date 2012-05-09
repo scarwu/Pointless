@@ -5,6 +5,8 @@
 		<div class="content"><?php echo $data['content']; ?></div>
 	</article>
 	<hr>
+	<?php if($data['message']): ?>
+	<?php echo $data['message']; ?>
 	<!-- DISQUS -->
 	<div id="disqus_thread"></div>
 	<script type="text/javascript">
@@ -15,4 +17,5 @@
 	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
 	    })();
 	</script>
+	<?php endif; ?>
 </div>
