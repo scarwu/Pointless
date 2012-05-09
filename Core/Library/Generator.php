@@ -101,8 +101,6 @@ class Generator {
 					$class->Add($article);
 			}
 		closedir($handle);
-
-		Text::Write("Blog Generating ... \n", 'yellow');
 		
 		$this->genSlider();
 		$this->genContainer();

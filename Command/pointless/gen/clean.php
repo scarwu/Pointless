@@ -6,7 +6,7 @@ class pointless_gen_clean extends NanoCLI {
 	}
 	
 	public function Run($path = NULL) {
-		Text::Write("Clean Public Files ...\n", 'yellow');
+		NanoIO::Writeln("Clean Public Files ...", 'yellow');
 		if(file_exists(NULL == $path ? BLOG_PUBLIC : $path))
 			$this->rRemoveDir(NULL == $path ? BLOG_PUBLIC : $path);
 	}

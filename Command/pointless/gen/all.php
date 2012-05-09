@@ -21,18 +21,18 @@ class pointless_gen_all extends NanoCLI {
 		if(!file_exists(BLOG_PUBLIC))
 			mkdir(HTDOCS, 0755, TRUE);
 		
-		Text::Write("Copy Resource ...\n", 'yellow');
+		NanoIO::Writeln("Copy Resource ...", 'yellow');
 		recusive_copy(BLOG_RESOURCE, BLOG_PUBLIC);
 		
 		if(NULL !== GITHUB_CNAME) {
-			Text::Write("Create Github CNAME ...\n", 'yellow');
+			NanoIO::Writeln("Create Github CNAME ...", 'yellow');
 			$handle = fopen(BLOG_PUBLIC . 'CNAME', 'w+');
 			fwrite($handle, GITHUB_CNAME);
 			fclose($handle);
 		}
 		
 		if(!file_exists(BLOG_PUBLIC . 'README')) {
-			Text::Write("Create README ...\n", 'yellow');
+			NanoIO::Writeln("Create README ...", 'yellow');
 			$handle = fopen(BLOG_PUBLIC . 'README', 'w+');
 			fwrite($handle, 'Powered by Pointless');
 			fclose($handle);
@@ -40,12 +40,13 @@ class pointless_gen_all extends NanoCLI {
 
 		$Compress = new Compress();
 		
-		Text::Write("Compress Javascript ...\n", 'yellow');
+		NanoIO::Writeln("Compress Javascript ...", 'yellow');
 		$Compress->js(UI_RESOURCE_JS, BLOG_PUBLIC);
 		
-		Text::Write("Compress Cascading Style Sheets ...\n", 'yellow');
+		NanoIO::Writeln("Compress Cascading Style Sheets ...", 'yellow');
 		$Compress->css(UI_RESOURCE_CSS, BLOG_PUBLIC);
-
+		
+		NanoIO::Writeln("Blog Generating ... ", 'yellow');
 		$Generator = new Generator();
 		$Generator->Run();
 	}

@@ -1,6 +1,6 @@
 <?php
 /**
- * Text
+ * NanoIO
  * 
  * @package		NanoCLI
  * @author		ScarWu
@@ -8,7 +8,8 @@
  * @link		http://github.com/scarwu/NanoCLI
  */
 
-class Text {
+class NanoIO {
+	private function __construct() {}
 	
 	/**
 	 * @var array
@@ -26,9 +27,19 @@ class Text {
 	 * @param string
 	 * @param string
 	 */
+	public static function Writeln($msg, $color = NULL) {
+		self::Write($msg."\n", $color);
+	}
+	
+	/**
+	 * Write data to STDOUT
+	 * 
+	 * @param string
+	 * @param string
+	 */
 	public static function Write($msg, $color = NULL) {
-		if(NULL !== $color && isset(Text::$_color[$color]))
-			$msg = sprintf("\033[%sm%s\033[m", Text::$_color[$color], $msg);
+		if(NULL !== $color && isset(self::$_color[$color]))
+			$msg = sprintf("\033[%sm%s\033[m", self::$_color[$color], $msg);
 		
 		fwrite(STDOUT, $msg);
 	}

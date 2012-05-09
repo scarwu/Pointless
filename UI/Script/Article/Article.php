@@ -20,7 +20,7 @@ class Article {
 		$this->_list = article_sort($this->_list);
 		// Building Article
 		foreach((array)$this->_list as $index => $output_data) {
-			Text::Write("Building article/" . $output_data['url'] . "\n");
+			NanoIO::Writeln("Building article/" . $output_data['url']);
 		
 			$output_data['container'] = bind_data($output_data, UI_TEMPLATE.'Container'.SEPARATOR.'Article.php');
 			$output_data['slider'] = $slider;

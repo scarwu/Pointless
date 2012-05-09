@@ -13,7 +13,7 @@ class pointless_article_list extends NanoCLI {
 			if('.' != $filename && '..' != $filename) {
 				preg_match($regex_rule, file_get_contents(BLOG_MARKDOWN_ARTICLE . $filename), $match);
 				$temp = json_decode($match[1], TRUE);
-				Text::Write($temp['title'] . "\n");
+				NanoIO::Writeln($temp['title']);
 			}
 		closedir($handle);
 	}

@@ -6,17 +6,17 @@ class pointless_help extends NanoCLI {
 	}
 	
 	public function Run() {
-		Text::Write("Welcome to use Pointless.\n", 'yellow');
-		Text::Write("Available Commads:\n");
-		Text::Write("    help            - Show help.\n");
-		Text::Write("    init            - Initialize Poinless.\n");
-		Text::Write("    gen (all)       - Generate Blog.\n");
-		Text::Write("    gen css         - Generate and Compress CSS.\n");
-		Text::Write("    gen js          - Generate and Compress JavaScript.\n");
-		Text::Write("    gen clean       - Clean Blog Files.\n");
-		Text::Write("    article (list)  - List Your Articles.\n");
-		Text::Write("    article add     - Create New Articles.\n");
-		Text::Write("    blogpage (list) - List Your Blog Pages.\n");
-		Text::Write("    blogpage add    - Create New Blog Pages.\n");
+		NanoIO::Writeln("Welcome to use Pointless.", 'yellow');
+		NanoIO::Writeln("Available Commads:");
+		NanoIO::Writeln("    help            - Show help.");
+		NanoIO::Writeln("    init            - Initialize Poinless.");
+		NanoIO::Writeln("    gen (all)       - Generate Blog.");
+		NanoIO::Writeln("    gen css         - Generate and Compress CSS.");
+		NanoIO::Writeln("    gen js          - Generate and Compress JavaScript.");
+		NanoIO::Writeln("    gen clean       - Clean Blog Files.");
+		NanoIO::Writeln("    article (list)  - List Your Articles.");
+		NanoIO::Writeln("    article add     - Create New Articles.");
+		NanoIO::Writeln("    blogpage (list) - List Your Blog Pages.");
+		NanoIO::Writeln("    blogpage add    - Create New Blog Pages.");
 	}
 }

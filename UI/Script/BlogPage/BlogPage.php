@@ -17,7 +17,7 @@ class BlogPage {
 	
 	public function Gen($slider) {
 		foreach((array)$this->_list as $index => $output_data) {
-			Text::Write("Building " . $output_data['url'] . "\n");
+			NanoIO::Writeln("Building " . $output_data['url']);
 		
 			$output_data['container'] = bind_data($output_data, UI_TEMPLATE.'Container'.SEPARATOR.'BlogPage.php');
 			$output_data['slider'] = $slider;

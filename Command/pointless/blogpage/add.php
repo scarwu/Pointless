@@ -9,14 +9,14 @@ class pointless_blogpage_add extends NanoCLI {
 		$info = array();
 		
 		do {
-			Text::Write("Enter Blog Page Title:\n-> ");
+			NanoIO::Write("Enter Blog Page Title:\n-> ");
 		}
-		while('' == $info['title'] = Text::Read());
+		while('' == $info['title'] = NanoIO::Read());
 		
 		do {
-			Text::Write("Enter Blog Page Custom Url:\n-> ");
+			NanoIO::Write("Enter Blog Page Custom Url:\n-> ");
 		}
-		while('' == $info['url'] = Text::Read());
+		while('' == $info['url'] = NanoIO::Read());
 		
 		$filename = strtolower($info['title']) . '.md';
 		$filename = str_replace(array('\\', '/', ' '), '_', $filename);
@@ -28,9 +28,9 @@ class pointless_blogpage_add extends NanoCLI {
 			fwrite($handle, '	"url": "' . $info['url'] . '"' . "\n");
 			fwrite($handle, "}\n-----\n");
 			
-			Text::Write("\n" . BLOG_MARKDOWN_BLOGPAGE . $filename . " was create.\n");
+			NanoIO::Writeln("\n" . BLOG_MARKDOWN_BLOGPAGE . $filename . " was create.");
 		}
 		else
-			Text::Write("\n" . BLOG_MARKDOWN_BLOGPAGE . $filename . " is exsist.\n");
+			NanoIO::Writeln("\n" . BLOG_MARKDOWN_BLOGPAGE . $filename . " is exsist.");
 	}
 }

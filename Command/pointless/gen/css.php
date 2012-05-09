@@ -8,11 +8,11 @@ class pointless_gen_css extends NanoCLI {
 	public function Run() {
 		require_once CORE_LIBRARY . 'Compress.php';
 		
-		Text::Write("Clean Cascading Style Sheets ...\n", 'yellow');
+		NanoIO::Writeln("Clean Cascading Style Sheets ...", 'yellow');
 		if(file_exists(BLOG_PUBLIC . 'main.css'))
 			unlink(BLOG_PUBLIC . 'main.css');
 
-		Text::Write("Compress Cascading Style Sheets ...\n", 'yellow');
+		NanoIO::Writeln("Compress Cascading Style Sheets ...", 'yellow');
 		$Compress = new Compress();
 		$Compress->css(UI_RESOURCE_CSS, BLOG_PUBLIC);
 	}

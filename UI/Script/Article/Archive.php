@@ -22,7 +22,7 @@ class Archive {
 		krsort($this->_list);
 		$max = 0;
 		foreach((array)$this->_list as $index => $article_list) {
-			Text::Write(sprintf("Building archive/%s", $index) . "\n");
+			NanoIO::Writeln(sprintf("Building archive/%s", $index));
 			$max = $index > $max ? $index : $max;
 			
 			$output_data['title'] = 'Archive: ' . $index;

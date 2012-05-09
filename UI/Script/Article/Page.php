@@ -22,7 +22,7 @@ class Page {
 		$page_number = ceil(count($this->_list) / ARTICLE_QUANTITY);
 				
 		for($index = 0;$index < $page_number;$index++) {
-			Text::Write(sprintf("Building page/%s", ($index+1)) . "\n");
+			NanoIO::Writeln(sprintf("Building page/%s", ($index+1)));
 			
 			$output_data['bar'] = ($page_number <= 1 ? '' : 'bar');
 			$output_data['article_list'] = array_slice($this->_list, ARTICLE_QUANTITY * $index, ARTICLE_QUANTITY);

@@ -21,9 +21,9 @@ abstract class NanoCLI {
 	static public $_prefix;
 	
 	public function __construct() {
-		if(!is_array(NanoCLI::$_argv)) {
-			NanoCLI::$_argv = array_slice($_SERVER['argv'], 1);
-			NanoCLI::$_prefix = NANOCLI_PREFIX;
+		if(!is_array(self::$_argv)) {
+			self::$_argv = array_slice($_SERVER['argv'], 1);
+			self::$_prefix = NANOCLI_PREFIX;
 		}
 	}
 	
@@ -31,16 +31,16 @@ abstract class NanoCLI {
 	 * Init
 	 */
 	public function Init() {
-		if(count(NanoCLI::$_argv) > 0) {
-			$command = array_shift(NanoCLI::$_argv);
-			NanoCLI::$_prefix .= '_' . $command;
-			$class = NanoCLI::$_prefix;
+		if(count(self::$_argv) > 0) {
+			$command = array_shift(self::$_argv);
+			self::$_prefix .= '_' . $command;
+			$class = self::$_prefix;
 			try {
 				$class = new $class();
 				$class->Init();
 			}
 			catch(Exception $e) {
-				Text::Write("Command \"$command\" is not found.\n", 'red');
+				NanoIO::Write("Command \"$command\" is not found.\n", 'red');
 			}
 		}
 		else

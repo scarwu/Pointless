@@ -9,24 +9,24 @@ class pointless_article_add extends NanoCLI {
 		$info = array();
 		
 		do {
-			Text::Write("Enter Article Title:\n-> ");
+			NanoIO::Write("Enter Article Title:\n-> ");
 		}
-		while('' == $info['title'] = Text::Read());
+		while('' == $info['title'] = NanoIO::Read());
 		
 		do {
-			Text::Write("Enter Article Custom Url:\n-> ");
+			NanoIO::Write("Enter Article Custom Url:\n-> ");
 		}
-		while('' == $info['url'] = Text::Read());
+		while('' == $info['url'] = NanoIO::Read());
 		
 		do {
-			Text::Write("Enter Article Tag:\n-> ");
+			NanoIO::Write("Enter Article Tag:\n-> ");
 		}
-		while('' == $info['tag'] = Text::Read());
+		while('' == $info['tag'] = NanoIO::Read());
 		
 		do {
-			Text::Write("Enter Article Category:\n-> ");
+			NanoIO::Write("Enter Article Category:\n-> ");
 		}
-		while('' == $info['category'] = Text::Read());
+		while('' == $info['category'] = NanoIO::Read());
 		
 		$time = time();
 		$filename = date("Y_md_His", $time) . '.md';
@@ -44,9 +44,9 @@ class pointless_article_add extends NanoCLI {
 			fwrite($handle, '	"time": "' . $info['time'] . '"' . "\n");
 			fwrite($handle, "}\n-----\n");
 			
-			Text::Write("\n" . BLOG_MARKDOWN_ARTICLE . $filename . " was create.\n");
+			NanoIO::Write("\n" . BLOG_MARKDOWN_ARTICLE . $filename . " was create.");
 		}
 		else
-			Text::Write("\n" . BLOG_MARKDOWN_ARTICLE . $filename . " is exsist.\n");
+			NanoIO::Write("\n" . BLOG_MARKDOWN_ARTICLE . $filename . " is exsist.");
 	}
 }

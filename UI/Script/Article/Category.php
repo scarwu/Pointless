@@ -23,7 +23,7 @@ class Category {
 		$max = array(0, NULL);
 		
 		foreach((array)$this->_list as $index => $article_list) {
-			Text::Write(sprintf("Building category/%s", $index) . "\n");
+			NanoIO::Writeln(sprintf("Building category/%s", $index));
 			$max = count($article_list) > $max[0] ? array(count($article_list), $index) : $max;
 			
 			$output_data['title'] ='Category: ' . $index;
