@@ -30,7 +30,7 @@ abstract class NanoCLI {
 	/**
 	 * Init
 	 */
-	public function Init() {
+	final public function Init() {
 		if(count(self::$_argv) > 0) {
 			$command = array_shift(self::$_argv);
 			self::$_prefix .= '_' . $command;
