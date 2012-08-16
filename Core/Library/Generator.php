@@ -28,7 +28,7 @@ class Generator {
 		
 		$handle = opendir(BLOG_MARKDOWN_BLOGPAGE);
 		while($filename = readdir($handle))
-			if('.' != $filename && '..' != $filename) {
+			if('.' != $filename && '..' != $filename && preg_match('/.md$/', $filename)) {
 				preg_match($regex_rule, file_get_contents(BLOG_MARKDOWN_BLOGPAGE . $filename), $match);
 				$temp = json_decode($match[1], TRUE);
 				$blog_page = array();
@@ -56,7 +56,7 @@ class Generator {
 
 		$handle = opendir(BLOG_MARKDOWN_ARTICLE);
 		while($filename = readdir($handle))
-			if('.' != $filename && '..' != $filename) {
+			if('.' != $filename && '..' != $filename && preg_match('/.md$/', $filename)) {
 				preg_match($regex_rule, file_get_contents(BLOG_MARKDOWN_ARTICLE . $filename), $match);
 
 				$temp = json_decode($match[1], TRUE);
