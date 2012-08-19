@@ -1,0 +1,3 @@
+[submodule "Core/NanoCLI"]
+	path = Core/NanoCLI
+	url = git://github.com/scarwu/NanoCLI.git
