@@ -5,5 +5,9 @@ define('SEPARATOR', DIRECTORY_SEPARATOR);
 // Define Path
 define('ROOT', realpath(dirname(realpath($_SERVER['PHP_SELF'])) . SEPARATOR . '..') . SEPARATOR);
 
-require_once ROOT . 'Config.php';
+if(file_exists(ROOT . 'Config.php'))
+	require_once ROOT . 'Config.php';
+else
+	require_once ROOT . 'Config.default.php';
+
 require_once ROOT . 'Boot.php';
