@@ -23,8 +23,7 @@ Static blog generator
 
 	./init.sh
 	
-Default Folder on /path/to/Pointless/Blog
-and Static Page Folder on /path/to/Pointless/Blog/Public
+Default Folder on */path/to/Pointless/Blog* and Static Page Folder on */path/to/Pointless/Blog/Public*
 
 ### Custom
 
@@ -36,7 +35,7 @@ If you want to custom your blog output path, do this ...
 
 and modify line 5.
 
-	define('BLOG', '/path/to/your/blog/folder');
+	define('BLOG', '/path/to/your/blog/folder' . SEPARATOR);
 
 #### Blog UI
 If you want to custom blog css layout, javascript file, or something else ...

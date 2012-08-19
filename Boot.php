@@ -1,4 +1,9 @@
 <?php
+// Core
+define('CORE', ROOT . 'Core' . SEPARATOR);
+define('CORE_LIBRARY', CORE . 'Library' . SEPARATOR);
+define('CORE_PLUGIN', CORE . 'Plugin' . SEPARATOR);
+
 /**
  * Load NanoCLI and Setting
  */
