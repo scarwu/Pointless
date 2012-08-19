@@ -1,12 +1,5 @@
 <?php
 /**
- * Core
- */
-define('CORE', ROOT . 'Core' . SEPARATOR);
-define('CORE_LIBRARY', CORE . 'Library' . SEPARATOR);
-define('CORE_PLUGIN', CORE . 'Plugin' . SEPARATOR);
-
-/**
  * Blog Path
  */
 define('BLOG', ROOT . 'Blog' . SEPARATOR);
@@ -27,9 +20,7 @@ define('BLOG_PUBLIC_ARCHIVE', BLOG_PUBLIC . 'archive' . SEPARATOR);
 // Resource
 define('BLOG_RESOURCE', BLOG . 'Resource' . SEPARATOR);
 
-/**
- * UI Path
- */
+// UI Path
 if(file_exists(BLOG . 'UI'))
 	define('UI', BLOG . 'UI' . SEPARATOR);
 else

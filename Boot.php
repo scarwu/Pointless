@@ -2,9 +2,9 @@
 /**
  * Load NanoCLI and Setting
  */
-require_once CORE . 'NanoLoader.php';
-require_once CORE . 'NanoIO.php';
-require_once CORE . 'NanoCLI.php';
+require_once CORE . 'NanoCLI/NanoCLI.php';
+require_once CORE . 'NanoCLI/NanoIO.php';
+require_once CORE . 'NanoCLI/NanoLoader.php';
 
 // Default Setting
 define('NANOCLI_COMMAND', ROOT . 'Command' . SEPARATOR);
