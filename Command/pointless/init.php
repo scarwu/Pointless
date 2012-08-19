@@ -8,7 +8,7 @@ class pointless_init extends NanoCLI {
 	public function Run() {
 		require_once CORE_LIBRARY . 'GeneralFunction.php';
 		
-		NanoIO::Writeln("Make dir and files ... ", 'yellow');
+		NanoIO::Writeln("Create directory and files ... ", 'yellow');
 		
 		if(!file_exists(BLOG))
 			mkdir(BLOG, 0755, TRUE);		

@@ -19,14 +19,27 @@ Static blog generator
 	
 	export PATH=$PATH:/path/to/Pointless/Bin/
 
-#### Init Pointless
+#### Initialize Pointless
 
-	poi init
+	./init.sh
 	
-Default Folder on /path/to/Pointless/Blog/
-	
-#### Generate Blog
+Default Folder on /path/to/Pointless/Blog
+and Static Page Folder on /path/to/Pointless/Blog/Public
 
-	poi gen
+### Custom
+
+#### Blog Path
+If you want to custom your blog output path, do this ...
+
+	cp Config.default.php Config.php
+	vi Config.php
+
+and modify line 5.
+
+	define('BLOG', '/path/to/your/blog/folder');
+
+#### Blog UI
+If you want to custom blog css layout, javascript file, or something else ...
+
+	cp -a UI /path/to/path/to/your/blog/folder
 	
-Default Static Page Folder on /path/to/Pointless/Blog/Public
