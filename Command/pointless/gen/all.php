@@ -19,7 +19,7 @@ class pointless_gen_all extends NanoCLI {
 		$clean->Run();
 		
 		if(!file_exists(BLOG_PUBLIC))
-			mkdir(HTDOCS, 0755, TRUE);
+			mkdir(BLOG_PUBLIC, 0755, TRUE);
 		
 		NanoIO::Writeln("Copy Resource ...", 'yellow');
 		recusive_copy(BLOG_RESOURCE, BLOG_PUBLIC);
