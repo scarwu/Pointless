@@ -18,5 +18,6 @@ class pointless_help extends NanoCLI {
 		NanoIO::Writeln("    article add     - Create New Articles.");
 		NanoIO::Writeln("    blogpage (list) - List Your Blog Pages.");
 		NanoIO::Writeln("    blogpage add    - Create New Blog Pages.");
+		NanoIO::Writeln("    deploy          - Deploy Blog Using Git.");
 	}
 }

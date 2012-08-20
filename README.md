@@ -23,7 +23,7 @@ Static blog generator
 
 	./init.sh
 	
-Default Folder on */path/to/Pointless/Blog* and Static Page Folder on */path/to/Pointless/Blog/Public*
+Default Folder on **/path/to/Pointless/Blog** and Static Page Folder on **/path/to/Pointless/Blog/Public**
 
 ### Custom
 
