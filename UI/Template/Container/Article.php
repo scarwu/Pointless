@@ -22,6 +22,7 @@
 	<hr>
 	<div class="bar"><?php echo $bar; ?></div>
 	<?php if(NULL != DISQUS_SHORTNAME): ?>
+	<hr>
 	<!-- DISQUS -->
 	<div id="disqus_thread"></div>
 	<script type="text/javascript">

@@ -21,4 +21,6 @@
 #article .bar {
 	text-align: center;
 	font-size: 16px;
+	line-height: 16px;
+	overflow: hidden;
 }
