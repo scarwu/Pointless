@@ -6,7 +6,7 @@ class pointless_blogpage_list extends NanoCLI {
 	}
 	
 	public function Run() {
-		$regex_rule = '/-----((?:.|\n)*)-----((?:.|\n)*)/';
+		$regex_rule = '/^-----\n((?:.|\n)*)\n-----\n((?:.|\n)*)/';
 		
 		$handle = opendir(BLOG_MARKDOWN_BLOGPAGE);
 		while($filename = readdir($handle))
@@ -16,5 +16,7 @@ class pointless_blogpage_list extends NanoCLI {
 				NanoIO::Writeln($temp['title']);
 			}
 		closedir($handle);
+		
+		
 	}
 }

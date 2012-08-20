@@ -1,4 +1,4 @@
-script: php ./Bin/poi init
+script: ./init.sh
 language: php
 php:
   - 5.3
