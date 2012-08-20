@@ -11,6 +11,16 @@
 		echo '</article>';
 		echo '<hr>';
 	}
+	
+	$bar = sprintf('<span class="count">< %d / %d ></span>', $data['bar'][0], $data['bar'][1]);
+	if($data['bar'][0] == 1)
+		$bar .= sprintf('<a class="new"></a><a class="old" href="/page/%d">Older Posts >></a>', $data['bar'][0]+1);
+	elseif($data['bar'][0] == $data['bar'][1])
+		$bar .= sprintf('<a class="new" href="/page/%d"><< Newer Posts</a><a class="old"></a>', $data['bar'][0]-1);
+	else {
+		$bar .= sprintf('<a class="new" href="/page/%d"><< Newer Posts</a>', $data['bar'][0]+1);
+		$bar .= sprintf('<a class="old" href="/page/%d">Older Posts >></a>', $data['bar'][0]-1);
+	}
 	?>
-	<div class="bar"><?php echo $data['bar']; ?></div>
+	<div class="bar"><?php echo $bar; ?></div>
 </div>
