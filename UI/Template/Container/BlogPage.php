@@ -5,7 +5,7 @@
 		<div class="content"><?php echo $data['content']; ?></div>
 	</article>
 	<hr>
-	<?php if($data['message']): ?>
+	<?php if(NULL != DISQUS_SHORTNAME && $data['message']): ?>
 	<!-- DISQUS -->
 	<div id="disqus_thread"></div>
 	<script type="text/javascript">

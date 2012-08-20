@@ -1,3 +1,24 @@
 #article article {
 	margin-bottom: 50px;
 }
+
+#article .bar .new {
+	float: left;
+	text-align: left;
+	display: inline-block;
+	width: 350px;
+	height: 20px;
+}
+
+#article .bar .old {
+	float: right;
+	text-align: right;
+	display: inline-block;
+	width: 350px;
+	height: 20px;
+}
+
+#article .bar {
+	text-align: center;
+	font-size: 16px;
+}

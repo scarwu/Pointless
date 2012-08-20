@@ -12,16 +12,17 @@
 		echo '<hr>';
 	}
 	
-	$bar = sprintf('<span class="count">< %d / %d ></span>', $data['bar'][0], $data['bar'][1]);
-	if($data['bar'][1] != 1)
-		if($data['bar'][0] == 1)
-			$bar .= sprintf('<a class="new"></a><a class="old" href="/page/%d">Older Posts >></a>', $data['bar'][0]+1);
-		elseif($data['bar'][0] == $data['bar'][1])
-			$bar .= sprintf('<a class="new" href="/page/%d"><< Newer Posts</a><a class="old"></a>', $data['bar'][0]-1);
+	$bar = sprintf('<span class="count">< %d / %d ></span>', $data['bar']['index'], $data['bar']['total']);
+	if($data['bar']['total'] != 1) {
+		if($data['bar']['index'] == 1)
+			$bar .= sprintf('<span class="new"></span><span class="old"><a href="/page/%d">Older Posts >></a></span>', $data['bar']['index']+1);
+		elseif($data['bar']['index'] == $data['bar']['total'])
+			$bar .= sprintf('<span class="new"><a href="/page/%d"><< Newer Posts</a></span><span class="old"></span>', $data['bar']['index']-1);
 		else {
-			$bar .= sprintf('<a class="new" href="/page/%d"><< Newer Posts</a>', $data['bar'][0]-1);
-			$bar .= sprintf('<a class="old" href="/page/%d">Older Posts >></a>', $data['bar'][0]+1);
+			$bar .= sprintf('<span class="new"><a href="/page/%d"><< Newer Posts</a></span>', $data['bar']['index']-1);
+			$bar .= sprintf('<span class="old"><a href="/page/%d">Older Posts >></a></span>', $data['bar']['index']+1);
 		}
+	}
 	?>
 	<div class="bar"><?php echo $bar; ?></div>
 </div>

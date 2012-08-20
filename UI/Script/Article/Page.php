@@ -24,7 +24,10 @@ class Page {
 		for($index = 0;$index < $page_number;$index++) {
 			NanoIO::Writeln(sprintf("Building page/%s", ($index+1)));
 			
-			$output_data['bar'] = array($index+1, $page_number);
+			$output_data['bar'] = array(
+				'index' => $index+1,
+				'total' => $page_number
+			);
 			$output_data['article_list'] = array_slice($this->_list, ARTICLE_QUANTITY * $index, ARTICLE_QUANTITY);
 			$output_data['container'] = bind_data($output_data, UI_TEMPLATE.'Container'.SEPARATOR.'Page.php');
 			$output_data['slider'] = $slider;
