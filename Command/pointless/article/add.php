@@ -29,9 +29,9 @@ class pointless_article_add extends NanoCLI {
 		while('' == $info['category'] = NanoIO::Read());
 		
 		$time = time();
-		$filename = date("Y_md_His", $time) . '.md';
 		$info['date'] = date("Y-m-d", $time);
 		$info['time'] = date("H:i:s", $time);
+		$filename = sprintf("%s%s.md", date("Ymd_", $time), $info['url']);
 		
 		if(!file_exists(BLOG_MARKDOWN_ARTICLE . $filename)) {
 			$handle = fopen(BLOG_MARKDOWN_ARTICLE . $filename, 'w+');
