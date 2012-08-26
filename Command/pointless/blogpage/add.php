@@ -21,6 +21,10 @@ class pointless_blogpage_add extends NanoCLI {
 		$filename = strtolower($info['title']) . '.md';
 		$filename = str_replace(array('\\', '/', ' '), '_', $filename);
 		
+		if(NULL != LOCAL_ENCODING)
+			foreach($info as $key => $value)
+				$info[$key] = iconv(LOCAL_ENCODING, 'utf-8', $value);
+		
 		if(!file_exists(BLOG_MARKDOWN_BLOGPAGE . $filename)) {
 			$handle = fopen(BLOG_MARKDOWN_BLOGPAGE . $filename, 'w+');
 			fwrite($handle, "-----\n{\n");
