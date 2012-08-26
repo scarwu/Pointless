@@ -5,7 +5,10 @@
 define('BLOG', ROOT . 'Blog' . SEPARATOR);
 
 // Require Blog Config
-require_once BLOG . 'Config.php';
+if(file_exists(BLOG . 'Config.php'))
+	require_once BLOG . 'Config.php';
+else
+	require_once ROOT . 'Sample' . SEPARATOR . 'Config.php';
 
 // Markdown
 define('BLOG_MARKDOWN', BLOG . 'Markdown' . SEPARATOR);
