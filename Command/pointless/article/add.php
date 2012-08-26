@@ -6,8 +6,6 @@ class pointless_article_add extends NanoCLI {
 	}
 	
 	public function Run() {
-		require_once BLOG . 'Config.php';
-		
 		$info = array();
 		
 		do {

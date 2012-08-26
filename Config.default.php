@@ -4,6 +4,9 @@
  */
 define('BLOG', ROOT . 'Blog' . SEPARATOR);
 
+// Require Blog Config
+require_once BLOG . 'Config.php';
+
 // Markdown
 define('BLOG_MARKDOWN', BLOG . 'Markdown' . SEPARATOR);
 define('BLOG_MARKDOWN_ARTICLE', BLOG_MARKDOWN . 'Article' . SEPARATOR);
@@ -22,9 +25,9 @@ define('BLOG_RESOURCE', BLOG . 'Resource' . SEPARATOR);
 
 // UI Path
 if(file_exists(BLOG . 'UI'))
-	define('UI', BLOG . 'UI' . SEPARATOR);
+	define('UI', BLOG . 'UI' . SEPARATOR . BLOG_UI . SEPARATOR);
 else
-	define('UI', ROOT . 'UI' . SEPARATOR);
+	define('UI', ROOT . 'UI' . SEPARATOR . BLOG_UI . SEPARATOR);
 
 define('UI_SCRIPT', UI . 'Script' . SEPARATOR);
 define('UI_TEMPLATE', UI . 'Template' . SEPARATOR);

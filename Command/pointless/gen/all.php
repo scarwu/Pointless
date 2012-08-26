@@ -12,7 +12,6 @@ class pointless_gen_all extends NanoCLI {
 		require_once CORE_LIBRARY . 'CustomSort.php';
 		require_once CORE_LIBRARY . 'GeneralFunction.php';
 		require_once CORE_LIBRARY . 'Generator.php';
-		require_once BLOG . 'Config.php';
 		
 		// Clean static pages
 		$clean = new pointless_gen_clean();
