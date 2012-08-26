@@ -18,7 +18,7 @@ class pointless_init extends NanoCLI {
 		
 		if(!file_exists(BLOG_MARKDOWN_ARTICLE)) {
 			mkdir(BLOG_MARKDOWN_ARTICLE, 0755, TRUE);
-			copy(ROOT . 'Sample' . SEPARATOR . '1970_01_01_00_00_00.md', BLOG_MARKDOWN_ARTICLE . '1970_01_01_00_00_00.md');
+			copy(ROOT . 'Sample' . SEPARATOR . '19700101_welcome.md', BLOG_MARKDOWN_ARTICLE . '19700101_welcome.md');
 		}
 		
 		if(!file_exists(BLOG_MARKDOWN_BLOGPAGE)) {
