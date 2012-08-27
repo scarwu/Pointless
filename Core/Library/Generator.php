@@ -82,7 +82,7 @@ class Generator {
 				
 				$article['$filename'] = preg_replace('/\.md$/', '', $filename);
 				
-				// 0: date, 1: title, 2: date + title
+				// 0: date, 1: url, 2: date + url
 				switch(ARTICLE_URL) {
 					default:
 					case 0:

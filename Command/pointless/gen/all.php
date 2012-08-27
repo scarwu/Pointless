@@ -9,7 +9,6 @@ class pointless_gen_all extends NanoCLI {
 		// Inclide Markdown Library
 		require_once CORE_PLUGIN . 'Markdown' . SEPARATOR . 'markdown.php';
 		require_once CORE_LIBRARY . 'Compress.php';
-		require_once CORE_LIBRARY . 'CustomSort.php';
 		require_once CORE_LIBRARY . 'GeneralFunction.php';
 		require_once CORE_LIBRARY . 'Generator.php';
 		
@@ -45,10 +44,10 @@ class pointless_gen_all extends NanoCLI {
 		NanoIO::Writeln("Compress Cascading Style Sheets ...", 'yellow');
 		$Compress->css(THEME_CSS, BLOG_PUBLIC . 'theme');
 		
+		recursive_copy(THEME_RESOURCE, BLOG_PUBLIC . 'theme');
+		
 		NanoIO::Writeln("Blog Generating ... ", 'yellow');
 		$Generator = new Generator();
 		$Generator->Run();
-		
-		recursive_copy(THEME_RESOURCE, BLOG_PUBLIC . 'theme');
 	}
 }
