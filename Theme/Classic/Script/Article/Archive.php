@@ -27,10 +27,10 @@ class Archive {
 			
 			$output_data['title'] = 'Archive: ' . $index;
 			$output_data['article_list'] = $article_list;
-			$output_data['container'] = bind_data($output_data, UI_TEMPLATE.'Container'.SEPARATOR.'Archive.php');
+			$output_data['container'] = bind_data($output_data, THEME_TEMPLATE.'Container'.SEPARATOR.'Archive.php');
 			$output_data['slider'] = $slider;
 
-			$result = bind_data($output_data, UI_TEMPLATE.'index.php');
+			$result = bind_data($output_data, THEME_TEMPLATE.'index.php');
 			write_to($result, BLOG_PUBLIC_ARCHIVE.$index);
 		}
 		

@@ -40,10 +40,10 @@ class pointless_gen_all extends NanoCLI {
 		$Compress = new Compress();
 		
 		NanoIO::Writeln("Compress Javascript ...", 'yellow');
-		$Compress->js(UI_RESOURCE_JS, BLOG_PUBLIC);
+		$Compress->js(THEME_RESOURCE_JS, BLOG_PUBLIC);
 		
 		NanoIO::Writeln("Compress Cascading Style Sheets ...", 'yellow');
-		$Compress->css(UI_RESOURCE_CSS, BLOG_PUBLIC);
+		$Compress->css(THEME_RESOURCE_CSS, BLOG_PUBLIC);
 		
 		NanoIO::Writeln("Blog Generating ... ", 'yellow');
 		$Generator = new Generator();

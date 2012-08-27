@@ -26,15 +26,15 @@ define('BLOG_PUBLIC_ARCHIVE', BLOG_PUBLIC . 'archive' . SEPARATOR);
 // Resource
 define('BLOG_RESOURCE', BLOG . 'Resource' . SEPARATOR);
 
-// UI Path
-if(file_exists(BLOG . 'UI'))
-	define('UI', BLOG . 'UI' . SEPARATOR . BLOG_UI . SEPARATOR);
+// Theme Path
+if(file_exists(BLOG . 'Theme'))
+	define('THEME', BLOG . 'Theme' . SEPARATOR . BLOG_THEME . SEPARATOR);
 else
-	define('UI', ROOT . 'UI' . SEPARATOR . BLOG_UI . SEPARATOR);
+	define('THEME', ROOT . 'Theme' . SEPARATOR . BLOG_THEME . SEPARATOR);
 
-define('UI_SCRIPT', UI . 'Script' . SEPARATOR);
-define('UI_TEMPLATE', UI . 'Template' . SEPARATOR);
+define('THEME_SCRIPT', THEME . 'Script' . SEPARATOR);
+define('THEME_TEMPLATE', THEME . 'Template' . SEPARATOR);
 
-define('UI_RESOURCE', UI . 'Resource' . SEPARATOR);
-define('UI_RESOURCE_CSS', UI_RESOURCE . 'Css' . SEPARATOR);
-define('UI_RESOURCE_JS', UI_RESOURCE . 'Js' . SEPARATOR);
+define('THEME_RESOURCE', THEME . 'Resource' . SEPARATOR);
+define('THEME_RESOURCE_CSS', THEME_RESOURCE . 'Css' . SEPARATOR);
+define('THEME_RESOURCE_JS', THEME_RESOURCE . 'Js' . SEPARATOR);

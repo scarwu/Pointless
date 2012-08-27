@@ -30,8 +30,8 @@ class pointless_init extends NanoCLI {
 		if(!file_exists(BLOG_RESOURCE))
 			mkdir(BLOG_RESOURCE, 0755, TRUE);
 		
-		if(!file_exists(BLOG . SEPARATOR . 'UI'))
-			recusive_copy(UI, BLOG . 'UI');
+		if(!file_exists(BLOG . SEPARATOR . 'Theme'))
+			recusive_copy(THEME, BLOG . 'Theme');
 		
 		if(!file_exists(BLOG . 'Config.php'))
 			copy(ROOT . 'Sample' . SEPARATOR . 'Config.php', BLOG . 'Config.php');

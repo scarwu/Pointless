@@ -17,10 +17,10 @@ class Generator {
 		/**
 		 * Load Blog Page
 		 */
-		$handle = opendir(UI_SCRIPT . 'BlogPage');
+		$handle = opendir(THEME_SCRIPT . 'BlogPage');
 		while($filename = readdir($handle))
 			if('.' != $filename && '..' != $filename) {
-				require_once UI_SCRIPT . 'BlogPage' . SEPARATOR . $filename;
+				require_once THEME_SCRIPT . 'BlogPage' . SEPARATOR . $filename;
 				$class_name = preg_replace('/.php$/', '', $filename);
 				$this->_template['BlogPage'][$class_name] = new $class_name;
 			}
@@ -45,10 +45,10 @@ class Generator {
 		/**
 		 * Load Article
 		 */
-		$handle = opendir(UI_SCRIPT . 'Article');
+		$handle = opendir(THEME_SCRIPT . 'Article');
 		while($filename = readdir($handle))
 			if('.' != $filename && '..' != $filename) {
-				require_once UI_SCRIPT . 'Article' . SEPARATOR . $filename;
+				require_once THEME_SCRIPT . 'Article' . SEPARATOR . $filename;
 				$class_name = preg_replace('/.php$/', '', $filename);
 				$this->_template['Article'][$class_name] = new $class_name;
 			}
@@ -122,7 +122,7 @@ class Generator {
 	private function genSlider() {
 		$result = '';
 		$list = array();
-		$handle = opendir(UI_TEMPLATE . 'Slider' . SEPARATOR);
+		$handle = opendir(THEME_TEMPLATE . 'Slider' . SEPARATOR);
 		while($file = readdir($handle))
 			if('.' != $file && '..' != $file)
 				$list[] = $file;
@@ -133,7 +133,7 @@ class Generator {
 		foreach((array)$list as $filename)
 			$result .= bind_data(
 				$this->_template['Article'][preg_replace(array('/^\d+_/', '/.php$/'), '', $filename)]->GetList(),
-				UI_TEMPLATE . 'Slider' . SEPARATOR . $filename
+				THEME_TEMPLATE . 'Slider' . SEPARATOR . $filename
 			);
 		
 		$this->_slider = $result;

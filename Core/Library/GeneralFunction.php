@@ -13,7 +13,7 @@ function bind_data($data, $path) {
 	return $result;
 }
 
-// FIXME and UI/Script/*/*.php
+// FIXME and Theme/Script/*/*.php
 function write_to($data, $path) {
 	if(!preg_match('/\.html$/', $path)) {
 		if(!file_exists($path))

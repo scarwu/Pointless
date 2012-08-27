@@ -29,10 +29,10 @@ class Page {
 				'total' => $page_number
 			);
 			$output_data['article_list'] = array_slice($this->_list, ARTICLE_QUANTITY * $index, ARTICLE_QUANTITY);
-			$output_data['container'] = bind_data($output_data, UI_TEMPLATE.'Container'.SEPARATOR.'Page.php');
+			$output_data['container'] = bind_data($output_data, THEME_TEMPLATE.'Container'.SEPARATOR.'Page.php');
 			$output_data['slider'] = $slider;
 			
-			$result = bind_data($output_data, UI_TEMPLATE.'index.php');
+			$result = bind_data($output_data, THEME_TEMPLATE.'index.php');
 			write_to($result, BLOG_PUBLIC_PAGE.($index+1));
 		}
 		
