@@ -36,9 +36,4 @@ If you want to custom your blog output path, do this ...
 and modify line 5.
 
 	define('BLOG', '/path/to/your/blog/folder' . SEPARATOR);
-
-#### Blog Theme
-If you want to custom blog css layout, javascript file, or something else ...
-
-	cp -a Theme /path/to/path/to/your/blog/folder
 	

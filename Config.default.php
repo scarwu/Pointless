@@ -28,13 +28,13 @@ define('BLOG_RESOURCE', BLOG . 'Resource' . SEPARATOR);
 
 // Theme Path
 if(file_exists(BLOG . 'Theme'))
-	define('THEME', BLOG . 'Theme' . SEPARATOR . BLOG_THEME . SEPARATOR);
+	define('THEME', BLOG . 'Theme' . SEPARATOR);
 else
-	define('THEME', ROOT . 'Theme' . SEPARATOR . BLOG_THEME . SEPARATOR);
+	define('THEME', ROOT . 'Theme' . SEPARATOR);
 
-define('THEME_SCRIPT', THEME . 'Script' . SEPARATOR);
-define('THEME_TEMPLATE', THEME . 'Template' . SEPARATOR);
+define('THEME_SCRIPT', THEME . SEPARATOR . BLOG_THEME . SEPARATOR . 'Script' . SEPARATOR);
+define('THEME_TEMPLATE', THEME . SEPARATOR . BLOG_THEME . SEPARATOR . 'Template' . SEPARATOR);
 
-define('THEME_RESOURCE', THEME . 'Resource' . SEPARATOR);
+define('THEME_RESOURCE', THEME . SEPARATOR . BLOG_THEME . SEPARATOR . 'Resource' . SEPARATOR);
 define('THEME_RESOURCE_CSS', THEME_RESOURCE . 'Css' . SEPARATOR);
 define('THEME_RESOURCE_JS', THEME_RESOURCE . 'Js' . SEPARATOR);

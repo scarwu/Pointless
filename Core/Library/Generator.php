@@ -82,8 +82,9 @@ class Generator {
 				
 				$article['$filename'] = preg_replace('/\.md$/', '', $filename);
 				
-				// 0: date, 1: title, 2: date + title, 3: dirname
+				// 0: date, 1: title, 2: date + title
 				switch(ARTICLE_URL) {
+					default:
 					case 0:
 						$article['url'] = str_replace('-', '/', $temp['date']);
 						break;
@@ -92,9 +93,6 @@ class Generator {
 						break;
 					case 2:
 						$article['url'] = str_replace('-', '/', $temp['date']) . '/' . $temp['url'];
-						break;
-					case 3:
-						$article['url'] = $filename;
 						break;
 				}
 
