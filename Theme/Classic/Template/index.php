@@ -13,7 +13,7 @@
 	<meta name="viewport" content="width=640, initial-scale=1">
 	
 	<!-- Load Cascading Style Sheets -->
-	<link rel="stylesheet" href="<?php echo BLOG_PATH; ?>main.css">
+	<link rel="stylesheet" href="<?php echo BLOG_PATH; ?>theme/main.css">
 </head>
 <body>
 	<div id="main">
@@ -40,7 +40,7 @@
 		<footer><?php echo BLOG_FOOTER; ?></footer>
 	</div>
 	<!-- Define and Load Javascript -->
-	<script src="<?php echo BLOG_PATH; ?>main.js"></script>
+	<script src="<?php echo BLOG_PATH; ?>theme/main.js"></script>
 	<?php if(GOOGLE_ANALYSTIC): ?>
 	<script>
 		var _gaq = [['_setAccount', '<?php echo GOOGLE_ANALYSTIC; ?>'], ['_trackPageview']]; (function(d, t) {

@@ -21,7 +21,7 @@ class pointless_gen_all extends NanoCLI {
 			mkdir(BLOG_PUBLIC, 0755, TRUE);
 		
 		NanoIO::Writeln("Copy Resource ...", 'yellow');
-		recusive_copy(BLOG_RESOURCE, BLOG_PUBLIC);
+		recursive_copy(BLOG_RESOURCE, BLOG_PUBLIC);
 		
 		if(NULL !== GITHUB_CNAME) {
 			NanoIO::Writeln("Create Github CNAME ...", 'yellow');
@@ -40,13 +40,15 @@ class pointless_gen_all extends NanoCLI {
 		$Compress = new Compress();
 		
 		NanoIO::Writeln("Compress Javascript ...", 'yellow');
-		$Compress->js(THEME_RESOURCE_JS, BLOG_PUBLIC);
+		$Compress->js(THEME_JS, BLOG_PUBLIC . 'theme');
 		
 		NanoIO::Writeln("Compress Cascading Style Sheets ...", 'yellow');
-		$Compress->css(THEME_RESOURCE_CSS, BLOG_PUBLIC);
+		$Compress->css(THEME_CSS, BLOG_PUBLIC . 'theme');
 		
 		NanoIO::Writeln("Blog Generating ... ", 'yellow');
 		$Generator = new Generator();
 		$Generator->Run();
+		
+		recursive_copy(THEME_RESOURCE, BLOG_PUBLIC . 'theme');
 	}
 }

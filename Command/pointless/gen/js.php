@@ -14,6 +14,6 @@ class pointless_gen_js extends NanoCLI {
 
 		NanoIO::Writeln("Compress Javascript ...", 'yellow');
 		$Compress = new Compress();
-		$Compress->js(THEME_RESOURCE_JS, BLOG_PUBLIC);
+		$Compress->js(THEME_JS, BLOG_PUBLIC . 'theme');
 	}
 }

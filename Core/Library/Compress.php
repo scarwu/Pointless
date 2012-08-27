@@ -19,7 +19,10 @@ class Compress {
 		
 		sort($this->css_list);
 		
-		$css_package = fopen($dest . 'main.css', 'w+');
+		if(!file_exists($dest))
+			mkdir($dest, 0755, TRUE);
+		
+		$css_package = fopen(rtrim($dest, '/') . '/main.css', 'w+');
 		foreach((array)$this->css_list as $filename) {
 			$css = file_get_contents($src . $filename);
 			$css = $this->CssCompressor($css);
@@ -50,7 +53,10 @@ class Compress {
 		
 		sort($this->js_list);
 		
-		$js_package = fopen($dest . 'main.js', 'w+');
+		if(!file_exists($dest))
+			mkdir($dest, 0755, TRUE);
+		
+		$js_package = fopen(rtrim($dest, '/') . '/main.js', 'w+');
 		foreach((array)$this->js_list as $filename) {
 			$handle = fopen($src . $filename, 'r');
 			while($data = fread($handle, 1024))
