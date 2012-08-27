@@ -16,7 +16,5 @@ class pointless_blogpage_list extends NanoCLI {
 				NanoIO::Writeln($temp['title']);
 			}
 		closedir($handle);
-		
-		
 	}
 }

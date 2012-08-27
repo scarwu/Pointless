@@ -1,10 +1,10 @@
 <!doctype html>
 <!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
-<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="<?php echo BLOG_LANG; ?>"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="<?php echo BLOG_LANG; ?>"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="<?php echo BLOG_LANG; ?>"> <![endif]-->
 <!-- Consider adding a manifest.appcache: h5bp.com/d/Offline -->
-<!--[if gt IE 8]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+<!--[if gt IE 8]><!--> <html lang="<?php echo BLOG_LANG; ?>" class="no-js"> <!--<![endif]-->
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -13,7 +13,7 @@
 	<meta name="viewport" content="width=640, initial-scale=1">
 	
 	<!-- Load Cascading Style Sheets -->
-	<link rel="stylesheet" href="<?php echo BLOG_PATH; ?>main.css">
+	<link rel="stylesheet" href="<?php echo BLOG_PATH; ?>theme/main.css">
 </head>
 <body>
 	<div id="main">
@@ -40,7 +40,7 @@
 		<footer><?php echo BLOG_FOOTER; ?></footer>
 	</div>
 	<!-- Define and Load Javascript -->
-	<script src="<?php echo BLOG_PATH; ?>main.js"></script>
+	<script src="<?php echo BLOG_PATH; ?>theme/main.js"></script>
 	<?php if(GOOGLE_ANALYSTIC): ?>
 	<script>
 		var _gaq = [['_setAccount', '<?php echo GOOGLE_ANALYSTIC; ?>'], ['_trackPageview']]; (function(d, t) {

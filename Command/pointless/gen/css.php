@@ -14,6 +14,6 @@ class pointless_gen_css extends NanoCLI {
 
 		NanoIO::Writeln("Compress Cascading Style Sheets ...", 'yellow');
 		$Compress = new Compress();
-		$Compress->css(UI_RESOURCE_CSS, BLOG_PUBLIC);
+		$Compress->css(THEME_CSS, BLOG_PUBLIC . 'theme');
 	}
 }

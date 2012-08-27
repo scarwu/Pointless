@@ -13,7 +13,7 @@ function bind_data($data, $path) {
 	return $result;
 }
 
-// FIXME and UI/Script/*/*.php
+// FIXME and Theme/Script/*/*.php
 function write_to($data, $path) {
 	if(!preg_match('/\.html$/', $path)) {
 		if(!file_exists($path))
@@ -26,16 +26,49 @@ function write_to($data, $path) {
 	fclose($handle);
 }
 
-function recusive_copy($src, $dest) {
+function recursive_copy($src, $dest) {
 	if(is_dir($src)) {
 		if(!file_exists($dest))
 			mkdir($dest, 0755, TRUE);
 		$handle = @opendir($src);
 		while($file = readdir($handle))
 			if($file != '.' && $file != '..' && $file != '.git')
-				recusive_copy($src . DIRECTORY_SEPARATOR . $file, $dest . DIRECTORY_SEPARATOR . $file);
+				recursive_copy($src . DIRECTORY_SEPARATOR . $file, $dest . DIRECTORY_SEPARATOR . $file);
 		closedir($handle);
 	}
 	else
 		copy($src, $dest);
+}
+
+function article_sort($list) {
+	$result = array();
+	
+	if(!empty($list)) {
+		foreach($list as $key => $value)
+			$tmp[$key] = $value['date'] . ' ' . $value['time'];
+		
+		arsort($tmp);
+		
+		$result = array();
+		foreach($tmp as $key => $value)
+			$result[] = $list[$key];
+	}
+	
+	return $result;
+}
+
+function count_sort($list) {
+	$result = array();
+	
+	if(!empty($list)) {
+		foreach($list as $key => $value)
+			$result[$key] = count($value);
+	
+		arsort($result);
+		
+		foreach($result as $key => $value)
+			$result[$key] = article_sort($list[$key]);
+	}
+	
+	return $result;
 }

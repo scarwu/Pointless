@@ -17,10 +17,10 @@ class Generator {
 		/**
 		 * Load Blog Page
 		 */
-		$handle = opendir(UI_SCRIPT . 'BlogPage');
+		$handle = opendir(THEME_SCRIPT . 'BlogPage');
 		while($filename = readdir($handle))
 			if('.' != $filename && '..' != $filename) {
-				require_once UI_SCRIPT . 'BlogPage' . SEPARATOR . $filename;
+				require_once THEME_SCRIPT . 'BlogPage' . SEPARATOR . $filename;
 				$class_name = preg_replace('/.php$/', '', $filename);
 				$this->_template['BlogPage'][$class_name] = new $class_name;
 			}
@@ -45,10 +45,10 @@ class Generator {
 		/**
 		 * Load Article
 		 */
-		$handle = opendir(UI_SCRIPT . 'Article');
+		$handle = opendir(THEME_SCRIPT . 'Article');
 		while($filename = readdir($handle))
 			if('.' != $filename && '..' != $filename) {
-				require_once UI_SCRIPT . 'Article' . SEPARATOR . $filename;
+				require_once THEME_SCRIPT . 'Article' . SEPARATOR . $filename;
 				$class_name = preg_replace('/.php$/', '', $filename);
 				$this->_template['Article'][$class_name] = new $class_name;
 			}
@@ -82,8 +82,9 @@ class Generator {
 				
 				$article['$filename'] = preg_replace('/\.md$/', '', $filename);
 				
-				// 0: date, 1: title, 2: date + title, 3: dirname
+				// 0: date, 1: url, 2: date + url
 				switch(ARTICLE_URL) {
+					default:
 					case 0:
 						$article['url'] = str_replace('-', '/', $temp['date']);
 						break;
@@ -92,9 +93,6 @@ class Generator {
 						break;
 					case 2:
 						$article['url'] = str_replace('-', '/', $temp['date']) . '/' . $temp['url'];
-						break;
-					case 3:
-						$article['url'] = $filename;
 						break;
 				}
 
@@ -122,7 +120,7 @@ class Generator {
 	private function genSlider() {
 		$result = '';
 		$list = array();
-		$handle = opendir(UI_TEMPLATE . 'Slider' . SEPARATOR);
+		$handle = opendir(THEME_TEMPLATE . 'Slider' . SEPARATOR);
 		while($file = readdir($handle))
 			if('.' != $file && '..' != $file)
 				$list[] = $file;
@@ -133,7 +131,7 @@ class Generator {
 		foreach((array)$list as $filename)
 			$result .= bind_data(
 				$this->_template['Article'][preg_replace(array('/^\d+_/', '/.php$/'), '', $filename)]->GetList(),
-				UI_TEMPLATE . 'Slider' . SEPARATOR . $filename
+				THEME_TEMPLATE . 'Slider' . SEPARATOR . $filename
 			);
 		
 		$this->_slider = $result;
