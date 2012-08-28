@@ -35,3 +35,26 @@
 #tag .list article {
 	margin-bottom: 10px;
 }
+
+#tag .bar .new {
+	float: left;
+	text-align: left;
+	display: inline-block;
+	width: 350px;
+	height: 20px;
+}
+
+#tag .bar .old {
+	float: right;
+	text-align: right;
+	display: inline-block;
+	width: 350px;
+	height: 20px;
+}
+
+#tag .bar {
+	text-align: center;
+	font-size: 16px;
+	line-height: 16px;
+	overflow: hidden;
+}

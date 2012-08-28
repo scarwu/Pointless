@@ -21,9 +21,27 @@ class Archive {
 	public function Gen($slider) {
 		krsort($this->_list);
 		$max = 0;
+		$count = 0;
+		
 		foreach((array)$this->_list as $index => $article_list) {
 			NanoIO::Writeln(sprintf("Building archive/%s", $index));
 			$max = $index > $max ? $index : $max;
+			
+			$output_data['bar'] = array();
+			$output_data['bar']['index'] = $count+1;
+			$output_data['bar']['total'] = count($this->_list);
+			if(isset($this->_list[$index-1]))
+				$output_data['bar']['next'] = array(
+					'title' => $index-1,
+					'url' => $index-1
+				);
+			if(isset($this->_list[$index+1]))
+				$output_data['bar']['prev'] = array(
+					'title' => $index+1,
+					'url' => $index+1
+				);
+				
+			$count++;
 			
 			$output_data['title'] = 'Archive: ' . $index;
 			$output_data['article_list'] = $article_list;

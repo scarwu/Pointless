@@ -1,15 +1,15 @@
 <?php
-	$bar = sprintf('<span class="count">< %d / %d ></span>', $data['bar']['index'], $data['bar']['total']);
-	if($data['bar']['total'] != 1) {
-		if($data['bar']['index'] == 1)
-			$bar .= sprintf('<span class="new"></span><span class="old"><a href="/article/%s">%s >></a></span>', $data['bar']['next']['url'], $data['bar']['next']['title']);
-		elseif($data['bar']['index'] == $data['bar']['total'])
-			$bar .= sprintf('<span class="new"><a href="/article/%s"><< %s</a></span><span class="old"></span>', $data['bar']['prev']['url'], $data['bar']['prev']['title']);
-		else {
-			$bar .= sprintf('<span class="new"><a href="/article/%s"><< %s</a></span>', $data['bar']['prev']['url'], $data['bar']['prev']['title']);
-			$bar .= sprintf('<span class="old"><a href="/article/%s">%s >></a></span>', $data['bar']['next']['url'], $data['bar']['next']['title']);
-		}
+$bar = sprintf('<span class="count">< %d / %d ></span>', $data['bar']['index'], $data['bar']['total']);
+if($data['bar']['total'] != 1) {
+	if($data['bar']['index'] == 1)
+		$bar .= sprintf('<span class="new"></span><span class="old"><a href="/article/%s">%s >></a></span>', $data['bar']['next']['url'], $data['bar']['next']['title']);
+	elseif($data['bar']['index'] == $data['bar']['total'])
+		$bar .= sprintf('<span class="new"><a href="/article/%s"><< %s</a></span><span class="old"></span>', $data['bar']['prev']['url'], $data['bar']['prev']['title']);
+	else {
+		$bar .= sprintf('<span class="new"><a href="/article/%s"><< %s</a></span>', $data['bar']['prev']['url'], $data['bar']['prev']['title']);
+		$bar .= sprintf('<span class="old"><a href="/article/%s">%s >></a></span>', $data['bar']['next']['url'], $data['bar']['next']['title']);
 	}
+}
 ?>
 <div id="article">
 	<article>

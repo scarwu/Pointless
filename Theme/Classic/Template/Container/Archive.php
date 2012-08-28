@@ -6,6 +6,18 @@ foreach((array)$data['article_list'] as $index => $article_info) {
 	$temp[$article_info['month']][] = $article_info;
 }
 krsort($temp);
+
+$bar = sprintf('<span class="count">< %d / %d ></span>', $data['bar']['index'], $data['bar']['total']);
+if($data['bar']['total'] != 1) {
+	if($data['bar']['index'] == 1)
+		$bar .= sprintf('<span class="new"></span><span class="old"><a href="/archive/%s">%s >></a></span>', $data['bar']['next']['url'], $data['bar']['next']['title']);
+	elseif($data['bar']['index'] == $data['bar']['total'])
+		$bar .= sprintf('<span class="new"><a href="/archive/%s"><< %s</a></span><span class="old"></span>', $data['bar']['prev']['url'], $data['bar']['prev']['title']);
+	else {
+		$bar .= sprintf('<span class="new"><a href="/archive/%s"><< %s</a></span>', $data['bar']['prev']['url'], $data['bar']['prev']['title']);
+		$bar .= sprintf('<span class="old"><a href="/archive/%s">%s >></a></span>', $data['bar']['next']['url'], $data['bar']['next']['title']);
+	}
+}
 ?>
 <div id="archive">
 	<div class="title"><?php echo $data['title']; ?></div>
@@ -31,4 +43,5 @@ krsort($temp);
 		echo '<hr>';
 	}
 	?>
+	<div class="bar"><?php echo $bar; ?></div>
 </div>
