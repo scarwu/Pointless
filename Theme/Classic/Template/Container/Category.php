@@ -1,12 +1,4 @@
 <?php
-$temp = array();
-foreach((array)$data['article_list'] as $index => $article_info) {
-	if(!isset($temp[$article_info['month']]))
-		$temp[$article_info['month']] = array();
-	$temp[$article_info['month']][] = $article_info;
-}
-krsort($temp);
-
 $bar = sprintf('<span class="count">< %d / %d ></span>', $data['bar']['index'], $data['bar']['total']);
 if($data['bar']['total'] != 1) {
 	if($data['bar']['index'] == 1)
@@ -18,29 +10,44 @@ if($data['bar']['total'] != 1) {
 		$bar .= sprintf('<span class="old"><a href="/category/%s">%s >></a></span>', $data['bar']['next']['url'], $data['bar']['next']['title']);
 	}
 }
+
+$year_list = array();
+foreach((array)$data['article_list'] as $article) {
+	if(!isset($year_list[$article['year']]))
+		$year_list[$article['year']] = array();
+	
+	if(!isset($year_list[$article['year']][$article['month']]))
+		$year_list[$article['year']][$article['month']] = array();
+	
+	$year_list[$article['year']][$article['month']][] = $article;
+}
+krsort($year_list);
 ?>
 <div id="category">
 	<div class="title"><?php echo $data['title']; ?></div>
 	<?php
-	foreach((array)$temp as $month => $article_list) {
-		echo '<div class="month_archive">';
-		echo '<div class="month">' . $month . '</div>';
-		echo '<div class="list">';
-		foreach((array)$article_list as $info) {
-			echo '<article>';
-			echo '<span class="title">' . link_to(BLOG_PATH.'article/'.$info['url'], $info['title']) . '</span>';
-			// echo '<footer>';
-			echo '<span class="archive">Archive: ' . link_to(BLOG_PATH.'archive/'.$info['year'], $info['year']) . '</span>';
-			echo '<span class="tag">Tag: ';
-			foreach((array)$info['tag'] as $index => $tag)
-				echo link_to(BLOG_PATH.'tag/'.$tag, $tag) . (count($info['tag'])-1 > $index ? ', ' : '');
-			echo '</span>';
-			// echo '</footer>';
-			echo '</article>';
+	foreach((array)$year_list as $year => $month_list) {
+		echo '<div class="year_archive">';
+		echo '<div class="year">' . $year . '</div>';
+		foreach((array)$month_list as $month => $article_list) {
+			echo '<div class="month_archive">';
+			echo '<div class="month">' . $month . '</div>';
+			echo '<div class="list">';
+			foreach((array)$article_list as $article) {
+				echo '<article>';
+				echo '<span class="title">' . link_to(BLOG_PATH.'article/'.$article['url'], $article['title']) . '</span>';
+				echo '<span class="archive">Archive: ' . link_to(BLOG_PATH.'archive/'.$article['year'], $article['year']) . '</span>';
+				echo '<span class="tag">Tag: ';
+				foreach((array)$article['tag'] as $index => $tag)
+					echo link_to(BLOG_PATH.'tag/'.$tag, $tag) . (count($article['tag'])-1 > $index ? ', ' : '');
+				echo '</span>';
+				echo '</article>';
+			}
+			echo '</div>';
+			echo '</div>';
+			echo '<hr>';
 		}
 		echo '</div>';
-		echo '</div>';
-		echo '<hr>';
 	}
 	?>
 	<div class="bar"><?php echo $bar; ?></div>

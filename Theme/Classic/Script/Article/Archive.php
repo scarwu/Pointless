@@ -15,11 +15,19 @@ class Archive {
 	
 	public function GetList() {
 		krsort($this->_list);
+		
+		foreach($this->_list as $year => $article)
+			$this->_list[$year] = article_sort($article);
+		
 		return $this->_list;
 	}
 	
 	public function Gen($slider) {
 		krsort($this->_list);
+		
+		foreach($this->_list as $year => $article)
+			$this->_list[$year] = article_sort($article);
+		
 		$max = 0;
 		$count = 0;
 		
