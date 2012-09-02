@@ -6,7 +6,7 @@ class pointless extends NanoCLI {
 	}
 	
 	public function Run() {
-		$clean = new pointless_help();
-		$clean->Run();
+		$help = new pointless_help();
+		$help->Run();
 	}
 }

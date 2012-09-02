@@ -133,6 +133,29 @@ header > hgroup > h2 {
 	margin-bottom: 15px;
 }
 
+#container .bar .new {
+	float: left;
+	text-align: left;
+	display: inline-block;
+	width: 350px;
+	height: 20px;
+}
+
+#container .bar .old {
+	float: right;
+	text-align: right;
+	display: inline-block;
+	width: 350px;
+	height: 20px;
+}
+
+#container .bar {
+	text-align: center;
+	font-size: 16px;
+	line-height: 16px;
+	overflow: hidden;
+}
+
 #slider {
 	border-top: solid 1px #DFDFDF;
 	min-height: 100px;

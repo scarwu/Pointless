@@ -26,6 +26,7 @@ class Generator {
 			}
 		closedir($handle);
 		
+		// Handle Blog Page Markdown
 		$handle = opendir(BLOG_MARKDOWN_BLOGPAGE);
 		while($filename = readdir($handle))
 			if('.' != $filename && '..' != $filename && preg_match('/.md$/', $filename)) {
@@ -53,7 +54,8 @@ class Generator {
 				$this->_template['Article'][$class_name] = new $class_name;
 			}
 		closedir($handle);
-
+		
+		// Handle Article Markdown
 		$handle = opendir(BLOG_MARKDOWN_ARTICLE);
 		while($filename = readdir($handle))
 			if('.' != $filename && '..' != $filename && preg_match('/.md$/', $filename)) {
@@ -79,8 +81,6 @@ class Generator {
 				
 				$article['tag'] = explode('|', $temp['tag']);
 				$article['category'] = $temp['category'];
-				
-				$article['$filename'] = preg_replace('/\.md$/', '', $filename);
 				
 				// 0: date, 1: url, 2: date + url
 				switch(ARTICLE_URL) {

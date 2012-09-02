@@ -19,26 +19,3 @@
 	color: #EEE;
 	background: #333333;
 }
-
-#page .bar .new {
-	float: left;
-	text-align: left;
-	display: inline-block;
-	width: 150px;
-	height: 20px;
-}
-
-#page .bar .old {
-	float: right;
-	text-align: right;
-	display: inline-block;
-	width: 150px;
-	height: 20px;
-}
-
-#page .bar {
-	text-align: center;
-	font-size: 16px;
-	line-height: 16px;
-	overflow: hidden;
-}

@@ -45,7 +45,7 @@ function article_sort($list) {
 	
 	if(!empty($list)) {
 		foreach($list as $key => $value)
-			$tmp[$key] = $value['date'] . ' ' . $value['time'];
+			$tmp[$key] = $value['date'] . $value['time'];
 		
 		arsort($tmp);
 		

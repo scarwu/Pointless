@@ -21,10 +21,28 @@ class Category {
 	public function Gen($slider) {
 		$this->_list = count_sort($this->_list);
 		$max = array(0, NULL);
+		$count = 0;
+		$key = array_keys($this->_list);
 		
 		foreach((array)$this->_list as $index => $article_list) {
 			NanoIO::Writeln(sprintf("Building category/%s", $index));
 			$max = count($article_list) > $max[0] ? array(count($article_list), $index) : $max;
+			
+			$output_data['bar'] = array();
+			$output_data['bar']['index'] = $count+1;
+			$output_data['bar']['total'] = count($this->_list);
+			if(isset($key[$count-1]))
+				$output_data['bar']['prev'] = array(
+					'title' => $key[$count-1],
+					'url' => $key[$count-1]
+				);
+			if(isset($key[$count+1]))
+				$output_data['bar']['next'] = array(
+					'title' => $key[$count+1],
+					'url' => $key[$count+1]
+				);
+			
+			$count++;
 			
 			$output_data['title'] ='Category: ' . $index;
 			$output_data['article_list'] = $article_list;

@@ -1,28 +1,40 @@
-<div id="page">
-	<?php
-	foreach((array)$data['article_list'] as $index => $article_info) {
-		echo '<article>';
-		echo '<div class="title">' . link_to(BLOG_PATH.'article/'.$article_info['url'], $article_info['title']) . '</div>';
-		echo '<div class="info">';
-		echo '<span class="date">Date: ' . $article_info['date'] . '</span>';
-		echo '</div>';
-		echo '<div class="content">' . preg_replace('/<!--more-->(.|\n)*/', '', $article_info['content']) . '</div>';
-		echo '<a class="more" href="' . BLOG_PATH . 'article/' . $article_info['url'] . '">Read more ...</a>';
-		echo '</article>';
-		echo '<hr>';
+<?php
+$index = $data['bar']['index'];
+$total = $data['bar']['total'];
+
+$next = isset($data['bar']['next']) ? $data['bar']['next'] : NULL;
+$prev = isset($data['bar']['prev']) ? $data['bar']['prev'] : NULL;
+
+$bar = sprintf('<span class="count">< %d / %d ></span>', $index, $total);
+
+if($total != 1) {
+	if($index == 1)
+		$old = sprintf('<a href="/page/%s">Older Posts >></a>', $index+1);
+	elseif($data['bar']['index'] == $data['bar']['total'])
+		$new = sprintf('<a href="/page/%s"><< Newer Posts</a>', $index-1);
+	else {
+		$old = sprintf('<a href="/page/%s">Older Posts >></a>', $index+1);
+		$new = sprintf('<a href="/page/%s"><< Newer Posts</a>', $index-1);
 	}
 	
-	$bar = sprintf('<span class="count">< %d / %d ></span>', $data['bar']['index'], $data['bar']['total']);
-	if($data['bar']['total'] != 1) {
-		if($data['bar']['index'] == 1)
-			$bar .= sprintf('<span class="new"></span><span class="old"><a href="/page/%d">Older Posts >></a></span>', $data['bar']['index']+1);
-		elseif($data['bar']['index'] == $data['bar']['total'])
-			$bar .= sprintf('<span class="new"><a href="/page/%d"><< Newer Posts</a></span><span class="old"></span>', $data['bar']['index']-1);
-		else {
-			$bar .= sprintf('<span class="new"><a href="/page/%d"><< Newer Posts</a></span>', $data['bar']['index']-1);
-			$bar .= sprintf('<span class="old"><a href="/page/%d">Older Posts >></a></span>', $data['bar']['index']+1);
-		}
-	}
-	?>
+	$bar .= sprintf('<span class="new">%s</span>', isset($new) ? $new : '');
+	$bar .= sprintf('<span class="old">%s</span>', isset($old) ? $old : '');
+}
+
+$content = '';
+foreach((array)$data['article_list'] as $article) {
+	$content .= '<article>';
+	$content .= '<div class="title">' . link_to(BLOG_PATH.'article/'.$article['url'], $article['title']) . '</div>';
+	$content .= '<div class="info">';
+	$content .= '<span class="date">Date: ' . $article['date'] . '</span>';
+	$content .= '</div>';
+	$content .= '<div class="content">' . preg_replace('/<!--more-->(.|\n)*/', '', $article['content']) . '</div>';
+	$content .= '<a class="more" href="' . BLOG_PATH . 'article/' . $article['url'] . '">Read more ...</a>';
+	$content .= '</article>';
+	$content .= '<hr>';
+}
+?>
+<div id="page">
+	<?php echo $content; ?>
 	<div class="bar"><?php echo $bar; ?></div>
 </div>
