@@ -9,7 +9,6 @@
 	margin-left: 40px;
 }
 
-
 #archive .month {
 	display: inline-block;
 	font-size: 28px;
@@ -36,27 +35,4 @@
 
 #archive .list article {
 	margin-bottom: 10px;
-}
-
-#archive .bar .new {
-	float: left;
-	text-align: left;
-	display: inline-block;
-	width: 350px;
-	height: 20px;
-}
-
-#archive .bar .old {
-	float: right;
-	text-align: right;
-	display: inline-block;
-	width: 350px;
-	height: 20px;
-}
-
-#archive .bar {
-	text-align: center;
-	font-size: 16px;
-	line-height: 16px;
-	overflow: hidden;
 }

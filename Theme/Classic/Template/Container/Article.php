@@ -25,7 +25,7 @@ if($total != 1) {
 	<article>
 		<div class="title"><?php echo $data['title']; ?></div>
 		<div class="info">
-			<span class="date"><?php echo "Date: {$data['date']}"; ?></span>
+			<span class="date">Date: <?php echo $data['date']; ?></span>
 		</div>
 		<div class="content"><?php echo $data['content']; ?></div>
 	</article>
