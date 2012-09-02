@@ -1,21 +1,31 @@
 <?php
-$bar = sprintf('<span class="count">< %d / %d ></span>', $data['bar']['index'], $data['bar']['total']);
-if($data['bar']['total'] != 1) {
-	if($data['bar']['index'] == 1)
-		$bar .= sprintf('<span class="new"></span><span class="old"><a href="/article/%s">%s >></a></span>', $data['bar']['next']['url'], $data['bar']['next']['title']);
+$index = $data['bar']['index'];
+$total = $data['bar']['total'];
+
+$next = isset($data['bar']['next']) ? $data['bar']['next'] : NULL;
+$prev = isset($data['bar']['prev']) ? $data['bar']['prev'] : NULL;
+
+$bar = sprintf('<span class="count">< %d / %d ></span>', $index, $total);
+
+if($total != 1) {
+	if($index == 1)
+		$old = sprintf('<a href="/article/%s">%s >></a>', $next['url'], $next['title']);
 	elseif($data['bar']['index'] == $data['bar']['total'])
-		$bar .= sprintf('<span class="new"><a href="/article/%s"><< %s</a></span><span class="old"></span>', $data['bar']['prev']['url'], $data['bar']['prev']['title']);
+		$new = sprintf('<a href="/article/%s"><< %s</a>', $prev['url'], $prev['title']);
 	else {
-		$bar .= sprintf('<span class="new"><a href="/article/%s"><< %s</a></span>', $data['bar']['prev']['url'], $data['bar']['prev']['title']);
-		$bar .= sprintf('<span class="old"><a href="/article/%s">%s >></a></span>', $data['bar']['next']['url'], $data['bar']['next']['title']);
+		$old = sprintf('<a href="/article/%s">%s >></a>', $next['url'], $next['title']);
+		$new = sprintf('<a href="/article/%s"><< %s</a>', $prev['url'], $prev['title']);
 	}
+	
+	$bar .= sprintf('<span class="new">%s</span>', isset($new) ? $new : '');
+	$bar .= sprintf('<span class="old">%s</span>', isset($old) ? $old : '');
 }
 ?>
 <div id="article">
 	<article>
 		<div class="title"><?php echo $data['title']; ?></div>
 		<div class="info">
-		<?php echo '<span class="date">Date: ' . $data['date'] . '</span>'; ?>
+			<span class="date"><?php echo "Date: {$data['date']}"; ?></span>
 		</div>
 		<div class="content"><?php echo $data['content']; ?></div>
 	</article>
