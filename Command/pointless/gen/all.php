@@ -17,7 +17,7 @@ class pointless_gen_all extends NanoCLI {
 		$clean = new pointless_gen_clean();
 		$clean->Run();
 		
-		$start = microtime();
+		$start = microtime(TRUE);
 		
 		if(!file_exists(BLOG_PUBLIC))
 			mkdir(BLOG_PUBLIC, 0755, TRUE);
@@ -53,7 +53,7 @@ class pointless_gen_all extends NanoCLI {
 		$Generator = new Generator();
 		$Generator->Run();
 		
-		$end = sprintf("%.3f", abs(microtime() - $start));
+		$end = sprintf("%.3f", abs(microtime(TRUE) - $start));
 		
 		NanoIO::Writeln("Finished $end s", 'yellow');
 	}

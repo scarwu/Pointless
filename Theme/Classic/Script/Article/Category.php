@@ -49,14 +49,14 @@ class Category {
 			
 			$output_data['title'] ='Category: ' . $index;
 			$output_data['article_list'] = $article_list;
-			$output_data['container'] = bind_data($output_data, THEME_TEMPLATE.'Container'.SEPARATOR.'Category.php');
+			$output_data['container'] = bind_data($output_data, THEME_TEMPLATE . 'Container' . SEPARATOR . 'Category.php');
 			$output_data['slider'] = $slider;
 			
-			$result = bind_data($output_data, THEME_TEMPLATE.'index.php');
-			write_to($result, BLOG_PUBLIC_CATEGORY.$index);
+			$result = bind_data($output_data, THEME_TEMPLATE . 'index.php');
+			write_to($result, BLOG_PUBLIC_CATEGORY . $index);
 		}
 		
-		if(file_exists(BLOG_PUBLIC_CATEGORY.$max[1].SEPARATOR.'index.html'))
-			copy(BLOG_PUBLIC_CATEGORY.$max[1].SEPARATOR.'index.html', BLOG_PUBLIC_CATEGORY.'index.html');
+		if(file_exists(BLOG_PUBLIC_CATEGORY . $max[1] . SEPARATOR . 'index.html'))
+			copy(BLOG_PUBLIC_CATEGORY . $max[1] . SEPARATOR . 'index.html', BLOG_PUBLIC_CATEGORY . 'index.html');
 	}
 }

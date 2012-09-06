@@ -39,11 +39,11 @@ class Article {
 					'url' => $this->_list[$index+1]['url']
 				);
 
-			$output_data['container'] = bind_data($output_data, THEME_TEMPLATE.'Container'.SEPARATOR.'Article.php');
+			$output_data['container'] = bind_data($output_data, THEME_TEMPLATE . 'Container' . SEPARATOR . 'Article.php');
 			$output_data['slider'] = $slider;
 			
-			$result = bind_data($output_data, THEME_TEMPLATE.'index.php');
-			write_to($result, BLOG_PUBLIC_ARTICLE.$output_data['url']);
+			$result = bind_data($output_data, THEME_TEMPLATE . 'index.php');
+			write_to($result, BLOG_PUBLIC_ARTICLE . $output_data['url']);
 		}
 	}
 }
