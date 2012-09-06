@@ -1,13 +1,13 @@
 <?php
 
 class Tag {
-	public $_list;
+	private $_list;
 	
 	public function __construct() {
 		$this->_list = array();
 	}
 	
-	public function Add($article) {
+	public function add($article) {
 		foreach($article['tag'] as $tag) {
 			if(!isset($this->_list[$tag]))
 				$this->_list[$tag] = array();
@@ -15,15 +15,18 @@ class Tag {
 		}
 	}
 	
-	public function GetList() {
-		$this->_list = count_sort($this->_list);
+	public function getList() {
 		return $this->_list;
 	}
 	
-	public function Gen($slider) {
+	public function sortList() {
 		$this->_list = count_sort($this->_list);
+	}
+	
+	public function gen($slider) {
 		$max = array(0, NULL);
 		$count = 0;
+		$total = count($this->_list);
 		$key = array_keys($this->_list);
 		
 		foreach((array)$this->_list as $index => $article_list) {
@@ -32,7 +35,7 @@ class Tag {
 			
 			$output_data['bar'] = array();
 			$output_data['bar']['index'] = $count+1;
-			$output_data['bar']['total'] = count($this->_list);
+			$output_data['bar']['total'] = $total;
 			if(isset($key[$count-1]))
 				$output_data['bar']['prev'] = array(
 					'title' => $key[$count-1],

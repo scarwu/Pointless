@@ -1,32 +1,34 @@
 <?php
 
 class Page {
-	public $_list;
+	private $_list;
 	
 	public function __construct() {
 		$this->_list = array();
 	}
 	
-	public function Add($article) {
+	public function add($article) {
 		// Article List
 		$this->_list[] = $article;
 	}
 	
-	public function GetList() {
-		$this->_list = article_sort($this->_list);
+	public function getList() {
 		return $this->_list;
 	}
 	
-	public function Gen($slider) {
+	public function sortList() {
 		$this->_list = article_sort($this->_list);
-		$page_number = ceil(count($this->_list) / ARTICLE_QUANTITY);
+	}
+	
+	public function gen($slider) {
+		$total = ceil(count($this->_list) / ARTICLE_QUANTITY);
 				
-		for($index = 0;$index < $page_number;$index++) {
+		for($index = 0;$index < $total;$index++) {
 			NanoIO::Writeln(sprintf("Building page/%s", ($index+1)));
 			
 			$output_data['bar'] = array(
 				'index' => $index+1,
-				'total' => $page_number
+				'total' => $total
 			);
 			$output_data['article_list'] = array_slice($this->_list, ARTICLE_QUANTITY * $index, ARTICLE_QUANTITY);
 			$output_data['container'] = bind_data($output_data, THEME_TEMPLATE.'Container'.SEPARATOR.'Page.php');

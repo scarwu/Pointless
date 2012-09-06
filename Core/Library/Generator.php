@@ -8,7 +8,6 @@ class Generator {
 		$this->_template = array();
 		$this->_template['Article'] = array();
 		$this->_template['BlogPage'] = array();
-		// $this->_list = array();
 	}
 	
 	public function Run() {
@@ -39,7 +38,7 @@ class Generator {
 				$blog_page['message'] = isset($temp['message']) ? $temp['message'] : TRUE;
 				
 				foreach((array)$this->_template['BlogPage'] as $class)
-					$class->Add($blog_page);
+					$class->add($blog_page);
 			}
 		closedir($handle);
 
@@ -97,9 +96,12 @@ class Generator {
 				}
 
 				foreach((array)$this->_template['Article'] as $class)
-					$class->Add($article);
+					$class->add($article);
 			}
 		closedir($handle);
+		
+		foreach((array)$this->_template['Article'] as $class)
+			$class->sortList();
 		
 		$this->genSlider();
 		$this->genContainer();
@@ -111,7 +113,7 @@ class Generator {
 	private function genContainer() {
 		foreach((array)$this->_template as $list)
 			foreach((array)$list as $class)
-				$class->Gen($this->_slider);
+				$class->gen($this->_slider);
 	}
 
 	/**
@@ -130,7 +132,7 @@ class Generator {
 
 		foreach((array)$list as $filename)
 			$result .= bind_data(
-				$this->_template['Article'][preg_replace(array('/^\d+_/', '/.php$/'), '', $filename)]->GetList(),
+				$this->_template['Article'][preg_replace(array('/^\d+_/', '/.php$/'), '', $filename)]->getList(),
 				THEME_TEMPLATE . 'Slider' . SEPARATOR . $filename
 			);
 		

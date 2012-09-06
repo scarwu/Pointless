@@ -1,21 +1,21 @@
 <?php
 
 class BlogPage {
-	public $_list;
+	private $_list;
 	
 	public function __construct() {
 		$this->_list = array();
 	}
 	
-	public function Add($article) {
+	public function add($article) {
 		$this->_list[] = $article;
 	}
 	
-	public function GetList() {
+	public function getList() {
 		return $this->_list;
 	}
 	
-	public function Gen($slider) {
+	public function gen($slider) {
 		foreach((array)$this->_list as $index => $output_data) {
 			NanoIO::Writeln("Building " . $output_data['url']);
 		
@@ -25,9 +25,5 @@ class BlogPage {
 			$result = bind_data($output_data, THEME_TEMPLATE.'index.php');
 			write_to($result, BLOG_PUBLIC.$output_data['url']);
 		}
-	}
-	
-	public function Result() {
-		
 	}
 }

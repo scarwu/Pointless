@@ -1,35 +1,33 @@
 <?php
 
 class Archive {
-	public $_list;
+	private $_list;
 	
 	public function __construct() {
 		$this->_list = array();
 	}
 	
-	public function Add($article) {
+	public function add($article) {
 		if(!isset($this->_list[$article['year']]))
 			$this->_list[$article['year']] = array();
 		$this->_list[$article['year']][] = $article;
 	}
 	
-	public function GetList() {
-		krsort($this->_list);
-		
-		foreach($this->_list as $year => $article)
-			$this->_list[$year] = article_sort($article);
-		
+	public function getList() {
 		return $this->_list;
 	}
 	
-	public function Gen($slider) {
+	public function sortList() {
 		krsort($this->_list);
 		
 		foreach($this->_list as $year => $article)
 			$this->_list[$year] = article_sort($article);
-		
+	}
+
+	public function gen($slider) {
 		$max = 0;
 		$count = 0;
+		$total = count($this->_list);
 		
 		foreach((array)$this->_list as $index => $article_list) {
 			NanoIO::Writeln(sprintf("Building archive/%s", $index));
@@ -37,7 +35,7 @@ class Archive {
 			
 			$output_data['bar'] = array();
 			$output_data['bar']['index'] = $count+1;
-			$output_data['bar']['total'] = count($this->_list);
+			$output_data['bar']['total'] = $total;
 			if(isset($this->_list[$index-1]))
 				$output_data['bar']['next'] = array(
 					'title' => $index-1,
