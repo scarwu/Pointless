@@ -1,7 +1,8 @@
 -----
 {
 	"title": "Works",
-	"url": "works"
+	"url": "works",
+	"message": true
 }
 -----
 
