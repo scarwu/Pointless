@@ -29,7 +29,8 @@ class pointless_blogpage_add extends NanoCLI {
 			$handle = fopen(BLOG_MARKDOWN_BLOGPAGE . $filename, 'w+');
 			fwrite($handle, "-----\n{\n");
 			fwrite($handle, '	"title": "' . $info['title'] . '",' . "\n");
-			fwrite($handle, '	"url": "' . $info['url'] . '"' . "\n");
+			fwrite($handle, '	"url": "' . $info['url'] . '",' . "\n");
+			fwrite($handle, '	"message": true' . "\n");
 			fwrite($handle, "}\n-----\n");
 			
 			NanoIO::Writeln("\n" . BLOG_MARKDOWN_BLOGPAGE . $filename . " was create.");
