@@ -11,9 +11,11 @@
 	<script type="text/javascript">
 	    var disqus_shortname = '<?php echo DISQUS_SHORTNAME; ?>';
 	    (function() {
-	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-	        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
-	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	        var embed = document.createElement('script');
+	        embed.async = true;
+	        embed.type = 'text/javascript';
+	        embed.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(embed);
 	    })();
 	</script>
 	<?php endif; ?>

@@ -26,7 +26,8 @@ foreach((array)$data['article_list'] as $article) {
 	$content .= '<article>';
 	$content .= '<div class="title">' . link_to(BLOG_PATH.'article/'.$article['url'], $article['title']) . '</div>';
 	$content .= '<div class="info">';
-	$content .= '<span class="date">Date: ' . $article['date'] . '</span>';
+	$content .= '<span class="date">' . $article['date'] . '</span>';
+	$content .= '<br /><span class="comments">' . link_to(BLOG_PATH.'article/'.$article['url'] .'/#disqus_thread', '') . '</span>';
 	$content .= '</div>';
 	$content .= '<div class="content">' . preg_replace('/<!--more-->(.|\n)*/', '', $article['content']) . '</div>';
 	$content .= '<a class="more" href="' . BLOG_PATH . 'article/' . $article['url'] . '">Read more</a>';
@@ -38,3 +39,15 @@ foreach((array)$data['article_list'] as $article) {
 	<?php echo $content; ?>
 	<div class="bar"><?php echo $bar; ?></div>
 </div>
+<?php if(NULL != DISQUS_SHORTNAME): ?>
+<script type="text/javascript">
+	var disqus_shortname = '<?php echo DISQUS_SHORTNAME; ?>';
+	(function() {
+		var count = document.createElement('script');
+		count.async = true;
+		count.type = 'text/javascript';
+		count.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(count);
+	}());
+</script>
+<?php endif; ?>

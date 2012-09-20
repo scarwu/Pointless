@@ -25,7 +25,9 @@ if($total != 1) {
 	<article>
 		<div class="title"><?php echo $data['title']; ?></div>
 		<div class="info">
-			<span class="date">Date: <?php echo $data['date']; ?></span>
+			<span class="date"><?php echo $data['date']; ?></span>
+			<br />
+			<span class="comments"><?php echo link_to(BLOG_PATH.'article/'.$data['url'] .'/#disqus_thread', ''); ?></span>
 		</div>
 		<div class="content"><?php echo $data['content']; ?></div>
 	</article>
@@ -38,10 +40,18 @@ if($total != 1) {
 	<script type="text/javascript">
 	    var disqus_shortname = '<?php echo DISQUS_SHORTNAME; ?>';
 	    (function() {
-	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-	        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
-	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-	    })();
+	        var embed = document.createElement('script');
+	        embed.type = 'text/javascript';
+	        embed.async = true;
+	        embed.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(embed);
+
+			var count = document.createElement('script');
+			count.async = true;
+			count.type = 'text/javascript';
+			count.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+			(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(count);
+		}());
 	</script>
 	<?php endif; ?>
 </div>
