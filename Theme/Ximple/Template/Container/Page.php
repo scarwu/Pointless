@@ -27,7 +27,7 @@ foreach((array)$data['article_list'] as $article) {
 	$content .= '<div class="title">' . link_to(BLOG_PATH.'article/'.$article['url'], $article['title']) . '</div>';
 	$content .= '<div class="info">';
 	$content .= '<span class="date">' . $article['date'] . '</span>';
-	$content .= '<br /><span class="comments">' . link_to(BLOG_PATH.'article/'.$article['url'] .'/#disqus_thread', '') . '</span>';
+	$content .= '<br /><span class="comments">' . link_to(BLOG_PATH.'article/'.$article['url'] .'/#disqus_thread', '0 Comments') . '</span>';
 	$content .= '</div>';
 	$content .= '<div class="content">' . preg_replace('/<!--more-->(.|\n)*/', '', $article['content']) . '</div>';
 	$content .= '<a class="more" href="' . BLOG_PATH . 'article/' . $article['url'] . '">Read more</a>';
