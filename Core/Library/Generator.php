@@ -86,7 +86,8 @@ class Generator {
 					default:
 					case 0:
 						$article['url'] = str_replace('-', '/', $temp['date']);
-						break;					case 1:
+						break;
+					case 1:
 						$article['url'] = $temp['url'];
 						break;
 					case 2:
