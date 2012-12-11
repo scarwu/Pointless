@@ -16,10 +16,7 @@ define('NANOCLI_COMMAND', ROOT . 'Command' . SEPARATOR);
 define('NANOCLI_PREFIX', 'pointless');
 
 // Register NanoCLI Autoloader
-NanoLoader::Register();
-
-// Load First Command and Init
-require_once NANOCLI_COMMAND . 'pointless.php';
+NanoLoader::register();
 
 $NanoCLI = new pointless();
-$NanoCLI->Init();
+$NanoCLI->init();

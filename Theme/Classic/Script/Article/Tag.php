@@ -20,7 +20,7 @@ class Tag {
 	}
 	
 	public function sortList() {
-		$this->_list = count_sort($this->_list);
+		$this->_list = countSort($this->_list);
 	}
 	
 	public function gen($slider) {
@@ -30,7 +30,7 @@ class Tag {
 		$key = array_keys($this->_list);
 		
 		foreach((array)$this->_list as $index => $article_list) {
-			NanoIO::Writeln(sprintf("Building tag/%s", $index));
+			NanoIO::writeln(sprintf("Building tag/%s", $index));
 			$max = count($article_list) > $max[0] ? array(count($article_list), $index) : $max;
 			
 			$output_data['bar'] = array();
@@ -51,11 +51,11 @@ class Tag {
 			
 			$output_data['title'] = 'Tag: ' . $index;
 			$output_data['article_list'] = $article_list;
-			$output_data['container'] = bind_data($output_data, THEME_TEMPLATE . 'Container' . SEPARATOR . 'Tag.php');
+			$output_data['container'] = bindData($output_data, THEME_TEMPLATE . 'Container' . SEPARATOR . 'Tag.php');
 			$output_data['slider'] = $slider;
 			
-			$result = bind_data($output_data, THEME_TEMPLATE . 'index.php');
-			write_to($result, BLOG_PUBLIC_TAG . $index);
+			$result = bindData($output_data, THEME_TEMPLATE . 'index.php');
+			writeTo($result, BLOG_PUBLIC_TAG . $index);
 		}
 		
 		if(file_exists(BLOG_PUBLIC_TAG . $max[1] . SEPARATOR . 'index.html'))

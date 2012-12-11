@@ -1,38 +1,38 @@
 <?php
 
 class Compress {
-	private $css_list;
-	private $js_list;
+	private $_css_list;
+	private $_js_list;
 	
 	public function __construct() {
-		$this->css_list = array();
-		$this->js_list = array();
+		$this->_css_list = array();
+		$this->_js_list = array();
 	}
 
 	public function css($src, $dest) {
 		$handle = opendir($src);
 		while($file = readdir($handle))
 			if('.' != $file && '..' != $file)
-				$this->css_list[] = $file;
+				$this->_css_list[] = $file;
 
 		closedir($handle);
 		
-		sort($this->css_list);
+		sort($this->_css_list);
 		
 		if(!file_exists($dest))
 			mkdir($dest, 0755, TRUE);
 		
 		$css_package = fopen(rtrim($dest, '/') . '/main.css', 'w+');
-		foreach((array)$this->css_list as $filename) {
+		foreach((array)$this->_css_list as $filename) {
 			$css = file_get_contents($src . $filename);
-			$css = $this->CssCompressor($css);
+			$css = $this->cssCompressor($css);
 			fwrite($css_package, $css);
 		}
 		fclose($css_package);
 	}
 	
 	// Css Compressor
-	private function CssCompressor($css) {
+	private function cssCompressor($css) {
 		$css = preg_replace('/(\f|\n|\r|\t|\v)/', '', $css);
 		$css = preg_replace('/\/\*.+?\*\//', '', $css);
 		$css = preg_replace('/[ ]+/', ' ', $css);
@@ -48,16 +48,16 @@ class Compress {
 		$handle = opendir($src);
 		while($file = readdir($handle))
 			if('.' != $file && '..' != $file)
-				$this->js_list[] = $file;
+				$this->_js_list[] = $file;
 		closedir($handle);
 		
-		sort($this->js_list);
+		sort($this->_js_list);
 		
 		if(!file_exists($dest))
 			mkdir($dest, 0755, TRUE);
 		
 		$js_package = fopen(rtrim($dest, '/') . '/main.js', 'w+');
-		foreach((array)$this->js_list as $filename) {
+		foreach((array)$this->_js_list as $filename) {
 			$handle = fopen($src . $filename, 'r');
 			while($data = fread($handle, 1024))
 				fwrite($js_package, $data, 1024);

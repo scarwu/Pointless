@@ -5,21 +5,21 @@ class pointless_gen_clean extends NanoCLI {
 		parent::__construct();
 	}
 	
-	public function Run($path = NULL) {
-		NanoIO::Writeln("Clean Public Files ...", 'yellow');
+	public function run($path = NULL) {
+		NanoIO::writeln("Clean Public Files ...", 'yellow');
 		if(file_exists(NULL == $path ? BLOG_PUBLIC : $path))
-			$this->rRemoveDir(NULL == $path ? BLOG_PUBLIC : $path);
+			$this->recursiveRemove(NULL == $path ? BLOG_PUBLIC : $path);
 	}
 	
 	/**
 	 * Recursice Remove Directory
 	 */
-	private function rRemoveDir($path = NULL) {
+	private function recursiveRemove($path = NULL) {
 		if(is_dir($path)) {
 			$handle = @opendir($path);
 			while($file = readdir($handle))
 				if($file != '.' && $file != '..' && $file != '.git')
-					$this->rRemoveDir($path . SEPARATOR . $file);
+					$this->recursiveRemove($path . SEPARATOR . $file);
 			closedir($handle);
 			
 			if($path != BLOG_PUBLIC)

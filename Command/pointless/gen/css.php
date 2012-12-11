@@ -5,14 +5,14 @@ class pointless_gen_css extends NanoCLI {
 		parent::__construct();
 	}
 	
-	public function Run() {
+	public function run() {
 		require_once CORE_LIBRARY . 'Compress.php';
 		
-		NanoIO::Writeln("Clean Cascading Style Sheets ...", 'yellow');
+		NanoIO::writeln("Clean Cascading Style Sheets ...", 'yellow');
 		if(file_exists(BLOG_PUBLIC . 'main.css'))
 			unlink(BLOG_PUBLIC . 'main.css');
 
-		NanoIO::Writeln("Compress Cascading Style Sheets ...", 'yellow');
+		NanoIO::writeln("Compress Cascading Style Sheets ...", 'yellow');
 		$Compress = new Compress();
 		$Compress->css(THEME_CSS, BLOG_PUBLIC . 'theme');
 	}

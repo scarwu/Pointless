@@ -43,11 +43,11 @@ foreach((array)$year_list as $year => $month_list) {
 		$content .= '<div class="list">';
 		foreach((array)$article_list as $article) {
 			$content .= '<article>';
-			$content .= '<span class="title">' . link_to(BLOG_PATH.'article/'.$article['url'], $article['title']) . '</span>';
-			$content .= '<span class="category">Category: ' . link_to(BLOG_PATH.'category/'.$article['category'], $article['category']) . '</span>';
+			$content .= '<span class="title">' . linkTo(BLOG_PATH.'article/'.$article['url'], $article['title']) . '</span>';
+			$content .= '<span class="category">Category: ' . linkTo(BLOG_PATH.'category/'.$article['category'], $article['category']) . '</span>';
 			$content .= '<span class="tag">Tag: ';
 			foreach((array)$article['tag'] as $index => $tag)
-				$content .= link_to(BLOG_PATH.'tag/'.$tag, $tag) . (count($article['tag'])-1 > $index ? ', ' : '');
+				$content .= linkTo(BLOG_PATH.'tag/'.$tag, $tag) . (count($article['tag'])-1 > $index ? ', ' : '');
 			$content .= '</span>';
 			$content .= '</article>';
 		}

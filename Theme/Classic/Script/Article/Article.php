@@ -16,14 +16,14 @@ class Article {
 	}
 	
 	public function sortList() {
-		$this->_list = article_sort($this->_list);
+		$this->_list = articleSort($this->_list);
 	}
 	
 	public function gen($slider) {
 		$total = count($this->_list);
 
 		foreach((array)$this->_list as $index => $output_data) {
-			NanoIO::Writeln("Building article/" . $output_data['url']);
+			NanoIO::writeln("Building article/" . $output_data['url']);
 			
 			$output_data['bar'] = array();
 			$output_data['bar']['index'] = $index+1;
@@ -39,11 +39,11 @@ class Article {
 					'url' => $this->_list[$index+1]['url']
 				);
 
-			$output_data['container'] = bind_data($output_data, THEME_TEMPLATE . 'Container' . SEPARATOR . 'Article.php');
+			$output_data['container'] = bindData($output_data, THEME_TEMPLATE . 'Container' . SEPARATOR . 'Article.php');
 			$output_data['slider'] = $slider;
 			
-			$result = bind_data($output_data, THEME_TEMPLATE . 'index.php');
-			write_to($result, BLOG_PUBLIC_ARTICLE . $output_data['url']);
+			$result = bindData($output_data, THEME_TEMPLATE . 'index.php');
+			writeTo($result, BLOG_PUBLIC_ARTICLE . $output_data['url']);
 		}
 	}
 }

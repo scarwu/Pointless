@@ -24,7 +24,7 @@ if($total != 1) {
 $content = '';
 foreach((array)$data['article_list'] as $article) {
 	$content .= '<article>';
-	$content .= '<div class="title">' . link_to(BLOG_PATH.'article/'.$article['url'], $article['title']) . '</div>';
+	$content .= '<div class="title">' . linkTo(BLOG_PATH.'article/'.$article['url'], $article['title']) . '</div>';
 	$content .= '<div class="info">';
 	$content .= '<span class="date">Date: ' . $article['date'] . '</span>';
 	$content .= '</div>';

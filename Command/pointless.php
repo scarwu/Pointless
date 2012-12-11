@@ -5,8 +5,8 @@ class pointless extends NanoCLI {
 		parent::__construct();
 	}
 	
-	public function Run() {
+	public function run() {
 		$help = new pointless_help();
-		$help->Run();
+		$help->run();
 	}
 }

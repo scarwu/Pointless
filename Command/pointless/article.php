@@ -5,8 +5,8 @@ class pointless_article extends NanoCLI {
 		parent::__construct();
 	}
 	
-	public function Run() {
+	public function run() {
 		$list = new pointless_article_edit();
-		$list->Run();
+		$list->run();
 	}
 }

@@ -5,7 +5,7 @@ class pointless_article_edit extends NanoCLI {
 		parent::__construct();
 	}
 	
-	public function Run() {
+	public function run() {
 		$regex_rule = '/^-----\n((?:.|\n)*)\n-----\n((?:.|\n)*)/';
 		
 		$data = array();
@@ -23,16 +23,16 @@ class pointless_article_edit extends NanoCLI {
 		$path = array();
 		$count = 0;
 		foreach($data as $article) {
-			NanoIO::Writeln(sprintf("[%3d] %s %s", $count, $article['date'], $article['title']));
+			NanoIO::writeln(sprintf("[%3d] %s %s", $count, $article['date'], $article['title']));
 			$path[$count++] = $article['path'];
 		}
 		
-		NanoIO::Write("\nEdit your article? [y]\n-> ");
-		if(NanoIO::Read() == "y") {
+		NanoIO::write("\nEdit your article? [y]\n-> ");
+		if(NanoIO::read() == "y") {
 			do {
-				NanoIO::Write("Enter Number:\n-> ");
+				NanoIO::write("Enter Number:\n-> ");
 			}
-			while(!is_numeric($number = NanoIO::Read()) || $number < 0 || $number >= count($path));
+			while(!is_numeric($number = NanoIO::read()) || $number < 0 || $number >= count($path));
 
 			system(sprintf("%s %s < `tty` > `tty`", FILE_EDITOR, $path[$number]));
 		}

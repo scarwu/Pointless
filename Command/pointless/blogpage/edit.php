@@ -5,7 +5,7 @@ class pointless_blogpage_edit extends NanoCLI {
 		parent::__construct();
 	}
 	
-	public function Run() {
+	public function run() {
 		$regex_rule = '/^-----\n((?:.|\n)*)\n-----\n((?:.|\n)*)/';
 		
 		$path = array();
@@ -15,17 +15,17 @@ class pointless_blogpage_edit extends NanoCLI {
 			if('.' != $filename && '..' != $filename) {
 				preg_match($regex_rule, file_get_contents(BLOG_MARKDOWN_BLOGPAGE . $filename), $match);
 				$temp = json_decode($match[1], TRUE);
-				NanoIO::Writeln(sprintf("[%3d] %s", $count, $temp['title']));
+				NanoIO::writeln(sprintf("[%3d] %s", $count, $temp['title']));
 				$path[$count++] = BLOG_MARKDOWN_BLOGPAGE . $filename;
 			}
 		closedir($handle);
 
-		NanoIO::Write("\nEdit your blog page? [y]\n-> ");
-		if(NanoIO::Read() == "y") {
+		NanoIO::write("\nEdit your blog page? [y]\n-> ");
+		if(NanoIO::read() == "y") {
 			do {
-				NanoIO::Write("Enter Number:\n-> ");
+				NanoIO::write("Enter Number:\n-> ");
 			}
-			while(!is_numeric($number = NanoIO::Read()) || $number < 0 || $number >= count($path));
+			while(!is_numeric($number = NanoIO::read()) || $number < 0 || $number >= count($path));
 
 			system(sprintf("%s %s < `tty` > `tty`", FILE_EDITOR, $path[$number]));
 		}

@@ -6,11 +6,11 @@ class Generator {
 	
 	public function __construct() {
 		$this->_template = array();
-		$this->_template['Article'] = array();
-		$this->_template['BlogPage'] = array();
+		$this->_template['article'] = array();
+		$this->_template['blog_page'] = array();
 	}
 	
-	public function Run() {
+	public function run() {
 		$regex_rule = '/^-----\n((?:.|\n)*)\n-----\n((?:.|\n)*)/';
 		
 		/**
@@ -21,7 +21,7 @@ class Generator {
 			if('.' != $filename && '..' != $filename) {
 				require_once THEME_SCRIPT . 'BlogPage' . SEPARATOR . $filename;
 				$class_name = preg_replace('/.php$/', '', $filename);
-				$this->_template['BlogPage'][$class_name] = new $class_name;
+				$this->_template['blog_page'][$class_name] = new $class_name;
 			}
 		closedir($handle);
 		
@@ -37,7 +37,7 @@ class Generator {
 				$blog_page['content'] = Markdown($match[2]);
 				$blog_page['message'] = isset($temp['message']) ? $temp['message'] : TRUE;
 				
-				foreach((array)$this->_template['BlogPage'] as $class)
+				foreach((array)$this->_template['blog_page'] as $class)
 					$class->add($blog_page);
 			}
 		closedir($handle);
@@ -50,7 +50,7 @@ class Generator {
 			if('.' != $filename && '..' != $filename) {
 				require_once THEME_SCRIPT . 'Article' . SEPARATOR . $filename;
 				$class_name = preg_replace('/.php$/', '', $filename);
-				$this->_template['Article'][$class_name] = new $class_name;
+				$this->_template['article'][$class_name] = new $class_name;
 			}
 		closedir($handle);
 		
@@ -95,12 +95,12 @@ class Generator {
 						break;
 				}
 
-				foreach((array)$this->_template['Article'] as $class)
+				foreach((array)$this->_template['article'] as $class)
 					$class->add($article);
 			}
 		closedir($handle);
 		
-		foreach((array)$this->_template['Article'] as $class)
+		foreach((array)$this->_template['article'] as $class)
 			$class->sortList();
 		
 		$this->genSlider();
@@ -131,8 +131,8 @@ class Generator {
 		sort($list);
 
 		foreach((array)$list as $filename)
-			$result .= bind_data(
-				$this->_template['Article'][preg_replace(array('/^\d+_/', '/.php$/'), '', $filename)]->getList(),
+			$result .= bindData(
+				$this->_template['article'][preg_replace(array('/^\d+_/', '/.php$/'), '', $filename)]->getList(),
 				THEME_TEMPLATE . 'Slider' . SEPARATOR . $filename
 			);
 		

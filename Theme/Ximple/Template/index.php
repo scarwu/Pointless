@@ -30,7 +30,7 @@
 	</div>
 	<div id="main">
 		<div id="header">
-			<h1><?php echo link_to(BLOG_PATH, BLOG_NAME); ?></h1>
+			<h1><?php echo linkTo(BLOG_PATH, BLOG_NAME); ?></h1>
 			<hr>
 			<h2><?php echo BLOG_SLOGAN; ?></h2>
 		</div>

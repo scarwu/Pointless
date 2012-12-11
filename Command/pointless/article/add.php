@@ -5,28 +5,28 @@ class pointless_article_add extends NanoCLI {
 		parent::__construct();
 	}
 	
-	public function Run() {
+	public function run() {
 		$info = array();
 		
 		do {
-			NanoIO::Write("Enter Article Title:\n-> ");
+			NanoIO::write("Enter Article Title:\n-> ");
 		}
-		while('' == $info['title'] = NanoIO::Read());
+		while('' == $info['title'] = NanoIO::read());
 		
 		do {
-			NanoIO::Write("Enter Article Custom Url:\n-> ");
+			NanoIO::write("Enter Article Custom Url:\n-> ");
 		}
-		while('' == $info['url'] = NanoIO::Read());
+		while('' == $info['url'] = NanoIO::read());
 		
 		do {
-			NanoIO::Write("Enter Article Tag:\n-> ");
+			NanoIO::write("Enter Article Tag:\n-> ");
 		}
-		while('' == $info['tag'] = NanoIO::Read());
+		while('' == $info['tag'] = NanoIO::read());
 		
 		do {
-			NanoIO::Write("Enter Article Category:\n-> ");
+			NanoIO::write("Enter Article Category:\n-> ");
 		}
-		while('' == $info['category'] = NanoIO::Read());
+		while('' == $info['category'] = NanoIO::read());
 		
 		$time = time();
 		$filename = sprintf("%s%s.md", date("Ymd_", $time), $info['url']);
@@ -46,10 +46,10 @@ class pointless_article_add extends NanoCLI {
 			fwrite($handle, '	"time": "' . date("H:i:s", $time) . '"' . "\n");
 			fwrite($handle, "}\n-----\n");
 			
-			NanoIO::Writeln("\nArticle " . $filename . " was create.");
+			NanoIO::writeln("\nArticle " . $filename . " was create.");
 			system(sprintf("%s %s < `tty` > `tty`", FILE_EDITOR, BLOG_MARKDOWN_ARTICLE . $filename);
 		}
 		else
-			NanoIO::Writeln("\nArticle" . $filename . " is exsist.");
+			NanoIO::writeln("\nArticle" . $filename . " is exsist.");
 	}
 }

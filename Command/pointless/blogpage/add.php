@@ -5,18 +5,18 @@ class pointless_blogpage_add extends NanoCLI {
 		parent::__construct();
 	}
 	
-	public function Run() {
+	public function run() {
 		$info = array();
 		
 		do {
-			NanoIO::Write("Enter Blog Page Title:\n-> ");
+			NanoIO::write("Enter Blog Page Title:\n-> ");
 		}
-		while('' == $info['title'] = NanoIO::Read());
+		while('' == $info['title'] = NanoIO::read());
 		
 		do {
-			NanoIO::Write("Enter Blog Page Custom Url:\n-> ");
+			NanoIO::write("Enter Blog Page Custom Url:\n-> ");
 		}
-		while('' == $info['url'] = NanoIO::Read());
+		while('' == $info['url'] = NanoIO::read());
 		
 		$filename = strtolower($info['title']) . '.md';
 		$filename = str_replace(array('\\', '/', ' '), '_', $filename);
@@ -33,10 +33,10 @@ class pointless_blogpage_add extends NanoCLI {
 			fwrite($handle, '	"message": true' . "\n");
 			fwrite($handle, "}\n-----\n");
 			
-			NanoIO::Writeln("\nBlog Page " . $filename . " was create.");
+			NanoIO::writeln("\nBlog Page " . $filename . " was create.");
 			system(FILE_EDITOR . " " . BLOG_MARKDOWN_BLOGPAGE . $filename . " < `tty` > `tty`");
 		}
 		else
-			NanoIO::Writeln("\nBlog Page " . $filename . " is exsist.");
+			NanoIO::writeln("\nBlog Page " . $filename . " is exsist.");
 	}
 }
