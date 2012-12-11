@@ -46,9 +46,10 @@ class pointless_article_add extends NanoCLI {
 			fwrite($handle, '	"time": "' . date("H:i:s", $time) . '"' . "\n");
 			fwrite($handle, "}\n-----\n");
 			
-			NanoIO::Writeln("\n" . BLOG_MARKDOWN_ARTICLE . $filename . " was create.");
+			NanoIO::Writeln("\nArticle " . $filename . " was create.");
+			system(sprintf("%s %s < `tty` > `tty`", FILE_EDITOR, BLOG_MARKDOWN_ARTICLE . $filename);
 		}
 		else
-			NanoIO::Writeln("\n" . BLOG_MARKDOWN_ARTICLE . $filename . " is exsist.");
+			NanoIO::Writeln("\nArticle" . $filename . " is exsist.");
 	}
 }

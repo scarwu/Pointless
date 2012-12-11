@@ -6,7 +6,7 @@ class pointless_blogpage extends NanoCLI {
 	}
 	
 	public function Run() {
-		$list = new pointless_blogpage_list();
+		$list = new pointless_blogpage_edit();
 		$list->Run();
 	}
 }

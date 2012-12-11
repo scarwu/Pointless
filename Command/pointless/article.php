@@ -6,7 +6,7 @@ class pointless_article extends NanoCLI {
 	}
 	
 	public function Run() {
-		$list = new pointless_article_list();
+		$list = new pointless_article_edit();
 		$list->Run();
 	}
 }

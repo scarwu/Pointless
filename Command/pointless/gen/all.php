@@ -8,7 +8,6 @@ class pointless_gen_all extends NanoCLI {
 	public function Run() {
 		// Inclide Markdown Library
 		require_once CORE_PLUGIN . 'Markdown' . SEPARATOR . 'markdown.php';
-		require_once CORE_PLUGIN . 'Element' . SEPARATOR . 'Element.php';
 		require_once CORE_LIBRARY . 'Compress.php';
 		require_once CORE_LIBRARY . 'GeneralFunction.php';
 		require_once CORE_LIBRARY . 'Generator.php';

@@ -33,9 +33,10 @@ class pointless_blogpage_add extends NanoCLI {
 			fwrite($handle, '	"message": true' . "\n");
 			fwrite($handle, "}\n-----\n");
 			
-			NanoIO::Writeln("\n" . BLOG_MARKDOWN_BLOGPAGE . $filename . " was create.");
+			NanoIO::Writeln("\nBlog Page " . $filename . " was create.");
+			system(FILE_EDITOR . " " . BLOG_MARKDOWN_BLOGPAGE . $filename . " < `tty` > `tty`");
 		}
 		else
-			NanoIO::Writeln("\n" . BLOG_MARKDOWN_BLOGPAGE . $filename . " is exsist.");
+			NanoIO::Writeln("\nBlog Page " . $filename . " is exsist.");
 	}
 }

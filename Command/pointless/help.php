@@ -14,9 +14,9 @@ class pointless_help extends NanoCLI {
 		NanoIO::Writeln("    gen css         - Generate and Compress CSS.");
 		NanoIO::Writeln("    gen js          - Generate and Compress JavaScript.");
 		NanoIO::Writeln("    gen clean       - Clean Blog Files.");
-		NanoIO::Writeln("    article (list)  - List Your Articles.");
+		NanoIO::Writeln("    article (edit)  - List and Edit Your Articles.");
 		NanoIO::Writeln("    article add     - Create New Articles.");
-		NanoIO::Writeln("    blogpage (list) - List Your Blog Pages.");
+		NanoIO::Writeln("    blogpage (edit) - List and Edit Your Blog Pages.");
 		NanoIO::Writeln("    blogpage add    - Create New Blog Pages.");
 		NanoIO::Writeln("    deploy          - Deploy Blog Using Git.");
 	}
