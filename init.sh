@@ -3,4 +3,4 @@
 git submodule init
 git submodule update
 
-php ./Bin/poi init
+./Bin/poi init
