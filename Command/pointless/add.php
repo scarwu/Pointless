@@ -1,11 +1,23 @@
 <?php
 
-class pointless_article_add extends NanoCLI {
+class pointless_add extends NanoCLI {
 	public function __construct() {
 		parent::__construct();
 	}
 	
 	public function run() {
+		NanoIO::writeln("[  0] Article\n[  1] Blog page\n");
+		do {
+			NanoIO::write("Enter Number:\n-> ");
+		} while(!is_numeric($number = NanoIO::read()) || $number < 0 || $number > 1);
+		
+		if($number == 0)
+			$this->article();
+		else
+			$this->blogpage();
+	}
+
+	public function article() {
 		$info = array();
 		
 		do {
@@ -51,5 +63,40 @@ class pointless_article_add extends NanoCLI {
 		}
 		else
 			NanoIO::writeln("\nArticle" . $filename . " is exsist.");
+	}
+
+	public function blogpage() {
+		$info = array();
+		
+		do {
+			NanoIO::write("Enter Blog Page Title:\n-> ");
+		}
+		while('' == $info['title'] = NanoIO::read());
+		
+		do {
+			NanoIO::write("Enter Blog Page Custom Url:\n-> ");
+		}
+		while('' == $info['url'] = NanoIO::read());
+		
+		$filename = strtolower($info['title']) . '.md';
+		$filename = str_replace(array('\\', '/', ' '), '_', $filename);
+		
+		if(NULL != LOCAL_ENCODING)
+			foreach($info as $key => $value)
+				$info[$key] = iconv(LOCAL_ENCODING, 'utf-8', $value);
+		
+		if(!file_exists(BLOG_MARKDOWN_BLOGPAGE . $filename)) {
+			$handle = fopen(BLOG_MARKDOWN_BLOGPAGE . $filename, 'w+');
+			fwrite($handle, "-----\n{\n");
+			fwrite($handle, '	"title": "' . $info['title'] . '",' . "\n");
+			fwrite($handle, '	"url": "' . $info['url'] . '",' . "\n");
+			fwrite($handle, '	"message": true' . "\n");
+			fwrite($handle, "}\n-----\n");
+			
+			NanoIO::writeln("\nBlog Page " . $filename . " was create.");
+			system(FILE_EDITOR . " " . BLOG_MARKDOWN_BLOGPAGE . $filename . " < `tty` > `tty`");
+		}
+		else
+			NanoIO::writeln("\nBlog Page " . $filename . " is exsist.");
 	}
 }
