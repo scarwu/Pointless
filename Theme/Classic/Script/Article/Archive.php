@@ -21,7 +21,7 @@ class Archive {
 		krsort($this->_list);
 		
 		foreach($this->_list as $year => $article)
-			$this->_list[$year] = article_sort($article);
+			$this->_list[$year] = articleSort($article);
 	}
 
 	public function gen($slider) {
@@ -30,7 +30,7 @@ class Archive {
 		$total = count($this->_list);
 		
 		foreach((array)$this->_list as $index => $article_list) {
-			NanoIO::Writeln(sprintf("Building archive/%s", $index));
+			NanoIO::writeln(sprintf("Building archive/%s", $index));
 			$max = $index > $max ? $index : $max;
 			
 			$output_data['bar'] = array();
@@ -51,11 +51,11 @@ class Archive {
 			
 			$output_data['title'] = 'Archive: ' . $index;
 			$output_data['article_list'] = $article_list;
-			$output_data['container'] = bind_data($output_data, THEME_TEMPLATE . 'Container' . SEPARATOR . 'Archive.php');
+			$output_data['container'] = bindData($output_data, THEME_TEMPLATE . 'Container' . SEPARATOR . 'Archive.php');
 			$output_data['slider'] = $slider;
 
-			$result = bind_data($output_data, THEME_TEMPLATE . 'index.php');
-			write_to($result, BLOG_PUBLIC_ARCHIVE . $index);
+			$result = bindData($output_data, THEME_TEMPLATE . 'index.php');
+			writeTo($result, BLOG_PUBLIC_ARCHIVE . $index);
 		}
 		
 		if(file_exists(BLOG_PUBLIC_ARCHIVE . $max . SEPARATOR . 'index.html'))

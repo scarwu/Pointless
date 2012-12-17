@@ -5,7 +5,7 @@ class pointless_deploy extends NanoCLI {
 		parent::__construct();
 	}
 	
-	public function Run() {
+	public function run() {
 		chdir(BLOG_PUBLIC);
 		exec('git add .');
 		exec('git add -u');

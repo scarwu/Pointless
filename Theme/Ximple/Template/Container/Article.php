@@ -27,7 +27,7 @@ if($total != 1) {
 		<div class="info">
 			<span class="date"><?php echo $data['date']; ?></span>
 			<br />
-			<span class="comments"><?php echo link_to(BLOG_PATH.'article/'.$data['url'] .'/#disqus_thread', '0 Comments'); ?></span>
+			<span class="comments"><?php echo linkTo(BLOG_PATH . 'article/' . $data['url'] .'/#disqus_thread', '0 Comments'); ?></span>
 		</div>
 		<div class="content"><?php echo $data['content']; ?></div>
 	</article>

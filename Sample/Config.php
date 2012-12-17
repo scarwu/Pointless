@@ -42,3 +42,6 @@ define('GITHUB_CNAME', NULL);
 // Local Encoding - For console, If your environment encoding is't utf-8 then modify this
 // Big5 | GBK | other
 define('LOCAL_ENCODING', NULL);
+
+// Default file editor
+define('FILE_EDITOR', 'vi');

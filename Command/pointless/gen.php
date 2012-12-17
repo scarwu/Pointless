@@ -5,8 +5,8 @@ class pointless_gen extends NanoCLI {
 		parent::__construct();
 	}
 	
-	public function Run() {
+	public function run() {
 		$all = new pointless_gen_all();
-		$all->Run();
+		$all->run();
 	}
 }

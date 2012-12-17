@@ -1,10 +1,10 @@
 <?php
 
-function link_to($link, $name) {
+function linkTo($link, $name) {
 	return sprintf('<a href="%s">%s</a>', $link, $name);
 }
 
-function bind_data($data, $path) {
+function bindData($data, $path) {
 	ob_start();
 	include $path;
 	$result = ob_get_contents();
@@ -14,7 +14,7 @@ function bind_data($data, $path) {
 }
 
 // FIXME and Theme/Script/*/*.php
-function write_to($data, $path) {
+function writeTo($data, $path) {
 	if(!preg_match('/\.html$/', $path)) {
 		if(!file_exists($path))
 			mkdir($path, 0755, TRUE);
@@ -26,21 +26,21 @@ function write_to($data, $path) {
 	fclose($handle);
 }
 
-function recursive_copy($src, $dest) {
+function recursiveCopy($src, $dest) {
 	if(is_dir($src)) {
 		if(!file_exists($dest))
 			mkdir($dest, 0755, TRUE);
 		$handle = @opendir($src);
 		while($file = readdir($handle))
 			if($file != '.' && $file != '..' && $file != '.git')
-				recursive_copy($src . DIRECTORY_SEPARATOR . $file, $dest . DIRECTORY_SEPARATOR . $file);
+				recursiveCopy($src . DIRECTORY_SEPARATOR . $file, $dest . DIRECTORY_SEPARATOR . $file);
 		closedir($handle);
 	}
 	else
 		copy($src, $dest);
 }
 
-function article_sort($list) {
+function articleSort($list) {
 	$result = array();
 	
 	if(!empty($list)) {
@@ -57,7 +57,7 @@ function article_sort($list) {
 	return $result;
 }
 
-function count_sort($list) {
+function countSort($list) {
 	$result = array();
 	
 	if(!empty($list)) {
@@ -67,7 +67,7 @@ function count_sort($list) {
 		arsort($result);
 		
 		foreach($result as $key => $value)
-			$result[$key] = article_sort($list[$key]);
+			$result[$key] = articleSort($list[$key]);
 	}
 	
 	return $result;
