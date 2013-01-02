@@ -45,3 +45,6 @@ define('LOCAL_ENCODING', NULL);
 
 // Default file editor
 define('FILE_EDITOR', 'vi');
+
+// Time Zone
+define('TIMEZONE', 'Asia/Taipei');

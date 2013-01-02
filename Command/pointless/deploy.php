@@ -9,7 +9,7 @@ class pointless_deploy extends NanoCLI {
 		chdir(BLOG_PUBLIC);
 		exec('git add .');
 		exec('git add -u');
-		exec('git commit -m "' . date("Y-m-d H:i:s", time()) . '"');
+		exec(sprintf('git commit -m "%s - %s"', date("Y-m-d H:i:s", time()), TIMEZONE));
 		exec('git push');
 	}
 }

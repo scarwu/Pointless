@@ -37,3 +37,6 @@ define('THEME_JS', THEME . BLOG_THEME . SEPARATOR . 'Js' . SEPARATOR);
 define('THEME_RESOURCE', THEME . BLOG_THEME . SEPARATOR . 'Resource' . SEPARATOR);
 define('THEME_SCRIPT', THEME . BLOG_THEME . SEPARATOR . 'Script' . SEPARATOR);
 define('THEME_TEMPLATE', THEME . BLOG_THEME . SEPARATOR . 'Template' . SEPARATOR);
+
+// Set Time Zone
+date_default_timezone_set(TIMEZONE);
