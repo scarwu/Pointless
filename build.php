@@ -2,13 +2,14 @@
 <?php
 
 // Clear Phar
-if(file_exists(dirname(__FILE__) . '/bin/poi.phar'))
-	unlink(dirname(__FILE__) . '/bin/poi.phar');
+if(file_exists(dirname(__FILE__) . '/bin/poi'))
+	unlink(dirname(__FILE__) . '/bin/poi');
 
 // Setting Stub
 $stub = <<<EOF
 #!/usr/bin/env php
 <?php
+Phar::mapPhar('poi.phar');
 define('ROOT', 'phar://poi.phar/');
 require ROOT. 'Boot.php';
 __HALT_COMPILER();
@@ -25,3 +26,4 @@ $phar->stopBuffering();
 
 // Setting Phar is Executable
 chmod(dirname(__FILE__) . '/bin/poi.phar', 0755);
+rename(dirname(__FILE__) . '/bin/poi.phar', dirname(__FILE__) . '/bin/poi');

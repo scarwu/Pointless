@@ -1,2 +1,3 @@
 #/bin/sh
-wget https://raw.github.com/scarwu/Pointless/master/bin/poi.phar /usr/bin/poi.phar
+wget https://raw.github.com/scarwu/Pointless/master/bin/poi /usr/bin/poi
+chmod +x /usr/bin/poi

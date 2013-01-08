@@ -3,7 +3,7 @@ Pointless
 
 ### Description
 
-Static blog generator
+Static Blog Generator
 
 ### Requirement
 
@@ -11,29 +11,13 @@ Static blog generator
 
 ### Installation
 
-#### Clone Pointless from github
+#### Easy Install
+
+	sudo curl https://raw.github.com/scarwu/Pointless/master/install.sh | sh
+
+#### Manual Install
 
 	git clone git://github.com/scarwu/Pointless.git
-	
-#### Add this line to `.bashrc` or `.zshrc` file
-	
-	export PATH=$PATH:/path/to/Pointless/Bin/
+	cp Pointless/bin/poi /usr/bin/poi
 
-#### Initialize Pointless
-
-	./init.sh
-	
-Default Folder on **/path/to/Pointless/Blog** and Static Page Folder on **/path/to/Pointless/Blog/Public**
-
-### Custom
-
-#### Blog Path
-If you want to custom your blog output path, do this ...
-
-	cp Config.default.php Config.php
-	vi Config.php
-
-and modify line 5.
-
-	define('BLOG', '/path/to/your/blog/folder' . SEPARATOR);
-	
+Default Folder on **/home/user/.pointless**
