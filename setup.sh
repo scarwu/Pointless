@@ -4,4 +4,4 @@ git submodule init
 git submodule update
 
 ./build.php
-./bin/poi
+./bin/poi.phar gen

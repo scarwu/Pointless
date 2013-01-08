@@ -1,4 +1,4 @@
-script: ./init.sh
+script: ./setup.sh
 language: php
 php:
   - 5.3

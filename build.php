@@ -16,9 +16,10 @@ __HALT_COMPILER();
 EOF;
 
 // Create Phar
-$phar = new Phar('bin/poi.phar', 0, 'poi.phar');
-$phar->buildFromDirectory(dirname(__FILE__) . '/src');
+$phar = new Phar('bin/poi.phar');
+$phar->setAlias('poi.phar');
 $phar->setStub($stub);
+$phar->buildFromDirectory(dirname(__FILE__) . '/src');
 $phar->compressFiles(Phar::GZ);
 $phar->stopBuffering();
 
