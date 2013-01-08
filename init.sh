@@ -3,4 +3,5 @@
 git submodule init
 git submodule update
 
-./Bin/poi init
+./build.php
+./bin/poi

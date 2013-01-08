@@ -10,7 +10,7 @@ $stub = <<<EOF
 #!/usr/bin/env php
 <?php
 define('ROOT', 'phar://poi.phar/');
-require ROOT. Boot.php";
+require ROOT. 'Boot.php';
 __HALT_COMPILER();
 ?>
 EOF;
