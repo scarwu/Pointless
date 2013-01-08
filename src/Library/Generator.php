@@ -19,7 +19,7 @@ class Generator {
 		$handle = opendir(THEME_SCRIPT . 'BlogPage');
 		while($filename = readdir($handle))
 			if('.' != $filename && '..' != $filename) {
-				require_once THEME_SCRIPT . 'BlogPage' . SEPARATOR . $filename;
+				require THEME_SCRIPT . 'BlogPage' . SEPARATOR . $filename;
 				$class_name = preg_replace('/.php$/', '', $filename);
 				$this->_template['blog_page'][$class_name] = new $class_name;
 			}
@@ -48,7 +48,7 @@ class Generator {
 		$handle = opendir(THEME_SCRIPT . 'Article');
 		while($filename = readdir($handle))
 			if('.' != $filename && '..' != $filename) {
-				require_once THEME_SCRIPT . 'Article' . SEPARATOR . $filename;
+				require THEME_SCRIPT . 'Article' . SEPARATOR . $filename;
 				$class_name = preg_replace('/.php$/', '', $filename);
 				$this->_template['article'][$class_name] = new $class_name;
 			}

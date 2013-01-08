@@ -7,10 +7,10 @@ class pointless_gen_all extends NanoCLI {
 	
 	public function run() {
 		// Inclide Markdown Library
-		require_once CORE_PLUGIN . 'Markdown' . SEPARATOR . 'markdown.php';
-		require_once CORE_LIBRARY . 'Compress.php';
-		require_once CORE_LIBRARY . 'GeneralFunction.php';
-		require_once CORE_LIBRARY . 'Generator.php';
+		require CORE_PLUGIN . 'Markdown' . SEPARATOR . 'markdown.php';
+		require CORE_LIBRARY . 'Compress.php';
+		require CORE_LIBRARY . 'GeneralFunction.php';
+		require CORE_LIBRARY . 'Generator.php';
 		
 		// Clean static pages
 		$clean = new pointless_gen_clean();

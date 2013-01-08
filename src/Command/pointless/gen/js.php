@@ -6,7 +6,7 @@ class pointless_gen_js extends NanoCLI {
 	}
 	
 	public function run() {
-		require_once CORE_LIBRARY . 'Compress.php';
+		require CORE_LIBRARY . 'Compress.php';
 		
 		NanoIO::writeln("Clean Javascript ...", 'yellow');
 		if(file_exists(BLOG_PUBLIC . 'main.js'))
