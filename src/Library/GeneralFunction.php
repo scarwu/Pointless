@@ -18,7 +18,7 @@ function writeTo($data, $path) {
 	if(!preg_match('/\.html$/', $path)) {
 		if(!file_exists($path))
 			mkdir($path, 0755, TRUE);
-		$path = $path . SEPARATOR .  'index.html';
+		$path = $path . '/index.html';
 	}
 
 	$handle = fopen($path, 'w+');
@@ -33,7 +33,7 @@ function recursiveCopy($src, $dest) {
 		$handle = @opendir($src);
 		while($file = readdir($handle))
 			if($file != '.' && $file != '..' && $file != '.git')
-				recursiveCopy($src . DIRECTORY_SEPARATOR . $file, $dest . DIRECTORY_SEPARATOR . $file);
+				recursiveCopy($src . '/' . $file, $dest . '/' . $file);
 		closedir($handle);
 	}
 	else

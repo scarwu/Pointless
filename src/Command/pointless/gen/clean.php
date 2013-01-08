@@ -7,8 +7,8 @@ class pointless_gen_clean extends NanoCLI {
 	
 	public function run($path = NULL) {
 		NanoIO::writeln("Clean Public Files ...", 'yellow');
-		if(file_exists(NULL == $path ? BLOG_PUBLIC : $path))
-			$this->recursiveRemove(NULL == $path ? BLOG_PUBLIC : $path);
+		if(file_exists(NULL == $path ? PUBLIC_FOLDER : $path))
+			$this->recursiveRemove(NULL == $path ? PUBLIC_FOLDER : $path);
 	}
 	
 	/**
@@ -19,10 +19,10 @@ class pointless_gen_clean extends NanoCLI {
 			$handle = @opendir($path);
 			while($file = readdir($handle))
 				if($file != '.' && $file != '..' && $file != '.git')
-					$this->recursiveRemove($path . SEPARATOR . $file);
+					$this->recursiveRemove($path . '/' . $file);
 			closedir($handle);
 			
-			if($path != BLOG_PUBLIC)
+			if($path != PUBLIC_FOLDER)
 				return rmdir($path);
 		}
 		else

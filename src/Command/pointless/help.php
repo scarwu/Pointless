@@ -9,7 +9,6 @@ class pointless_help extends NanoCLI {
 		NanoIO::writeln("Welcome to use Pointless.", 'yellow');
 		NanoIO::writeln("Available Commads:");
 		NanoIO::writeln("    help            - Show help.");
-		NanoIO::writeln("    init            - Initialize Poinless.");
 		NanoIO::writeln("    gen (all)       - Generate Blog.");
 		NanoIO::writeln("    gen css         - Generate and Compress CSS.");
 		NanoIO::writeln("    gen js          - Generate and Compress JavaScript.");

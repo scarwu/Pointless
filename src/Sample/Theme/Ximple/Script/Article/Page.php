@@ -31,14 +31,14 @@ class Page {
 				'total' => $total
 			);
 			$output_data['article_list'] = array_slice($this->_list, ARTICLE_QUANTITY * $index, ARTICLE_QUANTITY);
-			$output_data['container'] = bindData($output_data, THEME_TEMPLATE . 'Container' . SEPARATOR . 'Page.php');
+			$output_data['container'] = bindData($output_data, THEME_TEMPLATE . 'Container/Page.php');
 			$output_data['slider'] = $slider;
 			
 			$result = bindData($output_data, THEME_TEMPLATE . 'index.php');
-			writeTo($result, BLOG_PUBLIC_PAGE . ($index+1));
+			writeTo($result, PUBLIC_PAGE . ($index+1));
 		}
 		
-		if(file_exists(BLOG_PUBLIC_PAGE . '1' . SEPARATOR . 'index.html'))
-			copy(BLOG_PUBLIC_PAGE . '1' . SEPARATOR . 'index.html', BLOG_PUBLIC . 'index.html');
+		if(file_exists(PUBLIC_PAGE . '1' . '/index.html'))
+			copy(PUBLIC_PAGE . '1' . '/index.html', PUBLIC_FOLDER . 'index.html');
 	}
 }

@@ -6,14 +6,14 @@ class pointless_gen_js extends NanoCLI {
 	}
 	
 	public function run() {
-		require CORE_LIBRARY . 'Compress.php';
+		require LIBRARY . 'Compress.php';
 		
 		NanoIO::writeln("Clean Javascript ...", 'yellow');
-		if(file_exists(BLOG_PUBLIC . 'main.js'))
-			unlink(BLOG_PUBLIC . 'main.js');
+		if(file_exists(PUBLIC_FOLDER . 'main.js'))
+			unlink(PUBLIC_FOLDER . 'main.js');
 
 		NanoIO::writeln("Compress Javascript ...", 'yellow');
 		$Compress = new Compress();
-		$Compress->js(THEME_JS, BLOG_PUBLIC . 'theme');
+		$Compress->js(THEME_JS, PUBLIC_FOLDER . 'theme');
 	}
 }

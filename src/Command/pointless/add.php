@@ -47,8 +47,8 @@ class pointless_add extends NanoCLI {
 			foreach($info as $key => $value)
 				$info[$key] = iconv(LOCAL_ENCODING, 'utf-8', $value);
 		
-		if(!file_exists(BLOG_MARKDOWN_ARTICLE . $filename)) {
-			$handle = fopen(BLOG_MARKDOWN_ARTICLE . $filename, 'w+');
+		if(!file_exists(MARKDOWN_ARTICLE . $filename)) {
+			$handle = fopen(MARKDOWN_ARTICLE . $filename, 'w+');
 			fwrite($handle, "-----\n{\n");
 			fwrite($handle, '	"title": "' . $info['title'] . '",' . "\n");
 			fwrite($handle, '	"url": "' . $info['url'] . '",' . "\n");
@@ -59,7 +59,7 @@ class pointless_add extends NanoCLI {
 			fwrite($handle, "}\n-----\n");
 			
 			NanoIO::writeln("\nArticle " . $filename . " was create.");
-			system(sprintf("%s %s < `tty` > `tty`", FILE_EDITOR, BLOG_MARKDOWN_ARTICLE . $filename));
+			system(sprintf("%s %s < `tty` > `tty`", FILE_EDITOR, MARKDOWN_ARTICLE . $filename));
 		}
 		else
 			NanoIO::writeln("\nArticle" . $filename . " is exsist.");
@@ -85,8 +85,8 @@ class pointless_add extends NanoCLI {
 			foreach($info as $key => $value)
 				$info[$key] = iconv(LOCAL_ENCODING, 'utf-8', $value);
 		
-		if(!file_exists(BLOG_MARKDOWN_BLOGPAGE . $filename)) {
-			$handle = fopen(BLOG_MARKDOWN_BLOGPAGE . $filename, 'w+');
+		if(!file_exists(MARKDOWN_BLOGPAGE . $filename)) {
+			$handle = fopen(MARKDOWN_BLOGPAGE . $filename, 'w+');
 			fwrite($handle, "-----\n{\n");
 			fwrite($handle, '	"title": "' . $info['title'] . '",' . "\n");
 			fwrite($handle, '	"url": "' . $info['url'] . '",' . "\n");
@@ -94,7 +94,7 @@ class pointless_add extends NanoCLI {
 			fwrite($handle, "}\n-----\n");
 			
 			NanoIO::writeln("\nBlog Page " . $filename . " was create.");
-			system(FILE_EDITOR . " " . BLOG_MARKDOWN_BLOGPAGE . $filename . " < `tty` > `tty`");
+			system(FILE_EDITOR . " " . MARKDOWN_BLOGPAGE . $filename . " < `tty` > `tty`");
 		}
 		else
 			NanoIO::writeln("\nBlog Page " . $filename . " is exsist.");

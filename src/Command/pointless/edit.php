@@ -21,13 +21,13 @@ class pointless_edit extends NanoCLI {
 		$regex_rule = '/^-----\n((?:.|\n)*)\n-----\n((?:.|\n)*)/';
 		
 		$data = array();
-		$handle = opendir(BLOG_MARKDOWN_ARTICLE);
+		$handle = opendir(MARKDOWN_ARTICLE);
 		while($filename = readdir($handle))
 			if('.' != $filename && '..' != $filename) {
-				preg_match($regex_rule, file_get_contents(BLOG_MARKDOWN_ARTICLE . $filename), $match);
+				preg_match($regex_rule, file_get_contents(MARKDOWN_ARTICLE . $filename), $match);
 				$temp = json_decode($match[1], TRUE);
 				$data[$temp['date'].$temp['time']] = $temp;
-				$data[$temp['date'].$temp['time']]['path'] = BLOG_MARKDOWN_ARTICLE . $filename;
+				$data[$temp['date'].$temp['time']]['path'] = MARKDOWN_ARTICLE . $filename;
 			}
 		closedir($handle);
 		ksort($data);
@@ -55,13 +55,13 @@ class pointless_edit extends NanoCLI {
 		
 		$path = array();
 		$count = 0;
-		$handle = opendir(BLOG_MARKDOWN_BLOGPAGE);
+		$handle = opendir(MARKDOWN_BLOGPAGE);
 		while($filename = readdir($handle))
 			if('.' != $filename && '..' != $filename) {
-				preg_match($regex_rule, file_get_contents(BLOG_MARKDOWN_BLOGPAGE . $filename), $match);
+				preg_match($regex_rule, file_get_contents(MARKDOWN_BLOGPAGE . $filename), $match);
 				$temp = json_decode($match[1], TRUE);
 				NanoIO::writeln(sprintf("[%3d] %s", $count, $temp['title']));
-				$path[$count++] = BLOG_MARKDOWN_BLOGPAGE . $filename;
+				$path[$count++] = MARKDOWN_BLOGPAGE . $filename;
 			}
 		closedir($handle);
 

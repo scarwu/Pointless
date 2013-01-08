@@ -51,14 +51,14 @@ class Archive {
 			
 			$output_data['title'] = 'Archive: ' . $index;
 			$output_data['article_list'] = $article_list;
-			$output_data['container'] = bindData($output_data, THEME_TEMPLATE . 'Container' . SEPARATOR . 'Archive.php');
+			$output_data['container'] = bindData($output_data, THEME_TEMPLATE . 'Container/Archive.php');
 			$output_data['slider'] = $slider;
 
 			$result = bindData($output_data, THEME_TEMPLATE . 'index.php');
-			writeTo($result, BLOG_PUBLIC_ARCHIVE . $index);
+			writeTo($result, PUBLIC_ARCHIVE . $index);
 		}
 		
-		if(file_exists(BLOG_PUBLIC_ARCHIVE . $max . SEPARATOR . 'index.html'))
-			copy(BLOG_PUBLIC_ARCHIVE . $max . SEPARATOR . 'index.html', BLOG_PUBLIC_ARCHIVE . 'index.html');
+		if(file_exists(PUBLIC_ARCHIVE . $max . '/index.html'))
+			copy(PUBLIC_ARCHIVE . $max . '/index.html', PUBLIC_ARCHIVE . 'index.html');
 	}
 }

@@ -33,11 +33,11 @@ if(!file_exists(THEME_FOLDER)) {
 	recursiveCopy(ROOT . 'Sample/Theme', THEME_FOLDER);
 }
 
-define('THEME_JS', THEME_FOLDER . BLOG_THEME . 'Js/');
-define('THEME_CSS', THEME_FOLDER . BLOG_THEME . 'Css/');
-define('THEME_SCRIPT', THEME_FOLDER . BLOG_THEME . 'Script/');
-define('THEME_RESOURCE', THEME_FOLDER . BLOG_THEME . 'Resource/');
-define('THEME_TEMPLATE', THEME_FOLDER . BLOG_THEME . 'Template/');
+define('THEME_JS', THEME_FOLDER . BLOG_THEME . '/Js/');
+define('THEME_CSS', THEME_FOLDER . BLOG_THEME . '/Css/');
+define('THEME_SCRIPT', THEME_FOLDER . BLOG_THEME . '/Script/');
+define('THEME_RESOURCE', THEME_FOLDER . BLOG_THEME . '/Resource/');
+define('THEME_TEMPLATE', THEME_FOLDER . BLOG_THEME . '/Template/');
 
 // Public
 if(!file_exists(PUBLIC_FOLDER))

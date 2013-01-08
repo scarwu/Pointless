@@ -7,10 +7,9 @@ class pointless_gen_all extends NanoCLI {
 	
 	public function run() {
 		// Inclide Markdown Library
-		require CORE_PLUGIN . 'Markdown' . SEPARATOR . 'markdown.php';
-		require CORE_LIBRARY . 'Compress.php';
-		require CORE_LIBRARY . 'GeneralFunction.php';
-		require CORE_LIBRARY . 'Generator.php';
+		require PLUGIN . 'Markdown/markdown.php';
+		require LIBRARY . 'Compress.php';
+		require LIBRARY . 'Generator.php';
 		
 		// Clean static pages
 		$clean = new pointless_gen_clean();
@@ -18,22 +17,22 @@ class pointless_gen_all extends NanoCLI {
 		
 		$start = microtime(TRUE);
 		
-		if(!file_exists(BLOG_PUBLIC))
-			mkdir(BLOG_PUBLIC, 0755, TRUE);
+		if(!file_exists(PUBLIC_FOLDER))
+			mkdir(PUBLIC_FOLDER, 0755, TRUE);
 		
 		NanoIO::writeln("Copy Resource ...", 'yellow');
-		recursiveCopy(BLOG_RESOURCE, BLOG_PUBLIC);
+		recursiveCopy(RESOURCE_FOLDER, PUBLIC_FOLDER);
 		
 		if(NULL !== GITHUB_CNAME) {
 			NanoIO::writeln("Create Github CNAME ...", 'yellow');
-			$handle = fopen(BLOG_PUBLIC . 'CNAME', 'w+');
+			$handle = fopen(PUBLIC_FOLDER . 'CNAME', 'w+');
 			fwrite($handle, GITHUB_CNAME);
 			fclose($handle);
 		}
 		
-		if(!file_exists(BLOG_PUBLIC . 'README')) {
+		if(!file_exists(PUBLIC_FOLDER . 'README')) {
 			NanoIO::writeln("Create README ...", 'yellow');
-			$handle = fopen(BLOG_PUBLIC . 'README', 'w+');
+			$handle = fopen(PUBLIC_FOLDER . 'README', 'w+');
 			fwrite($handle, 'Powered by Pointless');
 			fclose($handle);
 		}
@@ -41,12 +40,12 @@ class pointless_gen_all extends NanoCLI {
 		$compress = new Compress();
 		
 		NanoIO::writeln("Compress Javascript ...", 'yellow');
-		$compress->js(THEME_JS, BLOG_PUBLIC . 'theme');
+		$compress->js(THEME_JS, PUBLIC_FOLDER . 'theme');
 		
 		NanoIO::writeln("Compress Cascading Style Sheets ...", 'yellow');
-		$compress->css(THEME_CSS, BLOG_PUBLIC . 'theme');
+		$compress->css(THEME_CSS, PUBLIC_FOLDER . 'theme');
 		
-		recursiveCopy(THEME_RESOURCE, BLOG_PUBLIC . 'theme');
+		recursiveCopy(THEME_RESOURCE, PUBLIC_FOLDER . 'theme');
 		
 		NanoIO::writeln("Blog Generating ... ", 'yellow');
 		$generator = new Generator();

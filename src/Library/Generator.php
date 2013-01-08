@@ -19,17 +19,17 @@ class Generator {
 		$handle = opendir(THEME_SCRIPT . 'BlogPage');
 		while($filename = readdir($handle))
 			if('.' != $filename && '..' != $filename) {
-				require THEME_SCRIPT . 'BlogPage' . SEPARATOR . $filename;
+				require THEME_SCRIPT . 'BlogPage/' . $filename;
 				$class_name = preg_replace('/.php$/', '', $filename);
 				$this->_template['blog_page'][$class_name] = new $class_name;
 			}
 		closedir($handle);
 		
 		// Handle Blog Page Markdown
-		$handle = opendir(BLOG_MARKDOWN_BLOGPAGE);
+		$handle = opendir(MARKDOWN_BLOGPAGE);
 		while($filename = readdir($handle))
 			if('.' != $filename && '..' != $filename && preg_match('/.md$/', $filename)) {
-				preg_match($regex_rule, file_get_contents(BLOG_MARKDOWN_BLOGPAGE . $filename), $match);
+				preg_match($regex_rule, file_get_contents(MARKDOWN_BLOGPAGE . $filename), $match);
 				$temp = json_decode($match[1], TRUE);
 				$blog_page = array();
 				$blog_page['title'] = $temp['title'];
@@ -48,17 +48,17 @@ class Generator {
 		$handle = opendir(THEME_SCRIPT . 'Article');
 		while($filename = readdir($handle))
 			if('.' != $filename && '..' != $filename) {
-				require THEME_SCRIPT . 'Article' . SEPARATOR . $filename;
+				require THEME_SCRIPT . 'Article/' . $filename;
 				$class_name = preg_replace('/.php$/', '', $filename);
 				$this->_template['article'][$class_name] = new $class_name;
 			}
 		closedir($handle);
 		
 		// Handle Article Markdown
-		$handle = opendir(BLOG_MARKDOWN_ARTICLE);
+		$handle = opendir(MARKDOWN_ARTICLE);
 		while($filename = readdir($handle))
 			if('.' != $filename && '..' != $filename && preg_match('/.md$/', $filename)) {
-				preg_match($regex_rule, file_get_contents(BLOG_MARKDOWN_ARTICLE . $filename), $match);
+				preg_match($regex_rule, file_get_contents(MARKDOWN_ARTICLE . $filename), $match);
 
 				$temp = json_decode($match[1], TRUE);
 				
@@ -122,7 +122,7 @@ class Generator {
 	private function genSlider() {
 		$result = '';
 		$list = array();
-		$handle = opendir(THEME_TEMPLATE . 'Slider' . SEPARATOR);
+		$handle = opendir(THEME_TEMPLATE . 'Slider/');
 		while($file = readdir($handle))
 			if('.' != $file && '..' != $file)
 				$list[] = $file;
@@ -133,7 +133,7 @@ class Generator {
 		foreach((array)$list as $filename)
 			$result .= bindData(
 				$this->_template['article'][preg_replace(array('/^\d+_/', '/.php$/'), '', $filename)]->getList(),
-				THEME_TEMPLATE . 'Slider' . SEPARATOR . $filename
+				THEME_TEMPLATE . 'Slider/' . $filename
 			);
 		
 		$this->_slider = $result;
