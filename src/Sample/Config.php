@@ -48,3 +48,15 @@ define('FILE_EDITOR', 'vi');
 
 // Time Zone
 define('TIMEZONE', 'Asia/Taipei');
+
+// Blog Theme Folder
+define('THEME_FOLDER', USER_DATA . 'Theme/');
+
+// Blog Public Folder
+define('PUBLIC_FOLDER', USER_DATA . 'Public/');
+
+// Blog Markdown Folder
+define('MARKDOWN_FOLDER', USER_DATA . 'Markdown/');
+
+// Blog Resource Folder
+define('RESOURCE_FOLDER', USER_DATA . 'Resource/');
