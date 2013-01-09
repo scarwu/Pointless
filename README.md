@@ -19,7 +19,8 @@ Static Blog Generator
 
 	git clone git://github.com/scarwu/Pointless.git
 	sudo cp /path/to/Pointless/bin/poi /usr/bin/poi
+	sudo chmod +x /usr/bin/poi
 
-Default Folder on **/home/user/.pointless**
+Default Folder on **/home/{user}/.pointless**
 
 For more please watch [Wiki](https://github.com/scarwu/Pointless/wiki) or [ScarShow](http://scar.simcz.tw)
