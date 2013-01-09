@@ -26,6 +26,7 @@ EOF;
 		NanoIO::writeln('    add        - Add New Article / Blogpage');
 		NanoIO::writeln('    edit       - List and Edit Article / Blogpage');
 		NanoIO::writeln('    delete     - Delete Article / Blogpage');
+		NanoIO::writeln('    confing    - Modify Blog Config');
 		NanoIO::writeln('    deploy     - Deploy Blog Using Git');
 	}
 }
