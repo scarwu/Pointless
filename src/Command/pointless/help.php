@@ -14,17 +14,18 @@ class pointless_help extends NanoCLI {
    / ____/ /_____/ /_/ /_/ /_/ / /_/ / /_/ /_____/\/____/\/____/\
   /_/\___\/\_____\/\_\/\_\/\_\/  \_\/  \_\/\_____\/\____\/\____\/
   \_\/
+
 EOF;
 
 		NanoIO::writeln($pointless, 'green');
-		NanoIO::writeln('');
-		NanoIO::writeln('    help       - Help.');
-		NanoIO::writeln('    gen        - Generate Blog.');
-		NanoIO::writeln('    gen css    - Generate and Compress CSS.');
-		NanoIO::writeln('    gen js     - Generate and Compress JavaScript.');
-		NanoIO::writeln('    clean      - Clean Blog Files.');
-		NanoIO::writeln('    add        - Add New Article / Blogpage.');
-		NanoIO::writeln('    edit       - List and Edit Article / Blogpage.');
-		NanoIO::writeln('    deploy     - Deploy Blog Using Git.');
+		NanoIO::writeln('    help       - Help');
+		NanoIO::writeln('    gen        - Generate Blog');
+		NanoIO::writeln('    gen css    - Generate and Compress CSS');
+		NanoIO::writeln('    gen js     - Generate and Compress JavaScript');
+		NanoIO::writeln('    clean      - Clean Blog Files');
+		NanoIO::writeln('    add        - Add New Article / Blogpage');
+		NanoIO::writeln('    edit       - List and Edit Article / Blogpage');
+		NanoIO::writeln('    delete     - Delete Article / Blogpage');
+		NanoIO::writeln('    deploy     - Deploy Blog Using Git');
 	}
 }
