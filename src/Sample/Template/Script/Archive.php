@@ -5,14 +5,16 @@ class Archive {
 	
 	public function __construct() {
 		$this->_list = array();
+		$source = Resource::get('source');
+
+		foreach($source['article'] as $index => $value) {
+			if(!isset($this->_list[$value['year']]))
+				$this->_list[$value['year']] = array();
+
+			$this->_list[$value['year']][] = $value;
+		}
 	}
-	
-	public function add($article) {
-		if(!isset($this->_list[$article['year']]))
-			$this->_list[$article['year']] = array();
-		$this->_list[$article['year']][] = $article;
-	}
-	
+
 	public function getList() {
 		return $this->_list;
 	}
@@ -51,10 +53,10 @@ class Archive {
 			
 			$output_data['title'] = 'Archive: ' . $index;
 			$output_data['article_list'] = $article_list;
-			$output_data['container'] = bindData($output_data, THEME_TEMPLATE . 'Container/Archive.php');
+			$output_data['container'] = bindData($output_data, THEME_CONTAINER . 'Archive.php');
 			$output_data['slider'] = $slider;
 
-			$result = bindData($output_data, THEME_TEMPLATE . 'index.php');
+			$result = bindData($output_data, THEME . 'index.php');
 			writeTo($result, PUBLIC_FOLDER . 'archive/' . $index);
 		}
 		

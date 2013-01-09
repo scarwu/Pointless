@@ -5,12 +5,14 @@ class Category {
 	
 	public function __construct() {
 		$this->_list = array();
-	}
-	
-	public function add($article) {
-		if(!isset($this->_list[$article['category']]))
-			$this->_list[$article['category']] = array();
-		$this->_list[$article['category']][] = $article;
+		$source = Resource::get('source');
+
+		foreach($source['article'] as $index => $value) {
+			if(!isset($this->_list[$value['category']]))
+				$this->_list[$value['category']] = array();
+
+			$this->_list[$value['category']][] = $value;
+		}
 	}
 	
 	public function getList() {
@@ -49,10 +51,10 @@ class Category {
 			
 			$output_data['title'] ='Category: ' . $index;
 			$output_data['article_list'] = $article_list;
-			$output_data['container'] = bindData($output_data, THEME_TEMPLATE . 'Container/Category.php');
+			$output_data['container'] = bindData($output_data, THEME_CONTAINER . 'Category.php');
 			$output_data['slider'] = $slider;
 			
-			$result = bindData($output_data, THEME_TEMPLATE . 'index.php');
+			$result = bindData($output_data, THEME . 'index.php');
 			writeTo($result, PUBLIC_FOLDER . 'category/' . $index);
 		}
 		

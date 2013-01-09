@@ -5,13 +5,15 @@ class Tag {
 	
 	public function __construct() {
 		$this->_list = array();
-	}
-	
-	public function add($article) {
-		foreach($article['tag'] as $tag) {
-			if(!isset($this->_list[$tag]))
-				$this->_list[$tag] = array();
-			$this->_list[$tag][] = $article;
+		$source = Resource::get('source');
+
+		foreach($source['article'] as $index => $value) {
+			foreach($value['tag'] as $tag) {
+				if(!isset($this->_list[$tag]))
+					$this->_list[$tag] = array();
+
+				$this->_list[$tag][] = $value;
+			}
 		}
 	}
 	
@@ -51,10 +53,10 @@ class Tag {
 			
 			$output_data['title'] = 'Tag: ' . $index;
 			$output_data['article_list'] = $article_list;
-			$output_data['container'] = bindData($output_data, THEME_TEMPLATE . 'Container/Tag.php');
+			$output_data['container'] = bindData($output_data, THEME_CONTAINER . 'Tag.php');
 			$output_data['slider'] = $slider;
 			
-			$result = bindData($output_data, THEME_TEMPLATE . 'index.php');
+			$result = bindData($output_data, THEME . 'index.php');
 			writeTo($result, PUBLIC_FOLDER . 'tag/' . $index);
 		}
 		

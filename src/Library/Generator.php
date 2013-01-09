@@ -14,7 +14,7 @@ class Generator {
 		while($filename = readdir($handle))
 			if('.' != $filename && '..' != $filename) {
 				require TEMPLATE_SCRIPT . $filename;
-				
+
 				$class_name = preg_replace('/.php$/', '', $filename);
 				$this->_script[$class_name] = new $class_name;
 			}

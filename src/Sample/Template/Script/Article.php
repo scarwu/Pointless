@@ -4,11 +4,8 @@ class Article {
 	private $_list;
 	
 	public function __construct() {
-		$this->_list = array();
-	}
-	
-	public function add($article) {
-		$this->_list[] = $article;
+		$source = Resource::get('source');
+		$this->_list = $source['article'];
 	}
 	
 	public function getList() {
@@ -39,10 +36,10 @@ class Article {
 					'url' => $this->_list[$index+1]['url']
 				);
 
-			$output_data['container'] = bindData($output_data, THEME_TEMPLATE . 'Container/Article.php');
+			$output_data['container'] = bindData($output_data, THEME_CONTAINER . 'Article.php');
 			$output_data['slider'] = $slider;
 			
-			$result = bindData($output_data, THEME_TEMPLATE . 'index.php');
+			$result = bindData($output_data, THEME . 'index.php');
 			writeTo($result, PUBLIC_FOLDER . 'article/' . $output_data['url']);
 		}
 	}
