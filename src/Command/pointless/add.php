@@ -58,7 +58,7 @@ class pointless_add extends NanoCLI {
 			fwrite($handle, '	"time": "' . date("H:i:s", $time) . '"' . "\n");
 			fwrite($handle, "}\n-----\n");
 			
-			NanoIO::writeln("\nArticle " . $filename . " was create.");
+			NanoIO::writeln("\nArticle " . $filename . " was created.");
 			system(sprintf("%s %s < `tty` > `tty`", FILE_EDITOR, MARKDOWN_ARTICLE . $filename));
 		}
 		else
@@ -93,7 +93,7 @@ class pointless_add extends NanoCLI {
 			fwrite($handle, '	"message": true' . "\n");
 			fwrite($handle, "}\n-----\n");
 			
-			NanoIO::writeln("\nBlog Page " . $filename . " was create.");
+			NanoIO::writeln("\nBlog Page " . $filename . " was created.");
 			system(FILE_EDITOR . " " . MARKDOWN_BLOGPAGE . $filename . " < `tty` > `tty`");
 		}
 		else
