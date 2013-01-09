@@ -5,23 +5,24 @@ class Archive {
 	
 	public function __construct() {
 		$this->_list = array();
-	}
-	
-	public function add($article) {
-		if(!isset($this->_list[$article['year']]))
-			$this->_list[$article['year']] = array();
-		$this->_list[$article['year']][] = $article;
-	}
-	
-	public function getList() {
-		return $this->_list;
-	}
-	
-	public function sortList() {
+		$source = Resource::get('source');
+
+		foreach($source['article'] as $index => $value) {
+			if(!isset($this->_list[$value['year']]))
+				$this->_list[$value['year']] = array();
+
+			$this->_list[$value['year']][] = $value;
+		}
+
+		// Sort
 		krsort($this->_list);
 		
 		foreach($this->_list as $year => $article)
 			$this->_list[$year] = articleSort($article);
+	}
+
+	public function getList() {
+		return $this->_list;
 	}
 
 	public function gen($slider) {
@@ -51,14 +52,14 @@ class Archive {
 			
 			$output_data['title'] = 'Archive: ' . $index;
 			$output_data['article_list'] = $article_list;
-			$output_data['container'] = bindData($output_data, THEME_TEMPLATE . 'Container/Archive.php');
+			$output_data['container'] = bindData($output_data, THEME_CONTAINER . 'Archive.php');
 			$output_data['slider'] = $slider;
 
-			$result = bindData($output_data, THEME_TEMPLATE . 'index.php');
-			writeTo($result, PUBLIC_ARCHIVE . $index);
+			$result = bindData($output_data, THEME . 'index.php');
+			writeTo($result, PUBLIC_FOLDER . 'archive/' . $index);
 		}
 		
-		if(file_exists(PUBLIC_ARCHIVE . $max . '/index.html'))
-			copy(PUBLIC_ARCHIVE . $max . '/index.html', PUBLIC_ARCHIVE . 'index.html');
+		if(file_exists(PUBLIC_FOLDER . 'archive/' . $max . '/index.html'))
+			copy(PUBLIC_FOLDER . 'archive/' . $max . '/index.html', PUBLIC_FOLDER . 'archive/index.html');
 	}
 }

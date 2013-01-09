@@ -4,19 +4,15 @@ class Article {
 	private $_list;
 	
 	public function __construct() {
-		$this->_list = array();
-	}
-	
-	public function add($article) {
-		$this->_list[] = $article;
+		$source = Resource::get('source');
+		$this->_list = $source['article'];
+
+		// Sort
+		$this->_list = articleSort($this->_list);
 	}
 	
 	public function getList() {
 		return $this->_list;
-	}
-	
-	public function sortList() {
-		$this->_list = articleSort($this->_list);
 	}
 	
 	public function gen($slider) {
@@ -39,11 +35,11 @@ class Article {
 					'url' => $this->_list[$index+1]['url']
 				);
 
-			$output_data['container'] = bindData($output_data, THEME_TEMPLATE . 'Container/Article.php');
+			$output_data['container'] = bindData($output_data, THEME_CONTAINER . 'Article.php');
 			$output_data['slider'] = $slider;
 			
-			$result = bindData($output_data, THEME_TEMPLATE . 'index.php');
-			writeTo($result, PUBLIC_ARTICLE . $output_data['url']);
+			$result = bindData($output_data, THEME . 'index.php');
+			writeTo($result, PUBLIC_FOLDER . 'article/' . $output_data['url']);
 		}
 	}
 }

@@ -5,22 +5,23 @@ class Tag {
 	
 	public function __construct() {
 		$this->_list = array();
-	}
-	
-	public function add($article) {
-		foreach($article['tag'] as $tag) {
-			if(!isset($this->_list[$tag]))
-				$this->_list[$tag] = array();
-			$this->_list[$tag][] = $article;
+		$source = Resource::get('source');
+
+		foreach($source['article'] as $index => $value) {
+			foreach($value['tag'] as $tag) {
+				if(!isset($this->_list[$tag]))
+					$this->_list[$tag] = array();
+
+				$this->_list[$tag][] = $value;
+			}
 		}
+
+		// Sort
+		$this->_list = countSort($this->_list);
 	}
 	
 	public function getList() {
 		return $this->_list;
-	}
-	
-	public function sortList() {
-		$this->_list = countSort($this->_list);
 	}
 	
 	public function gen($slider) {
@@ -51,14 +52,14 @@ class Tag {
 			
 			$output_data['title'] = 'Tag: ' . $index;
 			$output_data['article_list'] = $article_list;
-			$output_data['container'] = bindData($output_data, THEME_TEMPLATE . 'Container/Tag.php');
+			$output_data['container'] = bindData($output_data, THEME_CONTAINER . 'Tag.php');
 			$output_data['slider'] = $slider;
 			
-			$result = bindData($output_data, THEME_TEMPLATE . 'index.php');
-			writeTo($result, PUBLIC_TAG . $index);
+			$result = bindData($output_data, THEME . 'index.php');
+			writeTo($result, PUBLIC_FOLDER . 'tag/' . $index);
 		}
 		
-		if(file_exists(PUBLIC_TAG . $max[1] . '/index.html'))
-			copy(PUBLIC_TAG . $max[1] . '/index.html', PUBLIC_TAG . 'index.html');
+		if(file_exists(PUBLIC_FOLDER . 'tag/' . $max[1] . '/index.html'))
+			copy(PUBLIC_FOLDER . 'tag/' . $max[1] . '/index.html', PUBLIC_FOLDER . 'tag/index.html');
 	}
 }

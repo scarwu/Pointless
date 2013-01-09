@@ -9,13 +9,11 @@ Static Blog Generator
 
 * PHP 5.3+
 
-### Installation
-
-#### Easy Install
+### Easy Install
 
 	sudo curl https://raw.github.com/scarwu/Pointless/master/install.sh | sh
 
-#### Manual Install
+### Manual Install
 
 	git clone git://github.com/scarwu/Pointless.git
 	cp Pointless/bin/poi /usr/bin/poi

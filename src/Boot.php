@@ -1,6 +1,7 @@
 <?php
 
 // Core
+define('SCRIPT', ROOT . 'Script/');
 define('PLUGIN', ROOT . 'Plugin/');
 define('LIBRARY', ROOT . 'Library/');
 
@@ -10,10 +11,11 @@ require LIBRARY . 'GeneralFunction.php';
 define('USER_DATA', $_SERVER['HOME'] . '/.pointless/');
 
 // User Data
-if(!file_exists(USER_DATA)) {
+if(!file_exists(USER_DATA))
 	mkdir(USER_DATA, 0755, TRUE);
+
+if(!file_exists(USER_DATA . 'Config.php'))
 	copy(ROOT . 'Sample/Config.php', USER_DATA . 'Config.php');
-}
 
 // Require Config
 require USER_DATA . 'Config.php';
@@ -27,27 +29,22 @@ if(!file_exists(MARKDOWN_FOLDER)) {
 define('MARKDOWN_ARTICLE', MARKDOWN_FOLDER . 'Article/');
 define('MARKDOWN_BLOGPAGE', MARKDOWN_FOLDER . 'BlogPage/');
 
-// Theme
-if(!file_exists(THEME_FOLDER)) {
-	mkdir(THEME_FOLDER, 0755, TRUE);
-	recursiveCopy(ROOT . 'Sample/Theme', THEME_FOLDER);
+// Template and Theme
+if(!file_exists(TEMPLATE_FOLDER)) {
+	mkdir(TEMPLATE_FOLDER, 0755, TRUE);
+	recursiveCopy(ROOT . 'Sample/Template', TEMPLATE_FOLDER);
 }
 
-define('THEME_JS', THEME_FOLDER . BLOG_THEME . '/Js/');
-define('THEME_CSS', THEME_FOLDER . BLOG_THEME . '/Css/');
-define('THEME_SCRIPT', THEME_FOLDER . BLOG_THEME . '/Script/');
-define('THEME_RESOURCE', THEME_FOLDER . BLOG_THEME . '/Resource/');
-define('THEME_TEMPLATE', THEME_FOLDER . BLOG_THEME . '/Template/');
+define('THEME', TEMPLATE_FOLDER . BLOG_THEME. '/');
+define('THEME_JS', THEME . 'Js/');
+define('THEME_CSS', THEME . 'Css/');
+define('THEME_RESOURCE', THEME . 'Resource/');
+define('THEME_CONTAINER', THEME . 'Container/');
+define('THEME_SLIDER', THEME . 'Slider/');
 
 // Public
 if(!file_exists(PUBLIC_FOLDER))
 	mkdir(PUBLIC_FOLDER, 0755, TRUE);
-
-define('PUBLIC_TAG', PUBLIC_FOLDER . 'tag/');
-define('PUBLIC_PAGE', PUBLIC_FOLDER . 'page/');
-define('PUBLIC_ARTICLE', PUBLIC_FOLDER . 'article/');
-define('PUBLIC_ARCHIVE', PUBLIC_FOLDER . 'archive/');
-define('PUBLIC_CATEGORY', PUBLIC_FOLDER . 'category/');
 
 // Resource
 if(!file_exists(RESOURCE_FOLDER))
