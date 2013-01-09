@@ -1,6 +1,7 @@
 <?php
 
 // Core
+define('SCRIPT', ROOT . 'Script/');
 define('PLUGIN', ROOT . 'Plugin/');
 define('LIBRARY', ROOT . 'Library/');
 
@@ -34,9 +35,7 @@ if(!file_exists(TEMPLATE_FOLDER)) {
 	recursiveCopy(ROOT . 'Sample/Template', TEMPLATE_FOLDER);
 }
 
-define('TEMPLATE_SCRIPT', TEMPLATE_FOLDER . 'Script/');
-
-define('THEME', TEMPLATE_FOLDER . 'Theme/' . BLOG_THEME. '/');
+define('THEME', TEMPLATE_FOLDER . BLOG_THEME. '/');
 define('THEME_JS', THEME . 'Js/');
 define('THEME_CSS', THEME . 'Css/');
 define('THEME_RESOURCE', THEME . 'Resource/');

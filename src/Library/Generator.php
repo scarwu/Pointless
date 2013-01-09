@@ -10,18 +10,31 @@ class Generator {
 	
 	public function run() {
 
-		$handle = opendir(TEMPLATE_SCRIPT);
+		// Load Theme Custom Script
+		if(file_exists(THEME . 'Script')) {
+			$handle = opendir(THEME . 'Script');
+			while($filename = readdir($handle))
+				if('.' != $filename && '..' != $filename) {
+					require THEME . 'Script' . $filename;
+
+					$class_name = preg_replace('/.php$/', '', $filename);
+					$this->_script[$class_name] = new $class_name;
+				}
+			closedir($handle);
+		}
+
+		// Load Default Script
+		$handle = opendir(SCRIPT);
 		while($filename = readdir($handle))
 			if('.' != $filename && '..' != $filename) {
-				require TEMPLATE_SCRIPT . $filename;
-
 				$class_name = preg_replace('/.php$/', '', $filename);
-				$this->_script[$class_name] = new $class_name;
+
+				if(!isset($this->_script[$class_name])) {
+					require SCRIPT . $filename;
+					$this->_script[$class_name] = new $class_name;
+				}
 			}
 		closedir($handle);
-
-		foreach((array)$this->_script as $class)
-			$class->sortList();
 		
 		$this->genSlider();
 		$this->genContainer();

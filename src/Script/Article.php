@@ -6,14 +6,13 @@ class Article {
 	public function __construct() {
 		$source = Resource::get('source');
 		$this->_list = $source['article'];
+
+		// Sort
+		$this->_list = articleSort($this->_list);
 	}
 	
 	public function getList() {
 		return $this->_list;
-	}
-	
-	public function sortList() {
-		$this->_list = articleSort($this->_list);
 	}
 	
 	public function gen($slider) {

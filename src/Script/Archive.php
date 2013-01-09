@@ -13,17 +13,16 @@ class Archive {
 
 			$this->_list[$value['year']][] = $value;
 		}
-	}
 
-	public function getList() {
-		return $this->_list;
-	}
-	
-	public function sortList() {
+		// Sort
 		krsort($this->_list);
 		
 		foreach($this->_list as $year => $article)
 			$this->_list[$year] = articleSort($article);
+	}
+
+	public function getList() {
+		return $this->_list;
 	}
 
 	public function gen($slider) {

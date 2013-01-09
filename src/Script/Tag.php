@@ -1,6 +1,6 @@
 <?php
 
-class Category {
+class Tag {
 	private $_list;
 	
 	public function __construct() {
@@ -8,19 +8,20 @@ class Category {
 		$source = Resource::get('source');
 
 		foreach($source['article'] as $index => $value) {
-			if(!isset($this->_list[$value['category']]))
-				$this->_list[$value['category']] = array();
+			foreach($value['tag'] as $tag) {
+				if(!isset($this->_list[$tag]))
+					$this->_list[$tag] = array();
 
-			$this->_list[$value['category']][] = $value;
+				$this->_list[$tag][] = $value;
+			}
 		}
+
+		// Sort
+		$this->_list = countSort($this->_list);
 	}
 	
 	public function getList() {
 		return $this->_list;
-	}
-	
-	public function sortList() {
-		$this->_list = countSort($this->_list);
 	}
 	
 	public function gen($slider) {
@@ -30,7 +31,7 @@ class Category {
 		$key = array_keys($this->_list);
 		
 		foreach((array)$this->_list as $index => $article_list) {
-			NanoIO::writeln(sprintf("Building category/%s", $index));
+			NanoIO::writeln(sprintf("Building tag/%s", $index));
 			$max = count($article_list) > $max[0] ? array(count($article_list), $index) : $max;
 			
 			$output_data['bar'] = array();
@@ -49,16 +50,16 @@ class Category {
 			
 			$count++;
 			
-			$output_data['title'] ='Category: ' . $index;
+			$output_data['title'] = 'Tag: ' . $index;
 			$output_data['article_list'] = $article_list;
-			$output_data['container'] = bindData($output_data, THEME_CONTAINER . 'Category.php');
+			$output_data['container'] = bindData($output_data, THEME_CONTAINER . 'Tag.php');
 			$output_data['slider'] = $slider;
 			
 			$result = bindData($output_data, THEME . 'index.php');
-			writeTo($result, PUBLIC_FOLDER . 'category/' . $index);
+			writeTo($result, PUBLIC_FOLDER . 'tag/' . $index);
 		}
 		
-		if(file_exists(PUBLIC_FOLDER . 'category/' . $max[1] . '/index.html'))
-			copy(PUBLIC_FOLDER . 'category/' . $max[1] . '/index.html', PUBLIC_FOLDER . 'category/index.html');
+		if(file_exists(PUBLIC_FOLDER . 'tag/' . $max[1] . '/index.html'))
+			copy(PUBLIC_FOLDER . 'tag/' . $max[1] . '/index.html', PUBLIC_FOLDER . 'tag/index.html');
 	}
 }
