@@ -13,7 +13,8 @@ class Generator {
 		$handle = opendir(TEMPLATE_SCRIPT);
 		while($filename = readdir($handle))
 			if('.' != $filename && '..' != $filename) {
-				require TEMPLATE_SCRIPT . '/' . $filename;
+				require TEMPLATE_SCRIPT . $filename;
+				
 				$class_name = preg_replace('/.php$/', '', $filename);
 				$this->_script[$class_name] = new $class_name;
 			}
@@ -30,9 +31,8 @@ class Generator {
 	 * Gen Container
 	 */
 	private function genContainer() {
-		foreach((array)$this->_script as $list)
-			foreach((array)$list as $class)
-				$class->gen($this->_slider);
+		foreach((array)$this->_script as $class)
+			$class->gen($this->_slider);
 	}
 
 	/**

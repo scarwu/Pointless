@@ -10,10 +10,11 @@ require LIBRARY . 'GeneralFunction.php';
 define('USER_DATA', $_SERVER['HOME'] . '/.pointless/');
 
 // User Data
-if(!file_exists(USER_DATA)) {
+if(!file_exists(USER_DATA))
 	mkdir(USER_DATA, 0755, TRUE);
+
+if(!file_exists(USER_DATA . 'Config.php'))
 	copy(ROOT . 'Sample/Config.php', USER_DATA . 'Config.php');
-}
 
 // Require Config
 require USER_DATA . 'Config.php';

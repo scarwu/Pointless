@@ -15,6 +15,10 @@ class BlogPage {
 		return $this->_list;
 	}
 	
+	public function sortList() {
+		$this->_list = articleSort($this->_list);
+	}
+	
 	public function gen($slider) {
 		foreach((array)$this->_list as $index => $output_data) {
 			NanoIO::writeln("Building " . $output_data['url']);
