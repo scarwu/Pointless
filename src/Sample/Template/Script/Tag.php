@@ -55,10 +55,10 @@ class Tag {
 			$output_data['slider'] = $slider;
 			
 			$result = bindData($output_data, THEME_TEMPLATE . 'index.php');
-			writeTo($result, PUBLIC_TAG . $index);
+			writeTo($result, PUBLIC_FOLDER . 'tag/' . $index);
 		}
 		
-		if(file_exists(PUBLIC_TAG . $max[1] . '/index.html'))
-			copy(PUBLIC_TAG . $max[1] . '/index.html', PUBLIC_TAG . 'index.html');
+		if(file_exists(PUBLIC_FOLDER . 'tag/' . $max[1] . '/index.html'))
+			copy(PUBLIC_FOLDER . 'tag/' . $max[1] . '/index.html', PUBLIC_FOLDER . 'tag/index.html');
 	}
 }

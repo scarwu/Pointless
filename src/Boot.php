@@ -47,12 +47,6 @@ define('THEME_SLIDER', THEME . 'Slider/');
 if(!file_exists(PUBLIC_FOLDER))
 	mkdir(PUBLIC_FOLDER, 0755, TRUE);
 
-define('PUBLIC_TAG', PUBLIC_FOLDER . 'tag/');
-define('PUBLIC_PAGE', PUBLIC_FOLDER . 'page/');
-define('PUBLIC_ARTICLE', PUBLIC_FOLDER . 'article/');
-define('PUBLIC_ARCHIVE', PUBLIC_FOLDER . 'archive/');
-define('PUBLIC_CATEGORY', PUBLIC_FOLDER . 'category/');
-
 // Resource
 if(!file_exists(RESOURCE_FOLDER))
 	mkdir(RESOURCE_FOLDER, 0755, TRUE);

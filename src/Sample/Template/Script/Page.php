@@ -35,10 +35,10 @@ class Page {
 			$output_data['slider'] = $slider;
 			
 			$result = bindData($output_data, THEME_TEMPLATE . 'index.php');
-			writeTo($result, PUBLIC_PAGE . ($index+1));
+			writeTo($result, PUBLIC_FOLDER . 'page/' . ($index+1));
 		}
 		
-		if(file_exists(PUBLIC_PAGE . '1' . '/index.html'))
-			copy(PUBLIC_PAGE . '1' . '/index.html', PUBLIC_FOLDER . 'index.html');
+		if(file_exists(PUBLIC_FOLDER . 'page/1/index.html'))
+			copy(PUBLIC_FOLDER . 'page/1/index.html', PUBLIC_FOLDER . 'index.html');
 	}
 }

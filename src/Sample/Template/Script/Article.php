@@ -43,7 +43,7 @@ class Article {
 			$output_data['slider'] = $slider;
 			
 			$result = bindData($output_data, THEME_TEMPLATE . 'index.php');
-			writeTo($result, PUBLIC_ARTICLE . $output_data['url']);
+			writeTo($result, PUBLIC_FOLDER . 'article/' . $output_data['url']);
 		}
 	}
 }

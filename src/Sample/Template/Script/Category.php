@@ -53,10 +53,10 @@ class Category {
 			$output_data['slider'] = $slider;
 			
 			$result = bindData($output_data, THEME_TEMPLATE . 'index.php');
-			writeTo($result, PUBLIC_CATEGORY . $index);
+			writeTo($result, PUBLIC_FOLDER . 'category/' . $index);
 		}
 		
-		if(file_exists(PUBLIC_CATEGORY . $max[1] . '/index.html'))
-			copy(PUBLIC_CATEGORY . $max[1] . '/index.html', PUBLIC_CATEGORY . 'index.html');
+		if(file_exists(PUBLIC_FOLDER . 'category/' . $max[1] . '/index.html'))
+			copy(PUBLIC_FOLDER . 'category/' . $max[1] . '/index.html', PUBLIC_FOLDER . 'category/index.html');
 	}
 }

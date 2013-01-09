@@ -55,10 +55,10 @@ class Archive {
 			$output_data['slider'] = $slider;
 
 			$result = bindData($output_data, THEME_TEMPLATE . 'index.php');
-			writeTo($result, PUBLIC_ARCHIVE . $index);
+			writeTo($result, PUBLIC_FOLDER . 'archive/' . $index);
 		}
 		
-		if(file_exists(PUBLIC_ARCHIVE . $max . '/index.html'))
-			copy(PUBLIC_ARCHIVE . $max . '/index.html', PUBLIC_ARCHIVE . 'index.html');
+		if(file_exists(PUBLIC_FOLDER . 'archive/' . $max . '/index.html'))
+			copy(PUBLIC_FOLDER . 'archive/' . $max . '/index.html', PUBLIC_FOLDER . 'archive/index.html');
 	}
 }
