@@ -39,15 +39,14 @@ class pointless_edit extends NanoCLI {
 			$path[$count++] = $article['path'];
 		}
 		
-		NanoIO::write("\nEdit your article? [n/y]\n-> ");
-		if(NanoIO::read() == "y") {
-			do {
-				NanoIO::write("Enter Number:\n-> ");
-			}
-			while(!is_numeric($number = NanoIO::read()) || $number < 0 || $number >= count($path));
-
-			system(sprintf("%s %s < `tty` > `tty`", FILE_EDITOR, $path[$number]));
+		do {
+			NanoIO::write("\nEnter Number:\n-> ");
 		}
+		while(!is_numeric($number = NanoIO::read()) || $number < 0 || $number >= count($path));
+
+		NanoIO::write("Edit your article? [n/y]\n-> ");
+		if(NanoIO::read() == "y")
+			system(sprintf("%s %s < `tty` > `tty`", FILE_EDITOR, $path[$number]));
 	}
 
 	public function blogpage() {
@@ -65,14 +64,13 @@ class pointless_edit extends NanoCLI {
 			}
 		closedir($handle);
 
-		NanoIO::write("\nEdit your blog page? [n/y]\n-> ");
-		if(NanoIO::read() == "y") {
-			do {
-				NanoIO::write("Enter Number:\n-> ");
-			}
-			while(!is_numeric($number = NanoIO::read()) || $number < 0 || $number >= count($path));
-
-			system(sprintf("%s %s < `tty` > `tty`", FILE_EDITOR, $path[$number]));
+		do {
+			NanoIO::write("\nEnter Number:\n-> ");
 		}
+		while(!is_numeric($number = NanoIO::read()) || $number < 0 || $number >= count($path));
+
+		NanoIO::write("Edit your blog page? [n/y]\n-> ");
+		if(NanoIO::read() == "y")
+			system(sprintf("%s %s < `tty` > `tty`", FILE_EDITOR, $path[$number]));
 	}
 }
