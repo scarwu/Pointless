@@ -27,17 +27,20 @@ if(!file_exists(MARKDOWN_FOLDER)) {
 define('MARKDOWN_ARTICLE', MARKDOWN_FOLDER . 'Article/');
 define('MARKDOWN_BLOGPAGE', MARKDOWN_FOLDER . 'BlogPage/');
 
-// Theme
-if(!file_exists(THEME_FOLDER)) {
-	mkdir(THEME_FOLDER, 0755, TRUE);
-	recursiveCopy(ROOT . 'Sample/Theme', THEME_FOLDER);
+// Template and Theme
+if(!file_exists(TEMPLATE_FOLDER)) {
+	mkdir(TEMPLATE_FOLDER, 0755, TRUE);
+	recursiveCopy(ROOT . 'Sample/Template', TEMPLATE_FOLDER);
 }
 
-define('THEME_JS', THEME_FOLDER . BLOG_THEME . '/Js/');
-define('THEME_CSS', THEME_FOLDER . BLOG_THEME . '/Css/');
-define('THEME_SCRIPT', THEME_FOLDER . BLOG_THEME . '/Script/');
-define('THEME_RESOURCE', THEME_FOLDER . BLOG_THEME . '/Resource/');
-define('THEME_TEMPLATE', THEME_FOLDER . BLOG_THEME . '/Template/');
+define('TEMPLATE_SCRIPT', TEMPLATE_FOLDER . 'Script/');
+
+define('THEME', TEMPLATE_FOLDER . 'Theme/' . BLOG_THEME. '/');
+define('THEME_JS', THEME . 'Js/');
+define('THEME_CSS', THEME . 'Css/');
+define('THEME_RESOURCE', THEME . 'Resource/');
+define('THEME_CONTAINER', THEME . 'Container/');
+define('THEME_SLIDER', THEME . 'Slider/');
 
 // Public
 if(!file_exists(PUBLIC_FOLDER))

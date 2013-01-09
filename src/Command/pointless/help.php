@@ -6,15 +6,25 @@ class pointless_help extends NanoCLI {
 	}
 	
 	public function run() {
-		NanoIO::writeln("Welcome to use Pointless.", 'yellow');
-		NanoIO::writeln("Available Commads:");
-		NanoIO::writeln("    help           - Show help.");
-		NanoIO::writeln("    gen / gen all  - Generate Blog.");
-		NanoIO::writeln("    gen css        - Generate and Compress CSS.");
-		NanoIO::writeln("    gen js         - Generate and Compress JavaScript.");
-		NanoIO::writeln("    gen clean      - Clean Blog Files.");
-		NanoIO::writeln("    add            - Add New Article / Blogpage.");
-		NanoIO::writeln("    edit           - List and Edit Article / Blogpage.");
-		NanoIO::writeln("    deploy         - Deploy Blog Using Git.");
+		$pointless = <<<EOF
+                                          __
+    ______  ______  __  _______  ______  / /\______  _____  _____
+   / __  /\/ __  /\/ /\/ ___  /\/_  __/\/ / /  ___/\/  __/\/  __/\
+  / /_/ / / /_/ / / / / /\_/ / /\/ /\_\/ / /  ___/\/\  \_\/\  \_\/
+ / ____/ /_____/ /_/ /_/ //_/ / /_/ / /_/ /_____/\/____/\/____/\
+/_/\___\/\_____\/\_\/\_\/ \_\/  \_\/  \_\/\_____\/\____\/\____\/
+\_\/
+EOF;
+
+		NanoIO::writeln($pointless, 'green');
+		NanoIO::writeln('');
+		NanoIO::writeln('    help           - Show help.');
+		NanoIO::writeln('    gen / gen all  - Generate Blog.');
+		NanoIO::writeln('    gen css        - Generate and Compress CSS.');
+		NanoIO::writeln('    gen js         - Generate and Compress JavaScript.');
+		NanoIO::writeln('    gen clean      - Clean Blog Files.');
+		NanoIO::writeln('    add            - Add New Article / Blogpage.');
+		NanoIO::writeln('    edit           - List and Edit Article / Blogpage.');
+		NanoIO::writeln('    deploy         - Deploy Blog Using Git.');
 	}
 }
