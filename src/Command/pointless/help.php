@@ -18,7 +18,6 @@ class pointless_help extends NanoCLI {
 EOF;
 
 		NanoIO::writeln($pointless, 'green');
-		NanoIO::writeln('    help       - Help');
 		NanoIO::writeln('    gen        - Generate Blog');
 		NanoIO::writeln('    gen css    - Generate and Compress CSS');
 		NanoIO::writeln('    gen js     - Generate and Compress JavaScript');
@@ -28,5 +27,6 @@ EOF;
 		NanoIO::writeln('    delete     - Delete Article / Blogpage');
 		NanoIO::writeln('    confing    - Modify Blog Config');
 		NanoIO::writeln('    deploy     - Deploy Blog Using Git');
+		NanoIO::writeln('    update     - Pointless Self-update');
 	}
 }
