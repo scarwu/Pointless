@@ -64,38 +64,40 @@ class Resource {
 
 				$temp = json_decode($match[1], TRUE);
 
-				$date = explode('-', $temp['date']);
-				$time = explode(':', $temp['time']);
+				if(FALSE != (isset($temp['publish']) ? $temp['publish'] : TRUE)) {
+					$date = explode('-', $temp['date']);
+					$time = explode(':', $temp['time']);
 
-				// 0: date, 1: url, 2: date + url
-				switch(ARTICLE_URL) {
-					default:
-					case 0:
-						$url = str_replace('-', '/', $temp['date']);
-						break;
-					case 1:
-						$url = $temp['url'];
-						break;
-					case 2:
-						$url = str_replace('-', '/', $temp['date']) . '/' . $temp['url'];
-						break;
+					// 0: date, 1: url, 2: date + url
+					switch(ARTICLE_URL) {
+						default:
+						case 0:
+							$url = str_replace('-', '/', $temp['date']);
+							break;
+						case 1:
+							$url = $temp['url'];
+							break;
+						case 2:
+							$url = str_replace('-', '/', $temp['date']) . '/' . $temp['url'];
+							break;
+					}
+
+					self::$_resource['source']['article'][] = array(
+						'title' => $temp['title'],
+						'url' => $url,
+						'content' => Markdown($match[2]),
+						'date' => $temp['date'],
+						'time' => $temp['time'],
+						'category' => $temp['category'],
+						'tag' => explode('|', $temp['tag']),
+						'year' => $date[0],
+						'month' => $date[1],
+						'day' => $date[2],
+						'hour' => $time[0],
+						'minute' => $time[1],
+						'second' => $time[2]
+					);
 				}
-
-				self::$_resource['source']['article'][] = array(
-					'title' => $temp['title'],
-					'url' => $url,
-					'content' => Markdown($match[2]),
-					'date' => $temp['date'],
-					'time' => $temp['time'],
-					'category' => $temp['category'],
-					'tag' => explode('|', $temp['tag']),
-					'year' => $date[0],
-					'month' => $date[1],
-					'day' => $date[2],
-					'hour' => $time[0],
-					'minute' => $time[1],
-					'second' => $time[2]
-				);
 			}
 		closedir($handle);
 	}

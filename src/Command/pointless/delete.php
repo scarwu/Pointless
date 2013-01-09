@@ -43,7 +43,7 @@ class pointless_delete extends NanoCLI {
 		}
 		
 		do {
-			NanoIO::write("Enter Number:\n-> ");
+			NanoIO::write("\nEnter Number:\n-> ");
 		}
 		while(!is_numeric($number = NanoIO::read()) || $number < 0 || $number >= count($path));
 
@@ -72,7 +72,7 @@ class pointless_delete extends NanoCLI {
 		closedir($handle);
 
 		do {
-			NanoIO::write("Enter Number:\n-> ");
+			NanoIO::write("\nEnter Number:\n-> ");
 		}
 		while(!is_numeric($number = NanoIO::read()) || $number < 0 || $number >= count($path));
 
