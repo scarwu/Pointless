@@ -20,7 +20,7 @@ EOF;
 $phar = new Phar('bin/poi.phar');
 $phar->setAlias('poi.phar');
 $phar->setStub($stub);
-$phar->buildFromDirectory(dirname(__FILE__) . '/src');
+$phar->buildFromDirectory(dirname(__FILE__) . '/src', '/(\.php|\.md|\.js|\.css)/');
 $phar->compressFiles(Phar::GZ);
 $phar->stopBuffering();
 
