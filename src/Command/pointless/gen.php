@@ -10,14 +10,14 @@ class pointless_gen extends NanoCLI {
 		require LIBRARY . 'Resource.php';
 		require LIBRARY . 'Generator.php';
 		
-		// Clean Public Files
-		$clean = new pointless_clean();
-		$clean->run();
-		
 		$start = microtime(TRUE);
 		
 		if(!file_exists(PUBLIC_FOLDER))
 			mkdir(PUBLIC_FOLDER, 0755, TRUE);
+
+		// Clear Public Files
+		NanoIO::writeln("Clear Public Files ...", 'yellow');
+		recursiveRemove(PUBLIC_FOLDER);
 
 		// Create Github CNAME
 		if(NULL !== GITHUB_CNAME) {

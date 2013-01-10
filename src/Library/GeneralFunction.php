@@ -40,6 +40,21 @@ function recursiveCopy($src, $dest) {
 		copy($src, $dest);
 }
 
+function recursiveRemove($path = NULL) {
+	if(is_dir($path)) {
+		$handle = @opendir($path);
+		while($file = readdir($handle))
+			if($file != '.' && $file != '..' && $file != '.git')
+				recursiveRemove($path . '/' . $file);
+		closedir($handle);
+		
+		if($path != PUBLIC_FOLDER)
+			return rmdir($path);
+	}
+	else
+		return unlink($path);
+}
+
 function articleSort($list) {
 	$result = array();
 	

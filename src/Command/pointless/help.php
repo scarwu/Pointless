@@ -21,7 +21,6 @@ EOF;
 		NanoIO::writeln('    gen        - Generate Blog');
 		NanoIO::writeln('    gen css    - Generate and Compress CSS');
 		NanoIO::writeln('    gen js     - Generate and Compress JavaScript');
-		NanoIO::writeln('    clean      - Clean Blog Files');
 		NanoIO::writeln('    add        - Add New Article / Blogpage');
 		NanoIO::writeln('    edit       - List and Edit Article / Blogpage');
 		NanoIO::writeln('    delete     - Delete Article / Blogpage');

@@ -5,22 +5,22 @@ Pointless
 
 ### Description
 
-Static Blog Generator
+A Useful Static Blog Generator
+
+## Getting Start
 
 ### Requirement
 
 * PHP 5.3+
 
-### Easy Install
+### Install
 
 	curl https://raw.github.com/scarwu/Pointless/master/install.sh | sh
 
-### Manual Install
+### Update
 
-	git clone git://github.com/scarwu/Pointless.git
-	sudo cp /path/to/Pointless/bin/poi /usr/bin/poi
-	sudo chmod +x /usr/bin/poi
+	poi update
 
-Default Folder on **/home/{user}/.pointless**
+## For More
 
-For more please watch [Wiki](https://github.com/scarwu/Pointless/wiki) or [ScarShow](http://scar.simcz.tw)
+Please watch [Wiki](https://github.com/scarwu/Pointless/wiki) or [ScarShow](http://scar.simcz.tw)
