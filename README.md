@@ -1,13 +1,11 @@
 Pointless
 =========
 
-[![Build Status](https://travis-ci.org/scarwu/Pointless.png?branch=master)](https://travis-ci.org/scarwu/Pointless)
-
-### Description
-
 A Useful Static Blog Generator
 
-## Getting Start
+[![Build Status](https://travis-ci.org/scarwu/Pointless.png?branch=master)](https://travis-ci.org/scarwu/Pointless)
+
+## Getting Started
 
 ### Requirement
 
