@@ -38,6 +38,8 @@ class Generator {
 		
 		$this->genSlider();
 		$this->genContainer();
+
+		//print_r(Resource::get('sitemap'));
 	}
 
 	/**
@@ -52,7 +54,6 @@ class Generator {
 	 * Gen Slider
 	 */
 	private function genSlider() {
-		$result = '';
 		$list = array();
 		$handle = opendir(THEME_SLIDER);
 		while($file = readdir($handle))
@@ -62,6 +63,7 @@ class Generator {
 		
 		sort($list);
 
+		$result = '';
 		foreach((array)$list as $filename)
 			$result .= bindData(
 				$this->_script[preg_replace(array('/^\d+_/', '/.php$/'), '', $filename)]->getList(),

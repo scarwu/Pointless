@@ -13,7 +13,7 @@ class pointless_help extends NanoCLI {
     / /_/ / / /_/ / / / / /\/ / /\/ /\_\/ / /  ___/\/\  \_\/\  \_\/
    / ____/ /_____/ /_/ /_/ /_/ / /_/ / /_/ /_____/\/____/\/____/\
   /_/\___\/\_____\/\_\/\_\/\_\/  \_\/  \_\/\_____\/\____\/\____\/
-  \_\/                                                     0.9.2
+  \_\/
 
 EOF;
 
@@ -27,5 +27,6 @@ EOF;
 		NanoIO::writeln('    confng     - Modify Blog Config');
 		NanoIO::writeln('    deploy     - Deploy Blog');
 		NanoIO::writeln('    update     - Self-update');
+		NanoIO::writeln('    version    - Display Version');
 	}
 }
