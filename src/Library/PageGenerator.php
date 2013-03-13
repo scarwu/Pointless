@@ -1,6 +1,6 @@
 <?php
 
-class Generator {
+class PageGenerator {
 	private $script;
 	private $slider;
 	
@@ -38,7 +38,6 @@ class Generator {
 		
 		$this->genSlider();
 		$this->genContainer();
-		$this->genSitemap();
 	}
 
 	/**
@@ -70,35 +69,5 @@ class Generator {
 			);
 		
 		$this->slider = $result;
-	}
-
-	/**
-	 * Generate Sitemap
-	 */
-	private function genSitemap() {
-		NanoIO::writeln('Generating Sitemap ...', 'yellow');
-
-		$gmt = (date('d') - gmdate('d')) * 24 + (date('H') - gmdate('H'));
-		$gmt_hour = (abs($gmt) < 10 ? '0' . abs($gmt) : abs($gmt));
-		$gmt = ($gmt > 0 ? '+' . $gmt_hour : '-' . $gmt_hour) . ':00';
-		$lastmod = sprintf('%sT%s%s', date('Y-m-d'), date('H:i:s'), $gmt);
-
-		$format = <<<EOF
-	<url>
-		<loc>http://%s%s%s</loc>
-		<lastmod>%s</lastmod>
-	</url>
-EOF;
-
-		$sitemap = "<?xml version='1.0' encoding='UTF-8'?>\n";
-		$sitemap .= "<urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>\n";
-
-		foreach (Resource::get('sitemap') as $path) {
-			$sitemap .= sprintf($format, BLOG_DNS, BLOG_PATH, $path, $lastmod);
-		}
-
-		$sitemap .= "</urlset>";
-
-		writeTo($sitemap, PUBLIC_FOLDER . 'sitemap.xml');
 	}
 }
