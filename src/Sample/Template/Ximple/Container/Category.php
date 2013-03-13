@@ -1,4 +1,3 @@
-
 <?php
 $index = $data['bar']['index'];
 $total = $data['bar']['total'];

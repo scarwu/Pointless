@@ -21,6 +21,12 @@ define('BLOG_DNS', 'localhost');
 // Blog Theme
 define('BLOG_THEME', 'Classic');
 
+// Author Name
+define('AUTHOR_NAME', NULL);
+
+// Author Email
+define('AUTHOR_EMAIL', NULL);
+
 // Article Quantity
 define('ARTICLE_QUANTITY', 10);
 

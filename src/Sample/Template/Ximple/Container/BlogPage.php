@@ -1,4 +1,3 @@
-
 <div id="article">
 	<article>
 		<div class="title"><?=$data['title']?></div>
