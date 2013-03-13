@@ -10,7 +10,7 @@ class pointless_deploy extends NanoCLI {
 		if(file_exists('.git')) {
 			exec('git add .');
 			exec('git add -u');
-			exec(sprintf('git commit -m "%s - %s"', date("Y-m-d H:i:s", time()), TIMEZONE));
+			exec(sprintf('git commit -m "%s"', date(DATE_COOKIE)));
 			exec('git push');
 		}
 		else {
