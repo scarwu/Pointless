@@ -1,11 +1,11 @@
 <?php
 
 class Generator {
-	private $_script;
-	private $_slider;
+	private $script;
+	private $slider;
 	
 	public function __construct() {
-		$this->_script = array();
+		$this->script = array();
 	}
 	
 	public function run() {
@@ -18,7 +18,7 @@ class Generator {
 					require THEME . 'Script' . $filename;
 
 					$class_name = preg_replace('/.php$/', '', $filename);
-					$this->_script[$class_name] = new $class_name;
+					$this->script[$class_name] = new $class_name;
 				}
 			closedir($handle);
 		}
@@ -29,29 +29,28 @@ class Generator {
 			if('.' != $filename && '..' != $filename) {
 				$class_name = preg_replace('/.php$/', '', $filename);
 
-				if(!isset($this->_script[$class_name])) {
+				if(!isset($this->script[$class_name])) {
 					require SCRIPT . $filename;
-					$this->_script[$class_name] = new $class_name;
+					$this->script[$class_name] = new $class_name;
 				}
 			}
 		closedir($handle);
 		
 		$this->genSlider();
 		$this->genContainer();
-
-		//print_r(Resource::get('sitemap'));
+		$this->genSitemap();
 	}
 
 	/**
-	 * Gen Container
+	 * Generate Container
 	 */
 	private function genContainer() {
-		foreach((array)$this->_script as $class)
-			$class->gen($this->_slider);
+		foreach((array)$this->script as $class)
+			$class->gen($this->slider);
 	}
 
 	/**
-	 * Gen Slider
+	 * Generate Slider
 	 */
 	private function genSlider() {
 		$list = array();
@@ -66,10 +65,40 @@ class Generator {
 		$result = '';
 		foreach((array)$list as $filename)
 			$result .= bindData(
-				$this->_script[preg_replace(array('/^\d+_/', '/.php$/'), '', $filename)]->getList(),
+				$this->script[preg_replace(array('/^\d+_/', '/.php$/'), '', $filename)]->getList(),
 				THEME_SLIDER . $filename
 			);
 		
-		$this->_slider = $result;
+		$this->slider = $result;
+	}
+
+	/**
+	 * Generate Sitemap
+	 */
+	private function genSitemap() {
+		NanoIO::writeln('Generating Sitemap ...', 'yellow');
+
+		$GMT = (date('d') - gmdate('d')) * 24 + (date('H') - gmdate('H'));
+		$GMT_hour = (abs($GMT) < 10 ? '0' . abs($GMT) : abs($GMT));
+		$GMT = ($GMT > 0 ? '+' . $GMT_hour : '-' . $GMT_hour) . ':00';
+		$date = sprintf('%sT%s%s', date('Y-m-d'), date('H:i:s'), $GMT);
+
+		$format = <<<EOF
+	<url>
+		<loc>http://%s%s%s</loc>
+		<lastmod>%s</lastmod>
+	</url>
+EOF;
+
+		$sitemap = "<?xml version='1.0' encoding='UTF-8'?>\n";
+		$sitemap .= "<urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>\n";
+
+		foreach (Resource::get('sitemap') as $path) {
+			$sitemap .= sprintf($format, BLOG_DNS, BLOG_PATH, $path, $date);
+		}
+
+		$sitemap .= "</urlset>";
+
+		writeTo($sitemap, PUBLIC_FOLDER . 'sitemap.xml');
 	}
 }

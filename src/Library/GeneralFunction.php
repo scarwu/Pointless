@@ -15,7 +15,7 @@ function bindData($data, $path) {
 
 // FIXME and Theme/Script/*/*.php
 function writeTo($data, $path) {
-	if(!preg_match('/\.html$/', $path)) {
+	if(!preg_match('/\.(html|xml)$/', $path)) {
 		if(!file_exists($path))
 			mkdir($path, 0755, TRUE);
 		$path = $path . '/index.html';
