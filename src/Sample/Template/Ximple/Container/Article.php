@@ -38,13 +38,13 @@ if($total != 1) {
 	<!-- DISQUS -->
 	<div id="disqus_thread"></div>
 	<script type="text/javascript">
-	    var disqus_shortname = '<?=DISQUS_SHORTNAME?>';
-	    (function() {
-	        var embed = document.createElement('script');
-	        embed.type = 'text/javascript';
-	        embed.async = true;
-	        embed.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
-	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(embed);
+		var disqus_shortname = '<?=DISQUS_SHORTNAME?>';
+		(function() {
+			var embed = document.createElement('script');
+			embed.type = 'text/javascript';
+			embed.async = true;
+			embed.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+			(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(embed);
 
 			var count = document.createElement('script');
 			count.async = true;
