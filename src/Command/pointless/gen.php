@@ -9,7 +9,7 @@ class pointless_gen extends NanoCLI {
 		require LIBRARY . 'Compress.php';
 		require LIBRARY . 'Resource.php';
 		require LIBRARY . 'PageGenerator.php';
-		require LIBRARY . 'ExtensionGenerator.php';
+		require LIBRARY . 'ExtensionLoader.php';
 		require PLUGIN . 'Markdown/markdown.php';
 		
 		$start = microtime(TRUE);
@@ -55,13 +55,13 @@ class pointless_gen extends NanoCLI {
 
 		// Generate Pages
 		NanoIO::writeln("Generating Pages ...", 'yellow');
-		$pages = new PageGenerator();
-		$pages->run();
+		$page = new PageGenerator();
+		$page->run();
 
 		// Generate Extension
 		NanoIO::writeln("Generating Extensions ...", 'yellow');
-		$extensions = new ExtensionGenerator();
-		$extensions->run();
+		$extension = new ExtensionLoader();
+		$extension->run();
 		
 		$end = sprintf("%.3f", abs(microtime(TRUE) - $start));
 		

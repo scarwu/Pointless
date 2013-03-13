@@ -30,12 +30,11 @@ define('MARKDOWN_ARTICLE', MARKDOWN_FOLDER . 'Article/');
 define('MARKDOWN_BLOGPAGE', MARKDOWN_FOLDER . 'BlogPage/');
 
 // Extension
-define('EXTENSION_FOLDER', ROOT . 'Sample/Extension/');
-// define('EXTENSION_FOLDER', USER_DATA . 'Extension/');
-// if(!file_exists(EXTENSION_FOLDER)) {
-// 	mkdir(EXTENSION_FOLDER, 0755, TRUE);
-// 	recursiveCopy(ROOT . 'Sample/Extension', EXTENSION_FOLDER);
-// }
+define('EXTENSION_FOLDER', USER_DATA . 'Extension/');
+if(!file_exists(EXTENSION_FOLDER)) {
+	mkdir(EXTENSION_FOLDER, 0755, TRUE);
+	recursiveCopy(ROOT . 'Sample/Extension', EXTENSION_FOLDER);
+}
 
 // Template and Theme
 if(!file_exists(TEMPLATE_FOLDER)) {

@@ -8,7 +8,7 @@ class RSS {
 	public function __construct() {}
 
 	public function run() {
-		NanoIO::writeln('Generating RSS ...', 'yellow');
+		NanoIO::writeln('Building RSS');
 
 		$rss = '';
 
