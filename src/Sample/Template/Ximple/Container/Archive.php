@@ -59,7 +59,7 @@ foreach((array)$year_list as $year => $month_list) {
 }
 ?>
 <div id="archive">
-	<div class="title"><?php echo $data['title']; ?></div>
-	<?php echo $content; ?>
-	<div class="bar"><?php echo $bar; ?></div>
+	<div class="title"><?=$data['title']?></div>
+	<?=$content?>
+	<div class="bar"><?=$bar?></div>
 </div>

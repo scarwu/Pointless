@@ -42,7 +42,14 @@ if(!file_exists(TEMPLATE_FOLDER)) {
 	recursiveCopy(ROOT . 'Sample/Template', TEMPLATE_FOLDER);
 }
 
-define('THEME', TEMPLATE_FOLDER . BLOG_THEME. '/');
+// Test Theme Path
+if(file_exists(TEMPLATE_FOLDER . BLOG_THEME. '/') && '' != BLOG_THEME)
+	define('THEME', TEMPLATE_FOLDER . BLOG_THEME. '/');
+else if(ROOT . 'Sample/Template/' . BLOG_THEME. '/' && '' != BLOG_THEME)
+	define('THEME', ROOT . 'Sample/Template/' . BLOG_THEME. '/');
+else
+	define('THEME', ROOT . 'Sample/Template/Classic/');
+	
 define('THEME_JS', THEME . 'Js/');
 define('THEME_CSS', THEME . 'Css/');
 define('THEME_RESOURCE', THEME . 'Resource/');

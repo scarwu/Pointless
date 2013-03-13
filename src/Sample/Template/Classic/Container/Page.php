@@ -35,6 +35,6 @@ foreach((array)$data['article_list'] as $article) {
 }
 ?>
 <div id="page">
-	<?php echo $content; ?>
-	<div class="bar"><?php echo $bar; ?></div>
+	<?=$content?>
+	<div class="bar"><?=$bar?></div>
 </div>
