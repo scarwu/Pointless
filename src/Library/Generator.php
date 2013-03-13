@@ -78,10 +78,10 @@ class Generator {
 	private function genSitemap() {
 		NanoIO::writeln('Generating Sitemap ...', 'yellow');
 
-		$GMT = (date('d') - gmdate('d')) * 24 + (date('H') - gmdate('H'));
-		$GMT_hour = (abs($GMT) < 10 ? '0' . abs($GMT) : abs($GMT));
-		$GMT = ($GMT > 0 ? '+' . $GMT_hour : '-' . $GMT_hour) . ':00';
-		$date = sprintf('%sT%s%s', date('Y-m-d'), date('H:i:s'), $GMT);
+		$gmt = (date('d') - gmdate('d')) * 24 + (date('H') - gmdate('H'));
+		$gmt_hour = (abs($gmt) < 10 ? '0' . abs($gmt) : abs($gmt));
+		$gmt = ($gmt > 0 ? '+' . $gmt_hour : '-' . $gmt_hour) . ':00';
+		$lastmod = sprintf('%sT%s%s', date('Y-m-d'), date('H:i:s'), $gmt);
 
 		$format = <<<EOF
 	<url>
@@ -94,7 +94,7 @@ EOF;
 		$sitemap .= "<urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>\n";
 
 		foreach (Resource::get('sitemap') as $path) {
-			$sitemap .= sprintf($format, BLOG_DNS, BLOG_PATH, $path, $date);
+			$sitemap .= sprintf($format, BLOG_DNS, BLOG_PATH, $path, $lastmod);
 		}
 
 		$sitemap .= "</urlset>";
