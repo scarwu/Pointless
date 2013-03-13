@@ -1,51 +1,65 @@
 <?php
 
 class Tag {
-	private $_list;
+
+	/**
+	 * 
+	 */
+	private $list;
 	
+	/**
+	 * 
+	 */
 	public function __construct() {
-		$this->_list = array();
-		$source = Resource::get('source');
+		$this->list = array();
+		$source = Resource::get('article');
 
-		foreach($source['article'] as $index => $value) {
+		foreach($source as $index => $value) {
 			foreach($value['tag'] as $tag) {
-				if(!isset($this->_list[$tag]))
-					$this->_list[$tag] = array();
+				if(!isset($this->list[$tag]))
+					$this->list[$tag] = array();
 
-				$this->_list[$tag][] = $value;
+				$this->list[$tag][] = $value;
 			}
 		}
 
 		// Sort
-		$this->_list = countSort($this->_list);
+		$this->list = countSort($this->list);
 	}
 	
+	/**
+	 * 
+	 */
 	public function getList() {
-		return $this->_list;
+		return $this->list;
 	}
 	
+	/**
+	 * 
+	 */
 	public function gen($slider) {
 		$max = array(0, NULL);
 		$count = 0;
-		$total = count($this->_list);
-		$key = array_keys($this->_list);
+		$total = count($this->list);
+		$key = array_keys($this->list);
 		
-		foreach((array)$this->_list as $index => $article_list) {
-			NanoIO::writeln(sprintf("Building tag/%s", $index));
+		foreach((array)$this->list as $index => $article_list) {
+			NanoIO::writeln('Building tag/' . $index);
 			$max = count($article_list) > $max[0] ? array(count($article_list), $index) : $max;
 			
-			$output_data['bar'] = array();
-			$output_data['bar']['index'] = $count+1;
-			$output_data['bar']['total'] = $total;
-			if(isset($key[$count-1]))
+			$output_data['bar'] = array(
+				'index' => $count + 1,
+				'total' => $total
+			);
+			if(isset($key[$count - 1]))
 				$output_data['bar']['prev'] = array(
-					'title' => $key[$count-1],
-					'url' => $key[$count-1]
+					'title' => $key[$count - 1],
+					'url' => $key[$count - 1]
 				);
-			if(isset($key[$count+1]))
+			if(isset($key[$count + 1]))
 				$output_data['bar']['next'] = array(
-					'title' => $key[$count+1],
-					'url' => $key[$count+1]
+					'title' => $key[$count + 1],
+					'url' => $key[$count + 1]
 				);
 			
 			$count++;
@@ -55,11 +69,15 @@ class Tag {
 			$output_data['container'] = bindData($output_data, THEME_CONTAINER . 'Tag.php');
 			$output_data['slider'] = $slider;
 			
+			// Write HTML to Disk
 			$result = bindData($output_data, THEME . 'index.php');
 			writeTo($result, PUBLIC_FOLDER . 'tag/' . $index);
+
+			// Sitemap
+			Resource::set('sitemap', 'tag/' . $index);
 		}
-		
-		if(file_exists(PUBLIC_FOLDER . 'tag/' . $max[1] . '/index.html'))
-			copy(PUBLIC_FOLDER . 'tag/' . $max[1] . '/index.html', PUBLIC_FOLDER . 'tag/index.html');
+
+		copy(PUBLIC_FOLDER . 'tag/' . $max[1] . '/index.html', PUBLIC_FOLDER . 'tag/index.html');
+		Resource::set('sitemap', 'tag');
 	}
 }

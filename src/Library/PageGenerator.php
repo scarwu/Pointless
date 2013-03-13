@@ -1,11 +1,11 @@
 <?php
 
-class Generator {
-	private $_script;
-	private $_slider;
+class PageGenerator {
+	private $script;
+	private $slider;
 	
 	public function __construct() {
-		$this->_script = array();
+		$this->script = array();
 	}
 	
 	public function run() {
@@ -18,7 +18,7 @@ class Generator {
 					require THEME . 'Script' . $filename;
 
 					$class_name = preg_replace('/.php$/', '', $filename);
-					$this->_script[$class_name] = new $class_name;
+					$this->script[$class_name] = new $class_name;
 				}
 			closedir($handle);
 		}
@@ -29,9 +29,9 @@ class Generator {
 			if('.' != $filename && '..' != $filename) {
 				$class_name = preg_replace('/.php$/', '', $filename);
 
-				if(!isset($this->_script[$class_name])) {
+				if(!isset($this->script[$class_name])) {
 					require SCRIPT . $filename;
-					$this->_script[$class_name] = new $class_name;
+					$this->script[$class_name] = new $class_name;
 				}
 			}
 		closedir($handle);
@@ -41,18 +41,17 @@ class Generator {
 	}
 
 	/**
-	 * Gen Container
+	 * Generate Container
 	 */
 	private function genContainer() {
-		foreach((array)$this->_script as $class)
-			$class->gen($this->_slider);
+		foreach((array)$this->script as $class)
+			$class->gen($this->slider);
 	}
 
 	/**
-	 * Gen Slider
+	 * Generate Slider
 	 */
 	private function genSlider() {
-		$result = '';
 		$list = array();
 		$handle = opendir(THEME_SLIDER);
 		while($file = readdir($handle))
@@ -62,12 +61,13 @@ class Generator {
 		
 		sort($list);
 
+		$result = '';
 		foreach((array)$list as $filename)
 			$result .= bindData(
-				$this->_script[preg_replace(array('/^\d+_/', '/.php$/'), '', $filename)]->getList(),
+				$this->script[preg_replace(array('/^\d+_/', '/.php$/'), '', $filename)]->getList(),
 				THEME_SLIDER . $filename
 			);
 		
-		$this->_slider = $result;
+		$this->slider = $result;
 	}
 }

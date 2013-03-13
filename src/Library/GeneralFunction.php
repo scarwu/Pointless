@@ -15,7 +15,7 @@ function bindData($data, $path) {
 
 // FIXME and Theme/Script/*/*.php
 function writeTo($data, $path) {
-	if(!preg_match('/\.html$/', $path)) {
+	if(!preg_match('/\.(html|xml)$/', $path)) {
 		if(!file_exists($path))
 			mkdir($path, 0755, TRUE);
 		$path = $path . '/index.html';
@@ -27,17 +27,36 @@ function writeTo($data, $path) {
 }
 
 function recursiveCopy($src, $dest) {
-	if(is_dir($src)) {
-		if(!file_exists($dest))
-			mkdir($dest, 0755, TRUE);
-		$handle = @opendir($src);
-		while($file = readdir($handle))
-			if($file != '.' && $file != '..' && $file != '.git')
-				recursiveCopy($src . '/' . $file, $dest . '/' . $file);
-		closedir($handle);
+	if(file_exists($src)) {
+		if(is_dir($src)) {
+			if(!file_exists($dest))
+				mkdir($dest, 0755, TRUE);
+			$handle = @opendir($src);
+			while($file = readdir($handle))
+				if($file != '.' && $file != '..' && $file != '.git')
+					recursiveCopy($src . '/' . $file, $dest . '/' . $file);
+			closedir($handle);
+		}
+		else
+			copy($src, $dest);
 	}
-	else
-		copy($src, $dest);
+}
+
+function recursiveRemove($path = NULL) {
+	if(file_exists($path)) {
+		if(is_dir($path)) {
+			$handle = @opendir($path);
+			while($file = readdir($handle))
+				if($file != '.' && $file != '..' && $file != '.git')
+					recursiveRemove($path . '/' . $file);
+			closedir($handle);
+			
+			if($path != PUBLIC_FOLDER)
+				return rmdir($path);
+		}
+		else
+			return unlink($path);
+	}
 }
 
 function articleSort($list) {

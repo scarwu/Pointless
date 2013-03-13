@@ -1,39 +1,52 @@
 <?php
 
 class Page {
-	private $_list;
-	
-	public function __construct() {
-		$source = Resource::get('source');
-		$this->_list = $source['article'];
 
-		// Sort
-		$this->_list = articleSort($this->_list);
+	/**
+	 * 
+	 */
+	private $list;
+	
+	/**
+	 * 
+	 */
+	public function __construct() {
+		$this->list = articleSort(Resource::get('article'));
 	}
 	
+	/**
+	 * 
+	 */
 	public function getList() {
-		return $this->_list;
+		return $this->list;
 	}
 	
+	/**
+	 * 
+	 */
 	public function gen($slider) {
-		$total = ceil(count($this->_list) / ARTICLE_QUANTITY);
+		$total = ceil(count($this->list) / ARTICLE_QUANTITY);
 				
-		for($index = 0;$index < $total;$index++) {
-			NanoIO::writeln(sprintf("Building page/%s", ($index+1)));
+		for($index = 1;$index <= $total;$index++) {
+			NanoIO::writeln('Building page/' . $index);
 			
 			$output_data['bar'] = array(
-				'index' => $index+1,
+				'index' => $index,
 				'total' => $total
 			);
-			$output_data['article_list'] = array_slice($this->_list, ARTICLE_QUANTITY * $index, ARTICLE_QUANTITY);
+			$output_data['article_list'] = array_slice($this->list, ARTICLE_QUANTITY * ($index - 1), ARTICLE_QUANTITY);
 			$output_data['container'] = bindData($output_data, THEME_CONTAINER . 'Page.php');
 			$output_data['slider'] = $slider;
 			
+			// Write HTML to Disk
 			$result = bindData($output_data, THEME . 'index.php');
-			writeTo($result, PUBLIC_FOLDER . 'page/' . ($index+1));
+			writeTo($result, PUBLIC_FOLDER . 'page/' . $index);
+
+			// Sitemap
+			Resource::set('sitemap', 'page/' . $index);
 		}
 		
-		if(file_exists(PUBLIC_FOLDER . 'page/1/index.html'))
-			copy(PUBLIC_FOLDER . 'page/1/index.html', PUBLIC_FOLDER . 'index.html');
+		copy(PUBLIC_FOLDER . 'page/1/index.html', PUBLIC_FOLDER . 'index.html');
+		Resource::set('sitemap', 'page');
 	}
 }

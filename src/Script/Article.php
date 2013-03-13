@@ -1,45 +1,59 @@
 <?php
 
 class Article {
-	private $_list;
+
+	/**
+	 * 
+	 */
+	private $list;
 	
+	/**
+	 * 
+	 */
 	public function __construct() {
-		$source = Resource::get('source');
-		$this->_list = $source['article'];
-
-		// Sort
-		$this->_list = articleSort($this->_list);
+		$this->list = articleSort(Resource::get('article'));
 	}
 	
+	/**
+	 * 
+	 */
 	public function getList() {
-		return $this->_list;
+		return $this->list;
 	}
 	
+	/**
+	 * 
+	 */
 	public function gen($slider) {
-		$total = count($this->_list);
+		$total = count($this->list);
 
-		foreach((array)$this->_list as $index => $output_data) {
+		foreach((array)$this->list as $index => $output_data) {
 			NanoIO::writeln("Building article/" . $output_data['url']);
 			
-			$output_data['bar'] = array();
-			$output_data['bar']['index'] = $index+1;
-			$output_data['bar']['total'] = $total;
-			if(isset($this->_list[$index-1]))
+			$output_data['bar'] = array(
+				'index' => $index + 1,
+				'total' => $total
+			);
+			if(isset($this->list[$index - 1]))
 				$output_data['bar']['prev'] = array(
-					'title' => $this->_list[$index-1]['title'],
-					'url' => $this->_list[$index-1]['url']
+					'title' => $this->list[$index - 1]['title'],
+					'url' => $this->list[$index - 1]['url']
 				);
-			if(isset($this->_list[$index+1]))
+			if(isset($this->list[$index + 1]))
 				$output_data['bar']['next'] = array(
-					'title' => $this->_list[$index+1]['title'],
-					'url' => $this->_list[$index+1]['url']
+					'title' => $this->list[$index + 1]['title'],
+					'url' => $this->list[$index + 1]['url']
 				);
 
 			$output_data['container'] = bindData($output_data, THEME_CONTAINER . 'Article.php');
 			$output_data['slider'] = $slider;
 			
+			// Write HTML to Disk
 			$result = bindData($output_data, THEME . 'index.php');
 			writeTo($result, PUBLIC_FOLDER . 'article/' . $output_data['url']);
+
+			// Sitemap
+			Resource::set('sitemap', 'article/' . $output_data['url']);
 		}
 	}
 }

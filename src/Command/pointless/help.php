@@ -21,12 +21,12 @@ EOF;
 		NanoIO::writeln('    gen        - Generate Blog');
 		NanoIO::writeln('    gen css    - Generate and Compress CSS');
 		NanoIO::writeln('    gen js     - Generate and Compress JavaScript');
-		NanoIO::writeln('    clean      - Clean Blog Files');
-		NanoIO::writeln('    add        - Add New Article / Blogpage');
-		NanoIO::writeln('    edit       - List and Edit Article / Blogpage');
-		NanoIO::writeln('    delete     - Delete Article / Blogpage');
-		NanoIO::writeln('    confing    - Modify Blog Config');
-		NanoIO::writeln('    deploy     - Deploy Blog Using Git');
-		NanoIO::writeln('    update     - Pointless Self-update');
+		NanoIO::writeln('    add        - Add New Article or Blog Page');
+		NanoIO::writeln('    edit       - List and Edit Article or Blog Page');
+		NanoIO::writeln('    delete     - Delete Article or Blog Page');
+		NanoIO::writeln('    confng     - Modify Blog Config');
+		NanoIO::writeln('    deploy     - Deploy Blog');
+		NanoIO::writeln('    update     - Self-update');
+		NanoIO::writeln('    version    - Display Version');
 	}
 }
