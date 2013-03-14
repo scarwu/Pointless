@@ -27,6 +27,9 @@ define('AUTHOR_NAME', NULL);
 // Author Email
 define('AUTHOR_EMAIL', NULL);
 
+// RSS' or Atom's Article Quantity
+define('RSS_ATOM_QUANTITY', 5);
+
 // Article Quantity
 define('ARTICLE_QUANTITY', 10);
 

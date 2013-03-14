@@ -17,32 +17,56 @@ class Atom {
 
 		$atom .= "\t<title>" . BLOG_NAME . "</title>\n";
 		$atom .= "\t<subtitle>" . BLOG_SLOGAN . "</subtitle>\n";
-		$atom .= "\t<link href=\"http://" . BLOG_DNS . "/atom.xml\" rel=\"self\" />\n";
-		$atom .= "\t<link href=\"http://" . BLOG_DNS . "\" />\n";
-		$atom .= "\t<id>urn:uuid:60a76c80-d399-11d9-b91C-0003939e0af6</id>\n";
+		$atom .= "\t<link href=\"http://" . BLOG_DNS . BLOG_PATH . "atom.xml\" rel=\"self\" />\n";
+		$atom .= "\t<link href=\"http://" . BLOG_DNS . BLOG_PATH . "\" />\n";
+		$atom .= "\t<id>urn:uuid:" . $this->uuid(BLOG_DNS . BLOG_PATH . 'atom.xml') . "</id>\n";
 		$atom .= "\t<updated>" . date(DATE_ATOM) . "</updated>\n";
 
-		foreach(Resource::get('article') as $article_info) {
+		foreach(articleSort(Resource::get('article')) as $article) {
 			$atom .= "\t<entry>\n";
-			$atom .= "\t\t<title>{$article_info['title']}</title>\n";
-			$atom .= "\t\t<link href=\"http://" . BLOG_DNS . BLOG_PATH ."{$article_info['url']}\" />\n";
-			$atom .= "\t\t<link rel=\"alternate\" type=\"text/html\" href=\"http://example.org/2003/12/13/atom03.html\"/>\n";
-			$atom .= "\t\t<link rel=\"edit\" href=\"http://example.org/2003/12/13/atom03/edit\"/>\n";
-			$atom .= "\t\t<id>urn:uuid:1225c695-cfb8-4ebb-aaaa-80da344efa6a</id>\n";
+			$atom .= "\t\t<title>{$article['title']}</title>\n";
+			$atom .= "\t\t<link href=\"http://" . BLOG_DNS . BLOG_PATH . $article['url'] . "\" />\n";
+			$atom .= "\t\t<id>urn:uuid:" . $this->uuid(BLOG_DNS . BLOG_PATH . $article['url']) . "</id>\n";
 			$atom .= "\t\t<updated>" . date(DATE_ATOM) . "</updated>\n";
-			$atom .= "\t\t<summary>Some text.</summary>\n";
-			$atom .= "\t\t<author>\n";
-			$atom .= "\t\t\t<name>John Doe</name>\n";
-			$atom .= "\t\t\t<email>johndoe@example.com</email>\n";
-			$atom .= "\t\t</author>\n";
+
+			$summary = preg_replace('/<!--more-->(.|\n)*/', '', $article['content']);
+			$summary = htmlspecialchars($summary, ENT_QUOTES, "UTF-8");
+
+			$atom .= "\t\t<summary type=\"html\">" . $summary . "</summary>\n";
+
+			if(NULL != AUTHOR_NAME || NULL != AUTHOR_EMAIL) {
+				$atom .= "\t\t<author>\n";
+
+				if(NULL != AUTHOR_NAME)
+					$atom .= "\t\t\t<name>" . AUTHOR_NAME . "</name>\n";
+
+				if(NULL != AUTHOR_EMAIL)
+					$atom .= "\t\t\t<email>" . AUTHOR_EMAIL . "</email>\n";
+
+      			$atom .= "\t\t\t<uri>" . BLOG_DNS . BLOG_PATH . "</uri>";
+				$atom .= "\t\t</author>\n";
+			}
+
 			$atom .= "\t</entry>\n";
 
-			if ($count++ > 5)
+			if (++$count >= RSS_ATOM_QUANTITY)
 				break;
 		}
 
 		$atom .= "</feed>";
 
 		writeTo($atom, PUBLIC_FOLDER . 'atom.xml');
+	}
+
+	private function uuid($input) {
+		$chars = md5(uniqid($input, TRUE));
+
+		$uuid  = substr($chars, 0, 8) . '-';
+		$uuid .= substr($chars, 8, 4) . '-';
+		$uuid .= substr($chars, 12, 4) . '-';
+		$uuid .= substr($chars, 16, 4) . '-';
+		$uuid .= substr($chars, 20, 12);
+
+		return $uuid;
 	}
 }
