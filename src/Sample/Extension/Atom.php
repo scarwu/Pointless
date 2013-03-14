@@ -43,7 +43,7 @@ class Atom {
 				if(NULL != AUTHOR_EMAIL)
 					$atom .= "\t\t\t<email>" . AUTHOR_EMAIL . "</email>\n";
 
-      			$atom .= "\t\t\t<uri>" . BLOG_DNS . BLOG_PATH . "</uri>";
+      			$atom .= "\t\t\t<uri>http://" . BLOG_DNS . BLOG_PATH . "</uri>\n";
 				$atom .= "\t\t</author>\n";
 			}
 

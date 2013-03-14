@@ -69,3 +69,9 @@ define('RESOURCE_FOLDER', USER_DATA . 'Resource/');
 
 // Blog Template Folder
 define('TEMPLATE_FOLDER', USER_DATA . 'Template/');
+
+// Blog Template Script Folder
+define('SCRIPT_FOLDER', USER_DATA . 'Script/');
+
+// Blog Extension Folder
+define('EXTENSION_FOLDER', USER_DATA . 'Extension/');

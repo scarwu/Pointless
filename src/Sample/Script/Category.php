@@ -1,6 +1,6 @@
 <?php
 
-class Tag {
+class Category {
 
 	/**
 	 * 
@@ -15,12 +15,10 @@ class Tag {
 		$source = Resource::get('article');
 
 		foreach($source as $index => $value) {
-			foreach($value['tag'] as $tag) {
-				if(!isset($this->list[$tag]))
-					$this->list[$tag] = array();
+			if(!isset($this->list[$value['category']]))
+				$this->list[$value['category']] = array();
 
-				$this->list[$tag][] = $value;
-			}
+			$this->list[$value['category']][] = $value;
 		}
 
 		// Sort
@@ -44,7 +42,7 @@ class Tag {
 		$key = array_keys($this->list);
 		
 		foreach((array)$this->list as $index => $article_list) {
-			NanoIO::writeln('Building tag/' . $index);
+			NanoIO::writeln('Building category/' . $index);
 			$max = count($article_list) > $max[0] ? array(count($article_list), $index) : $max;
 			
 			$output_data['bar'] = array(
@@ -64,20 +62,20 @@ class Tag {
 			
 			$count++;
 			
-			$output_data['title'] = 'Tag: ' . $index;
+			$output_data['title'] ='Category: ' . $index;
 			$output_data['article_list'] = $article_list;
-			$output_data['container'] = bindData($output_data, THEME_CONTAINER . 'Tag.php');
+			$output_data['container'] = bindData($output_data, THEME_CONTAINER . 'Category.php');
 			$output_data['slider'] = $slider;
 			
 			// Write HTML to Disk
-			$result = bindData($output_data, THEME . 'index.php');
-			writeTo($result, PUBLIC_FOLDER . 'tag/' . $index);
+			$result = bindData($output_data, THEME_FOLDER . 'index.php');
+			writeTo($result, PUBLIC_FOLDER . 'category/' . $index);
 
 			// Sitemap
-			Resource::set('sitemap', 'tag/' . $index);
+			Resource::set('sitemap', 'category/' . $index);
 		}
 
-		copy(PUBLIC_FOLDER . 'tag/' . $max[1] . '/index.html', PUBLIC_FOLDER . 'tag/index.html');
-		Resource::set('sitemap', 'tag');
+		copy(PUBLIC_FOLDER . 'category/' . $max[1] . '/index.html', PUBLIC_FOLDER . 'category/index.html');
+		Resource::set('sitemap', 'category');
 	}
 }

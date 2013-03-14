@@ -11,11 +11,11 @@ class ExtensionLoader {
 	public function run() {
 
 		// Load Custom Extension
-		if(file_exists(ROOT . 'Sample/Extension/')) {
-			$handle = opendir(ROOT . 'Sample/Extension/');
+		if(file_exists(EXTENSION_FOLDER)) {
+			$handle = opendir(EXTENSION_FOLDER);
 			while($filename = readdir($handle))
 				if('.' != $filename && '..' != $filename) {
-					require ROOT . 'Sample/Extension/' . $filename;
+					require EXTENSION_FOLDER . $filename;
 
 					$class_name = preg_replace('/.php$/', '', $filename);
 					$this->extension[$class_name] = new $class_name;
@@ -24,13 +24,13 @@ class ExtensionLoader {
 		}
 
 		// Load Default Extension
-		$handle = opendir(EXTENSION_FOLDER);
+		$handle = opendir(ROOT . 'Sample/Extension/');
 		while($filename = readdir($handle))
 			if('.' != $filename && '..' != $filename) {
 				$class_name = preg_replace('/.php$/', '', $filename);
 
 				if(!isset($this->extension[$class_name])) {
-					require EXTENSION_FOLDER . $filename;
+					require ROOT . 'Sample/Extension/' . $filename;
 					$this->extension[$class_name] = new $class_name;
 				}
 			}
