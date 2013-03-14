@@ -21,6 +21,15 @@ define('BLOG_DNS', 'localhost');
 // Blog Theme
 define('BLOG_THEME', 'Classic');
 
+// Author Name
+define('AUTHOR_NAME', NULL);
+
+// Author Email
+define('AUTHOR_EMAIL', NULL);
+
+// RSS' or Atom's Article Quantity
+define('RSS_ATOM_QUANTITY', 5);
+
 // Article Quantity
 define('ARTICLE_QUANTITY', 10);
 
@@ -60,3 +69,9 @@ define('RESOURCE_FOLDER', USER_DATA . 'Resource/');
 
 // Blog Template Folder
 define('TEMPLATE_FOLDER', USER_DATA . 'Template/');
+
+// Blog Template Script Folder
+define('SCRIPT_FOLDER', USER_DATA . 'Script/');
+
+// Blog Extension Folder
+define('EXTENSION_FOLDER', USER_DATA . 'Extension/');

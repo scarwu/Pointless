@@ -39,7 +39,7 @@ class Page {
 			$output_data['slider'] = $slider;
 			
 			// Write HTML to Disk
-			$result = bindData($output_data, THEME . 'index.php');
+			$result = bindData($output_data, THEME_FOLDER . 'index.php');
 			writeTo($result, PUBLIC_FOLDER . 'page/' . $index);
 
 			// Sitemap

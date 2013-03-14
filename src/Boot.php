@@ -1,7 +1,6 @@
 <?php
 
 // Core
-define('SCRIPT', ROOT . 'Script/');
 define('PLUGIN', ROOT . 'Plugin/');
 define('LIBRARY', ROOT . 'Library/');
 
@@ -29,26 +28,37 @@ if(!file_exists(MARKDOWN_FOLDER)) {
 define('MARKDOWN_ARTICLE', MARKDOWN_FOLDER . 'Article/');
 define('MARKDOWN_BLOGPAGE', MARKDOWN_FOLDER . 'BlogPage/');
 
-// Extension
-define('EXTENSION_FOLDER', ROOT . 'Sample/Extension/');
-// define('EXTENSION_FOLDER', USER_DATA . 'Extension/');
-// if(!file_exists(EXTENSION_FOLDER)) {
-// 	mkdir(EXTENSION_FOLDER, 0755, TRUE);
-// 	recursiveCopy(ROOT . 'Sample/Extension', EXTENSION_FOLDER);
-// }
-
 // Template and Theme
 if(!file_exists(TEMPLATE_FOLDER)) {
 	mkdir(TEMPLATE_FOLDER, 0755, TRUE);
 	recursiveCopy(ROOT . 'Sample/Template', TEMPLATE_FOLDER);
 }
 
-define('THEME', TEMPLATE_FOLDER . BLOG_THEME. '/');
-define('THEME_JS', THEME . 'Js/');
-define('THEME_CSS', THEME . 'Css/');
-define('THEME_RESOURCE', THEME . 'Resource/');
-define('THEME_CONTAINER', THEME . 'Container/');
-define('THEME_SLIDER', THEME . 'Slider/');
+// Test Theme Path
+if(file_exists(TEMPLATE_FOLDER . BLOG_THEME. '/') && '' != BLOG_THEME)
+	define('THEME_FOLDER', TEMPLATE_FOLDER . BLOG_THEME. '/');
+else if(ROOT . 'Sample/Template/' . BLOG_THEME. '/' && '' != BLOG_THEME)
+	define('THEME_FOLDER', ROOT . 'Sample/Template/' . BLOG_THEME. '/');
+else
+	define('THEME_FOLDER', ROOT . 'Sample/Template/Classic/');
+	
+define('THEME_JS', THEME_FOLDER . 'Js/');
+define('THEME_CSS', THEME_FOLDER . 'Css/');
+define('THEME_RESOURCE', THEME_FOLDER . 'Resource/');
+define('THEME_CONTAINER', THEME_FOLDER . 'Container/');
+define('THEME_SLIDER', THEME_FOLDER . 'Slider/');
+
+// Theme Script 
+if(!file_exists(SCRIPT_FOLDER)) {
+	mkdir(SCRIPT_FOLDER, 0755, TRUE);
+	recursiveCopy(ROOT . 'Sample/Script', SCRIPT_FOLDER);
+}
+
+// Extension
+if(!file_exists(EXTENSION_FOLDER)) {
+	mkdir(EXTENSION_FOLDER, 0755, TRUE);
+	recursiveCopy(ROOT . 'Sample/Extension', EXTENSION_FOLDER);
+}
 
 // Public
 if(!file_exists(PUBLIC_FOLDER))

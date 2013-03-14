@@ -11,11 +11,11 @@ class PageGenerator {
 	public function run() {
 
 		// Load Theme Custom Script
-		if(file_exists(THEME . 'Script')) {
-			$handle = opendir(THEME . 'Script');
+		if(file_exists(SCRIPT_FOLDER)) {
+			$handle = opendir(SCRIPT_FOLDER);
 			while($filename = readdir($handle))
 				if('.' != $filename && '..' != $filename) {
-					require THEME . 'Script' . $filename;
+					require SCRIPT_FOLDER . $filename;
 
 					$class_name = preg_replace('/.php$/', '', $filename);
 					$this->script[$class_name] = new $class_name;
@@ -24,13 +24,13 @@ class PageGenerator {
 		}
 
 		// Load Default Script
-		$handle = opendir(SCRIPT);
+		$handle = opendir(ROOT . 'Sample/Script/');
 		while($filename = readdir($handle))
 			if('.' != $filename && '..' != $filename) {
 				$class_name = preg_replace('/.php$/', '', $filename);
 
 				if(!isset($this->script[$class_name])) {
-					require SCRIPT . $filename;
+					require ROOT . 'Sample/Script/' . $filename;
 					$this->script[$class_name] = new $class_name;
 				}
 			}

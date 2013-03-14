@@ -36,12 +36,12 @@ foreach((array)$data['article_list'] as $article) {
 }
 ?>
 <div id="page">
-	<?php echo $content; ?>
-	<div class="bar"><?php echo $bar; ?></div>
+	<?=$content?>
+	<div class="bar"><?=$bar?></div>
 </div>
 <?php if(NULL != DISQUS_SHORTNAME): ?>
 <script type="text/javascript">
-	var disqus_shortname = '<?php echo DISQUS_SHORTNAME; ?>';
+	var disqus_shortname = '<?=DISQUS_SHORTNAME?>';
 	(function() {
 		var count = document.createElement('script');
 		count.async = true;
