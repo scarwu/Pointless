@@ -25,8 +25,8 @@ class Atom {
 		foreach(articleSort(Resource::get('article')) as $article) {
 			$atom .= "\t<entry>\n";
 			$atom .= "\t\t<title>{$article['title']}</title>\n";
-			$atom .= "\t\t<link href=\"http://" . BLOG_DNS . BLOG_PATH . $article['url'] . "\" />\n";
-			$atom .= "\t\t<id>urn:uuid:" . $this->uuid(BLOG_DNS . BLOG_PATH . $article['url']) . "</id>\n";
+			$atom .= "\t\t<link href=\"http://" . BLOG_DNS . BLOG_PATH . 'article/' . $article['url'] . "\" />\n";
+			$atom .= "\t\t<id>urn:uuid:" . $this->uuid(BLOG_DNS . BLOG_PATH . 'article/' . $article['url']) . "</id>\n";
 			$atom .= "\t\t<updated>" . date(DATE_ATOM) . "</updated>\n";
 
 			$summary = preg_replace('/<!--more-->(.|\n)*/', '', $article['content']);
