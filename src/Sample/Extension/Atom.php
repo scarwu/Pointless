@@ -3,12 +3,14 @@
  * Generate Atom
  */
 
+use NanoCLI\IO;
+
 class Atom {
 
 	public function __construct() {}
 
 	public function run() {
-		NanoIO::writeln('Building Atom');
+		IO::writeln('Building Atom');
 
 		$count = 0;
 

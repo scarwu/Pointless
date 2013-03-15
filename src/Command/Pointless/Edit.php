@@ -1,15 +1,20 @@
 <?php
 
-class pointless_delete extends NanoCLI {
+namespace Pointless;
+
+use NanoCLI\Command;
+use NanoCLI\IO;
+
+class Edit extends Command {
 	public function __construct() {
 		parent::__construct();
 	}
 	
 	public function run() {
-		NanoIO::writeln("[  0] Article\n[  1] Blog page\n");
+		IO::writeln("[  0] Article\n[  1] Blog page\n");
 		do {
-			NanoIO::write("Enter Number:\n-> ");
-		} while(!is_numeric($number = NanoIO::read()) || $number < 0 || $number > 1);
+			IO::write("Enter Number:\n-> ");
+		} while(!is_numeric($number = IO::read()) || $number < 0 || $number > 1);
 		
 		if($number == 0)
 			$this->article();
@@ -33,53 +38,44 @@ class pointless_delete extends NanoCLI {
 		ksort($data);
 
 		$path = array();
-		$title = array();
 		$count = 0;
 		foreach($data as $article) {
-			NanoIO::writeln(sprintf("[%3d] %s %s", $count, $article['date'], $article['title']));
-			$title[$count] = $article['title'];
+			IO::writeln(sprintf("[%3d] %s %s", $count, $article['date'], $article['title']));
 			$path[$count++] = $article['path'];
-
 		}
 		
 		do {
-			NanoIO::write("\nEnter Number:\n-> ");
+			IO::write("\nEnter Number:\n-> ");
 		}
-		while(!is_numeric($number = NanoIO::read()) || $number < 0 || $number >= count($path));
+		while(!is_numeric($number = IO::read()) || $number < 0 || $number >= count($path));
 
-		NanoIO::write(sprintf("Are you sure delete article - %s? [n/y]\n-> ", $title[$number]), 'red');
-		if(NanoIO::read() == "y") {
-			system('rm ' . $path[$number]);
-			NanoIO::writeln(sprintf('Successfully removed %s.', $title[$number]));
-		}
+		IO::write("Edit your article? [n/y]\n-> ");
+		if(IO::read() == "y")
+			system(sprintf("%s %s < `tty` > `tty`", FILE_EDITOR, $path[$number]));
 	}
 
 	public function blogpage() {
 		$regex_rule = '/^-----\n((?:.|\n)*)\n-----\n((?:.|\n)*)/';
 		
 		$path = array();
-		$title = array();
 		$count = 0;
 		$handle = opendir(MARKDOWN_BLOGPAGE);
 		while($filename = readdir($handle))
 			if('.' != $filename && '..' != $filename) {
 				preg_match($regex_rule, file_get_contents(MARKDOWN_BLOGPAGE . $filename), $match);
 				$temp = json_decode($match[1], TRUE);
-				NanoIO::writeln(sprintf("[%3d] %s", $count, $temp['title']));
-				$title[$count] = $temp['title'];
+				IO::writeln(sprintf("[%3d] %s", $count, $temp['title']));
 				$path[$count++] = MARKDOWN_BLOGPAGE . $filename;
 			}
 		closedir($handle);
 
 		do {
-			NanoIO::write("\nEnter Number:\n-> ");
+			IO::write("\nEnter Number:\n-> ");
 		}
-		while(!is_numeric($number = NanoIO::read()) || $number < 0 || $number >= count($path));
+		while(!is_numeric($number = IO::read()) || $number < 0 || $number >= count($path));
 
-		NanoIO::write(sprintf("Are you sure delete blogpage - %s? [n/y]\n-> ", $title[$number]), 'red');
-		if(NanoIO::read() == "y") {
-			system('rm ' . $path[$number]);
-			NanoIO::writeln(sprintf('Successfully removed %s.', $title[$number]));
-		}
+		IO::write("Edit your blog page? [n/y]\n-> ");
+		if(IO::read() == "y")
+			system(sprintf("%s %s < `tty` > `tty`", FILE_EDITOR, $path[$number]));
 	}
 }

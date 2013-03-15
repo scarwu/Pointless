@@ -3,12 +3,14 @@
  * Generate Sitemap
  */
 
+use NanoCLI\IO;
+
 class Sitemap {
 
 	public function __construct() {}
 
 	public function run() {
-		NanoIO::writeln('Building Sitemap');
+		IO::writeln('Building Sitemap');
 
 		$format = "\t<url>\n\t\t<loc>http://%s%s%s</loc>\n\t\t<lastmod>%s</lastmod>\n\t</url>\n";
 

@@ -1,12 +1,14 @@
 <?php
 
-class pointless extends NanoCLI {
+use NanoCLI\Command;
+
+class Pointless extends Command {
 	public function __construct() {
 		parent::__construct();
 	}
 	
 	public function run() {
-		$help = new pointless_help();
+		$help = new Pointless\Help();
 		$help->run();
 	}
 }

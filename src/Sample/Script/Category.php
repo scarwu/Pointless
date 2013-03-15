@@ -1,5 +1,7 @@
 <?php
 
+use NanoCLI\IO;
+
 class Category {
 
 	/**
@@ -42,7 +44,7 @@ class Category {
 		$key = array_keys($this->list);
 		
 		foreach((array)$this->list as $index => $article_list) {
-			NanoIO::writeln('Building category/' . $index);
+			IO::writeln('Building category/' . $index);
 			$max = count($article_list) > $max[0] ? array(count($article_list), $index) : $max;
 			
 			$output_data['bar'] = array(

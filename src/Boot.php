@@ -74,16 +74,13 @@ date_default_timezone_set(TIMEZONE);
 /**
  * Load NanoCLI and Setting
  */
-require PLUGIN . 'NanoCLI/NanoCLI.php';
-require PLUGIN . 'NanoCLI/NanoIO.php';
-require PLUGIN . 'NanoCLI/NanoLoader.php';
-
-// Default Setting
-define('NANOCLI_COMMAND', ROOT . 'Command/');
-define('NANOCLI_PREFIX', 'pointless');
+require PLUGIN . 'NanoCLI/src/NanoCLI/Loader.php';
 
 // Register NanoCLI Autoloader
-NanoLoader::register();
+NanoCLI\Loader::register('NanoCLI', PLUGIN . 'NanoCLI/src');
+NanoCLI\Loader::register('Pointless', ROOT . 'Command');
 
-$NanoCLI = new pointless();
-$NanoCLI->init();
+spl_autoload_register('NanoCLI\Loader::load');
+
+$cli = new Pointless();
+$cli->init();
