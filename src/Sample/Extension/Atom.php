@@ -1,14 +1,20 @@
 <?php
 /**
- * Generate Atom
+ * Atom Generator Extension
+ * 
+ * @package		Pointless
+ * @author		ScarWu
+ * @copyright	Copyright (c) 2012-2013, ScarWu (http://scar.simcz.tw/)
+ * @link		http://github.com/scarwu/Pointless
  */
 
 use NanoCLI\IO;
 
 class Atom {
 
-	public function __construct() {}
-
+	/**
+	 * Run Generator
+	 */
 	public function run() {
 		IO::writeln('Building Atom');
 
@@ -60,6 +66,12 @@ class Atom {
 		writeTo($atom, PUBLIC_FOLDER . 'atom.xml');
 	}
 
+	/**
+	 * UUID Generator
+	 *
+	 * @param string
+	 * @return string
+	 */
 	private function uuid($input) {
 		$chars = md5(uniqid($input, TRUE));
 

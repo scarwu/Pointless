@@ -1,4 +1,12 @@
 <?php
+/**
+ * Pointless Gen Command
+ * 
+ * @package		Pointless
+ * @author		ScarWu
+ * @copyright	Copyright (c) 2012-2013, ScarWu (http://scar.simcz.tw/)
+ * @link		http://github.com/scarwu/Pointless
+ */
 
 namespace Pointless;
 
@@ -6,7 +14,7 @@ use NanoCLI\Command;
 use NanoCLI\IO;
 use Compress;
 use Resource;
-use PageGenerator;
+use HTMLGenerator;
 use ExtensionLoader;
 
 class Gen extends Command {
@@ -17,7 +25,7 @@ class Gen extends Command {
 	public function run() {
 		require LIBRARY . 'Compress.php';
 		require LIBRARY . 'Resource.php';
-		require LIBRARY . 'PageGenerator.php';
+		require LIBRARY . 'HTMLGenerator.php';
 		require LIBRARY . 'ExtensionLoader.php';
 		require PLUGIN . 'Markdown/markdown.php';
 		
@@ -62,10 +70,10 @@ class Gen extends Command {
 		$this->blogpage();
 		$this->article();
 
-		// Generate Pages
-		IO::writeln("Generating Pages ...", 'yellow');
-		$page = new PageGenerator();
-		$page->run();
+		// Generate HTML Pages
+		IO::writeln("Generating HTML ...", 'yellow');
+		$html = new HTMLGenerator();
+		$html->run();
 
 		// Generate Extension
 		IO::writeln("Generating Extensions ...", 'yellow');
@@ -81,7 +89,6 @@ class Gen extends Command {
 	 * Load Blog Page
 	 */
 	private function blogpage() {
-		
 		$regex = '/^-----\n((?:.|\n)*)\n-----\n((?:.|\n)*)/';
 
 		// Handle Blog Page Markdown
@@ -106,7 +113,6 @@ class Gen extends Command {
 	 * Load Article
 	 */
 	private function article() {
-		
 		$regex = '/^-----\n((?:.|\n)*)\n-----\n((?:.|\n)*)/';
 
 		// Handle Article Markdown

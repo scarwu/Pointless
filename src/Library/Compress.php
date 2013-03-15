@@ -1,14 +1,36 @@
 <?php
+/**
+ * Css and Js Compressor
+ * 
+ * @package		Pointless
+ * @author		ScarWu
+ * @copyright	Copyright (c) 2012-2013, ScarWu (http://scar.simcz.tw/)
+ * @link		http://github.com/scarwu/Pointless
+ */
 
 class Compress {
+
+	/**
+	 * @var array
+	 */
 	private $_css_list;
+
+	/**
+	 * @var array
+	 */
 	private $_js_list;
-	
+
 	public function __construct() {
 		$this->_css_list = array();
 		$this->_js_list = array();
 	}
 
+	/**
+	 * Css IO Setting
+	 *
+	 * @param string
+	 * @param string
+	 */
 	public function css($src, $dest) {
 		$handle = opendir($src);
 		while($file = readdir($handle))
@@ -31,7 +53,12 @@ class Compress {
 		fclose($css_package);
 	}
 	
-	// Css Compressor
+	/**
+	 * Css Compressor
+	 *
+	 * @param string
+	 * @return string
+	 */
 	private function cssCompressor($css) {
 		$css = preg_replace('/(\f|\n|\r|\t|\v)/', '', $css);
 		$css = preg_replace('/\/\*.+?\*\//', '', $css);
@@ -44,6 +71,12 @@ class Compress {
 		return $css;
 	}
 	
+	/**
+	 * Javascript IO Setting
+	 *
+	 * @param string
+	 * @param string
+	 */
 	public function js($src, $dest) {
 		$handle = opendir($src);
 		while($file = readdir($handle))

@@ -1,14 +1,20 @@
 <?php
 /**
- * Generate Sitemap
+ * Sitemap Generator Extension
+ * 
+ * @package		Pointless
+ * @author		ScarWu
+ * @copyright	Copyright (c) 2012-2013, ScarWu (http://scar.simcz.tw/)
+ * @link		http://github.com/scarwu/Pointless
  */
 
 use NanoCLI\IO;
 
 class Sitemap {
 
-	public function __construct() {}
-
+	/**
+	 * Run Generator
+	 */
 	public function run() {
 		IO::writeln('Building Sitemap');
 
@@ -25,5 +31,4 @@ class Sitemap {
 
 		writeTo($sitemap, PUBLIC_FOLDER . 'sitemap.xml');
 	}
-	
 }

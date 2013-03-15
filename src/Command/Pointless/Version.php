@@ -1,4 +1,12 @@
 <?php
+/**
+ * Pointless Version Command
+ * 
+ * @package		Pointless
+ * @author		ScarWu
+ * @copyright	Copyright (c) 2012-2013, ScarWu (http://scar.simcz.tw/)
+ * @link		http://github.com/scarwu/Pointless
+ */
 
 namespace Pointless;
 
@@ -11,6 +19,6 @@ class Version extends Command {
 	}
 	
 	public function run() {
-		IO::writeln('Pointless - 0.9.4 Beta');
+		IO::writeln('Pointless - 0.9.5 Beta');
 	}
 }

@@ -1,9 +1,31 @@
 <?php
+/**
+ * General Function
+ * 
+ * @package		Pointless
+ * @author		ScarWu
+ * @copyright	Copyright (c) 2012-2013, ScarWu (http://scar.simcz.tw/)
+ * @link		http://github.com/scarwu/Pointless
+ */
 
+/**
+ * Create Link
+ *
+ * @param string
+ * @param string
+ * @return string
+ */
 function linkTo($link, $name) {
 	return sprintf('<a href="%s">%s</a>', $link, $name);
 }
 
+/**
+ * Bind PHP Data to HTML Template
+ *
+ * @param string
+ * @param string
+ * @return string
+ */
 function bindData($data, $path) {
 	ob_start();
 	include $path;
@@ -13,8 +35,14 @@ function bindData($data, $path) {
 	return $result;
 }
 
-// FIXME and Theme/Script/*/*.php
+/**
+ * Write Data to File
+ *
+ * @param string
+ * @param string
+ */
 function writeTo($data, $path) {
+	// FIXME and Theme/Script/*/*.php
 	if(!preg_match('/\.(html|xml)$/', $path)) {
 		if(!file_exists($path))
 			mkdir($path, 0755, TRUE);
@@ -26,6 +54,12 @@ function writeTo($data, $path) {
 	fclose($handle);
 }
 
+/**
+ * Recursive Copy
+ *
+ * @param string
+ * @param string
+ */
 function recursiveCopy($src, $dest) {
 	if(file_exists($src)) {
 		if(is_dir($src)) {
@@ -42,6 +76,13 @@ function recursiveCopy($src, $dest) {
 	}
 }
 
+/**
+ * Recursive Remove
+ *
+ * @param string
+ * @param string
+ * @return boolean
+ */
 function recursiveRemove($path = NULL) {
 	if(file_exists($path)) {
 		if(is_dir($path)) {
@@ -59,6 +100,12 @@ function recursiveRemove($path = NULL) {
 	}
 }
 
+/**
+ * Sort Using Article's Date
+ *
+ * @param array
+ * @return array
+ */
 function articleSort($list) {
 	$result = array();
 	
@@ -76,6 +123,12 @@ function articleSort($list) {
 	return $result;
 }
 
+/**
+ * Sort Using Article's Count
+ *
+ * @param array
+ * @return array
+ */
 function countSort($list) {
 	$result = array();
 	
