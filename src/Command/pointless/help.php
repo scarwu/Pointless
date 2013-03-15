@@ -24,7 +24,7 @@ EOF;
 		NanoIO::writeln('    add        - Add New Article or Blog Page');
 		NanoIO::writeln('    edit       - List and Edit Article or Blog Page');
 		NanoIO::writeln('    delete     - Delete Article or Blog Page');
-		NanoIO::writeln('    confng     - Modify Blog Config');
+		NanoIO::writeln('    config     - Modify Blog Config');
 		NanoIO::writeln('    deploy     - Deploy Blog');
 		NanoIO::writeln('    update     - Self-update');
 		NanoIO::writeln('    version    - Display Version');
