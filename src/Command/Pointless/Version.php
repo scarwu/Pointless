@@ -19,6 +19,6 @@ class Version extends Command {
 	}
 	
 	public function run() {
-		IO::writeln('Pointless - 0.9.4 Beta');
+		IO::writeln('Pointless - 0.9.5 Beta');
 	}
 }

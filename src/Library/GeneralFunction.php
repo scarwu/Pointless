@@ -20,7 +20,7 @@ function linkTo($link, $name) {
 }
 
 /**
- * Create HTML Link
+ * Bind PHP Data to HTML Template
  *
  * @param string
  * @param string

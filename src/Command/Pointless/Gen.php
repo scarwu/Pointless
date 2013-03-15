@@ -14,7 +14,7 @@ use NanoCLI\Command;
 use NanoCLI\IO;
 use Compress;
 use Resource;
-use PageGenerator;
+use HTMLGenerator;
 use ExtensionLoader;
 
 class Gen extends Command {
@@ -25,7 +25,7 @@ class Gen extends Command {
 	public function run() {
 		require LIBRARY . 'Compress.php';
 		require LIBRARY . 'Resource.php';
-		require LIBRARY . 'PageGenerator.php';
+		require LIBRARY . 'HTMLGenerator.php';
 		require LIBRARY . 'ExtensionLoader.php';
 		require PLUGIN . 'Markdown/markdown.php';
 		
@@ -89,7 +89,6 @@ class Gen extends Command {
 	 * Load Blog Page
 	 */
 	private function blogpage() {
-		
 		$regex = '/^-----\n((?:.|\n)*)\n-----\n((?:.|\n)*)/';
 
 		// Handle Blog Page Markdown
@@ -114,7 +113,6 @@ class Gen extends Command {
 	 * Load Article
 	 */
 	private function article() {
-		
 		$regex = '/^-----\n((?:.|\n)*)\n-----\n((?:.|\n)*)/';
 
 		// Handle Article Markdown
