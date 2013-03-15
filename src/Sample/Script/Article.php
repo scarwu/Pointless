@@ -1,5 +1,7 @@
 <?php
 
+use NanoCLI\IO;
+
 class Article {
 
 	/**
@@ -28,7 +30,7 @@ class Article {
 		$total = count($this->list);
 
 		foreach((array)$this->list as $index => $output_data) {
-			NanoIO::writeln("Building article/" . $output_data['url']);
+			IO::writeln("Building article/" . $output_data['url']);
 			
 			$output_data['bar'] = array(
 				'index' => $index + 1,

@@ -1,5 +1,7 @@
 <?php
 
+use NanoCLI\IO;
+
 class BlogPage {
 
 	/**
@@ -26,7 +28,7 @@ class BlogPage {
 	 */
 	public function gen($slider) {
 		foreach((array)$this->list as $index => $output_data) {
-			NanoIO::writeln("Building " . $output_data['url']);
+			IO::writeln("Building " . $output_data['url']);
 		
 			$output_data['container'] = bindData($output_data, THEME_CONTAINER . 'BlogPage.php');
 			$output_data['slider'] = $slider;

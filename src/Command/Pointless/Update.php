@@ -1,6 +1,11 @@
 <?php
 
-class pointless_update extends NanoCLI {
+namespace Pointless;
+
+use NanoCLI\Command;
+use NanoCLI\IO;
+
+class Update extends Command {
 	public function __construct() {
 		parent::__construct();
 	}

@@ -1,5 +1,7 @@
 <?php
 
+use NanoCLI\IO;
+
 class Archive {
 
 	/**
@@ -44,7 +46,7 @@ class Archive {
 		$total = count($this->list);
 		
 		foreach((array)$this->list as $index => $article_list) {
-			NanoIO::writeln(sprintf("Building archive/%s", $index));
+			IO::writeln(sprintf("Building archive/%s", $index));
 			$max = $index > $max ? $index : $max;
 			
 			$output_data['bar'] = array(

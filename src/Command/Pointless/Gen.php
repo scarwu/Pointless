@@ -1,6 +1,15 @@
 <?php
 
-class pointless_gen extends NanoCLI {
+namespace Pointless;
+
+use NanoCLI\Command;
+use NanoCLI\IO;
+use Compress;
+use Resource;
+use PageGenerator;
+use ExtensionLoader;
+
+class Gen extends Command {
 	public function __construct() {
 		parent::__construct();
 	}
@@ -18,12 +27,12 @@ class pointless_gen extends NanoCLI {
 			mkdir(PUBLIC_FOLDER, 0755, TRUE);
 
 		// Clear Public Files
-		NanoIO::writeln("Clear Public Files ...", 'yellow');
+		IO::writeln("Clear Public Files ...", 'yellow');
 		recursiveRemove(PUBLIC_FOLDER);
 
 		// Create Github CNAME
 		if(NULL !== GITHUB_CNAME) {
-			NanoIO::writeln("Create Github CNAME ...", 'yellow');
+			IO::writeln("Create Github CNAME ...", 'yellow');
 			$handle = fopen(PUBLIC_FOLDER . 'CNAME', 'w+');
 			fwrite($handle, GITHUB_CNAME);
 			fclose($handle);
@@ -31,41 +40,41 @@ class pointless_gen extends NanoCLI {
 		
 		// Create README
 		if(!file_exists(PUBLIC_FOLDER . 'README')) {
-			NanoIO::writeln("Create README ...", 'yellow');
+			IO::writeln("Create README ...", 'yellow');
 			$handle = fopen(PUBLIC_FOLDER . 'README', 'w+');
 			fwrite($handle, '[Powered by Pointless](https://github.com/scarwu/Pointless)');
 			fclose($handle);
 		}
 
 		// Copy Resource Files
-		NanoIO::writeln("Copy Resource Files ...", 'yellow');
+		IO::writeln("Copy Resource Files ...", 'yellow');
 		recursiveCopy(RESOURCE_FOLDER, PUBLIC_FOLDER);
 		recursiveCopy(THEME_RESOURCE, PUBLIC_FOLDER . 'theme');
 
 		// Compress CSS and JavaScript
-		NanoIO::writeln("Compress CSS & Javascript ...", 'yellow');
+		IO::writeln("Compress CSS & Javascript ...", 'yellow');
 		$compress = new Compress();
 		$compress->js(THEME_JS, PUBLIC_FOLDER . 'theme');
 		$compress->css(THEME_CSS, PUBLIC_FOLDER . 'theme');
 		
 		// Initialize Resource Pool
-		NanoIO::writeln("Initialize Resource Pool ...", 'yellow');
+		IO::writeln("Initialize Resource Pool ...", 'yellow');
 		$this->blogpage();
 		$this->article();
 
 		// Generate Pages
-		NanoIO::writeln("Generating Pages ...", 'yellow');
+		IO::writeln("Generating Pages ...", 'yellow');
 		$page = new PageGenerator();
 		$page->run();
 
 		// Generate Extension
-		NanoIO::writeln("Generating Extensions ...", 'yellow');
+		IO::writeln("Generating Extensions ...", 'yellow');
 		$extension = new ExtensionLoader();
 		$extension->run();
 		
 		$end = sprintf("%.3f", abs(microtime(TRUE) - $start));
 		
-		NanoIO::writeln("Finished $end s", 'green');
+		IO::writeln("Finished $end s", 'green');
 	}
 
 	/**

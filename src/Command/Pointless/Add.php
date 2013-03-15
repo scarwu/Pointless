@@ -1,15 +1,20 @@
 <?php
 
-class pointless_add extends NanoCLI {
+namespace Pointless;
+
+use NanoCLI\Command;
+use NanoCLI\IO;
+
+class Add extends Command {
 	public function __construct() {
 		parent::__construct();
 	}
 	
 	public function run() {
-		NanoIO::writeln("[  0] Article\n[  1] Blog page\n");
+		IO::writeln("[  0] Article\n[  1] Blog page\n");
 		do {
-			NanoIO::write("Enter Number:\n-> ");
-		} while(!is_numeric($number = NanoIO::read()) || $number < 0 || $number > 1);
+			IO::write("Enter Number:\n-> ");
+		} while(!is_numeric($number = IO::read()) || $number < 0 || $number > 1);
 		
 		if($number == 0)
 			$this->article();
@@ -21,24 +26,24 @@ class pointless_add extends NanoCLI {
 		$info = array();
 		
 		do {
-			NanoIO::write("Enter Article Title:\n-> ");
+			IO::write("Enter Article Title:\n-> ");
 		}
-		while('' == $info['title'] = NanoIO::read());
+		while('' == $info['title'] = IO::read());
 		
 		do {
-			NanoIO::write("Enter Article Custom Url:\n-> ");
+			IO::write("Enter Article Custom Url:\n-> ");
 		}
-		while('' == $info['url'] = NanoIO::read());
+		while('' == $info['url'] = IO::read());
 		
 		do {
-			NanoIO::write("Enter Article Tag:\n-> ");
+			IO::write("Enter Article Tag:\n-> ");
 		}
-		while('' == $info['tag'] = NanoIO::read());
+		while('' == $info['tag'] = IO::read());
 		
 		do {
-			NanoIO::write("Enter Article Category:\n-> ");
+			IO::write("Enter Article Category:\n-> ");
 		}
-		while('' == $info['category'] = NanoIO::read());
+		while('' == $info['category'] = IO::read());
 		
 		$time = time();
 		$filename = sprintf("%s%s.md", date("Ymd_", $time), $info['url']);
@@ -59,25 +64,25 @@ class pointless_add extends NanoCLI {
 			fwrite($handle, '	"publish": false' . "\n");
 			fwrite($handle, "}\n-----\n");
 			
-			NanoIO::writeln("\nArticle " . $filename . " was created.");
+			IO::writeln("\nArticle " . $filename . " was created.");
 			system(sprintf("%s %s < `tty` > `tty`", FILE_EDITOR, MARKDOWN_ARTICLE . $filename));
 		}
 		else
-			NanoIO::writeln("\nArticle" . $filename . " is exsist.");
+			IO::writeln("\nArticle" . $filename . " is exsist.");
 	}
 
 	public function blogpage() {
 		$info = array();
 		
 		do {
-			NanoIO::write("Enter Blog Page Title:\n-> ");
+			IO::write("Enter Blog Page Title:\n-> ");
 		}
-		while('' == $info['title'] = NanoIO::read());
+		while('' == $info['title'] = IO::read());
 		
 		do {
-			NanoIO::write("Enter Blog Page Custom Url:\n-> ");
+			IO::write("Enter Blog Page Custom Url:\n-> ");
 		}
-		while('' == $info['url'] = NanoIO::read());
+		while('' == $info['url'] = IO::read());
 		
 		$filename = strtolower($info['title']) . '.md';
 		$filename = str_replace(array('\\', '/', ' '), '_', $filename);
@@ -94,10 +99,10 @@ class pointless_add extends NanoCLI {
 			fwrite($handle, '	"message": true' . "\n");
 			fwrite($handle, "}\n-----\n");
 			
-			NanoIO::writeln("\nBlog Page " . $filename . " was created.");
+			IO::writeln("\nBlog Page " . $filename . " was created.");
 			system(FILE_EDITOR . " " . MARKDOWN_BLOGPAGE . $filename . " < `tty` > `tty`");
 		}
 		else
-			NanoIO::writeln("\nBlog Page " . $filename . " is exsist.");
+			IO::writeln("\nBlog Page " . $filename . " is exsist.");
 	}
 }

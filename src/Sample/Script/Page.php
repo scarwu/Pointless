@@ -1,5 +1,7 @@
 <?php
 
+use NanoCLI\IO;
+
 class Page {
 
 	/**
@@ -28,7 +30,7 @@ class Page {
 		$total = ceil(count($this->list) / ARTICLE_QUANTITY);
 				
 		for($index = 1;$index <= $total;$index++) {
-			NanoIO::writeln('Building page/' . $index);
+			IO::writeln('Building page/' . $index);
 			
 			$output_data['bar'] = array(
 				'index' => $index,

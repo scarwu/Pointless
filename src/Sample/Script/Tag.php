@@ -1,5 +1,7 @@
 <?php
 
+use NanoCLI\IO;
+
 class Tag {
 
 	/**
@@ -44,7 +46,7 @@ class Tag {
 		$key = array_keys($this->list);
 		
 		foreach((array)$this->list as $index => $article_list) {
-			NanoIO::writeln('Building tag/' . $index);
+			IO::writeln('Building tag/' . $index);
 			$max = count($article_list) > $max[0] ? array(count($article_list), $index) : $max;
 			
 			$output_data['bar'] = array(
