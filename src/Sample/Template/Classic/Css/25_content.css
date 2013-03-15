@@ -1,0 +1,76 @@
+#article article
+#page article, {
+	margin-bottom: 50px;
+}
+
+#page article .content {
+	margin-bottom: 25px;
+}
+
+#page article .more {
+	display: inline-block;
+	border: 1px #DDD solid;
+	background: #EEE;
+	padding: 5px 20px;
+	text-align: center;
+	text-decoration: none;
+}
+
+#page article .more:hover {
+	color: #EEE;
+	background: #333333;
+}
+
+#tag .year,
+#archive .year,
+#category .year {
+	font-size: 32px;
+	text-align: center;
+}
+
+#tag .month_archive,
+#archive .month_archive,
+#category .month_archive {
+	position: relative;
+	margin-bottom: 10px;
+	margin-left: 40px;
+}
+
+#tag .month,
+#archive .month,
+#category .month {
+	display: inline-block;
+	font-size: 28px;
+	margin-right: 10px;
+	top: -5px;
+	position: absolute;
+}
+
+#tag .list,
+#archive .list,
+#category .list {
+	display: inline-block;
+	margin-left: 40px;
+}
+
+#tag .list .title,
+#archive .list .title,
+#category .list .title {
+	display: block;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+#tag .list .archive,
+#tag .list .category,
+#archive .list .category,
+#category .list .archive {
+	display: inline-block;
+	width: 175px;
+}
+
+#tag .list article,
+#archive .list article,
+#category .list article {
+	margin-bottom: 10px;
+}

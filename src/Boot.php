@@ -45,9 +45,9 @@ if(!file_exists(TEMPLATE_FOLDER)) {
 }
 
 // Test Theme Path
-if(file_exists(TEMPLATE_FOLDER . BLOG_THEME. '/') && '' != BLOG_THEME)
+if(file_exists(TEMPLATE_FOLDER . BLOG_THEME) && '' != BLOG_THEME)
 	define('THEME_FOLDER', TEMPLATE_FOLDER . BLOG_THEME. '/');
-else if(ROOT . 'Sample/Template/' . BLOG_THEME. '/' && '' != BLOG_THEME)
+elseif(file_exists(ROOT . 'Sample/Template/' . BLOG_THEME) && '' != BLOG_THEME)
 	define('THEME_FOLDER', ROOT . 'Sample/Template/' . BLOG_THEME. '/');
 else
 	define('THEME_FOLDER', ROOT . 'Sample/Template/Classic/');
