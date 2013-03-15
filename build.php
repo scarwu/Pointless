@@ -1,5 +1,13 @@
 #!/usr/bin/env php
 <?php
+/**
+ * Phar Builder
+ * 
+ * @package		Pointless
+ * @author		ScarWu
+ * @copyright	Copyright (c) 2012-2013, ScarWu (http://scar.simcz.tw/)
+ * @link		http://github.com/scarwu/Pointless
+ */
 
 // Clear Phar
 if(file_exists(dirname(__FILE__) . '/bin/poi'))

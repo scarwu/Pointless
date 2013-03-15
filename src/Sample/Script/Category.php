@@ -1,17 +1,22 @@
 <?php
+/**
+ * Category Data Generator Script for Theme
+ * 
+ * @package		Pointless
+ * @author		ScarWu
+ * @copyright	Copyright (c) 2012-2013, ScarWu (http://scar.simcz.tw/)
+ * @link		http://github.com/scarwu/Pointless
+ */
 
 use NanoCLI\IO;
 
 class Category {
 
 	/**
-	 * 
+	 * @var array
 	 */
 	private $list;
 	
-	/**
-	 * 
-	 */
 	public function __construct() {
 		$this->list = array();
 		$source = Resource::get('article');
@@ -28,14 +33,18 @@ class Category {
 	}
 	
 	/**
-	 * 
+	 * Get List
+	 *
+	 * @return array
 	 */
 	public function getList() {
 		return $this->list;
 	}
 	
 	/**
-	 * 
+	 * Generate Data
+	 *
+	 * @param string
 	 */
 	public function gen($slider) {
 		$max = array(0, NULL);

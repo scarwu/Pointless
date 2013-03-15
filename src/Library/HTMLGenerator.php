@@ -1,13 +1,32 @@
 <?php
+/**
+ * HTML Generator
+ * 
+ * @package		Pointless
+ * @author		ScarWu
+ * @copyright	Copyright (c) 2012-2013, ScarWu (http://scar.simcz.tw/)
+ * @link		http://github.com/scarwu/Pointless
+ */
 
-class PageGenerator {
+class HTMLGenerator {
+
+	/**
+	 * @var array
+	 */
 	private $script;
+
+	/**
+	 * @var string
+	 */
 	private $slider;
 	
 	public function __construct() {
 		$this->script = array();
 	}
 	
+	/**
+	 * Run HTML Generator
+	 */
 	public function run() {
 
 		// Load Theme Custom Script

@@ -1,4 +1,12 @@
 <?php
+/**
+ * Pointless Gen Command
+ * 
+ * @package		Pointless
+ * @author		ScarWu
+ * @copyright	Copyright (c) 2012-2013, ScarWu (http://scar.simcz.tw/)
+ * @link		http://github.com/scarwu/Pointless
+ */
 
 namespace Pointless;
 
@@ -62,10 +70,10 @@ class Gen extends Command {
 		$this->blogpage();
 		$this->article();
 
-		// Generate Pages
-		IO::writeln("Generating Pages ...", 'yellow');
-		$page = new PageGenerator();
-		$page->run();
+		// Generate HTML Pages
+		IO::writeln("Generating HTML ...", 'yellow');
+		$html = new HTMLGenerator();
+		$html->run();
 
 		// Generate Extension
 		IO::writeln("Generating Extensions ...", 'yellow');
