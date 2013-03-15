@@ -57,7 +57,9 @@ class Gen extends Command {
 		// Copy Resource Files
 		IO::writeln("Copy Resource Files ...", 'yellow');
 		recursiveCopy(RESOURCE_FOLDER, PUBLIC_FOLDER);
-		recursiveCopy(THEME_RESOURCE, PUBLIC_FOLDER . 'theme');
+		
+		if(file_exists(THEME_RESOURCE))
+			recursiveCopy(THEME_RESOURCE, PUBLIC_FOLDER . 'theme');
 
 		// Compress CSS and JavaScript
 		IO::writeln("Compress CSS & Javascript ...", 'yellow');
