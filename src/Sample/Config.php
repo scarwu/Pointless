@@ -57,21 +57,3 @@ define('FILE_EDITOR', 'vi');
 
 // Time Zone
 define('TIMEZONE', 'Asia/Taipei');
-
-// Blog Public Folder
-define('PUBLIC_FOLDER', USER_DATA . 'Public/');
-
-// Blog Markdown Folder
-define('MARKDOWN_FOLDER', USER_DATA . 'Markdown/');
-
-// Blog Resource Folder
-define('RESOURCE_FOLDER', USER_DATA . 'Resource/');
-
-// Blog Template Folder
-define('TEMPLATE_FOLDER', USER_DATA . 'Template/');
-
-// Blog Template Script Folder
-define('SCRIPT_FOLDER', USER_DATA . 'Script/');
-
-// Blog Extension Folder
-define('EXTENSION_FOLDER', USER_DATA . 'Extension/');
