@@ -84,7 +84,7 @@ class Gen extends Command {
 		
 		$end = sprintf("%.3f", abs(microtime(TRUE) - $start));
 		
-		IO::writeln("Finished $end s", 'green');
+		IO::writeln("Generate finish, $end s.", 'green');
 	}
 
 	/**
