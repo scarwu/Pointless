@@ -19,15 +19,23 @@ class Edit extends Command {
 	}
 	
 	public function run() {
-		IO::writeln("[  0] Article\n[  1] Blog page\n");
-		do {
-			IO::write("Enter Number:\n-> ");
-		} while(!is_numeric($number = IO::read()) || $number < 0 || $number > 1);
+		if(!array_intersect(array('-a', '-bp'), $this->getOptions())) {
+			IO::writeln('    edit -a    - Edit article');
+			IO::writeln('    edit -bp   - Edit blog page');
+			return;
+		}
 		
-		if($number == 0)
-			$this->article();
-		else
-			$this->blogpage();
+		foreach($this->getOptions() as $option) {
+			if($option == '-a') {
+				$this->article();
+				break;
+			}
+
+			if($option == '-bp') {
+				$this->blogpage();
+				break;
+			}
+		}
 	}
 
 	public function article() {

@@ -13,11 +13,11 @@ A Useful Static Blog Generator
 
 ### Install
 
-	curl https://raw.github.com/scarwu/Pointless/master/install.sh | sh
+	sudo curl https://raw.github.com/scarwu/Pointless/master/install.sh | sh
 
 ### Update
 
-	poi update
+	sudo poi update
 
 ## For More
 
