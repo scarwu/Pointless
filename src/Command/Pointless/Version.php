@@ -19,6 +19,6 @@ class Version extends Command {
 	}
 	
 	public function run() {
-		IO::writeln('v0.9.6 Beta');
+		IO::writeln('v0.9.7 Beta');
 	}
 }

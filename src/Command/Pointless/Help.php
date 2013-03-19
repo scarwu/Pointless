@@ -31,15 +31,15 @@ class Help extends Command {
 EOF;
 
 		IO::writeln($pointless, 'green');
-		IO::writeln('    gen        - Generate Blog');
-		IO::writeln('    gen css    - Generate and Compress CSS');
-		IO::writeln('    gen js     - Generate and Compress JavaScript');
-		IO::writeln('    add        - Add New Article or Blog Page');
-		IO::writeln('    edit       - List and Edit Article or Blog Page');
-		IO::writeln('    delete     - Delete Article or Blog Page');
-		IO::writeln('    config     - Modify Blog Config');
-		IO::writeln('    deploy     - Deploy Blog');
+		IO::writeln('    gen        - Generate blog');
+		IO::writeln('    gen css    - Generate and compress CSS');
+		IO::writeln('    gen js     - Generate and compress Javascript');
+		IO::writeln('    add        - Add new article or blog page');
+		IO::writeln('    edit       - List and edit article or blog page');
+		IO::writeln('    delete     - Delete article or blog page');
+		IO::writeln('    config     - Modify blog config');
+		IO::writeln('    deploy     - Deploy blog');
 		IO::writeln('    update     - Self-update');
-		IO::writeln('    version    - Display Version');
+		IO::writeln('    version    - Display version');
 	}
 }
