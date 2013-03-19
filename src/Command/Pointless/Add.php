@@ -73,7 +73,7 @@ class Add extends Command {
 			fwrite($handle, '	"date": "' . date("Y-m-d", $time) . '",' . "\n");
 			fwrite($handle, '	"time": "' . date("H:i:s", $time) . '",' . "\n");
 			fwrite($handle, '	"publish": false' . "\n");
-			fwrite($handle, "}\n");
+			fwrite($handle, "}\n\n\n");
 			
 			IO::writeln("\nArticle " . $filename . " was created.");
 			system(sprintf("%s %s < `tty` > `tty`", FILE_EDITOR, MARKDOWN_ARTICLE . $filename));
@@ -108,7 +108,7 @@ class Add extends Command {
 			fwrite($handle, '	"title": "' . $info['title'] . '",' . "\n");
 			fwrite($handle, '	"url": "' . $info['url'] . '",' . "\n");
 			fwrite($handle, '	"message": true' . "\n");
-			fwrite($handle, "}\n");
+			fwrite($handle, "}\n\n\n");
 			
 			IO::writeln("\nBlog Page " . $filename . " was created.");
 			system(FILE_EDITOR . " " . MARKDOWN_BLOGPAGE . $filename . " < `tty` > `tty`");

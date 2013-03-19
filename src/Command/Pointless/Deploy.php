@@ -20,14 +20,13 @@ class Deploy extends Command {
 	
 	public function run() {
 		chdir(PUBLIC_FOLDER);
+
 		if(file_exists('.git')) {
-			exec('git add .');
-			exec('git add -u');
-			exec(sprintf('git commit -m "%s"', date(DATE_COOKIE)));
-			exec('git push');
+			system('git add . && git add -u');
+			system(sprintf('git commit -m "%s"', date(DATE_COOKIE)));
+			system('git push');
 		}
-		else {
-			exec('git init');
-		}
+		else
+			system('git init');
 	}
 }
