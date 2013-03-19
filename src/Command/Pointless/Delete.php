@@ -19,27 +19,22 @@ class Delete extends Command {
 	}
 	
 	public function run() {
-		if(!array_intersect(array('-a', '-bp'), $this->getOptions())) {
-			IO::writeln('    delete -a  - Delete article');
-			IO::writeln('    delete -bp - Delete blog page');
+		if($this->hasOptions('a')) {
+			$this->article();
 			return;
 		}
 
-		foreach($this->getOptions() as $option) {
-			if($option == '-a') {
-				$this->article();
-				break;
-			}
-
-			if($option == '-bp') {
-				$this->blogpage();
-				break;
-			}
+		if($this->hasOptions('bp')) {
+			$this->blogpage();
+			return;
 		}
+
+		IO::writeln('    delete -a  - Delete article');
+		IO::writeln('    delete -bp - Delete blog page');
 	}
 
 	public function article() {
-		$regex_rule = '/^-----\n((?:.|\n)*)\n-----\n((?:.|\n)*)/';
+		$regex_rule = '/^({(?:.|\n)*?})\n((?:.|\n)*)/';
 		
 		$data = array();
 		$handle = opendir(MARKDOWN_ARTICLE);
@@ -76,7 +71,7 @@ class Delete extends Command {
 	}
 
 	public function blogpage() {
-		$regex_rule = '/^-----\n((?:.|\n)*)\n-----\n((?:.|\n)*)/';
+		$regex_rule = '/^({(?:.|\n)*?})\n((?:.|\n)*)/';
 		
 		$path = array();
 		$title = array();

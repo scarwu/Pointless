@@ -19,27 +19,22 @@ class Edit extends Command {
 	}
 	
 	public function run() {
-		if(!array_intersect(array('-a', '-bp'), $this->getOptions())) {
-			IO::writeln('    edit -a    - Edit article');
-			IO::writeln('    edit -bp   - Edit blog page');
+		if($this->hasOptions('a')) {
+			$this->article();
 			return;
 		}
-		
-		foreach($this->getOptions() as $option) {
-			if($option == '-a') {
-				$this->article();
-				break;
-			}
 
-			if($option == '-bp') {
-				$this->blogpage();
-				break;
-			}
+		if($this->hasOptions('bp')) {
+			$this->blogpage();
+			return;
 		}
+
+		IO::writeln('    edit -a    - Edit article');
+		IO::writeln('    edit -bp   - Edit blog page');
 	}
 
 	public function article() {
-		$regex_rule = '/^-----\n((?:.|\n)*)\n-----\n((?:.|\n)*)/';
+		$regex_rule = '/^({(?:.|\n)*?})\n((?:.|\n)*)/';
 		
 		$data = array();
 		$handle = opendir(MARKDOWN_ARTICLE);
@@ -71,7 +66,7 @@ class Edit extends Command {
 	}
 
 	public function blogpage() {
-		$regex_rule = '/^-----\n((?:.|\n)*)\n-----\n((?:.|\n)*)/';
+		$regex_rule = '/^({(?:.|\n)*?})\n((?:.|\n)*)/';
 		
 		$path = array();
 		$count = 0;

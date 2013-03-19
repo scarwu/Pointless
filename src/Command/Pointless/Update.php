@@ -22,12 +22,7 @@ class Update extends Command {
 		$configs = $this->getConfigs();
 
 		$remote = 'https://raw.github.com/scarwu/Pointless/master/bin/poi';
-		$path = isset($configs['--path']) ? $configs['--path'] : '/usr/local/bin';
-
-		if(!file_exists($path)) {
-			IO::writeln($path . ' is not found', 'red');
-			return FALSE;
-		}
+		$path = isset($configs['path']) && $configs['path'] != '' ? $configs['path'] : '/usr/local/bin';
 
 		if(!is_dir($path)) {
 			IO::writeln($path . ' is not a directory', 'red');
