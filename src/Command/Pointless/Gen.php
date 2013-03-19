@@ -91,13 +91,13 @@ class Gen extends Command {
 	 * Load Blog Page
 	 */
 	private function blogpage() {
-		$regex = '/^-----\n((?:.|\n)*)\n-----\n((?:.|\n)*)/';
+		$regex_rule = '/^({(?:.|\n)*?})\n((?:.|\n)*)/';
 
 		// Handle Blog Page Markdown
 		$handle = opendir(MARKDOWN_BLOGPAGE);
 		while($filename = readdir($handle))
 			if('.' != $filename && '..' != $filename && preg_match('/.md$/', $filename)) {
-				preg_match($regex, file_get_contents(MARKDOWN_BLOGPAGE . $filename), $match);
+				preg_match($regex_rule, file_get_contents(MARKDOWN_BLOGPAGE . $filename), $match);
 				
 				$temp = json_decode($match[1], TRUE);
 
@@ -115,13 +115,13 @@ class Gen extends Command {
 	 * Load Article
 	 */
 	private function article() {
-		$regex = '/^-----\n((?:.|\n)*)\n-----\n((?:.|\n)*)/';
+		$regex_rule = '/^({(?:.|\n)*?})\n((?:.|\n)*)/';
 
 		// Handle Article Markdown
 		$handle = opendir(MARKDOWN_ARTICLE);
 		while($filename = readdir($handle))
 			if('.' != $filename && '..' != $filename && preg_match('/.md$/', $filename)) {
-				preg_match($regex, file_get_contents(MARKDOWN_ARTICLE . $filename), $match);
+				preg_match($regex_rule, file_get_contents(MARKDOWN_ARTICLE . $filename), $match);
 
 				$temp = json_decode($match[1], TRUE);
 

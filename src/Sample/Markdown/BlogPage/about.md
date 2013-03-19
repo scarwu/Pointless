@@ -1,10 +1,9 @@
------
 {
 	"title": "About",
 	"url": "about",
 	"message": true
 }
------
+
 Pointless
 =========
 

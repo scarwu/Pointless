@@ -65,7 +65,7 @@ class Add extends Command {
 		
 		if(!file_exists(MARKDOWN_ARTICLE . $filename)) {
 			$handle = fopen(MARKDOWN_ARTICLE . $filename, 'w+');
-			fwrite($handle, "-----\n{\n");
+			fwrite($handle, "{\n");
 			fwrite($handle, '	"title": "' . $info['title'] . '",' . "\n");
 			fwrite($handle, '	"url": "' . $info['url'] . '",' . "\n");
 			fwrite($handle, '	"tag": "' . $info['tag'] . '",' . "\n");
@@ -73,7 +73,7 @@ class Add extends Command {
 			fwrite($handle, '	"date": "' . date("Y-m-d", $time) . '",' . "\n");
 			fwrite($handle, '	"time": "' . date("H:i:s", $time) . '",' . "\n");
 			fwrite($handle, '	"publish": false' . "\n");
-			fwrite($handle, "}\n-----\n");
+			fwrite($handle, "}\n");
 			
 			IO::writeln("\nArticle " . $filename . " was created.");
 			system(sprintf("%s %s < `tty` > `tty`", FILE_EDITOR, MARKDOWN_ARTICLE . $filename));
@@ -104,11 +104,11 @@ class Add extends Command {
 		
 		if(!file_exists(MARKDOWN_BLOGPAGE . $filename)) {
 			$handle = fopen(MARKDOWN_BLOGPAGE . $filename, 'w+');
-			fwrite($handle, "-----\n{\n");
+			fwrite($handle, "{\n");
 			fwrite($handle, '	"title": "' . $info['title'] . '",' . "\n");
 			fwrite($handle, '	"url": "' . $info['url'] . '",' . "\n");
 			fwrite($handle, '	"message": true' . "\n");
-			fwrite($handle, "}\n-----\n");
+			fwrite($handle, "}\n");
 			
 			IO::writeln("\nBlog Page " . $filename . " was created.");
 			system(FILE_EDITOR . " " . MARKDOWN_BLOGPAGE . $filename . " < `tty` > `tty`");

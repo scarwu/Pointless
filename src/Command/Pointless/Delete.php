@@ -34,7 +34,7 @@ class Delete extends Command {
 	}
 
 	public function article() {
-		$regex_rule = '/^-----\n((?:.|\n)*)\n-----\n((?:.|\n)*)/';
+		$regex_rule = '/^({(?:.|\n)*?})\n((?:.|\n)*)/';
 		
 		$data = array();
 		$handle = opendir(MARKDOWN_ARTICLE);
@@ -71,7 +71,7 @@ class Delete extends Command {
 	}
 
 	public function blogpage() {
-		$regex_rule = '/^-----\n((?:.|\n)*)\n-----\n((?:.|\n)*)/';
+		$regex_rule = '/^({(?:.|\n)*?})\n((?:.|\n)*)/';
 		
 		$path = array();
 		$title = array();
