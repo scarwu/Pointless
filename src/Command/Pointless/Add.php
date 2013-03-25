@@ -29,6 +29,7 @@ class Add extends Command {
 			return;
 		}
 
+		IO::writeln('Pointless Help:', 'green');
 		IO::writeln('    add -a     - Add article');
 		IO::writeln('    add -bp    - Add blog page');
 	}

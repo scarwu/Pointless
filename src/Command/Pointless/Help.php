@@ -32,12 +32,13 @@ EOF;
 
 		IO::writeln($pointless, 'green');
 		IO::writeln('    gen        - Generate blog');
-		IO::writeln('    add        - Add new article or blog page');
-		IO::writeln('    edit       - List and edit article or blog page');
-		IO::writeln('    delete     - Delete article or blog page');
-		IO::writeln('    config     - Modify blog config');
-		IO::writeln('    deploy     - Deploy blog');
+		IO::writeln('    add        - Add new article / blog-page');
+		IO::writeln('    edit       - List and edit article / blog-page');
+		IO::writeln('    delete     - Delete article / blog-page');
+		IO::writeln('    test       - Start built-in web server');
+		IO::writeln('    config     - Modify config');
+		IO::writeln('    deploy     - Deploy blog to Github');
 		IO::writeln('    update     - Self-update');
-		IO::writeln('    version    - Display version');
+		IO::writeln('    version    - Show version');
 	}
 }

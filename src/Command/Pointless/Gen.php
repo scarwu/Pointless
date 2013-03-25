@@ -58,20 +58,15 @@ class Gen extends Command {
 
 			return;
 		}
-		
-		if(!file_exists(PUBLIC_FOLDER))
-			mkdir(PUBLIC_FOLDER, 0755, TRUE);
 
 		// Clear Public Files
 		IO::writeln("Clean Public Files ...", 'yellow');
 		recursiveRemove(PUBLIC_FOLDER);
 		
 		// Create README
-		if(!file_exists(PUBLIC_FOLDER . 'README')) {
-			$handle = fopen(PUBLIC_FOLDER . 'README', 'w+');
-			fwrite($handle, '[Powered by Pointless](https://github.com/scarwu/Pointless)');
-			fclose($handle);
-		}
+		$handle = fopen(PUBLIC_FOLDER . 'README', 'w+');
+		fwrite($handle, '[Powered by Pointless](https://github.com/scarwu/Pointless)');
+		fclose($handle);
 
 		// Create Github CNAME
 		if(NULL !== GITHUB_CNAME) {
@@ -96,8 +91,7 @@ class Gen extends Command {
 		
 		// Initialize Resource Pool
 		IO::writeln("Initialize Resource Pool ...", 'yellow');
-		$this->blogpage();
-		$this->article();
+		$this->initResourcePool();
 
 		// Generate HTML Pages
 		IO::writeln("Generating HTML ...", 'yellow');
@@ -114,12 +108,13 @@ class Gen extends Command {
 	}
 
 	/**
-	 * Load Blog Page
+	 * Initialize Resource Pool
 	 */
-	private function blogpage() {
+	private function initResourcePool() {
 		$regex_rule = '/^({(?:.|\n)*?})\n((?:.|\n)*)/';
 
 		// Handle Blog Page Markdown
+		IO::writeln("Load and Initialize Blogpage");
 		$handle = opendir(MARKDOWN_BLOGPAGE);
 		while($filename = readdir($handle)) {
 			if('.' == $filename || '..' == $filename || !preg_match('/.md$/', $filename))
@@ -136,15 +131,9 @@ class Gen extends Command {
 			));
 		}
 		closedir($handle);
-	}
-
-	/**
-	 * Load Article
-	 */
-	private function article() {
-		$regex_rule = '/^({(?:.|\n)*?})\n((?:.|\n)*)/';
 
 		// Handle Article Markdown
+		IO::writeln("Load and Initialize Article");
 		$handle = opendir(MARKDOWN_ARTICLE);
 		while($filename = readdir($handle)) {
 			if('.' == $filename || '..' == $filename || !preg_match('/.md$/', $filename))

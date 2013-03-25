@@ -29,6 +29,7 @@ class Edit extends Command {
 			return;
 		}
 
+		IO::writeln('Pointless Help:', 'green');
 		IO::writeln('    edit -a    - Edit article');
 		IO::writeln('    edit -bp   - Edit blog page');
 	}
