@@ -29,6 +29,7 @@ class Delete extends Command {
 			return;
 		}
 
+		IO::writeln('Pointless Help:', 'green');
 		IO::writeln('    delete -a  - Delete article');
 		IO::writeln('    delete -bp - Delete blog page');
 	}
