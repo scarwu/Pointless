@@ -30,27 +30,54 @@ class Gen extends Command {
 		require PLUGIN . 'Markdown/markdown.php';
 		
 		$start = microtime(TRUE);
+
+		if($this->hasOptions('css')) {
+			if(file_exists(PUBLIC_FOLDER . 'main.css'))
+				unlink(PUBLIC_FOLDER . 'main.css');
+
+			IO::writeln("Compress CSS ...", 'yellow');
+			$Compress = new Compress();
+			$Compress->css(THEME_CSS, PUBLIC_FOLDER . 'theme');
+
+			$end = sprintf("%.3f", abs(microtime(TRUE) - $start));
+			IO::writeln("Generate finish, $end s.", 'green');
+
+			return;
+		}
+
+		if($this->hasOptions('js')) {
+			if(file_exists(PUBLIC_FOLDER . 'main.js'))
+				unlink(PUBLIC_FOLDER . 'main.js');
+
+			IO::writeln("Compress Javascript ...", 'yellow');
+			$Compress = new Compress();
+			$Compress->js(THEME_JS, PUBLIC_FOLDER . 'theme');
+
+			$end = sprintf("%.3f", abs(microtime(TRUE) - $start));
+			IO::writeln("Generate finish, $end s.", 'green');
+
+			return;
+		}
 		
 		if(!file_exists(PUBLIC_FOLDER))
 			mkdir(PUBLIC_FOLDER, 0755, TRUE);
 
 		// Clear Public Files
-		IO::writeln("Clear Public Files ...", 'yellow');
+		IO::writeln("Clean Public Files ...", 'yellow');
 		recursiveRemove(PUBLIC_FOLDER);
+		
+		// Create README
+		if(!file_exists(PUBLIC_FOLDER . 'README')) {
+			$handle = fopen(PUBLIC_FOLDER . 'README', 'w+');
+			fwrite($handle, '[Powered by Pointless](https://github.com/scarwu/Pointless)');
+			fclose($handle);
+		}
 
 		// Create Github CNAME
 		if(NULL !== GITHUB_CNAME) {
 			IO::writeln("Create Github CNAME ...", 'yellow');
 			$handle = fopen(PUBLIC_FOLDER . 'CNAME', 'w+');
 			fwrite($handle, GITHUB_CNAME);
-			fclose($handle);
-		}
-		
-		// Create README
-		if(!file_exists(PUBLIC_FOLDER . 'README')) {
-			IO::writeln("Create README ...", 'yellow');
-			$handle = fopen(PUBLIC_FOLDER . 'README', 'w+');
-			fwrite($handle, '[Powered by Pointless](https://github.com/scarwu/Pointless)');
 			fclose($handle);
 		}
 
@@ -83,7 +110,6 @@ class Gen extends Command {
 		$extension->run();
 		
 		$end = sprintf("%.3f", abs(microtime(TRUE) - $start));
-		
 		IO::writeln("Generate finish, $end s.", 'green');
 	}
 
@@ -95,19 +121,20 @@ class Gen extends Command {
 
 		// Handle Blog Page Markdown
 		$handle = opendir(MARKDOWN_BLOGPAGE);
-		while($filename = readdir($handle))
-			if('.' != $filename && '..' != $filename && preg_match('/.md$/', $filename)) {
-				preg_match($regex_rule, file_get_contents(MARKDOWN_BLOGPAGE . $filename), $match);
-				
-				$temp = json_decode($match[1], TRUE);
+		while($filename = readdir($handle)) {
+			if('.' == $filename || '..' == $filename || !preg_match('/.md$/', $filename))
+				continue;
 
-				Resource::set('blogpage', array(
-					'title' => $temp['title'],
-					'url' => $temp['url'],
-					'content' => Markdown($match[2]),
-					'message' => isset($temp['message']) ? $temp['message'] : TRUE
-				));
-			}
+			preg_match($regex_rule, file_get_contents(MARKDOWN_BLOGPAGE . $filename), $match);
+			$temp = json_decode($match[1], TRUE);
+
+			Resource::set('blogpage', array(
+				'title' => $temp['title'],
+				'url' => $temp['url'],
+				'content' => Markdown($match[2]),
+				'message' => isset($temp['message']) ? $temp['message'] : TRUE
+			));
+		}
 		closedir($handle);
 	}
 
@@ -119,47 +146,50 @@ class Gen extends Command {
 
 		// Handle Article Markdown
 		$handle = opendir(MARKDOWN_ARTICLE);
-		while($filename = readdir($handle))
-			if('.' != $filename && '..' != $filename && preg_match('/.md$/', $filename)) {
-				preg_match($regex_rule, file_get_contents(MARKDOWN_ARTICLE . $filename), $match);
+		while($filename = readdir($handle)) {
+			if('.' == $filename || '..' == $filename || !preg_match('/.md$/', $filename))
+				continue;
 
-				$temp = json_decode($match[1], TRUE);
+			preg_match($regex_rule, file_get_contents(MARKDOWN_ARTICLE . $filename), $match);
+			$temp = json_decode($match[1], TRUE);
 
-				if(FALSE != (isset($temp['publish']) ? $temp['publish'] : TRUE)) {
-					$date = explode('-', $temp['date']);
-					$time = explode(':', $temp['time']);
+			if(!(isset($temp['publish']) ? $temp['publish'] : TRUE))
+				continue;
 
-					// 0: date, 1: url, 2: date + url
-					switch(ARTICLE_URL) {
-						default:
-						case 0:
-							$url = str_replace('-', '/', $temp['date']);
-							break;
-						case 1:
-							$url = $temp['url'];
-							break;
-						case 2:
-							$url = str_replace('-', '/', $temp['date']) . '/' . $temp['url'];
-							break;
-					}
+			$date = explode('-', $temp['date']);
+			$time = explode(':', $temp['time']);
 
-					Resource::set('article', array(
-						'title' => $temp['title'],
-						'url' => $url,
-						'content' => Markdown($match[2]),
-						'date' => $temp['date'],
-						'time' => $temp['time'],
-						'category' => $temp['category'],
-						'tag' => explode('|', $temp['tag']),
-						'year' => $date[0],
-						'month' => $date[1],
-						'day' => $date[2],
-						'hour' => $time[0],
-						'minute' => $time[1],
-						'second' => $time[2]
-					));
-				}
+			// 0: date, 1: url, 2: date + url
+			switch(ARTICLE_URL) {
+				default:
+				case 0:
+					$url = str_replace('-', '/', $temp['date']);
+					break;
+				case 1:
+					$url = $temp['url'];
+					break;
+				case 2:
+					$url = str_replace('-', '/', $temp['date']) . '/' . $temp['url'];
+					break;
 			}
+
+			Resource::set('article', array(
+				'title' => $temp['title'],
+				'url' => $url,
+				'content' => Markdown($match[2]),
+				'date' => $temp['date'],
+				'time' => $temp['time'],
+				'category' => $temp['category'],
+				'tag' => explode('|', $temp['tag']),
+				'year' => $date[0],
+				'month' => $date[1],
+				'day' => $date[2],
+				'hour' => $time[0],
+				'minute' => $time[1],
+				'second' => $time[2]
+			));
+			
+		}
 		closedir($handle);
 	}
 }
