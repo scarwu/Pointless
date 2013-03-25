@@ -31,7 +31,7 @@
 			</a>
 		</div>
 		<div id="container"><?=$data['container'] ?></div>
-		<div id="slider"><?=$data['slider'] ?></div>
+		<div id="side"><?=$data['side'] ?></div>
 		<footer><?=BLOG_FOOTER?></footer>
 	</div>
 	<!-- Define and Load Javascript -->

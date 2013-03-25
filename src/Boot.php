@@ -67,7 +67,7 @@ define('THEME_JS', THEME_PATH . 'Js/');
 define('THEME_CSS', THEME_PATH . 'Css/');
 define('THEME_RESOURCE', THEME_PATH . 'Resource/');
 define('THEME_CONTAINER', THEME_PATH . 'Container/');
-define('THEME_SLIDER', THEME_PATH . 'Slider/');
+define('THEME_SIDE', THEME_PATH . 'Side/');
 
 /**
  * Script
