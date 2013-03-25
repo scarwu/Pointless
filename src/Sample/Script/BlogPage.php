@@ -35,12 +35,12 @@ class BlogPage {
 	 *
 	 * @param string
 	 */
-	public function gen($slider) {
+	public function gen($side) {
 		foreach((array)$this->list as $index => $output_data) {
 			IO::writeln("Building " . $output_data['url']);
 		
 			$output_data['container'] = bindData($output_data, THEME_CONTAINER . 'BlogPage.php');
-			$output_data['slider'] = $slider;
+			$output_data['side'] = $side;
 
 			// Write HTML to Disk
 			$result = bindData($output_data, THEME_PATH . 'index.php');

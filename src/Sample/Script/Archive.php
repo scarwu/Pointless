@@ -49,7 +49,7 @@ class Archive {
 	 *
 	 * @param string
 	 */
-	public function gen($slider) {
+	public function gen($side) {
 		$max = 0;
 		$count = 0;
 		$total = count($this->list);
@@ -78,7 +78,7 @@ class Archive {
 			$output_data['title'] = 'Archive: ' . $index;
 			$output_data['article_list'] = $article_list;
 			$output_data['container'] = bindData($output_data, THEME_CONTAINER . 'Archive.php');
-			$output_data['slider'] = $slider;
+			$output_data['side'] = $side;
 
 			// Write HTML to Disk
 			$result = bindData($output_data, THEME_PATH . 'index.php');

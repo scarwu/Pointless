@@ -35,7 +35,7 @@ class Page {
 	 *
 	 * @param string
 	 */
-	public function gen($slider) {
+	public function gen($side) {
 		$total = ceil(count($this->list) / ARTICLE_QUANTITY);
 				
 		for($index = 1;$index <= $total;$index++) {
@@ -47,7 +47,7 @@ class Page {
 			);
 			$output_data['article_list'] = array_slice($this->list, ARTICLE_QUANTITY * ($index - 1), ARTICLE_QUANTITY);
 			$output_data['container'] = bindData($output_data, THEME_CONTAINER . 'Page.php');
-			$output_data['slider'] = $slider;
+			$output_data['side'] = $side;
 			
 			// Write HTML to Disk
 			$result = bindData($output_data, THEME_PATH . 'index.php');

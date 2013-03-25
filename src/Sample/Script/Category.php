@@ -46,7 +46,7 @@ class Category {
 	 *
 	 * @param string
 	 */
-	public function gen($slider) {
+	public function gen($side) {
 		$max = array(0, NULL);
 		$count = 0;
 		$total = count($this->list);
@@ -76,7 +76,7 @@ class Category {
 			$output_data['title'] ='Category: ' . $index;
 			$output_data['article_list'] = $article_list;
 			$output_data['container'] = bindData($output_data, THEME_CONTAINER . 'Category.php');
-			$output_data['slider'] = $slider;
+			$output_data['side'] = $side;
 			
 			// Write HTML to Disk
 			$result = bindData($output_data, THEME_PATH . 'index.php');

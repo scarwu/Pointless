@@ -21,7 +21,6 @@
 		<div id="nav">
 			<a href="<?=BLOG_PATH?>">Home</a>
 			<a href="<?=BLOG_PATH . 'about'?>">About</a>
-			<a href="<?=BLOG_PATH . 'works'?>">Works</a>
 			<a class="search" href="javascript:void(0);">Search
 				<form action="http://www.google.com/search?q=as" target="_blank" method="get">
 					<input type="hidden" name="q" value="site:<?=BLOG_DNS?>" />
