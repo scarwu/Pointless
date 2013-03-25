@@ -13,16 +13,16 @@ class Compress {
 	/**
 	 * @var array
 	 */
-	private $_css_list;
+	private $css_list;
 
 	/**
 	 * @var array
 	 */
-	private $_js_list;
+	private $js_list;
 
 	public function __construct() {
-		$this->_css_list = array();
-		$this->_js_list = array();
+		$this->css_list = array();
+		$this->js_list = array();
 	}
 
 	/**
@@ -35,17 +35,17 @@ class Compress {
 		$handle = opendir($src);
 		while($file = readdir($handle))
 			if('.' != $file && '..' != $file)
-				$this->_css_list[] = $file;
+				$this->css_list[] = $file;
 
 		closedir($handle);
 		
-		sort($this->_css_list);
+		sort($this->css_list);
 		
 		if(!file_exists($dest))
 			mkdir($dest, 0755, TRUE);
 		
 		$css_package = fopen(rtrim($dest, '/') . '/main.css', 'w+');
-		foreach((array)$this->_css_list as $filename) {
+		foreach((array)$this->css_list as $filename) {
 			$css = file_get_contents($src . $filename);
 			$css = $this->cssCompressor($css);
 			fwrite($css_package, $css);
@@ -81,16 +81,16 @@ class Compress {
 		$handle = opendir($src);
 		while($file = readdir($handle))
 			if('.' != $file && '..' != $file)
-				$this->_js_list[] = $file;
+				$this->js_list[] = $file;
 		closedir($handle);
 		
-		sort($this->_js_list);
+		sort($this->js_list);
 		
 		if(!file_exists($dest))
 			mkdir($dest, 0755, TRUE);
 		
 		$js_package = fopen(rtrim($dest, '/') . '/main.js', 'w+');
-		foreach((array)$this->_js_list as $filename) {
+		foreach((array)$this->js_list as $filename) {
 			$handle = fopen($src . $filename, 'r');
 			while($data = fread($handle, 1024))
 				fwrite($js_package, $data, 1024);
