@@ -156,27 +156,27 @@ header > hgroup > h2 {
 	overflow: hidden;
 }
 
-#slider {
+#side {
 	border-top: solid 1px #DFDFDF;
 	min-height: 100px;
 	padding: 15px 50px;
 	overflow: hidden;
 }
 
-#slider > div {
+#side > div {
 	display: inline-block;
 	width: 33%;
 	min-height: 150px;
 	float: left;
 }
 
-#slider > div .title {
+#side > div .title {
 	font-size: 24px;
 }
 
-#slider > .tag span,
-#slider > .archive span,
-#slider > .category span {
+#side > .tag span,
+#side > .archive span,
+#side > .category span {
 	display: inline-block;
 	padding: 0 5px 5px 0;
 }

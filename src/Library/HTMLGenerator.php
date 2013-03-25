@@ -18,7 +18,7 @@ class HTMLGenerator {
 	/**
 	 * @var string
 	 */
-	private $slider;
+	private $side;
 	
 	public function __construct() {
 		$this->script = array();
@@ -55,7 +55,7 @@ class HTMLGenerator {
 			}
 		closedir($handle);
 		
-		$this->genSlider();
+		$this->genSide();
 		$this->genContainer();
 	}
 
@@ -64,15 +64,15 @@ class HTMLGenerator {
 	 */
 	private function genContainer() {
 		foreach((array)$this->script as $class)
-			$class->gen($this->slider);
+			$class->gen($this->side);
 	}
 
 	/**
-	 * Generate Slider
+	 * Generate Side
 	 */
-	private function genSlider() {
+	private function genSide() {
 		$list = array();
-		$handle = opendir(THEME_SLIDER);
+		$handle = opendir(THEME_SIDE);
 		while($file = readdir($handle))
 			if('.' != $file && '..' != $file)
 				$list[] = $file;
@@ -84,9 +84,9 @@ class HTMLGenerator {
 		foreach((array)$list as $filename)
 			$result .= bindData(
 				$this->script[preg_replace(array('/^\d+_/', '/.php$/'), '', $filename)]->getList(),
-				THEME_SLIDER . $filename
+				THEME_SIDE . $filename
 			);
 		
-		$this->slider = $result;
+		$this->side = $result;
 	}
 }

@@ -35,7 +35,7 @@ class Article {
 	 *
 	 * @param string
 	 */
-	public function gen($slider) {
+	public function gen($side) {
 		$total = count($this->list);
 
 		foreach((array)$this->list as $index => $output_data) {
@@ -57,7 +57,7 @@ class Article {
 				);
 
 			$output_data['container'] = bindData($output_data, THEME_CONTAINER . 'Article.php');
-			$output_data['slider'] = $slider;
+			$output_data['side'] = $side;
 			
 			// Write HTML to Disk
 			$result = bindData($output_data, THEME_PATH . 'index.php');

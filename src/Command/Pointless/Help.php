@@ -32,8 +32,6 @@ EOF;
 
 		IO::writeln($pointless, 'green');
 		IO::writeln('    gen        - Generate blog');
-		IO::writeln('    gen css    - Generate and compress CSS');
-		IO::writeln('    gen js     - Generate and compress Javascript');
 		IO::writeln('    add        - Add new article or blog page');
 		IO::writeln('    edit       - List and edit article or blog page');
 		IO::writeln('    delete     - Delete article or blog page');
