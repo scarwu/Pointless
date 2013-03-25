@@ -35,6 +35,7 @@ EOF;
 		IO::writeln('    add        - Add new article or blog page');
 		IO::writeln('    edit       - List and edit article or blog page');
 		IO::writeln('    delete     - Delete article or blog page');
+		IO::writeln('    test       - Start built-in web server');
 		IO::writeln('    config     - Modify blog config');
 		IO::writeln('    deploy     - Deploy blog');
 		IO::writeln('    update     - Self-update');
