@@ -36,9 +36,9 @@ class Update extends Command {
 
 		system('wget ' . $remote . ' -O /tmp/poi');
 		system('chmod +x /tmp/poi');
-		system('mv /tmp/poi ' . $path);
 
 		IO::writeln('Update finish.', 'green');
-		system($path . '/poi version');
+		system('/tmp/poi version');
+		system('mv /tmp/poi ' . $path);
 	}
 }
