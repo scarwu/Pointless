@@ -71,21 +71,21 @@ class HTMLGenerator {
 	 * Generate Side
 	 */
 	private function genSide() {
-		$list = array();
+		$side = array();
 		$handle = opendir(THEME_SIDE);
 		while($file = readdir($handle))
 			if('.' != $file && '..' != $file)
-				$list[] = $file;
+				$side[] = $file;
 		closedir($handle);
 		
-		sort($list);
+		sort($side);
 
 		$result = '';
-		foreach((array)$list as $filename)
-			$result .= bindData(
-				$this->script[preg_replace(array('/^\d+_/', '/.php$/'), '', $filename)]->getList(),
-				THEME_SIDE . $filename
-			);
+		foreach((array)$side as $filename) {
+			$script_name = preg_replace(array('/^\d+_/', '/.php$/'), '', $filename);
+			$list = isset($this->script[$script_name]) ? $this->script[$script_name]->getList() : array();
+			$result .= bindData($list, THEME_SIDE . $filename);
+		}
 		
 		$this->side = $result;
 	}

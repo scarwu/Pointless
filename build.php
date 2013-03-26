@@ -18,16 +18,19 @@ $stub = <<<EOF
 #!/usr/bin/env php
 <?php
 Phar::mapPhar('poi.phar');
+define('BUILD_DATE', '%s');
 define('ROOT', 'phar://poi.phar/');
 require ROOT. 'Boot.php';
 __HALT_COMPILER();
 ?>
 EOF;
 
+date_default_timezone_set('Etc/UTC');
+
 // Create Phar
 $phar = new Phar('bin/poi.phar');
 $phar->setAlias('poi.phar');
-$phar->setStub($stub);
+$phar->setStub(sprintf($stub, date(DATE_COOKIE)));
 $phar->buildFromDirectory(dirname(__FILE__) . '/src', '/(\.php|\.md|\.js|\.css)/');
 $phar->compressFiles(Phar::GZ);
 $phar->stopBuffering();

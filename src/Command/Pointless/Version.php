@@ -19,6 +19,11 @@ class Version extends Command {
 	}
 	
 	public function run() {
-		IO::writeln('v0.9.8 Beta');
+		$version = 'v0.9.8 Beta';
+
+		if(defined('BUILD_DATE'))
+			$version .= ' (' . BUILD_DATE . ')';
+
+		IO::writeln($version);
 	}
 }
