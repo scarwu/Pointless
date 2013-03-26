@@ -1,26 +1,4 @@
 <?php
-$index = $data['bar']['index'];
-$total = $data['bar']['total'];
-
-$next = isset($data['bar']['next']) ? $data['bar']['next'] : NULL;
-$prev = isset($data['bar']['prev']) ? $data['bar']['prev'] : NULL;
-
-$bar = sprintf('<span class="count">< %d / %d ></span>', $index, $total);
-
-if($total != 1) {
-	if($index == 1)
-		$old = sprintf('<a href="/tag/%s">%s >></a>', $next['url'], $next['title']);
-	elseif($data['bar']['index'] == $data['bar']['total'])
-		$new = sprintf('<a href="/tag/%s"><< %s</a>', $prev['url'], $prev['title']);
-	else {
-		$old = sprintf('<a href="/tag/%s">%s >></a>', $next['url'], $next['title']);
-		$new = sprintf('<a href="/tag/%s"><< %s</a>', $prev['url'], $prev['title']);
-	}
-	
-	$bar .= sprintf('<span class="new">%s</span>', isset($new) ? $new : '');
-	$bar .= sprintf('<span class="old">%s</span>', isset($old) ? $old : '');
-}
-
 $year_list = array();
 foreach((array)$data['article_list'] as $article) {
 	if(!isset($year_list[$article['year']]))
@@ -32,35 +10,49 @@ foreach((array)$data['article_list'] as $article) {
 	$year_list[$article['year']][$article['month']][] = $article;
 }
 krsort($year_list);
-
-$content = '';
-foreach((array)$year_list as $year => $month_list) {
-	$content .= '<div class="year_archive">';
-	$content .= '<div class="year">' . $year . '</div>';
-	foreach((array)$month_list as $month => $article_list) {
-		$content .= '<div class="month_archive">';
-		$content .= '<div class="month">' . $month . '</div>';
-		$content .= '<div class="list">';
-		foreach((array)$article_list as $article) {
-			$content .= '<article>';
-			$content .= '<span class="title">' . linkTo(BLOG_PATH . 'article/' . $article['url'], $article['title']) . '</span>';
-			$content .= '<span class="archive">Archive: ' . linkTo(BLOG_PATH . 'archive/' . $article['year'], $article['year']) . '</span>';
-			$content .= '<span class="category">Category: ' . linkTo(BLOG_PATH . 'category/' . $article['category'], $article['category']) . '</span>';
-			$content .= '<span class="tag">Tag: ';
-			foreach((array)$article['tag'] as $index => $tag)
-				$content .= linkTo(BLOG_PATH . "tag/$tag", $tag) . (count($article['tag']) - 1 > $index ? ', ' : '');
-			$content .= '</span>';
-			$content .= '</article>';
-		}
-		$content .= '</div>';
-		$content .= '</div>';
-		$content .= '<hr>';
-	}
-	$content .= '</div>';
-}
 ?>
 <div id="tag">
 	<div class="title"><?=$data['title']?></div>
-	<?=$content?>
-	<div class="bar"><?=$bar?></div>
+	<?php foreach((array)$year_list as $year => $month_list): ?>
+	<div class="year_archive">
+		<div class="year"><?=$year?></div>
+		<?php foreach((array)$month_list as $month => $article_list): ?>
+		<div class="month_archive">
+			<div class="month"><?=$month?></div>
+			<div class="list">
+				<?php foreach((array)$article_list as $article): ?>
+				<article>
+					<span class="title">
+						<?=linkTo(BLOG_PATH . 'article/' . $article['url'], $article['title'])?>
+					</span>
+					<span class="archive">
+						Archive: <?=linkTo(BLOG_PATH . 'archive/' . $article['year'], $article['year'])?>
+					</span>
+					<span class="category">
+						Category: <?=linkTo(BLOG_PATH . 'category/' . $article['category'], $article['category'])?>
+					</span>
+					<span class="tag">Tag: 
+						<?php foreach((array)$article['tag'] as $index => $tag): ?>
+						<?=linkTo(BLOG_PATH . 'tag/' . $tag, $tag) . (count($article['tag'])-1 > $index ? ', ' : '')?>
+						<?php endforeach; ?>
+					</span>
+				</article>
+				<?php endforeach; ?>
+			</div>
+		</div>
+		<hr>
+		<?php endforeach; ?>
+	</div>
+	<?php endforeach; ?>
+	<div class="bar">
+		<span class="new">
+			<?=$data['bar']['total'] != 1 && $data['bar']['index'] != 1
+				? linkTo(BLOG_PATH . 'tag/' . $data['bar']['prev']['url'], '<< ' . $data['bar']['prev']['title']): ''?>
+		</span>
+		<span class="old">
+			<?=$data['bar']['total'] != 1 && $data['bar']['index'] != $data['bar']['total']
+				? linkTo(BLOG_PATH . 'tag/' . $data['bar']['next']['url'], $data['bar']['next']['title'] . ' >>'): ''?>
+		</span>
+		<span class="count">< <?=$data['bar']['index']?> / <?=$data['bar']['total']?> ></span>
+	</div>
 </div>
