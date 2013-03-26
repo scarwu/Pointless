@@ -74,7 +74,7 @@ class Category {
 			$count++;
 			
 			$output_data['title'] ='Category: ' . $index;
-			$output_data['article_list'] = $article_list;
+			$output_data['date_list'] = createDateList($article_list);
 			$output_data['container'] = bindData($output_data, THEME_CONTAINER . 'Category.php');
 			$output_data['side'] = $side;
 			

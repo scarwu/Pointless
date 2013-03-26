@@ -144,3 +144,27 @@ function countSort($list) {
 	
 	return $result;
 }
+
+/**
+ * Create Date List Using Article
+ *
+ * @param array
+ * @return array
+ */
+function createDateList($list) {
+	$result = array();
+
+	foreach((array)$list as $article) {
+		if(!isset($result[$article['year']]))
+			$result[$article['year']] = array();
+		
+		if(!isset($result[$article['year']][$article['month']]))
+			$result[$article['year']][$article['month']] = array();
+		
+		$result[$article['year']][$article['month']][] = $article;
+	}
+
+	krsort($result);
+
+	return $result;
+}

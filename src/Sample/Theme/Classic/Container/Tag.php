@@ -1,19 +1,6 @@
-<?php
-$year_list = array();
-foreach((array)$data['article_list'] as $article) {
-	if(!isset($year_list[$article['year']]))
-		$year_list[$article['year']] = array();
-	
-	if(!isset($year_list[$article['year']][$article['month']]))
-		$year_list[$article['year']][$article['month']] = array();
-	
-	$year_list[$article['year']][$article['month']][] = $article;
-}
-krsort($year_list);
-?>
 <div id="tag">
 	<div class="title"><?=$data['title']?></div>
-	<?php foreach((array)$year_list as $year => $month_list): ?>
+	<?php foreach((array)$data['date_list'] as $year => $month_list): ?>
 	<div class="year_archive">
 		<div class="year"><?=$year?></div>
 		<?php foreach((array)$month_list as $month => $article_list): ?>
