@@ -56,6 +56,8 @@ class Category {
 			IO::writeln('Building category/' . $index);
 			$max = count($article_list) > $max[0] ? array(count($article_list), $index) : $max;
 			
+			$container_data['title'] ='Category: ' . $index;
+			$container_data['list'] = createDateList($article_list);
 			$container_data['bar'] = array(
 				'index' => $count + 1,
 				'total' => $total
@@ -73,14 +75,12 @@ class Category {
 			
 			$count++;
 			
-			$container_data['list'] = createDateList($article_list);
-
-			$output_data['title'] ='Category: ' . $index;
+			$output_data['title'] = $container_data['title'];
 			list($output_data['block']) = Resource::get('block');
-			$output_data['block']['container'] = bindData($container_data, THEME_CONTAINER . 'Category.php');
+			$output_data['block']['container'] = bindData($container_data, THEME_TEMPLATE . 'Container/Category.php');
 			
 			// Write HTML to Disk
-			$result = bindData($output_data, THEME_PATH . 'index.php');
+			$result = bindData($output_data, THEME_TEMPLATE . 'index.php');
 			writeTo($result, PUBLIC_FOLDER . 'category/' . $index);
 
 			// Sitemap

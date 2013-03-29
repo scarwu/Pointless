@@ -1,5 +1,5 @@
 <div id="page">
-	<?php foreach((array)$data['article_list'] as $article): ?>
+	<?php foreach((array)$data['list'] as $article): ?>
 	<article>
 		<div class="title"><?=linkTo(BLOG_PATH . 'article/' . $article['url'], $article['title'])?></div>
 		<div class="info">

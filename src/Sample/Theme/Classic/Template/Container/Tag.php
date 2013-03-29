@@ -1,6 +1,6 @@
 <div id="tag">
 	<div class="title"><?=$data['title']?></div>
-	<?php foreach((array)$data['date_list'] as $year => $month_list): ?>
+	<?php foreach((array)$data['list'] as $year => $month_list): ?>
 	<div class="year_archive">
 		<div class="year"><?=$year?></div>
 		<?php foreach((array)$month_list as $month => $article_list): ?>

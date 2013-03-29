@@ -45,14 +45,13 @@ class Page {
 				'index' => $index,
 				'total' => $total
 			);
-			$container_data['article_list'] = array_slice($this->list, ARTICLE_QUANTITY * ($index - 1), ARTICLE_QUANTITY);
+			$container_data['list'] = array_slice($this->list, ARTICLE_QUANTITY * ($index - 1), ARTICLE_QUANTITY);
 
-			$output_data['title'] = $container_data['title'];
 			list($output_data['block']) = Resource::get('block');
-			$output_data['block']['container'] = bindData($container_data, THEME_CONTAINER . 'Page.php');
+			$output_data['block']['container'] = bindData($container_data, THEME_TEMPLATE . 'Container/Page.php');
 			
 			// Write HTML to Disk
-			$result = bindData($output_data, THEME_PATH . 'index.php');
+			$result = bindData($output_data, THEME_TEMPLATE . 'index.php');
 			writeTo($result, PUBLIC_FOLDER . 'page/' . $index);
 
 			// Sitemap

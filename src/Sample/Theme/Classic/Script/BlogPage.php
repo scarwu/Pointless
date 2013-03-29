@@ -41,10 +41,10 @@ class BlogPage {
 			
 			$output_data['title'] = $container_data['title'];
 			list($output_data['block']) = Resource::get('block');
-			$output_data['block']['container'] = bindData($container_data, THEME_CONTAINER . 'BlogPage.php');
+			$output_data['block']['container'] = bindData($container_data, THEME_TEMPLATE . 'Container/BlogPage.php');
 
 			// Write HTML to Disk
-			$result = bindData($output_data, THEME_PATH . 'index.php');
+			$result = bindData($output_data, THEME_TEMPLATE . 'index.php');
 			writeTo($result, PUBLIC_FOLDER . $container_data['url']);
 
 			// Sitemap

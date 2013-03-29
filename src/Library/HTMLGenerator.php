@@ -83,7 +83,7 @@ class HTMLGenerator {
 				$result .= bindData($list, THEME_TEMPLATE . $block_name . '/' . $file);
 			}
 
-			$block[$block_name] = $result;
+			$block[strtolower($block_name)] = $result;
 		}
 		closedir($block_handle);
 

@@ -58,7 +58,7 @@ class Article {
 
 			$output_data['title'] = $container_data['title'];
 			list($output_data['block']) = Resource::get('block');
-			$output_data['block']['container'] = bindData($container_data, THEME_CONTAINER . 'Article.php');
+			$output_data['block']['container'] = bindData($container_data, THEME_TEMPLATE . 'Container/Article.php');
 			
 			// Write HTML to Disk
 			$result = bindData($output_data, THEME_TEMPLATE . 'index.php');

@@ -58,6 +58,8 @@ class Archive {
 			IO::writeln(sprintf("Building archive/%s", $index));
 			$max = $index > $max ? $index : $max;
 			
+			$container_data['title'] = 'Archive: ' . $index;
+			$container_data['list'] = createDateList($article_list);
 			$container_data['bar'] = array(
 				'index' => $count + 1,
 				'total' => $total
@@ -74,12 +76,10 @@ class Archive {
 				);
 				
 			$count++;
-			
-			$container_data['list'] = createDateList($article_list);
 
-			$output_data['title'] = 'Archive: ' . $index;
+			$output_data['title'] = $container_data['title'];
 			list($output_data['block']) = Resource::get('block');
-			$output_data['block']['container'] = bindData($container_data, THEME_CONTAINER . 'Archive.php');
+			$output_data['block']['container'] = bindData($container_data, THEME_TEMPLATE . 'Container/Archive.php');
 			
 			// Write HTML to Disk
 			$result = bindData($output_data, THEME_TEMPLATE . 'index.php');
