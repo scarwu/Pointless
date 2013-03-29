@@ -1,5 +1,5 @@
 <div id="page">
-	<?php foreach((array)$data['article_list'] as $article): ?>
+	<?php foreach((array)$data['list'] as $article): ?>
 	<article>
 		<div class="title"><?=linkTo(BLOG_PATH . 'article/' . $article['url'], $article['title'])?></div>
 		<div class="info">
@@ -17,11 +17,11 @@
 	<div class="bar">
 		<span class="new">
 			<?=$data['bar']['total'] != 1 && $data['bar']['index'] != 1
-				? linkTo(BLOG_PATH . 'page/' . $data['bar']['index']-1, '<< Newer Posts'): ''?>
+				? linkTo(BLOG_PATH . 'page/' . ($data['bar']['index']-1), '<< Newer Posts'): ''?>
 		</span>
 		<span class="old">
 			<?=$data['bar']['total'] != 1 && $data['bar']['index'] != $data['bar']['total']
-				? linkTo(BLOG_PATH . 'page/' . $data['bar']['index']+1, 'Older Posts >>'): ''?>
+				? linkTo(BLOG_PATH . 'page/' . ($data['bar']['index']+1), 'Older Posts >>'): ''?>
 		</span>
 		<span class="count">< <?=$data['bar']['index']?> / <?=$data['bar']['total']?> ></span>
 	</div>

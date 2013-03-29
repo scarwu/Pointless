@@ -29,8 +29,8 @@
 				</form>
 			</a>
 		</div>
-		<div id="container"><?=$data['container'] ?></div>
-		<div id="side"><?=$data['side'] ?></div>
+		<div id="container"><?=$data['block']['container'] ?></div>
+		<div id="side"><?=$data['block']['side'] ?></div>
 		<footer><?=BLOG_FOOTER?></footer>
 	</div>
 	<!-- Define and Load Javascript -->

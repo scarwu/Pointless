@@ -49,7 +49,7 @@ class Archive {
 	 *
 	 * @param string
 	 */
-	public function gen($side) {
+	public function gen() {
 		$max = 0;
 		$count = 0;
 		$total = count($this->list);
@@ -58,30 +58,31 @@ class Archive {
 			IO::writeln(sprintf("Building archive/%s", $index));
 			$max = $index > $max ? $index : $max;
 			
-			$output_data['bar'] = array(
+			$container_data['title'] = 'Archive: ' . $index;
+			$container_data['list'] = createDateList($article_list);
+			$container_data['bar'] = array(
 				'index' => $count + 1,
 				'total' => $total
 			);
 			if(isset($this->list[$index - 1]))
-				$output_data['bar']['next'] = array(
+				$container_data['bar']['next'] = array(
 					'title' => $index - 1,
 					'url' => $index - 1
 				);
 			if(isset($this->list[$index + 1]))
-				$output_data['bar']['prev'] = array(
+				$container_data['bar']['prev'] = array(
 					'title' => $index + 1,
 					'url' => $index + 1
 				);
 				
 			$count++;
-			
-			$output_data['title'] = 'Archive: ' . $index;
-			$output_data['date_list'] = createDateList($article_list);
-			$output_data['container'] = bindData($output_data, THEME_CONTAINER . 'Archive.php');
-			$output_data['side'] = $side;
 
+			$output_data['title'] = $container_data['title'];
+			list($output_data['block']) = Resource::get('block');
+			$output_data['block']['container'] = bindData($container_data, THEME_TEMPLATE . 'Container/Archive.php');
+			
 			// Write HTML to Disk
-			$result = bindData($output_data, THEME_PATH . 'index.php');
+			$result = bindData($output_data, THEME_TEMPLATE . 'index.php');
 			writeTo($result, PUBLIC_FOLDER . 'archive/' . $index);
 
 			// Sitemap
