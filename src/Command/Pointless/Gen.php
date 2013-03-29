@@ -39,8 +39,8 @@ class Gen extends Command {
 			$Compress = new Compress();
 			$Compress->css(THEME_CSS, PUBLIC_FOLDER . 'theme');
 
-			$end = sprintf("%.3f", abs(microtime(TRUE) - $start));
-			IO::writeln("Generate finish, $end s.", 'green');
+			$time = sprintf("%.3f", abs(microtime(TRUE) - $start));
+			IO::writeln("Generate finish, $time s.", 'green');
 
 			return;
 		}
@@ -53,11 +53,13 @@ class Gen extends Command {
 			$Compress = new Compress();
 			$Compress->js(THEME_JS, PUBLIC_FOLDER . 'theme');
 
-			$end = sprintf("%.3f", abs(microtime(TRUE) - $start));
-			IO::writeln("Generate finish, $end s.", 'green');
+			$time = sprintf("%.3f", abs(microtime(TRUE) - $start));
+			IO::writeln("Generate finish, $time s.", 'green');
 
 			return;
 		}
+
+		$start_mem = memory_get_usage();
 
 		// Clear Public Files
 		IO::writeln("Clean Public Files ...", 'yellow');
@@ -103,8 +105,9 @@ class Gen extends Command {
 		$extension = new ExtensionLoader();
 		$extension->run();
 		
-		$end = sprintf("%.3f", abs(microtime(TRUE) - $start));
-		IO::writeln("Generate finish, $end s.", 'green');
+		$time = sprintf("%.3f", abs(microtime(TRUE) - $start));
+		$mem = sprintf("%.3f", abs(memory_get_usage() - $start_mem) / 1024);
+		IO::writeln("Generate finish, $time s and memory used $mem kbs.", 'green');
 	}
 
 	/**
