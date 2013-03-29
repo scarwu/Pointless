@@ -35,19 +35,21 @@ class Page {
 	 *
 	 * @param string
 	 */
-	public function gen($side) {
+	public function gen() {
 		$total = ceil(count($this->list) / ARTICLE_QUANTITY);
 				
 		for($index = 1;$index <= $total;$index++) {
 			IO::writeln('Building page/' . $index);
 			
-			$output_data['bar'] = array(
+			$container_data['bar'] = array(
 				'index' => $index,
 				'total' => $total
 			);
-			$output_data['article_list'] = array_slice($this->list, ARTICLE_QUANTITY * ($index - 1), ARTICLE_QUANTITY);
-			$output_data['container'] = bindData($output_data, THEME_CONTAINER . 'Page.php');
-			$output_data['side'] = $side;
+			$container_data['article_list'] = array_slice($this->list, ARTICLE_QUANTITY * ($index - 1), ARTICLE_QUANTITY);
+
+			$output_data['title'] = $container_data['title'];
+			list($output_data['block']) = Resource::get('block');
+			$output_data['block']['container'] = bindData($container_data, THEME_CONTAINER . 'Page.php');
 			
 			// Write HTML to Disk
 			$result = bindData($output_data, THEME_PATH . 'index.php');

@@ -48,7 +48,7 @@ class Tag {
 	 *
 	 * @param string
 	 */
-	public function gen($side) {
+	public function gen() {
 		$max = array(0, NULL);
 		$count = 0;
 		$total = count($this->list);
@@ -58,27 +58,28 @@ class Tag {
 			IO::writeln('Building tag/' . $index);
 			$max = count($article_list) > $max[0] ? array(count($article_list), $index) : $max;
 			
-			$output_data['bar'] = array(
+			$container_data['bar'] = array(
 				'index' => $count + 1,
 				'total' => $total
 			);
 			if(isset($key[$count - 1]))
-				$output_data['bar']['prev'] = array(
+				$container_data['bar']['prev'] = array(
 					'title' => $key[$count - 1],
 					'url' => $key[$count - 1]
 				);
 			if(isset($key[$count + 1]))
-				$output_data['bar']['next'] = array(
+				$container_data['bar']['next'] = array(
 					'title' => $key[$count + 1],
 					'url' => $key[$count + 1]
 				);
 			
 			$count++;
 			
+			$container_data['list'] = createDateList($article_list);
+
 			$output_data['title'] = 'Tag: ' . $index;
-			$output_data['date_list'] = createDateList($article_list);
-			$output_data['container'] = bindData($output_data, THEME_CONTAINER . 'Tag.php');
-			$output_data['side'] = $side;
+			list($output_data['block']) = Resource::get('block');
+			$output_data['block']['container'] = bindData($container_data, THEME_CONTAINER . 'Tag.php');
 			
 			// Write HTML to Disk
 			$result = bindData($output_data, THEME_PATH . 'index.php');

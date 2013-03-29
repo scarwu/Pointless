@@ -35,36 +35,37 @@ class Article {
 	 *
 	 * @param string
 	 */
-	public function gen($side) {
+	public function gen() {
 		$total = count($this->list);
 
-		foreach((array)$this->list as $index => $output_data) {
-			IO::writeln("Building article/" . $output_data['url']);
+		foreach((array)$this->list as $index => $container_data) {
+			IO::writeln("Building article/" . $container_data['url']);
 			
-			$output_data['bar'] = array(
+			$container_data['bar'] = array(
 				'index' => $index + 1,
 				'total' => $total
 			);
 			if(isset($this->list[$index - 1]))
-				$output_data['bar']['prev'] = array(
+				$container_data['bar']['prev'] = array(
 					'title' => $this->list[$index - 1]['title'],
 					'url' => $this->list[$index - 1]['url']
 				);
 			if(isset($this->list[$index + 1]))
-				$output_data['bar']['next'] = array(
+				$container_data['bar']['next'] = array(
 					'title' => $this->list[$index + 1]['title'],
 					'url' => $this->list[$index + 1]['url']
 				);
 
-			$output_data['container'] = bindData($output_data, THEME_CONTAINER . 'Article.php');
-			$output_data['side'] = $side;
+			$output_data['title'] = $container_data['title'];
+			list($output_data['block']) = Resource::get('block');
+			$output_data['block']['container'] = bindData($container_data, THEME_CONTAINER . 'Article.php');
 			
 			// Write HTML to Disk
-			$result = bindData($output_data, THEME_PATH . 'index.php');
-			writeTo($result, PUBLIC_FOLDER . 'article/' . $output_data['url']);
+			$result = bindData($output_data, THEME_TEMPLATE . 'index.php');
+			writeTo($result, PUBLIC_FOLDER . 'article/' . $container_data['url']);
 
 			// Sitemap
-			Resource::set('sitemap', 'article/' . $output_data['url']);
+			Resource::set('sitemap', 'article/' . $container_data['url']);
 		}
 	}
 }
