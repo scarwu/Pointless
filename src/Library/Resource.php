@@ -13,7 +13,7 @@ class Resource {
 	/**
 	 * @var array
 	 */
-	private static $_resource = array();
+	private static $resource = array();
 
 	private function __construct() {}
 
@@ -24,7 +24,7 @@ class Resource {
 	 * @return array
 	 */
 	public static function get($index) {
-		return isset(self::$_resource[$index]) ? self::$_resource[$index] : NULL;
+		return isset(self::$resource[$index]) ? self::$resource[$index] : NULL;
 	}
 
 	/**
@@ -34,9 +34,9 @@ class Resource {
 	 * @param array
 	 */
 	public static function set($index, $data) {
-		if(!isset(self::$_resource[$index]))
-			self::$_resource[$index] = array();
+		if(!isset(self::$resource[$index]))
+			self::$resource[$index] = array();
 
-		self::$_resource[$index][] = $data;
+		self::$resource[$index][] = $data;
 	}
 }

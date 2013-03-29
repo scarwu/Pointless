@@ -65,20 +65,9 @@ else
 
 define('THEME_JS', THEME_PATH . 'Js/');
 define('THEME_CSS', THEME_PATH . 'Css/');
+define('THEME_SCRIPT', THEME_PATH . 'Script/');
 define('THEME_RESOURCE', THEME_PATH . 'Resource/');
-define('THEME_CONTAINER', THEME_PATH . 'Container/');
-define('THEME_SIDE', THEME_PATH . 'Side/');
-
-/**
- * Script
- */
-if(!defined('SCRIPT_FOLDER'))
-	define('SCRIPT_FOLDER', USER_DATA . 'Script/');
-
-if(!file_exists(SCRIPT_FOLDER)) {
-	mkdir(SCRIPT_FOLDER, 0755, TRUE);
-	recursiveCopy(ROOT . 'Sample/Script', SCRIPT_FOLDER);
-}
+define('THEME_TEMPLATE', THEME_PATH . 'Template/');
 
 /**
  * Extension

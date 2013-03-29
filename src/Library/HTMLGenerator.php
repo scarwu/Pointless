@@ -14,11 +14,6 @@ class HTMLGenerator {
 	 * @var array
 	 */
 	private $script;
-
-	/**
-	 * @var string
-	 */
-	private $side;
 	
 	public function __construct() {
 		$this->script = array();
@@ -29,64 +24,69 @@ class HTMLGenerator {
 	 */
 	public function run() {
 
-		// Load Theme Custom Script
-		if(file_exists(SCRIPT_FOLDER)) {
-			$handle = opendir(SCRIPT_FOLDER);
-			while($filename = readdir($handle))
-				if('.' != $filename && '..' != $filename) {
-					require SCRIPT_FOLDER . $filename;
-
-					$class_name = preg_replace('/.php$/', '', $filename);
-					$this->script[$class_name] = new $class_name;
-				}
-			closedir($handle);
-		}
-
-		// Load Default Script
-		$handle = opendir(ROOT . 'Sample/Script/');
-		while($filename = readdir($handle))
-			if('.' != $filename && '..' != $filename) {
-				$class_name = preg_replace('/.php$/', '', $filename);
-
-				if(!isset($this->script[$class_name])) {
-					require ROOT . 'Sample/Script/' . $filename;
-					$this->script[$class_name] = new $class_name;
-				}
-			}
-		closedir($handle);
+		// Load Script
+		$this->loadScript();
 		
-		$this->genSide();
-		$this->genContainer();
-	}
+		// Generate Block
+		$this->genBlock();
 
-	/**
-	 * Generate Container
-	 */
-	private function genContainer() {
 		foreach((array)$this->script as $class)
-			$class->gen($this->side);
+			$class->gen();
 	}
 
 	/**
-	 * Generate Side
+	 * Load Theme Script
 	 */
-	private function genSide() {
-		$side = array();
-		$handle = opendir(THEME_SIDE);
-		while($file = readdir($handle))
-			if('.' != $file && '..' != $file)
-				$side[] = $file;
-		closedir($handle);
-		
-		sort($side);
+	private function loadScript() {
+		$handle = opendir(THEME_SCRIPT);
+		while($filename = readdir($handle)) {
+			if('.' == $filename || '..' == $filename)
+				continue;
 
-		$result = '';
-		foreach((array)$side as $filename) {
-			$script_name = preg_replace(array('/^\d+_/', '/.php$/'), '', $filename);
-			$list = isset($this->script[$script_name]) ? $this->script[$script_name]->getList() : array();
-			$result .= bindData($list, THEME_SIDE . $filename);
+			require THEME_SCRIPT . $filename;
+
+			$class_name = preg_replace('/.php$/', '', $filename);
+			$this->script[$class_name] = new $class_name;
 		}
-		
-		$this->side = $result;
+		closedir($handle);
+	}
+
+	/**
+	 * Generate Block
+	 */
+	private function genBlock() {
+		$filter = array('.', '..', 'Container', 'index.php');
+		$block = array();
+
+		$block_handle = opendir(THEME_TEMPLATE);
+		while($block_name = readdir($block_handle)) {
+			if(in_array($block_name, $filter))
+				continue;
+
+			$file_list = array();
+
+			$handle = opendir(THEME_TEMPLATE . $block_name);
+			while($file = readdir($handle)) {
+				if('.' == $file || '..' == $file)
+					continue;
+
+				$file_list[] = $file;
+			}
+			closedir($handle);
+
+			sort($file_list);
+
+			$result = '';
+			foreach((array)$file_list as $file) {
+				$script_name = preg_replace(array('/^\d+_/', '/.php$/'), '', $file);
+				$list = isset($this->script[$script_name]) ? $this->script[$script_name]->getList() : null;
+				$result .= bindData($list, THEME_TEMPLATE . $block_name . '/' . $file);
+			}
+
+			$block[$block_name] = $result;
+		}
+		closedir($block_handle);
+
+		Resource::set('block', $block);
 	}
 }
