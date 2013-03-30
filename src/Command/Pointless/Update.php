@@ -19,10 +19,8 @@ class Update extends Command {
 	}
 	
 	public function run() {
-		$configs = $this->getConfigs();
-
 		$remote = 'https://raw.github.com/scarwu/Pointless/master/bin/poi';
-		$path = isset($configs['path']) && $configs['path'] != '' ? $configs['path'] : '/usr/local/bin';
+		$path = defined('BIN_LOCATE') ? BIN_LOCATE : '/usr/local/bin';
 
 		if(!is_dir($path)) {
 			IO::writeln($path . ' is not a directory', 'red');
