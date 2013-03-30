@@ -21,8 +21,8 @@ class Version extends Command {
 	public function run() {
 		$version = 'v0.9.9 Beta';
 
-		if(defined('BUILD_DATE'))
-			$version .= ' (' . BUILD_DATE . ')';
+		if(defined('BUILD_TIMESTAMP'))
+			$version .= ' (' . date(DATE_COOKIE, BUILD_TIMESTAMP) . ')';
 
 		IO::writeln($version);
 	}
