@@ -31,13 +31,13 @@ class Delete extends Command {
 		$regex_rule = '/^({(?:.|\n)*?})\n((?:.|\n)*)/';
 		
 		$data = array();
-		$handle = opendir(MARKDOWN_ARTICLE);
+		$handle = opendir(MARKDOWN_FOLDER);
 		while($filename = readdir($handle))
 			if('.' != $filename && '..' != $filename) {
-				preg_match($regex_rule, file_get_contents(MARKDOWN_ARTICLE . $filename), $match);
+				preg_match($regex_rule, file_get_contents(MARKDOWN_FOLDER . $filename), $match);
 				$temp = json_decode($match[1], TRUE);
 				$data[$temp['date'].$temp['time']] = $temp;
-				$data[$temp['date'].$temp['time']]['path'] = MARKDOWN_ARTICLE . $filename;
+				$data[$temp['date'].$temp['time']]['path'] = MARKDOWN_FOLDER . $filename;
 			}
 		closedir($handle);
 		ksort($data);
@@ -70,14 +70,14 @@ class Delete extends Command {
 		$path = array();
 		$title = array();
 		$count = 0;
-		$handle = opendir(MARKDOWN_BLOGPAGE);
+		$handle = opendir(MARKDOWN_FOLDER);
 		while($filename = readdir($handle))
 			if('.' != $filename && '..' != $filename) {
-				preg_match($regex_rule, file_get_contents(MARKDOWN_BLOGPAGE . $filename), $match);
+				preg_match($regex_rule, file_get_contents(MARKDOWN_FOLDER . $filename), $match);
 				$temp = json_decode($match[1], TRUE);
 				IO::writeln(sprintf("[%3d] %s", $count, $temp['title']));
 				$title[$count] = $temp['title'];
-				$path[$count++] = MARKDOWN_BLOGPAGE . $filename;
+				$path[$count++] = MARKDOWN_FOLDER . $filename;
 			}
 		closedir($handle);
 
