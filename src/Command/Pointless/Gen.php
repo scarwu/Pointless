@@ -126,8 +126,6 @@ class Gen extends Command {
 			preg_match($regex_rule, file_get_contents(MARKDOWN_FOLDER . $filename), $match);
 			$temp = json_decode($match[1], TRUE);
 
-			echo $temp['title'] . "\n";
-
 			if('static' == $temp['type']) {
 				Resource::set('static', array(
 					'title' => $temp['title'],

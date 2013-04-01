@@ -32,18 +32,21 @@ class Delete extends Command {
 		
 		$data = array();
 		$handle = opendir(MARKDOWN_FOLDER);
-		while($filename = readdir($handle))
-			if('.' != $filename && '..' != $filename) {
-				preg_match($regex_rule, file_get_contents(MARKDOWN_FOLDER . $filename), $match);
-				$temp = json_decode($match[1], TRUE);
+		while($filename = readdir($handle)) {
+			if('.' == $filename || '..' == $filename)
+				continue;
 
-				if('article' != $temp['type'])
-					continue;
+			preg_match($regex_rule, file_get_contents(MARKDOWN_FOLDER . $filename), $match);
+			$temp = json_decode($match[1], TRUE);
 
-				$data[$temp['date'].$temp['time']] = $temp;
-				$data[$temp['date'].$temp['time']]['path'] = MARKDOWN_FOLDER . $filename;
-			}
+			if('article' != $temp['type'])
+				continue;
+
+			$data[$temp['date'].$temp['time']] = $temp;
+			$data[$temp['date'].$temp['time']]['path'] = MARKDOWN_FOLDER . $filename;
+		}
 		closedir($handle);
+		
 		ksort($data);
 
 		$path = array();
@@ -55,10 +58,9 @@ class Delete extends Command {
 			$path[$count++] = $article['path'];
 		}
 		
-		do {
-			IO::write("\nEnter Number:\n-> ");
-		}
-		while(!is_numeric($number = IO::read()) || $number < 0 || $number >= count($path));
+		$number = IO::question("\nEnter Number:\n-> ", NULL, function($answer) use ($path) {
+			return !is_numeric($answer) || $answer < 0 || $answer >= count($path);
+		});
 
 		IO::write(sprintf("Are you sure delete article - %s? [n/y]\n-> ", $title[$number]), 'red');
 		if(IO::read() == "y") {
@@ -74,24 +76,26 @@ class Delete extends Command {
 		$title = array();
 		$count = 0;
 		$handle = opendir(MARKDOWN_FOLDER);
-		while($filename = readdir($handle))
-			if('.' != $filename && '..' != $filename) {
-				preg_match($regex_rule, file_get_contents(MARKDOWN_FOLDER . $filename), $match);
-				$temp = json_decode($match[1], TRUE);
+		while($filename = readdir($handle)) {
+			if('.' == $filename || '..' == $filename)
+				continue;
 
-				if('static' != $temp['type'])
-					continue;
+			preg_match($regex_rule, file_get_contents(MARKDOWN_FOLDER . $filename), $match);
+			$temp = json_decode($match[1], TRUE);
 
-				IO::writeln(sprintf("[%3d] %s", $count, $temp['title']));
-				$title[$count] = $temp['title'];
-				$path[$count++] = MARKDOWN_FOLDER . $filename;
-			}
+			if('static' != $temp['type'])
+				continue;
+
+			IO::writeln(sprintf("[%3d] %s", $count, $temp['title']));
+			$title[$count] = $temp['title'];
+			$path[$count++] = MARKDOWN_FOLDER . $filename;
+			
+		}
 		closedir($handle);
 
-		do {
-			IO::write("\nEnter Number:\n-> ");
-		}
-		while(!is_numeric($number = IO::read()) || $number < 0 || $number >= count($path));
+		$number = IO::question("\nEnter Number:\n-> ", NULL, function($answer) use ($path) {
+			return !is_numeric($answer) || $answer < 0 || $answer >= count($path);
+		});
 
 		IO::write(sprintf("Are you sure delete static page - %s? [n/y]\n-> ", $title[$number]), 'red');
 		if(IO::read() == "y") {

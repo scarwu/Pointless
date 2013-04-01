@@ -28,27 +28,12 @@ class Add extends Command {
 	}
 
 	public function article() {
-		$info = array();
-		
-		do {
-			IO::write("Enter Title:\n-> ");
-		}
-		while('' == $info['title'] = IO::read());
-		
-		do {
-			IO::write("Enter Custom Url:\n-> ");
-		}
-		while('' == $info['url'] = IO::read());
-		
-		do {
-			IO::write("Enter Tag:\n-> ");
-		}
-		while('' == $info['tag'] = IO::read());
-		
-		do {
-			IO::write("Enter Category:\n-> ");
-		}
-		while('' == $info['category'] = IO::read());
+		$info = array(
+			'title' => IO::question("Enter Title:\n-> "),
+			'url' => IO::question("Enter Custom Url:\n-> "),
+			'tag' => IO::question("Enter Tag:\n-> "),
+			'category' => IO::question("Enter Category:\n-> ")
+		);
 		
 		if(NULL != LOCAL_ENCODING)
 			foreach($info as $key => $value)
@@ -79,17 +64,10 @@ class Add extends Command {
 	}
 
 	public function staticPage() {
-		$info = array();
-		
-		do {
-			IO::write("Enter Title:\n-> ");
-		}
-		while('' == $info['title'] = IO::read());
-		
-		do {
-			IO::write("Enter Custom Url:\n-> ");
-		}
-		while('' == $info['url'] = IO::read());
+		$info = array(
+			'title' => IO::question("Enter Title:\n-> "),
+			'url' => IO::question("Enter Custom Url:\n-> ")
+		);
 		
 		if(NULL != LOCAL_ENCODING)
 			foreach($info as $key => $value)
