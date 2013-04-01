@@ -36,6 +36,10 @@ class Delete extends Command {
 			if('.' != $filename && '..' != $filename) {
 				preg_match($regex_rule, file_get_contents(MARKDOWN_FOLDER . $filename), $match);
 				$temp = json_decode($match[1], TRUE);
+
+				if('article' != $temp['type'])
+					continue;
+
 				$data[$temp['date'].$temp['time']] = $temp;
 				$data[$temp['date'].$temp['time']]['path'] = MARKDOWN_FOLDER . $filename;
 			}
@@ -49,7 +53,6 @@ class Delete extends Command {
 			IO::writeln(sprintf("[%3d] %s %s", $count, $article['date'], $article['title']));
 			$title[$count] = $article['title'];
 			$path[$count++] = $article['path'];
-
 		}
 		
 		do {
@@ -75,6 +78,10 @@ class Delete extends Command {
 			if('.' != $filename && '..' != $filename) {
 				preg_match($regex_rule, file_get_contents(MARKDOWN_FOLDER . $filename), $match);
 				$temp = json_decode($match[1], TRUE);
+
+				if('static' != $temp['type'])
+					continue;
+
 				IO::writeln(sprintf("[%3d] %s", $count, $temp['title']));
 				$title[$count] = $temp['title'];
 				$path[$count++] = MARKDOWN_FOLDER . $filename;

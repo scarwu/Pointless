@@ -36,6 +36,10 @@ class Edit extends Command {
 			if('.' != $filename && '..' != $filename) {
 				preg_match($regex_rule, file_get_contents(MARKDOWN_FOLDER . $filename), $match);
 				$temp = json_decode($match[1], TRUE);
+
+				if('article' != $temp['type'])
+					continue;
+
 				$data[$temp['date'].$temp['time']] = $temp;
 				$data[$temp['date'].$temp['time']]['path'] = MARKDOWN_FOLDER . $filename;
 			}
@@ -69,6 +73,10 @@ class Edit extends Command {
 			if('.' != $filename && '..' != $filename) {
 				preg_match($regex_rule, file_get_contents(MARKDOWN_FOLDER . $filename), $match);
 				$temp = json_decode($match[1], TRUE);
+
+				if('static' != $temp['type'])
+					continue;
+
 				IO::writeln(sprintf("[%3d] %s", $count, $temp['title']));
 				$path[$count++] = MARKDOWN_FOLDER . $filename;
 			}

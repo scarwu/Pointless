@@ -32,9 +32,9 @@ EOF;
 
 		IO::writeln($pointless, 'green');
 		IO::writeln('    gen        - Generate blog');
-		IO::writeln('    add        - Add new article / blog-page');
-		IO::writeln('    edit       - List and edit article / blog-page');
-		IO::writeln('    delete     - Delete article / blog-page');
+		IO::writeln('    add        - Add new article');
+		IO::writeln('    edit       - List and edit article');
+		IO::writeln('    delete     - Delete article');
 		IO::writeln('    test       - Start built-in web server');
 		IO::writeln('    config     - Modify config');
 		IO::writeln('    deploy     - Deploy blog to Github');

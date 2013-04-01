@@ -67,12 +67,12 @@ class Add extends Command {
 			fwrite($handle, '	"category": "' . $info['category'] . '",' . "\n");
 			fwrite($handle, '	"date": "' . date("Y-m-d", $time) . '",' . "\n");
 			fwrite($handle, '	"time": "' . date("H:i:s", $time) . '",' . "\n");
-			fwrite($handle, '	"message": ture,' . "\n");
+			fwrite($handle, '	"message": true,' . "\n");
 			fwrite($handle, '	"publish": false' . "\n");
 			fwrite($handle, "}\n\n\n");
 			
 			IO::writeln("\nArticle $filename was created.");
-			system(FILE_EDITOR . ' ' . MARKDOWN_FOLDER . "$filename < `tty` > `tty`"));
+			system(FILE_EDITOR . ' ' . MARKDOWN_FOLDER . "$filename < `tty` > `tty`");
 		}
 		else
 			IO::writeln("\nArticle $filename is exsist.");
