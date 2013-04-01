@@ -98,6 +98,9 @@ if(!file_exists(RESOURCE_FOLDER))
 // Set Time Zone
 date_default_timezone_set(TIMEZONE);
 
+// Define Regular Expression Rule
+define('REGEX_RULE', '/^({(?:.|\n)*?})\n((?:.|\n)*)/');
+
 /**
  * Load NanoCLI and Setting
  */

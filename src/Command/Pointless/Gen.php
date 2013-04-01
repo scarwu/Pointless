@@ -114,8 +114,6 @@ class Gen extends Command {
 	 * Initialize Resource Pool
 	 */
 	private function initResourcePool() {
-		$regex_rule = '/^({(?:.|\n)*?})\n((?:.|\n)*)/';
-
 		// Handle Markdown
 		IO::writeln("Load and Initialize Markdown");
 		$handle = opendir(MARKDOWN_FOLDER);
@@ -123,7 +121,7 @@ class Gen extends Command {
 			if('.' == $filename || '..' == $filename || !preg_match('/.md$/', $filename))
 				continue;
 
-			preg_match($regex_rule, file_get_contents(MARKDOWN_FOLDER . $filename), $match);
+			preg_match(REGEX_RULE, file_get_contents(MARKDOWN_FOLDER . $filename), $match);
 			$temp = json_decode($match[1], TRUE);
 
 			if('static' == $temp['type']) {
