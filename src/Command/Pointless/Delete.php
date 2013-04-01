@@ -19,19 +19,12 @@ class Delete extends Command {
 	}
 	
 	public function run() {
-		if($this->hasOptions('a')) {
-			$this->article();
+		if($this->hasOptions('s')) {
+			$this->staticPage();
 			return;
 		}
 
-		if($this->hasOptions('bp')) {
-			$this->blogpage();
-			return;
-		}
-
-		IO::writeln('Pointless Help:', 'green');
-		IO::writeln('    delete -a  - Delete article');
-		IO::writeln('    delete -bp - Delete blog page');
+		$this->article();
 	}
 
 	public function article() {
@@ -71,7 +64,7 @@ class Delete extends Command {
 		}
 	}
 
-	public function blogpage() {
+	public function staticPage() {
 		$regex_rule = '/^({(?:.|\n)*?})\n((?:.|\n)*)/';
 		
 		$path = array();
@@ -93,7 +86,7 @@ class Delete extends Command {
 		}
 		while(!is_numeric($number = IO::read()) || $number < 0 || $number >= count($path));
 
-		IO::write(sprintf("Are you sure delete blogpage - %s? [n/y]\n-> ", $title[$number]), 'red');
+		IO::write(sprintf("Are you sure delete static page - %s? [n/y]\n-> ", $title[$number]), 'red');
 		if(IO::read() == "y") {
 			system('rm ' . $path[$number]);
 			IO::writeln(sprintf('Successfully removed %s.', $title[$number]));

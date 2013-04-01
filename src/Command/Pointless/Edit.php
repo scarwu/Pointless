@@ -19,19 +19,12 @@ class Edit extends Command {
 	}
 	
 	public function run() {
-		if($this->hasOptions('a')) {
-			$this->article();
+		if($this->hasOptions('s')) {
+			$this->staticPage();
 			return;
 		}
 
-		if($this->hasOptions('bp')) {
-			$this->blogpage();
-			return;
-		}
-
-		IO::writeln('Pointless Help:', 'green');
-		IO::writeln('    edit -a    - Edit article');
-		IO::writeln('    edit -bp   - Edit blog page');
+		$this->article();
 	}
 
 	public function article() {
@@ -61,12 +54,12 @@ class Edit extends Command {
 		}
 		while(!is_numeric($number = IO::read()) || $number < 0 || $number >= count($path));
 
-		IO::write("Edit your article? [n/y]\n-> ");
+		IO::write("Edit article? [n/y]\n-> ");
 		if(IO::read() == "y")
 			system(sprintf("%s %s < `tty` > `tty`", FILE_EDITOR, $path[$number]));
 	}
 
-	public function blogpage() {
+	public function staticPage() {
 		$regex_rule = '/^({(?:.|\n)*?})\n((?:.|\n)*)/';
 		
 		$path = array();
@@ -86,7 +79,7 @@ class Edit extends Command {
 		}
 		while(!is_numeric($number = IO::read()) || $number < 0 || $number >= count($path));
 
-		IO::write("Edit your blog page? [n/y]\n-> ");
+		IO::write("Edit static page? [n/y]\n-> ");
 		if(IO::read() == "y")
 			system(sprintf("%s %s < `tty` > `tty`", FILE_EDITOR, $path[$number]));
 	}

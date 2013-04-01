@@ -1,7 +1,8 @@
 {
+	"type": "static",
 	"title": "About",
 	"url": "about",
-	"message": true
+	"message": false
 }
 
 Pointless

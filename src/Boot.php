@@ -41,9 +41,6 @@ if(!file_exists(MARKDOWN_FOLDER)) {
 	recursiveCopy(ROOT . 'Sample/Markdown', MARKDOWN_FOLDER);
 }
 
-define('MARKDOWN_ARTICLE', MARKDOWN_FOLDER . 'Article/');
-define('MARKDOWN_BLOGPAGE', MARKDOWN_FOLDER . 'BlogPage/');
-
 /**
  * Theme
  */
