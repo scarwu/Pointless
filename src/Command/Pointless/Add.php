@@ -37,44 +37,46 @@ class Add extends Command {
 			$filename = str_replace(array('\\', '/', ' '), '-', $info['title']);
 			$filename = 'static_' . strtolower($filename) . '.md';
 
-			if(!file_exists(MARKDOWN_FOLDER . $filename)) {
-				$handle = fopen(MARKDOWN_FOLDER . $filename, 'w+');
-				fwrite($handle, "{\n");
-				fwrite($handle, '	"type": "static",' . "\n");
-				fwrite($handle, '	"title": "' . $info['title'] . '",' . "\n");
-				fwrite($handle, '	"url": "' . $info['url'] . '",' . "\n");
-				fwrite($handle, '	"message": false' . "\n");
-				fwrite($handle, "}\n\n\n");
-				
-				IO::writeln("\nStatic Page $filename was created.");
-				system(FILE_EDITOR . ' ' . MARKDOWN_FOLDER . "$filename < `tty` > `tty`");
+			if(file_exists(MARKDOWN_FOLDER . $filename)) {
+				IO::writeln("\nStatic Page {$info['title']} is exsist.");
+				return;
 			}
-			else
-				IO::writeln("\nStatic Page $filename is exsist.");
+
+			$handle = fopen(MARKDOWN_FOLDER . $filename, 'w+');
+			fwrite($handle, "{\n");
+			fwrite($handle, '	"type": "static",' . "\n");
+			fwrite($handle, '	"title": "' . $info['title'] . '",' . "\n");
+			fwrite($handle, '	"url": "' . $info['url'] . '",' . "\n");
+			fwrite($handle, '	"message": false' . "\n");
+			fwrite($handle, "}\n\n\n");
+			
+			IO::writeln("\nStatic Page $filename was created.");
+			system(FILE_EDITOR . ' ' . MARKDOWN_FOLDER . "$filename < `tty` > `tty`");
 		}
 		else {
 			$time = time();
 			$filename = sprintf("%s%s.md", date("Ymd_", $time), $info['url']);
 
-			if(!file_exists(MARKDOWN_FOLDER . $filename)) {
-				$handle = fopen(MARKDOWN_FOLDER . $filename, 'w+');
-				fwrite($handle, "{\n");
-				fwrite($handle, '	"type": "article",' . "\n");
-				fwrite($handle, '	"title": "' . $info['title'] . '",' . "\n");
-				fwrite($handle, '	"url": "' . $info['url'] . '",' . "\n");
-				fwrite($handle, '	"tag": "' . $info['tag'] . '",' . "\n");
-				fwrite($handle, '	"category": "' . $info['category'] . '",' . "\n");
-				fwrite($handle, '	"date": "' . date("Y-m-d", $time) . '",' . "\n");
-				fwrite($handle, '	"time": "' . date("H:i:s", $time) . '",' . "\n");
-				fwrite($handle, '	"message": true,' . "\n");
-				fwrite($handle, '	"publish": false' . "\n");
-				fwrite($handle, "}\n\n\n");
-				
-				IO::writeln("\nArticle $filename was created.");
-				system(FILE_EDITOR . ' ' . MARKDOWN_FOLDER . "$filename < `tty` > `tty`");
+			if(file_exists(MARKDOWN_FOLDER . $filename)) {
+				IO::writeln("\nArticle {$info['title']} is exsist.");
+				return;
 			}
-			else
-				IO::writeln("\nArticle $filename is exsist.");
+
+			$handle = fopen(MARKDOWN_FOLDER . $filename, 'w+');
+			fwrite($handle, "{\n");
+			fwrite($handle, '	"type": "article",' . "\n");
+			fwrite($handle, '	"title": "' . $info['title'] . '",' . "\n");
+			fwrite($handle, '	"url": "' . $info['url'] . '",' . "\n");
+			fwrite($handle, '	"tag": "' . $info['tag'] . '",' . "\n");
+			fwrite($handle, '	"category": "' . $info['category'] . '",' . "\n");
+			fwrite($handle, '	"date": "' . date("Y-m-d", $time) . '",' . "\n");
+			fwrite($handle, '	"time": "' . date("H:i:s", $time) . '",' . "\n");
+			fwrite($handle, '	"message": true,' . "\n");
+			fwrite($handle, '	"publish": false' . "\n");
+			fwrite($handle, "}\n\n\n");
+			
+			IO::writeln("\nArticle $filename was created.");
+			system(FILE_EDITOR . ' ' . MARKDOWN_FOLDER . "$filename < `tty` > `tty`");
 		}
 	}
 }
