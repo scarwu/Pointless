@@ -114,73 +114,63 @@ class Gen extends Command {
 	 * Initialize Resource Pool
 	 */
 	private function initResourcePool() {
-		$regex_rule = '/^({(?:.|\n)*?})\n((?:.|\n)*)/';
-
-		// Handle Blog Page Markdown
-		IO::writeln("Load and Initialize Blogpage");
-		$handle = opendir(MARKDOWN_BLOGPAGE);
+		// Handle Markdown
+		IO::writeln("Load and Initialize Markdown");
+		$handle = opendir(MARKDOWN_FOLDER);
 		while($filename = readdir($handle)) {
 			if('.' == $filename || '..' == $filename || !preg_match('/.md$/', $filename))
 				continue;
 
-			preg_match($regex_rule, file_get_contents(MARKDOWN_BLOGPAGE . $filename), $match);
+			preg_match(REGEX_RULE, file_get_contents(MARKDOWN_FOLDER . $filename), $match);
 			$temp = json_decode($match[1], TRUE);
 
-			Resource::set('blogpage', array(
-				'title' => $temp['title'],
-				'url' => $temp['url'],
-				'content' => Markdown($match[2]),
-				'message' => isset($temp['message']) ? $temp['message'] : TRUE
-			));
-		}
-		closedir($handle);
-
-		// Handle Article Markdown
-		IO::writeln("Load and Initialize Article");
-		$handle = opendir(MARKDOWN_ARTICLE);
-		while($filename = readdir($handle)) {
-			if('.' == $filename || '..' == $filename || !preg_match('/.md$/', $filename))
-				continue;
-
-			preg_match($regex_rule, file_get_contents(MARKDOWN_ARTICLE . $filename), $match);
-			$temp = json_decode($match[1], TRUE);
-
-			if(!(isset($temp['publish']) ? $temp['publish'] : TRUE))
-				continue;
-
-			$date = explode('-', $temp['date']);
-			$time = explode(':', $temp['time']);
-
-			// 0: date, 1: url, 2: date + url
-			switch(ARTICLE_URL) {
-				default:
-				case 0:
-					$url = str_replace('-', '/', $temp['date']);
-					break;
-				case 1:
-					$url = $temp['url'];
-					break;
-				case 2:
-					$url = str_replace('-', '/', $temp['date']) . '/' . $temp['url'];
-					break;
+			if('static' == $temp['type']) {
+				Resource::set('static', array(
+					'title' => $temp['title'],
+					'url' => $temp['url'],
+					'content' => Markdown($match[2]),
+					'message' => isset($temp['message']) ? $temp['message'] : TRUE
+				));
 			}
 
-			Resource::set('article', array(
-				'title' => $temp['title'],
-				'url' => $url,
-				'content' => Markdown($match[2]),
-				'date' => $temp['date'],
-				'time' => $temp['time'],
-				'category' => $temp['category'],
-				'tag' => explode('|', $temp['tag']),
-				'year' => $date[0],
-				'month' => $date[1],
-				'day' => $date[2],
-				'hour' => $time[0],
-				'minute' => $time[1],
-				'second' => $time[2]
-			));
-			
+			if('article' == $temp['type']) {
+				if(!(isset($temp['publish']) ? $temp['publish'] : TRUE))
+					continue;
+
+				$date = explode('-', $temp['date']);
+				$time = explode(':', $temp['time']);
+
+				// 0: date, 1: url, 2: date + url
+				switch(ARTICLE_URL) {
+					default:
+					case 0:
+						$url = str_replace('-', '/', $temp['date']);
+						break;
+					case 1:
+						$url = $temp['url'];
+						break;
+					case 2:
+						$url = str_replace('-', '/', $temp['date']) . '/' . $temp['url'];
+						break;
+				}
+
+				Resource::set('article', array(
+					'title' => $temp['title'],
+					'url' => $url,
+					'content' => Markdown($match[2]),
+					'date' => $temp['date'],
+					'time' => $temp['time'],
+					'category' => $temp['category'],
+					'tag' => explode('|', $temp['tag']),
+					'year' => $date[0],
+					'month' => $date[1],
+					'day' => $date[2],
+					'hour' => $time[0],
+					'minute' => $time[1],
+					'second' => $time[2],
+					'message' => isset($temp['message']) ? $temp['message'] : TRUE
+				));
+			}
 		}
 		closedir($handle);
 	}

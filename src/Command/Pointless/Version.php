@@ -19,7 +19,7 @@ class Version extends Command {
 	}
 	
 	public function run() {
-		$version = 'v0.9.9 Beta';
+		$version = 'v1.0.0 preview';
 
 		if(defined('BUILD_TIMESTAMP'))
 			$version .= ' (' . date(DATE_COOKIE, BUILD_TIMESTAMP) . ')';

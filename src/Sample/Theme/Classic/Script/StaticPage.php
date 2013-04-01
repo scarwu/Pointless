@@ -1,6 +1,6 @@
 <?php
 /**
- * BlogPage Data Generator Script for Theme
+ * Static Page Data Generator Script for Theme
  * 
  * @package		Pointless
  * @author		ScarWu
@@ -10,7 +10,7 @@
 
 use NanoCLI\IO;
 
-class BlogPage {
+class StaticPage {
 
 	/**
 	 * @var array
@@ -18,7 +18,7 @@ class BlogPage {
 	private $list;
 	
 	public function __construct() {
-		$this->list = Resource::get('blogpage');
+		$this->list = Resource::get('static');
 	}
 	
 	/**
@@ -41,7 +41,7 @@ class BlogPage {
 			
 			$output_data['title'] = $container_data['title'];
 			list($output_data['block']) = Resource::get('block');
-			$output_data['block']['container'] = bindData($container_data, THEME_TEMPLATE . 'Container/BlogPage.php');
+			$output_data['block']['container'] = bindData($container_data, THEME_TEMPLATE . 'Container/StaticPage.php');
 
 			// Write HTML to Disk
 			$result = bindData($output_data, THEME_TEMPLATE . 'index.php');

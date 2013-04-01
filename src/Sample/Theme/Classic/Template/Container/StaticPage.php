@@ -1,4 +1,4 @@
-<div id="blogpage">
+<div id="static">
 	<article>
 		<div class="title"><?=$data['title']?></div>
 		<div class="info"></div>

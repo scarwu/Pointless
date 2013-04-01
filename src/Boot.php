@@ -41,9 +41,6 @@ if(!file_exists(MARKDOWN_FOLDER)) {
 	recursiveCopy(ROOT . 'Sample/Markdown', MARKDOWN_FOLDER);
 }
 
-define('MARKDOWN_ARTICLE', MARKDOWN_FOLDER . 'Article/');
-define('MARKDOWN_BLOGPAGE', MARKDOWN_FOLDER . 'BlogPage/');
-
 /**
  * Theme
  */
@@ -100,6 +97,9 @@ if(!file_exists(RESOURCE_FOLDER))
 
 // Set Time Zone
 date_default_timezone_set(TIMEZONE);
+
+// Define Regular Expression Rule
+define('REGEX_RULE', '/^({(?:.|\n)*?})\n((?:.|\n)*)/');
 
 /**
  * Load NanoCLI and Setting
