@@ -19,7 +19,8 @@ class Update extends Command {
 	}
 	
 	public function run() {
-		$remote = 'https://raw.github.com/scarwu/Pointless/master/bin/poi';
+		$branch = $this->hasOptions('d') ? 'develop' : 'master';
+		$remote = "https://raw.github.com/scarwu/Pointless/$branch/bin/poi";
 		$path = defined('BIN_LOCATE') ? BIN_LOCATE : '/usr/local/bin';
 
 		if(!is_dir($path)) {
