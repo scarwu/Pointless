@@ -30,7 +30,7 @@ class Atom {
 		$atom .= "\t<id>urn:uuid:" . $this->uuid(BLOG_DNS . BLOG_PATH . 'atom.xml') . "</id>\n";
 		$atom .= "\t<updated>" . date(DATE_ATOM) . "</updated>\n";
 
-		foreach(articleSort(Resource::get('article')) as $article) {
+		foreach(Resource::get('article') as $article) {
 			$atom .= "\t<entry>\n";
 			$atom .= "\t\t<title>{$article['title']}</title>\n";
 			$atom .= "\t\t<link href=\"http://" . BLOG_DNS . BLOG_PATH . 'article/' . $article['url'] . "\" />\n";

@@ -86,7 +86,7 @@ function recursiveCopy($src, $dest) {
 function recursiveRemove($path = NULL) {
 	if(file_exists($path)) {
 		if(is_dir($path)) {
-			$handle = @opendir($path);
+			$handle = opendir($path);
 			while($file = readdir($handle))
 				if($file != '.' && $file != '..' && $file != '.git')
 					recursiveRemove($path . '/' . $file);
@@ -101,48 +101,20 @@ function recursiveRemove($path = NULL) {
 }
 
 /**
- * Sort Using Article's Date
- *
- * @param array
- * @return array
- */
-function articleSort($list) {
-	$result = array();
-	
-	if(!empty($list)) {
-		foreach($list as $key => $value)
-			$tmp[$key] = $value['timestamp'];
-		
-		arsort($tmp);
-		
-		$result = array();
-		foreach($tmp as $key => $value)
-			$result[] = $list[$key];
-	}
-	
-	return $result;
-}
-
-/**
  * Sort Using Article's Count
  *
  * @param array
  * @return array
  */
 function countSort($list) {
-	$result = array();
+	uasort($list, function($a, $b) {
+		if (count($a) == count($b))
+			return 0;
+
+		return count($a)  > count($b) ? -1 : 1;
+	});
 	
-	if(!empty($list)) {
-		foreach($list as $key => $value)
-			$result[$key] = count($value);
-	
-		arsort($result);
-		
-		foreach($result as $key => $value)
-			$result[$key] = articleSort($list[$key]);
-	}
-	
-	return $result;
+	return $list;
 }
 
 /**
@@ -163,8 +135,6 @@ function createDateList($list) {
 		
 		$result[$article['year']][$article['month']][] = $article;
 	}
-
-	krsort($result);
 
 	return $result;
 }

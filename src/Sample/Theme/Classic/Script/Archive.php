@@ -19,20 +19,13 @@ class Archive {
 
 	public function __construct() {
 		$this->list = array();
-		$source = Resource::get('article');
 
-		foreach($source as $index => $value) {
+		foreach(Resource::get('article') as $index => $value) {
 			if(!isset($this->list[$value['year']]))
 				$this->list[$value['year']] = array();
 
 			$this->list[$value['year']][] = $value;
 		}
-
-		// Sort
-		krsort($this->list);
-		
-		foreach($this->list as $year => $article)
-			$this->list[$year] = articleSort($article);
 	}
 
 	/**
@@ -78,7 +71,7 @@ class Archive {
 			$count++;
 
 			$output_data['title'] = $container_data['title'];
-			list($output_data['block']) = Resource::get('block');
+			$output_data['block'] = Resource::get('block');
 			$output_data['block']['container'] = bindData($container_data, THEME_TEMPLATE . 'Container/Archive.php');
 			
 			// Write HTML to Disk
@@ -86,10 +79,10 @@ class Archive {
 			writeTo($result, PUBLIC_FOLDER . 'archive/' . $index);
 
 			// Sitemap
-			Resource::set('sitemap', 'archive/' . $index);
+			Resource::append('sitemap', 'archive/' . $index);
 		}
 		
 		copy(PUBLIC_FOLDER . 'archive/' . $max . '/index.html', PUBLIC_FOLDER . 'archive/index.html');
-		Resource::set('sitemap', 'archive');
+		Resource::append('sitemap', 'archive');
 	}
 }

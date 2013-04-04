@@ -19,16 +19,14 @@ class Category {
 	
 	public function __construct() {
 		$this->list = array();
-		$source = Resource::get('article');
-
-		foreach($source as $index => $value) {
+		
+		foreach(Resource::get('article') as $index => $value) {
 			if(!isset($this->list[$value['category']]))
 				$this->list[$value['category']] = array();
 
 			$this->list[$value['category']][] = $value;
 		}
 
-		// Sort
 		$this->list = countSort($this->list);
 	}
 	
@@ -76,7 +74,7 @@ class Category {
 			$count++;
 			
 			$output_data['title'] = $container_data['title'];
-			list($output_data['block']) = Resource::get('block');
+			$output_data['block'] = Resource::get('block');
 			$output_data['block']['container'] = bindData($container_data, THEME_TEMPLATE . 'Container/Category.php');
 			
 			// Write HTML to Disk
@@ -84,10 +82,10 @@ class Category {
 			writeTo($result, PUBLIC_FOLDER . 'category/' . $index);
 
 			// Sitemap
-			Resource::set('sitemap', 'category/' . $index);
+			Resource::append('sitemap', 'category/' . $index);
 		}
 
 		copy(PUBLIC_FOLDER . 'category/' . $max[1] . '/index.html', PUBLIC_FOLDER . 'category/index.html');
-		Resource::set('sitemap', 'category');
+		Resource::append('sitemap', 'category');
 	}
 }
