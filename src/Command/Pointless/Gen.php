@@ -107,13 +107,15 @@ class Gen extends Command {
 		
 		$time = sprintf("%.3f", abs(microtime(TRUE) - $start));
 		$mem = sprintf("%.3f", abs(memory_get_usage() - $start_mem) / 1024);
-		IO::writeln("Generate finish, $time s and memory usage $mem kbs.", 'green');
+		IO::writeln("Generate finish, $time s and memory usage $mem kb.", 'green');
 	}
 
 	/**
 	 * Initialize Resource Pool
 	 */
 	private function initResourcePool() {
+		$article = array();
+
 		// Handle Markdown
 		IO::writeln("Load and Initialize Markdown");
 		$handle = opendir(MARKDOWN_FOLDER);
@@ -125,7 +127,7 @@ class Gen extends Command {
 			$temp = json_decode($match[1], TRUE);
 
 			if('static' == $temp['type']) {
-				Resource::set('static', array(
+				Resource::append('static', array(
 					'title' => $temp['title'],
 					'url' => $temp['url'],
 					'content' => Markdown($match[2]),
@@ -139,6 +141,7 @@ class Gen extends Command {
 
 				$date = explode('-', $temp['date']);
 				$time = explode(':', $temp['time']);
+				$timestamp = strtotime("$date[2]-$date[1]-$date[0] {$temp['time']}");
 
 				// 0: date, 1: url, 2: date + url
 				switch(ARTICLE_URL) {
@@ -154,7 +157,7 @@ class Gen extends Command {
 						break;
 				}
 
-				Resource::set('article', array(
+				$article[] = array(
 					'title' => $temp['title'],
 					'url' => $url,
 					'content' => Markdown($match[2]),
@@ -168,10 +171,20 @@ class Gen extends Command {
 					'hour' => $time[0],
 					'minute' => $time[1],
 					'second' => $time[2],
+					'timestamp' => $timestamp,
 					'message' => isset($temp['message']) ? $temp['message'] : TRUE
-				));
+				);
 			}
 		}
 		closedir($handle);
+
+		usort($article, function($a, $b) {
+			if ($a['timestamp'] == $b['timestamp'])
+				return 0;
+
+			return $a['timestamp'] > $b['timestamp'] ? -1 : 1;
+		});
+
+		Resource::set('article', $article);
 	}
 }

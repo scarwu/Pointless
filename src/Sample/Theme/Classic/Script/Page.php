@@ -18,7 +18,7 @@ class Page {
 	private $list;
 	
 	public function __construct() {
-		$this->list = articleSort(Resource::get('article'));
+		$this->list = Resource::get('article');
 	}
 	
 	/**
@@ -47,7 +47,7 @@ class Page {
 			);
 			$container_data['list'] = array_slice($this->list, ARTICLE_QUANTITY * ($index - 1), ARTICLE_QUANTITY);
 
-			list($output_data['block']) = Resource::get('block');
+			$output_data['block'] = Resource::get('block');
 			$output_data['block']['container'] = bindData($container_data, THEME_TEMPLATE . 'Container/Page.php');
 			
 			// Write HTML to Disk
@@ -55,10 +55,10 @@ class Page {
 			writeTo($result, PUBLIC_FOLDER . 'page/' . $index);
 
 			// Sitemap
-			Resource::set('sitemap', 'page/' . $index);
+			Resource::append('sitemap', 'page/' . $index);
 		}
 		
 		copy(PUBLIC_FOLDER . 'page/1/index.html', PUBLIC_FOLDER . 'index.html');
-		Resource::set('sitemap', 'page');
+		Resource::append('sitemap', 'page');
 	}
 }

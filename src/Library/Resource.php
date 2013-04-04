@@ -34,6 +34,16 @@ class Resource {
 	 * @param array
 	 */
 	public static function set($index, $data) {
+		self::$resource[$index] = $data;
+	}
+
+	/**
+	 * Append Resource
+	 *
+	 * @param string
+	 * @param array
+	 */
+	public static function append($index, $data) {
 		if(!isset(self::$resource[$index]))
 			self::$resource[$index] = array();
 

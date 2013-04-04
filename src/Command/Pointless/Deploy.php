@@ -23,7 +23,7 @@ class Deploy extends Command {
 
 		if(file_exists('.git')) {
 			system('git add . && git add -u');
-			system(sprintf('git commit -m "%s"', date(DATE_COOKIE)));
+			system(sprintf('git commit -m "%s"', date(DATE_RSS)));
 			system('git push');
 		}
 		else

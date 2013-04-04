@@ -19,9 +19,8 @@ class Tag {
 	
 	public function __construct() {
 		$this->list = array();
-		$source = Resource::get('article');
 
-		foreach($source as $index => $value) {
+		foreach(Resource::get('article') as $index => $value) {
 			foreach($value['tag'] as $tag) {
 				if(!isset($this->list[$tag]))
 					$this->list[$tag] = array();
@@ -30,7 +29,6 @@ class Tag {
 			}
 		}
 
-		// Sort
 		$this->list = countSort($this->list);
 	}
 	
@@ -78,7 +76,7 @@ class Tag {
 			$count++;
 			
 			$output_data['title'] = $container_data['title'];
-			list($output_data['block']) = Resource::get('block');
+			$output_data['block'] = Resource::get('block');
 			$output_data['block']['container'] = bindData($container_data, THEME_TEMPLATE . 'Container/Tag.php');
 			
 			// Write HTML to Disk
@@ -86,10 +84,10 @@ class Tag {
 			writeTo($result, PUBLIC_FOLDER . 'tag/' . $index);
 
 			// Sitemap
-			Resource::set('sitemap', 'tag/' . $index);
+			Resource::append('sitemap', 'tag/' . $index);
 		}
 
 		copy(PUBLIC_FOLDER . 'tag/' . $max[1] . '/index.html', PUBLIC_FOLDER . 'tag/index.html');
-		Resource::set('sitemap', 'tag');
+		Resource::append('sitemap', 'tag');
 	}
 }

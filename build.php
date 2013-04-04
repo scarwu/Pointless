@@ -9,15 +9,19 @@
  * @link		http://github.com/scarwu/Pointless
  */
 
+$root = dirname(__FILE__);
+$version = trim(file_get_contents($root . '/VERSION'));
+
 // Clear Phar
-if(file_exists(dirname(__FILE__) . '/bin/poi'))
-	unlink(dirname(__FILE__) . '/bin/poi');
+if(file_exists($root . '/bin/poi'))
+	unlink($root . '/bin/poi');
 
 // Setting Stub
 $stub = <<<EOF
 #!/usr/bin/env php
 <?php
 Phar::mapPhar('poi.phar');
+define('BUILD_VERSION', '%s');
 define('BUILD_TIMESTAMP', %d);
 define('BIN_LOCATE', realpath(dirname(__FILE__)));
 define('ROOT', 'phar://poi.phar/');
@@ -29,8 +33,8 @@ EOF;
 // Create Phar
 $phar = new Phar('bin/poi.phar');
 $phar->setAlias('poi.phar');
-$phar->setStub(sprintf($stub, time()));
-$phar->buildFromDirectory(dirname(__FILE__) . '/src', '/(\.php|\.md|\.js|\.css)/');
+$phar->setStub(sprintf($stub, $version, time()));
+$phar->buildFromDirectory($root . '/src', '/(\.php|\.md|\.js|\.css)/');
 $phar->compressFiles(Phar::GZ);
 $phar->stopBuffering();
 
