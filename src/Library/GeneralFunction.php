@@ -16,7 +16,7 @@
  * @return string
  */
 function linkTo($link, $name) {
-	return sprintf('<a href="%s">%s</a>', $link, $name);
+	return '<a href="' . $link . '">' . $name . '</a>';
 }
 
 /**

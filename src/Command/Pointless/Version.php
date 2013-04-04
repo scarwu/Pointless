@@ -19,10 +19,10 @@ class Version extends Command {
 	}
 	
 	public function run() {
-		$version = 'v1.0.0 preview';
+		$version = 'Development Editon';
 
-		if(defined('BUILD_TIMESTAMP'))
-			$version .= ' (' . date(DATE_RSS, BUILD_TIMESTAMP) . ')';
+		if(defined('BUILD_VERSION'))
+			$version = BUILD_VERSION . ' (' . date(DATE_RSS, BUILD_TIMESTAMP) . ')';
 
 		IO::writeln($version);
 	}

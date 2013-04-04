@@ -39,7 +39,7 @@ class Article {
 		$total = count($this->list);
 
 		foreach((array)$this->list as $index => $container_data) {
-			IO::writeln("Building article/" . $container_data['url']);
+			IO::writeln('Building article/' . $container_data['url']);
 			
 			$container_data['bar'] = array(
 				'index' => $index + 1,

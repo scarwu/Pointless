@@ -37,7 +37,7 @@ class StaticPage {
 	 */
 	public function gen() {
 		foreach((array)$this->list as $index => $container_data) {
-			IO::writeln("Building " . $container_data['url']);
+			IO::writeln('Building ' . $container_data['url']);
 			
 			$output_data['title'] = $container_data['title'];
 			$output_data['block'] = Resource::get('block');

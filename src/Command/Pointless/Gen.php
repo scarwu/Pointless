@@ -107,7 +107,7 @@ class Gen extends Command {
 		
 		$time = sprintf("%.3f", abs(microtime(TRUE) - $start));
 		$mem = sprintf("%.3f", abs(memory_get_usage() - $start_mem) / 1024);
-		IO::writeln("Generate finish, $time s and memory usage $mem kbs.", 'green');
+		IO::writeln("Generate finish, $time s and memory usage $mem kb.", 'green');
 	}
 
 	/**

@@ -48,7 +48,7 @@ class Archive {
 		$total = count($this->list);
 		
 		foreach((array)$this->list as $index => $article_list) {
-			IO::writeln(sprintf("Building archive/%s", $index));
+			IO::writeln('Building archive/', $index);
 			$max = $index > $max ? $index : $max;
 			
 			$container_data['title'] = 'Archive: ' . $index;
