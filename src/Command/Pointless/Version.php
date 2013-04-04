@@ -22,7 +22,7 @@ class Version extends Command {
 		$version = 'v1.0.0 preview';
 
 		if(defined('BUILD_TIMESTAMP'))
-			$version .= ' (' . date(DATE_COOKIE, BUILD_TIMESTAMP) . ')';
+			$version .= ' (' . date(DATE_RSS, BUILD_TIMESTAMP) . ')';
 
 		IO::writeln($version);
 	}

@@ -111,7 +111,7 @@ function articleSort($list) {
 	
 	if(!empty($list)) {
 		foreach($list as $key => $value)
-			$tmp[$key] = $value['date'] . $value['time'];
+			$tmp[$key] = $value['timestamp'];
 		
 		arsort($tmp);
 		

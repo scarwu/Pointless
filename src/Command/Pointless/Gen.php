@@ -139,6 +139,7 @@ class Gen extends Command {
 
 				$date = explode('-', $temp['date']);
 				$time = explode(':', $temp['time']);
+				$timestamp = strtotime("$date[2]-$date[1]-$date[0] {$temp['time']}");
 
 				// 0: date, 1: url, 2: date + url
 				switch(ARTICLE_URL) {
@@ -168,6 +169,7 @@ class Gen extends Command {
 					'hour' => $time[0],
 					'minute' => $time[1],
 					'second' => $time[2],
+					'timestamp' => $timestamp,
 					'message' => isset($temp['message']) ? $temp['message'] : TRUE
 				));
 			}
