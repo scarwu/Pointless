@@ -11,11 +11,11 @@
 	<hr>
 	<div class="bar">
 		<span class="new">
-			<?=$data['bar']['total'] != 1 && $data['bar']['index'] != 1
+			<?=isset($data['bar']['prev'])
 				? linkTo(BLOG_PATH . 'article/' . $data['bar']['prev']['url'], '<< ' . $data['bar']['prev']['title']): ''?>
 		</span>
 		<span class="old">
-			<?=$data['bar']['total'] != 1 && $data['bar']['index'] != $data['bar']['total']
+			<?=isset($data['bar']['next'])
 				? linkTo(BLOG_PATH . 'article/' . $data['bar']['next']['url'], $data['bar']['next']['title'] . ' >>'): ''?>
 		</span>
 		<span class="count">< <?=$data['bar']['index']?> / <?=$data['bar']['total']?> ></span>
