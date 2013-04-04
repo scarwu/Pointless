@@ -92,7 +92,7 @@ function recursiveRemove($path = NULL) {
 					recursiveRemove($path . '/' . $file);
 			closedir($handle);
 			
-			if($path != PUBLIC_FOLDER)
+			if($path != PUBLIC_FOLDER && $path !=DEPLOY_FOLDER)
 				return rmdir($path);
 		}
 		else

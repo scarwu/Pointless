@@ -19,14 +19,25 @@ class Deploy extends Command {
 	}
 	
 	public function run() {
-		chdir(PUBLIC_FOLDER);
-
-		if(file_exists('.git')) {
-			system('git add . && git add -u');
-			system(sprintf('git commit -m "%s"', date(DATE_RSS)));
-			system('git push');
+		if(NULL == GITHUB_ACCOUNT || NULL == GITHUB_REPO || NULL == GITHUB_BRANCH) {
+			IO::writeln('Please add Github setting in Pointless config.', 'red');
+			return;
 		}
-		else
+
+		chdir(DEPLOY_FOLDER);
+
+		if(!file_exists(DEPLOY_FOLDER . '.git')) {
 			system('git init');
+			system('git remote add origin git@github.com:' . GITHUB_ACCOUNT . '/' . GITHUB_REPO. '.git');
+		}
+
+		system('git pull origin ' . GITHUB_BRANCH);
+
+		recursiveRemove(DEPLOY_FOLDER);
+		recursiveCopy(PUBLIC_FOLDER, DEPLOY_FOLDER);
+
+		system('git add . && git add -u');
+		system(sprintf('git commit -m "%s"', date(DATE_RSS)));
+		system('git push origin '. GITHUB_BRANCH);
 	}
 }
