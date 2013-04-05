@@ -43,35 +43,35 @@ EOF;
 			IO::writeln('    version    - Show version');
 		}
 		else {
-			list($argument) = $this->getArguments();
-			switch($argument) {
+			$command = $this->getArguments(0);
+			switch($command) {
 				case 'gen':
-					IO::writeln("    gen        - Generate blog");
+					IO::writeln('    gen        - Generate blog');
 					IO::writeln('    gen -css   - Compress CSS');
 					IO::writeln('    gen -js    - Compress Javascript');
 					break;
 				case 'add':
-					IO::writeln("    add        - Add new article");
+					IO::writeln('    add        - Add new article');
 					IO::writeln('    add -s     - Add new Static Page');
 					break;
 				case 'edit':
-					IO::writeln("    edit       - Edit article");
+					IO::writeln('    edit       - Edit article');
 					IO::writeln('    edit -s    - Edit Static Page');
 					break;
 				case 'delete':
-					IO::writeln("    delete     - Delete article");
+					IO::writeln('    delete     - Delete article');
 					IO::writeln('    delete -s  - Delete Static Page');
 					break;
 				case 'update':
-					IO::writeln("    update     - Self-update");
+					IO::writeln('    update     - Self-update');
 					IO::writeln('    update -u  - Use unstable version');
 					break;
 				case 'test':
-					IO::writeln("    test       - Start built-in web server");
-					IO::writeln('    --port=?   - Setting web server port number');
+					IO::writeln('    test       - Start built-in web server');
+					IO::writeln('    --port=?   - Set port number');
 					break;
 				default:
-					IO::writeln('No command description', 'red');
+					IO::writeln('    No description for ' . $command . '.', 'red');
 			}
 		}
 	}
