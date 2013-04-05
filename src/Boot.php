@@ -87,6 +87,15 @@ if(!file_exists(PUBLIC_FOLDER))
 	mkdir(PUBLIC_FOLDER, 0755, TRUE);
 
 /**
+ * Deploy
+ */
+if(!defined('DEPLOY_FOLDER'))
+	define('DEPLOY_FOLDER', USER_DATA . 'Deploy/');
+
+if(!file_exists(DEPLOY_FOLDER))
+	mkdir(DEPLOY_FOLDER, 0755, TRUE);
+
+/**
  * Resource
  */
 if(!defined('RESOURCE_FOLDER'))

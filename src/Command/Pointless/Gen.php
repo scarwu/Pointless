@@ -71,10 +71,10 @@ class Gen extends Command {
 		fclose($handle);
 
 		// Create Github CNAME
-		if(NULL !== GITHUB_CNAME) {
+		if(NULL != GITHUB_ACCOUNT) {
 			IO::writeln("Create Github CNAME ...", 'yellow');
 			$handle = fopen(PUBLIC_FOLDER . 'CNAME', 'w+');
-			fwrite($handle, GITHUB_CNAME);
+			fwrite($handle, BLOG_DNS);
 			fclose($handle);
 		}
 

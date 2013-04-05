@@ -65,7 +65,7 @@ class Delete extends Command {
 			$path[$count++] = $article['path'];
 		}
 		
-		$number = IO::question("\nEnter Number:\n-> ", NULL, function($answer) use ($path) {
+		$number = IO::question("\nEnter Number:\n-> ", NULL, function($answer) use($path) {
 			return !is_numeric($answer) || $answer < 0 || $answer >= count($path);
 		});
 
