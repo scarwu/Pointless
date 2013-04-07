@@ -55,10 +55,16 @@ class Select extends Command {
 			}
 
 			if(isset($status['list'][$blog_name])) {
-				if($blog_name == $status['current'])
+				unset($status['list'][$blog_name]);
+
+				if($blog_name == $status['current']) {
 					$status['current'] = NULL;
 
-				unset($status['list'][$blog_name]);
+					foreach($status['list'] as $name => $path) {
+						$status['current'] = $name;
+						break;
+					}
+				}
 				
 				$handle = fopen(POINTLESS_HOME . 'status.json', 'w+');
 				fwrite($handle, json_encode($status));
