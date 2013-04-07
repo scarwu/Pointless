@@ -19,6 +19,14 @@ class Config extends Command {
 	}
 	
 	public function run() {
+		if(!defined('CURRENT_BLOG')) {
+			IO::writeln('Please use "poi init <blog name>" to initialize blog.', 'red');
+			return;
+		}
+		
+		// Initialize Blog
+		initBlog();
+		
 		system(sprintf("%s %s < `tty` > `tty`", FILE_EDITOR, USER_DATA . 'Config.php'));
 	}
 }

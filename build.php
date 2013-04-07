@@ -39,5 +39,5 @@ $phar->compressFiles(Phar::GZ);
 $phar->stopBuffering();
 
 // Setting Phar is Executable
-chmod(dirname(__FILE__) . '/bin/poi.phar', 0755);
-rename(dirname(__FILE__) . '/bin/poi.phar', dirname(__FILE__) . '/bin/poi');
+chmod($root . '/bin/poi.phar', 0755);
+rename($root . '/bin/poi.phar', $root . '/bin/poi');

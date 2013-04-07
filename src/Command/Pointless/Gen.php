@@ -22,12 +22,26 @@ class Gen extends Command {
 		parent::__construct();
 	}
 	
+	public function help() {
+		IO::writeln('    gen        - Generate blog');
+		IO::writeln('    gen -css   - Compress CSS');
+		IO::writeln('    gen -js    - Compress Javascript');
+	}
+
 	public function run() {
+		if(!defined('CURRENT_BLOG')) {
+			IO::writeln('Please use "poi init <blog name>" to initialize blog.', 'red');
+			return;
+		}
+
 		require LIBRARY . 'Compress.php';
 		require LIBRARY . 'Resource.php';
 		require LIBRARY . 'HTMLGenerator.php';
 		require LIBRARY . 'ExtensionLoader.php';
 		require PLUGIN . 'Markdown/markdown.php';
+
+		// Initialize Blog
+		initBlog();
 		
 		$start = microtime(TRUE);
 

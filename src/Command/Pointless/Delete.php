@@ -17,10 +17,22 @@ class Delete extends Command {
 	public function __construct() {
 		parent::__construct();
 	}
-	
-	public function run() {
-		$data = array();
 
+	public function help() {
+		IO::writeln('    delete     - Delete article');
+		IO::writeln('    delete -s  - Delete Static Page');
+	}
+
+	public function run() {
+		if(!defined('CURRENT_BLOG')) {
+			IO::writeln('Please use "poi init <blog name>" to initialize blog.', 'red');
+			return;
+		}
+
+		// Initialize Blog
+		initBlog();
+
+		$data = array();
 		$handle = opendir(MARKDOWN_FOLDER);
 		while($filename = readdir($handle)) {
 			if('.' == $filename || '..' == $filename)

@@ -8,6 +8,9 @@
  * @link		http://github.com/scarwu/Pointless
  */
 
+// Set default timezone
+date_default_timezone_set('Etc/UTC');
+
 /**
  * Path Define and Copy Files
  */
@@ -19,96 +22,26 @@ require LIBRARY . 'GeneralFunction.php';
 /**
  * User Data
  */
-define('USER_DATA', $_SERVER['HOME'] . '/.pointless/');
+define('POINTLESS_HOME', $_SERVER['HOME'] . '/.pointless/');
 
-if(!file_exists(USER_DATA))
-	mkdir(USER_DATA, 0755, TRUE);
+if(!file_exists(POINTLESS_HOME))
+	mkdir(POINTLESS_HOME, 0755, TRUE);
 
-if(!file_exists(USER_DATA . 'Config.php'))
-	copy(ROOT . 'Sample/Config.php', USER_DATA . 'Config.php');
-
-// Require Config
-require USER_DATA . 'Config.php';
-
-/**
- * Markdown
- */
-if(!defined('MARKDOWN_FOLDER'))
-	define('MARKDOWN_FOLDER', USER_DATA . 'Markdown/');
-
-if(!file_exists(MARKDOWN_FOLDER)) {
-	mkdir(MARKDOWN_FOLDER, 0755, TRUE);
-	recursiveCopy(ROOT . 'Sample/Markdown', MARKDOWN_FOLDER);
+if(!file_exists(POINTLESS_HOME . 'status.json')) {
+	$handle = fopen(POINTLESS_HOME . 'status.json', 'w+');
+	fwrite($handle, json_encode(array(
+		'current' => NULL,
+		'list' => array()
+	)));
+	fclose($handle);
 }
 
 /**
- * Theme
+ * Load Blog Setting
  */
-if(!defined('THEME_FOLDER'))
-	define('THEME_FOLDER', USER_DATA . 'Theme/');
-
-if(!file_exists(THEME_FOLDER)) {
-	mkdir(THEME_FOLDER, 0755, TRUE);
-	recursiveCopy(ROOT . 'Sample/Theme', THEME_FOLDER);
-}
-
-// Test Theme Path
-if(file_exists(THEME_FOLDER . BLOG_THEME) && '' != BLOG_THEME)
-	define('THEME_PATH', THEME_FOLDER . BLOG_THEME. '/');
-elseif(file_exists(ROOT . 'Sample/Theme/' . BLOG_THEME) && '' != BLOG_THEME)
-	define('THEME_PATH', ROOT . 'Sample/Theme/' . BLOG_THEME. '/');
-else
-	define('THEME_PATH', ROOT . 'Sample/Theme/Classic/');
-
-define('THEME_JS', THEME_PATH . 'Js/');
-define('THEME_CSS', THEME_PATH . 'Css/');
-define('THEME_SCRIPT', THEME_PATH . 'Script/');
-define('THEME_RESOURCE', THEME_PATH . 'Resource/');
-define('THEME_TEMPLATE', THEME_PATH . 'Template/');
-
-/**
- * Extension
- */
-if(!defined('EXTENSION_FOLDER'))
-	define('EXTENSION_FOLDER', USER_DATA . 'Extension/');
-
-if(!file_exists(EXTENSION_FOLDER)) {
-	mkdir(EXTENSION_FOLDER, 0755, TRUE);
-	recursiveCopy(ROOT . 'Sample/Extension', EXTENSION_FOLDER);
-}
-
-/**
- * Public
- */
-if(!defined('PUBLIC_FOLDER'))
-	define('PUBLIC_FOLDER', USER_DATA . 'Public/');
-
-if(!file_exists(PUBLIC_FOLDER))
-	mkdir(PUBLIC_FOLDER, 0755, TRUE);
-
-/**
- * Deploy
- */
-if(!defined('DEPLOY_FOLDER'))
-	define('DEPLOY_FOLDER', USER_DATA . 'Deploy/');
-
-if(!file_exists(DEPLOY_FOLDER))
-	mkdir(DEPLOY_FOLDER, 0755, TRUE);
-
-/**
- * Resource
- */
-if(!defined('RESOURCE_FOLDER'))
-	define('RESOURCE_FOLDER', USER_DATA . 'Resource/');
-
-if(!file_exists(RESOURCE_FOLDER))
-	mkdir(RESOURCE_FOLDER, 0755, TRUE);
-
-// Set Time Zone
-date_default_timezone_set(TIMEZONE);
-
-// Define Regular Expression Rule
-define('REGEX_RULE', '/^({(?:.|\n)*?})\n((?:.|\n)*)/');
+$status = json_decode(file_get_contents(POINTLESS_HOME . 'status.json'), TRUE);
+if(!count($status['list']) == 0)
+	define('CURRENT_BLOG', $status['list'][$status['current']]);
 
 /**
  * Load NanoCLI and Setting

@@ -87,7 +87,9 @@ class Tag {
 			Resource::append('sitemap', 'tag/' . $index);
 		}
 
-		copy(PUBLIC_FOLDER . 'tag/' . $max[1] . '/index.html', PUBLIC_FOLDER . 'tag/index.html');
-		Resource::append('sitemap', 'tag');
+		if(file_exists(PUBLIC_FOLDER . 'tag/' . $max[1] . '/index.html')) {
+			copy(PUBLIC_FOLDER . 'tag/' . $max[1] . '/index.html', PUBLIC_FOLDER . 'tag/index.html');
+			Resource::append('sitemap', 'tag');
+		}
 	}
 }

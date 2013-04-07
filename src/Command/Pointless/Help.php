@@ -12,12 +12,27 @@ namespace Pointless;
 
 use NanoCLI\Command;
 use NanoCLI\IO;
+use Exception;
 
 class Help extends Command {
 	public function __construct() {
 		parent::__construct();
 	}
 	
+	public function help() {
+		IO::writeln('    init       - Initialize blog');
+		IO::writeln('    select     - Select blog');
+		IO::writeln('    gen        - Generate blog');
+		IO::writeln('    add        - Add new article');
+		IO::writeln('    edit       - Edit article');
+		IO::writeln('    delete     - Delete article');
+		IO::writeln('    test       - Start built-in web server');
+		IO::writeln('    config     - Modify config');
+		IO::writeln('    deploy     - Deploy blog to Github');
+		IO::writeln('    update     - Self-update');
+		IO::writeln('    version    - Show version');
+	}
+
 	public function run() {
 		$pointless = <<<EOF
                                            __
@@ -31,48 +46,19 @@ class Help extends Command {
 EOF;
 
 		IO::writeln($pointless, 'green');
-		if(!$this->hasArguments()) {
-			IO::writeln('    gen        - Generate blog');
-			IO::writeln('    add        - Add new article');
-			IO::writeln('    edit       - Edit article');
-			IO::writeln('    delete     - Delete article');
-			IO::writeln('    test       - Start built-in web server');
-			IO::writeln('    config     - Modify config');
-			IO::writeln('    deploy     - Deploy blog to Github');
-			IO::writeln('    update     - Self-update');
-			IO::writeln('    version    - Show version');
-		}
-		else {
-			list($argument) = $this->getArguments();
-			switch($argument) {
-				case 'gen':
-					IO::writeln("    gen        - Generate blog");
-					IO::writeln('    gen -css   - Compress CSS');
-					IO::writeln('    gen -js    - Compress Javascript');
-					break;
-				case 'add':
-					IO::writeln("    add        - Add new article");
-					IO::writeln('    add -s     - Add new Static Page');
-					break;
-				case 'edit':
-					IO::writeln("    edit       - Edit article");
-					IO::writeln('    edit -s    - Edit Static Page');
-					break;
-				case 'delete':
-					IO::writeln("    delete     - Delete article");
-					IO::writeln('    delete -s  - Delete Static Page');
-					break;
-				case 'update':
-					IO::writeln("    update     - Self-update");
-					IO::writeln('    update -u  - Use unstable version');
-					break;
-				case 'test':
-					IO::writeln("    test       - Start built-in web server");
-					IO::writeln('    --port=?   - Setting web server port number');
-					break;
-				default:
-					IO::writeln('No command description', 'red');
+		if($this->hasArguments()) {
+			$command = $this->getArguments(0);
+
+			try {
+				$class_name = 'Pointless\\' . ucfirst($command);
+				$class = new $class_name();
+				$class->help();
+			}
+			catch(Exception $e) {
+				IO::writeln('    No description for ' . $command . '.', 'red');
 			}
 		}
+		else
+			$this->help();
 	}
 }

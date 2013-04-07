@@ -18,7 +18,20 @@ class Add extends Command {
 		parent::__construct();
 	}
 	
+	public function help() {
+		IO::writeln('    add        - Add new article');
+		IO::writeln('    add -s     - Add new Static Page');
+	}
+
 	public function run() {
+		if(!defined('CURRENT_BLOG')) {
+			IO::writeln('Please use "poi init <blog name>" to initialize blog.', 'red');
+			return;
+		}
+
+		// Initialize Blog
+		initBlog();
+		
 		$info = array(
 			'title' => IO::question("Enter Title:\n-> "),
 			'url' => IO::question("Enter Custom Url:\n-> ")
@@ -75,7 +88,7 @@ class Add extends Command {
 			fwrite($handle, '	"publish": false' . "\n");
 			fwrite($handle, "}\n\n\n");
 			
-			IO::writeln("\nArticle $filename was created.");
+			IO::writeln("\nArticle $filename is created.");
 			system(FILE_EDITOR . ' ' . MARKDOWN_FOLDER . "$filename < `tty` > `tty`");
 		}
 	}

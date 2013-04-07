@@ -17,6 +17,11 @@ class Update extends Command {
 	public function __construct() {
 		parent::__construct();
 	}
+
+	public function help() {
+		IO::writeln('    update     - Self-update');
+		IO::writeln('    update -u  - Use unstable version');
+	}
 	
 	public function run() {
 		$branch = $this->hasOptions('u') ? 'develop' : 'master';

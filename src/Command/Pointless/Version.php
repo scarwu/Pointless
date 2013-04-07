@@ -19,7 +19,7 @@ class Version extends Command {
 	}
 	
 	public function run() {
-		$version = 'Development Editon';
+		$version = 'v0.0.0 dev';
 
 		if(defined('BUILD_VERSION'))
 			$version = BUILD_VERSION . ' (' . date(DATE_RSS, BUILD_TIMESTAMP) . ')';
