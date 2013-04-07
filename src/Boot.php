@@ -38,7 +38,7 @@ if(!file_exists(POINTLESS_HOME . 'status.json')) {
  */
 $status = json_decode(file_get_contents(POINTLESS_HOME . 'status.json'), TRUE);
 if(!count($status['list']) == 0)
-	define('CURRENT_BLOG', $status['current']);
+	define('CURRENT_BLOG', $status['list'][$status['current']]);
 
 /**
  * Load NanoCLI and Setting

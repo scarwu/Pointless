@@ -25,7 +25,7 @@ class Delete extends Command {
 
 	public function run() {
 		if(!defined('CURRENT_BLOG')) {
-			IO::writeln('Please use "poi init <blog_name>" to initialize blog.', 'red');
+			IO::writeln('Please use "poi init <blog name>" to initialize blog.', 'red');
 			return;
 		}
 

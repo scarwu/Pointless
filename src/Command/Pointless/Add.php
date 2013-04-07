@@ -25,7 +25,7 @@ class Add extends Command {
 
 	public function run() {
 		if(!defined('CURRENT_BLOG')) {
-			IO::writeln('Please use "poi init <blog_name>" to initialize blog.', 'red');
+			IO::writeln('Please use "poi init <blog name>" to initialize blog.', 'red');
 			return;
 		}
 
@@ -88,7 +88,7 @@ class Add extends Command {
 			fwrite($handle, '	"publish": false' . "\n");
 			fwrite($handle, "}\n\n\n");
 			
-			IO::writeln("\nArticle $filename was created.");
+			IO::writeln("\nArticle $filename is created.");
 			system(FILE_EDITOR . ' ' . MARKDOWN_FOLDER . "$filename < `tty` > `tty`");
 		}
 	}

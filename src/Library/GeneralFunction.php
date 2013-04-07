@@ -14,11 +14,13 @@ define('REGEX_RULE', '/^({(?:.|\n)*?})\n((?:.|\n)*)/');
 /**
  * Define Path and Initialize Blog
  */
-function initBlog() {
-	if(!defined('CURRENT_BLOG'))
+function initBlog($current_blog = NULL) {
+	if(NULL !== $current_blog)
+		define('USER_DATA', $current_blog . '/');
+	elseif(defined('CURRENT_BLOG'))
+		define('USER_DATA', CURRENT_BLOG . '/');
+	else
 		return;
-
-	define('USER_DATA', CURRENT_BLOG . '/');
 
 	if(!file_exists(USER_DATA))
 		mkdir(USER_DATA, 0755, TRUE);
