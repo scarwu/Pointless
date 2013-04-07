@@ -8,6 +8,9 @@
  * @link		http://github.com/scarwu/Pointless
  */
 
+// Set default timezone
+date_default_timezone_set('Etc/UTC');
+
 /**
  * Path Define and Copy Files
  */
