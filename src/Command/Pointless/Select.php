@@ -32,7 +32,7 @@ class Select extends Command {
 		if($this->hasArguments()) {
 			$blog_name = $this->getArguments(0);
 			if(isset($status['list'][$blog_name])) {
-				$status['current'] = $status['list'][$blog_name];
+				$status['current'] = $blog_name;
 
 				$handle = fopen(POINTLESS_HOME . 'status.json', 'w+');
 				fwrite($handle, json_encode($status));

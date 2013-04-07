@@ -58,7 +58,9 @@ class Page {
 			Resource::append('sitemap', 'page/' . $index);
 		}
 		
-		copy(PUBLIC_FOLDER . 'page/1/index.html', PUBLIC_FOLDER . 'index.html');
-		Resource::append('sitemap', 'page');
+		if(file_exists(PUBLIC_FOLDER . 'page/1/index.html')) {
+			copy(PUBLIC_FOLDER . 'page/1/index.html', PUBLIC_FOLDER . 'index.html');
+			Resource::append('sitemap', 'page');
+		}
 	}
 }

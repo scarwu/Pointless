@@ -85,7 +85,9 @@ class Category {
 			Resource::append('sitemap', 'category/' . $index);
 		}
 
-		copy(PUBLIC_FOLDER . 'category/' . $max[1] . '/index.html', PUBLIC_FOLDER . 'category/index.html');
-		Resource::append('sitemap', 'category');
+		if(file_exists(PUBLIC_FOLDER . 'category/' . $max[1] . '/index.html')) {
+			copy(PUBLIC_FOLDER . 'category/' . $max[1] . '/index.html', PUBLIC_FOLDER . 'category/index.html');
+			Resource::append('sitemap', 'category');
+		}
 	}
 }

@@ -82,7 +82,9 @@ class Archive {
 			Resource::append('sitemap', 'archive/' . $index);
 		}
 		
-		copy(PUBLIC_FOLDER . 'archive/' . $max . '/index.html', PUBLIC_FOLDER . 'archive/index.html');
-		Resource::append('sitemap', 'archive');
+		if(file_exists(PUBLIC_FOLDER . 'archive/' . $max . '/index.html')) {
+			copy(PUBLIC_FOLDER . 'archive/' . $max . '/index.html', PUBLIC_FOLDER . 'archive/index.html');
+			Resource::append('sitemap', 'archive');
+		}
 	}
 }
