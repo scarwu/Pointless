@@ -17,8 +17,19 @@ class Test extends Command {
 	public function __construct() {
 		parent::__construct();
 	}
+
+	public function help() {
+		IO::writeln('    test       - Start built-in web server');
+		IO::writeln('    --port=<port number>');
+		IO::writeln('               - Set port number');
+	}
 	
 	public function run() {
+		if(NULL == CURRENT_BLOG) {
+			IO::writeln('Please use "poi blog -i <blog_name>" to create blog.', 'red');
+			return;
+		}
+		
 		list($major, $minor, $release) = explode('.', PHP_VERSION);
 		$version = $major * 10000 + $minor *100 + $release;
 

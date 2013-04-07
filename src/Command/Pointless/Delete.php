@@ -17,8 +17,18 @@ class Delete extends Command {
 	public function __construct() {
 		parent::__construct();
 	}
-	
+
+	public function help() {
+		IO::writeln('    delete     - Delete article');
+		IO::writeln('    delete -s  - Delete Static Page');
+	}
+
 	public function run() {
+		if(NULL == CURRENT_BLOG) {
+			IO::writeln('Please use "poi blog -i <blog_name>" to create blog.', 'red');
+			return;
+		}
+		
 		$data = array();
 
 		$handle = opendir(MARKDOWN_FOLDER);

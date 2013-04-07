@@ -18,7 +18,17 @@ class Add extends Command {
 		parent::__construct();
 	}
 	
+	public function help() {
+		IO::writeln('    add        - Add new article');
+		IO::writeln('    add -s     - Add new Static Page');
+	}
+
 	public function run() {
+		if(NULL == CURRENT_BLOG) {
+			IO::writeln('Please use "poi blog -i <blog_name>" to create blog.', 'red');
+			return;
+		}
+
 		$info = array(
 			'title' => IO::question("Enter Title:\n-> "),
 			'url' => IO::question("Enter Custom Url:\n-> ")

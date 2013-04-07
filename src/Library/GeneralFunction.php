@@ -8,6 +8,9 @@
  * @link		http://github.com/scarwu/Pointless
  */
 
+// Define Regular Expression Rule
+define('REGEX_RULE', '/^({(?:.|\n)*?})\n((?:.|\n)*)/');
+
 /**
  * Create Link
  *

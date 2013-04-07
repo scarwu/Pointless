@@ -1,6 +1,6 @@
 <?php
 /**
- * Pointless Config Command
+ * Pointless Initialize Command
  * 
  * @package		Pointless
  * @author		ScarWu
@@ -13,17 +13,16 @@ namespace Pointless;
 use NanoCLI\Command;
 use NanoCLI\IO;
 
-class Config extends Command {
+class Init extends Command {
 	public function __construct() {
 		parent::__construct();
 	}
 	
-	public function run() {
-		if(NULL == CURRENT_BLOG) {
-			IO::writeln('Please use "poi blog -i <blog_name>" to create blog.', 'red');
-			return;
-		}
+	public function help() {
 		
-		system(sprintf("%s %s < `tty` > `tty`", FILE_EDITOR, USER_DATA . 'Config.php'));
+	}
+
+	public function run() {
+		
 	}
 }

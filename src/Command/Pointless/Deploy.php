@@ -19,6 +19,11 @@ class Deploy extends Command {
 	}
 	
 	public function run() {
+		if(NULL == CURRENT_BLOG) {
+			IO::writeln('Please use "poi blog -i <blog_name>" to create blog.', 'red');
+			return;
+		}
+		
 		if(NULL == GITHUB_ACCOUNT || NULL == GITHUB_REPO || NULL == GITHUB_BRANCH) {
 			IO::writeln('Please add Github setting in Pointless config.', 'red');
 			return;

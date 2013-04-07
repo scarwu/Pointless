@@ -22,7 +22,18 @@ class Gen extends Command {
 		parent::__construct();
 	}
 	
+	public function help() {
+		IO::writeln('    gen        - Generate blog');
+		IO::writeln('    gen -css   - Compress CSS');
+		IO::writeln('    gen -js    - Compress Javascript');
+	}
+
 	public function run() {
+		if(NULL == CURRENT_BLOG) {
+			IO::writeln('Please use "poi blog -i <blog_name>" to create blog.', 'red');
+			return;
+		}
+		
 		require LIBRARY . 'Compress.php';
 		require LIBRARY . 'Resource.php';
 		require LIBRARY . 'HTMLGenerator.php';

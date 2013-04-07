@@ -17,8 +17,18 @@ class Edit extends Command {
 	public function __construct() {
 		parent::__construct();
 	}
+
+	public function help() {
+		IO::writeln('    edit       - Edit article');
+		IO::writeln('    edit -s    - Edit Static Page');
+	}
 	
 	public function run() {
+		if(NULL == CURRENT_BLOG) {
+			IO::writeln('Please use "poi blog -i <blog_name>" to create blog.', 'red');
+			return;
+		}
+		
 		$data = array();
 
 		$handle = opendir(MARKDOWN_FOLDER);
