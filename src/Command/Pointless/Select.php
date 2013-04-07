@@ -22,8 +22,8 @@ class Select extends Command {
 		IO::writeln('    select <blog name>');
 		IO::writeln('               - Select exists blog');
 		IO::writeln('    select -l  - List all blogs');
-		IO::writeln('    select -d <blog name>');
-		IO::writeln('               - Delete blog');
+		IO::writeln('    select -r <blog name>');
+		IO::writeln('               - Remove blog from list');
 	}
 
 	public function run() {
@@ -31,7 +31,7 @@ class Select extends Command {
 
 		if($this->hasArguments()) {
 			$blog_name = $this->getArguments(0);
-			if($status['list'][$blog_name]) {
+			if(isset($status['list'][$blog_name])) {
 				$status['current'] = $status['list'][$blog_name];
 
 				$handle = fopen(POINTLESS_HOME . 'status.json', 'w+');
@@ -46,24 +46,38 @@ class Select extends Command {
 			return;
 		}
 
+		if($this->hasOptions('r')) {
+			$blog_name = $this->getOptions('r');
+			
+			if($blog_name == '') {
+				IO::writeln('Please enter blog name.', 'red');
+				return;
+			}
+
+			if(isset($status['list'][$blog_name])) {
+				if($blog_name == $status['current'])
+					$status['current'] = NULL;
+
+				unset($status['list'][$blog_name]);
+				
+				$handle = fopen(POINTLESS_HOME . 'status.json', 'w+');
+				fwrite($handle, json_encode($status));
+				fclose($handle);
+
+				IO::writeln($blog_name . ' is removed.', 'green');
+			}
+			else
+				IO::writeln($blog_name . ' is not exists.', 'red');
+
+			return;
+		}
+
 		if($this->hasOptions('l')) {
 			IO::writeln('Current blog: ' . $status['current'] . "\n");
 			IO::writeln('Blog list:');
 			foreach($status['list'] as $name => $path) {
 				IO::writeln($name . ' (' . $path . ')');
 			}
-			
-			return;
-		}
-
-		if($this->hasOptions('d')) {
-			$blog_name = $this->getOptions('d');
-			if($status['list'][$blog_name]) {
-				$status['current'] = $status['list'][$blog_name];
-				IO::writeln('Blog is switch to ' . $blog_name);
-			}
-			else
-				IO::writeln($blog_name . ' is not exists.', 'red');
 
 			return;
 		}
