@@ -24,13 +24,15 @@ class Edit extends Command {
 	}
 	
 	public function run() {
-		if(NULL == CURRENT_BLOG) {
-			IO::writeln('Please use "poi blog -i <blog_name>" to create blog.', 'red');
+		if(!defined('CURRENT_BLOG')) {
+			IO::writeln('Please use "poi init <blog_name>" to initialize blog.', 'red');
 			return;
 		}
 		
-		$data = array();
+		// Initialize Blog
+		initBlog();
 
+		$data = array();
 		$handle = opendir(MARKDOWN_FOLDER);
 		while($filename = readdir($handle)) {
 			if('.' == $filename || '..' == $filename)

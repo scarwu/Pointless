@@ -29,16 +29,19 @@ class Gen extends Command {
 	}
 
 	public function run() {
-		if(NULL == CURRENT_BLOG) {
-			IO::writeln('Please use "poi blog -i <blog_name>" to create blog.', 'red');
+		if(!defined('CURRENT_BLOG')) {
+			IO::writeln('Please use "poi init <blog_name>" to initialize blog.', 'red');
 			return;
 		}
-		
+
 		require LIBRARY . 'Compress.php';
 		require LIBRARY . 'Resource.php';
 		require LIBRARY . 'HTMLGenerator.php';
 		require LIBRARY . 'ExtensionLoader.php';
 		require PLUGIN . 'Markdown/markdown.php';
+
+		// Initialize Blog
+		initBlog();
 		
 		$start = microtime(TRUE);
 

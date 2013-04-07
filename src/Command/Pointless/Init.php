@@ -23,6 +23,7 @@ class Init extends Command {
 	}
 
 	public function run() {
-		
+		// Initialize Blog
+		initBlog();
 	}
 }

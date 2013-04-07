@@ -1,6 +1,6 @@
 <?php
 /**
- * Pointless Initialize Command
+ * Pointless Switch Command
  * 
  * @package		Pointless
  * @author		ScarWu
@@ -23,6 +23,7 @@ class Switch extends Command {
 	}
 
 	public function run() {
-		
+		// Initialize Blog
+		initBlog();
 	}
 }

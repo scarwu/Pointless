@@ -19,10 +19,13 @@ class Deploy extends Command {
 	}
 	
 	public function run() {
-		if(NULL == CURRENT_BLOG) {
-			IO::writeln('Please use "poi blog -i <blog_name>" to create blog.', 'red');
+		if(!defined('CURRENT_BLOG')) {
+			IO::writeln('Please use "poi init <blog_name>" to initialize blog.', 'red');
 			return;
 		}
+		
+		// Initialize Blog
+		initBlog();
 		
 		if(NULL == GITHUB_ACCOUNT || NULL == GITHUB_REPO || NULL == GITHUB_BRANCH) {
 			IO::writeln('Please add Github setting in Pointless config.', 'red');

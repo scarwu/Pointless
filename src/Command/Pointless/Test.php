@@ -25,10 +25,13 @@ class Test extends Command {
 	}
 	
 	public function run() {
-		if(NULL == CURRENT_BLOG) {
-			IO::writeln('Please use "poi blog -i <blog_name>" to create blog.', 'red');
+		if(!defined('CURRENT_BLOG')) {
+			IO::writeln('Please use "poi init <blog_name>" to initialize blog.', 'red');
 			return;
 		}
+
+		// Initialize Blog
+		initBlog();
 		
 		list($major, $minor, $release) = explode('.', PHP_VERSION);
 		$version = $major * 10000 + $minor *100 + $release;
