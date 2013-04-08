@@ -81,8 +81,6 @@ class EditCommand extends Command {
 			return !is_numeric($answer) || $answer < 0 || $answer >= count($path);
 		});
 
-		IO::write(sprintf("Are you sure edit %s? [n/y]\n-> ", $title[$number]));
-		if(IO::read() == "y")
-			system(sprintf("%s %s < `tty` > `tty`", FILE_EDITOR, $path[$number]));
+		system(sprintf("%s %s < `tty` > `tty`", FILE_EDITOR, $path[$number]));
 	}
 }
