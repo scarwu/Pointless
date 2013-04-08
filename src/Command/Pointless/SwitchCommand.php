@@ -46,6 +46,35 @@ class SwitchCommand extends Command {
 			return;
 		}
 
+		// if($this->hasOptions('i')) {
+		// 	$blog_path = $this->getOptions('i');
+			
+		// 	if($blog_path == '') {
+		// 		IO::writeln('Please enter blog path.', 'red');
+		// 		return;
+		// 	}
+
+		// 	if(!file_exists($blog_path)) {
+		// 		IO::writeln($blog_path . ' is not exists.', 'red');
+		// 		return;
+		// 	}
+
+		// 	$blog_name = explode('/', $blog_path);
+		// 	$blog_name = array_pop($blog_name);
+
+		// 	$status = json_decode(file_get_contents(POINTLESS_HOME . 'status.json'), TRUE);
+		// 	$status['current'] = $blog_name;
+		// 	$status['list'][$blog_name] = realpath($blog_path);
+
+		// 	$handle = fopen(POINTLESS_HOME . 'status.json', 'w+');
+		// 	fwrite($handle, json_encode($status));
+		// 	fclose($handle);
+
+		// 	IO::writeln($blog_name . ' import Completed.', 'green');
+
+		// 	return;
+		// }
+
 		if($this->hasOptions('r')) {
 			$blog_name = $this->getOptions('r');
 			
