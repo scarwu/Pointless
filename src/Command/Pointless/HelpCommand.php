@@ -14,14 +14,14 @@ use NanoCLI\Command;
 use NanoCLI\IO;
 use Exception;
 
-class Help extends Command {
+class HelpCommand extends Command {
 	public function __construct() {
 		parent::__construct();
 	}
 	
 	public function help() {
 		IO::writeln('    init       - Initialize blog');
-		IO::writeln('    select     - Select blog');
+		IO::writeln('    switch     - Switch blog');
 		IO::writeln('    gen        - Generate blog');
 		IO::writeln('    add        - Add new article');
 		IO::writeln('    edit       - Edit article');
@@ -50,7 +50,7 @@ EOF;
 			$command = $this->getArguments(0);
 
 			try {
-				$class_name = 'Pointless\\' . ucfirst($command);
+				$class_name = 'Pointless\\' . ucfirst($command) . 'Command';
 				$class = new $class_name();
 				$class->help();
 			}

@@ -13,7 +13,7 @@ namespace Pointless;
 use NanoCLI\Command;
 use NanoCLI\IO;
 
-class Config extends Command {
+class ConfigCommand extends Command {
 	public function __construct() {
 		parent::__construct();
 	}

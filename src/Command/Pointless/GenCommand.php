@@ -17,7 +17,7 @@ use Resource;
 use HTMLGenerator;
 use ExtensionLoader;
 
-class Gen extends Command {
+class GenCommand extends Command {
 	public function __construct() {
 		parent::__construct();
 	}

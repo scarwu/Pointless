@@ -54,5 +54,5 @@ NanoCLI\Loader::register('Pointless', ROOT . 'Command');
 
 spl_autoload_register('NanoCLI\Loader::load');
 
-$cli = new Pointless();
-$cli->init();
+$pointless = new Pointless();
+$pointless->init();

@@ -1,6 +1,6 @@
 <?php
 /**
- * Pointless Select Command
+ * Pointless Switch Command
  * 
  * @package		Pointless
  * @author		ScarWu
@@ -13,16 +13,16 @@ namespace Pointless;
 use NanoCLI\Command;
 use NanoCLI\IO;
 
-class Select extends Command {
+class SwitchCommand extends Command {
 	public function __construct() {
 		parent::__construct();
 	}
 	
 	public function help() {
-		IO::writeln('    select <blog name>');
-		IO::writeln('               - Select exists blog');
-		IO::writeln('    select -l  - List all blogs');
-		IO::writeln('    select -r <blog name>');
+		IO::writeln('    switch <blog name>');
+		IO::writeln('               - Switch exists blog');
+		IO::writeln('    switch -l  - List all blogs');
+		IO::writeln('    switch -r <blog name>');
 		IO::writeln('               - Remove blog from list');
 	}
 
