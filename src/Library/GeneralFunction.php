@@ -137,11 +137,17 @@ function bindData($data, $path) {
  * @param string
  */
 function writeTo($data, $path) {
-	// FIXME and Theme/Script/*/*.php
 	if(!preg_match('/\.(html|xml)$/', $path)) {
 		if(!file_exists($path))
 			mkdir($path, 0755, TRUE);
 		$path = $path . '/index.html';
+	}
+	else {
+		$segment = explode('/', $path);
+		array_pop($segment);
+		$dirpath = join($segment, '/');
+		if(!file_exists($dirpath))
+			mkdir($dirpath, 0755, TRUE);
 	}
 
 	$handle = fopen($path, 'w+');
