@@ -1,6 +1,6 @@
 <?php
 /**
- * Pointless Delete Command
+ * Pointless Edit Command
  * 
  * @package		Pointless
  * @author		ScarWu
@@ -13,22 +13,22 @@ namespace Pointless;
 use NanoCLI\Command;
 use NanoCLI\IO;
 
-class Delete extends Command {
+class EditCommand extends Command {
 	public function __construct() {
 		parent::__construct();
 	}
 
 	public function help() {
-		IO::writeln('    delete     - Delete article');
-		IO::writeln('    delete -s  - Delete Static Page');
+		IO::writeln('    edit       - Edit article');
+		IO::writeln('    edit -s    - Edit Static Page');
 	}
-
+	
 	public function run() {
 		if(!defined('CURRENT_BLOG')) {
 			IO::writeln('Please use "poi init <blog name>" to initialize blog.', 'red');
 			return;
 		}
-
+		
 		// Initialize Blog
 		initBlog();
 
@@ -72,7 +72,7 @@ class Delete extends Command {
 				IO::writeln(sprintf("[%3d] %s", $count, $article['title']));
 			else
 				IO::writeln(sprintf("[%3d] %s %s", $count, $article['date'], $article['title']));
-
+			
 			$title[$count] = $article['title'];
 			$path[$count++] = $article['path'];
 		}
@@ -81,10 +81,8 @@ class Delete extends Command {
 			return !is_numeric($answer) || $answer < 0 || $answer >= count($path);
 		});
 
-		IO::write(sprintf("Are you sure delete - %s? [n/y]\n-> ", $title[$number]), 'red');
-		if(IO::read() == "y") {
-			system('rm ' . $path[$number]);
-			IO::writeln(sprintf('Successfully removed %s.', $title[$number]));
-		}
+		IO::write(sprintf("Are you sure edit %s? [n/y]\n-> ", $title[$number]));
+		if(IO::read() == "y")
+			system(sprintf("%s %s < `tty` > `tty`", FILE_EDITOR, $path[$number]));
 	}
 }

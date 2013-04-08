@@ -5,13 +5,16 @@ script:
   - php ./bin/poi init blog1
   - php ./bin/poi init blog2
   - php ./bin/poi init blog3
-  - php ./bin/poi select -l
-  - php ./bin/poi select blog2
-  - php ./bin/poi select -r blog2
+  - php ./bin/poi switch -l
+  - php ./bin/poi switch blog2
+  - php ./bin/poi switch -r blog2
+  - php ./bin/poi switch -l
+  - php ./bin/poi switch blog3
+  - php ./bin/poi switch -l
   - php ./bin/poi gen
   - php ./bin/poi version
   - php ./bin/poi update
-  - php ./bin/poi update -d
+  - php ./bin/poi update -u
 language: php
 php:
   - 5.3

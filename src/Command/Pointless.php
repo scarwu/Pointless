@@ -16,7 +16,7 @@ class Pointless extends Command {
 	}
 	
 	public function run() {
-		$help = new Pointless\Help();
+		$help = new Pointless\HelpCommand();
 		$help->run();
 	}
 }
