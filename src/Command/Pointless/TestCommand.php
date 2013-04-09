@@ -42,6 +42,6 @@ class TestCommand extends Command {
 		}
 
 		$port = $this->hasConfigs() ? $this->getConfigs('port') : 3000;
-		system(sprintf("php -S localhost:%s -t %s < `tty` > `tty`", $port, PUBLIC_FOLDER));
+		system(sprintf("php -S localhost:$port -t %s %s < `tty` > `tty`", POINTLESS_HOME, LIBRARY . 'Route.php'));
 	}
 }
