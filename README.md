@@ -11,6 +11,19 @@ A Useful Static Blog Generator
 
 * PHP 5.3+
 
+### Features & Supported
+
+* [Using CLI Mode](https://github.com/scarwu/NanoCLI)
+* Multi-Blog Switch
+* Lightweight & Easy
+* Built-in web server for Preview
+* [CSS Compressor](https://github.com/scarwu/CssCompress)
+* [Makrdown](https://github.com/michelf/php-markdown)
+* [Syntax Highlight](https://github.com/isagalaev/highlight.js)
+* Github CNAME
+* Google Analystics
+* DISQUS Comment System
+
 ### Install
 
 	sudo curl https://raw.github.com/scarwu/Pointless/master/install.sh | sh
