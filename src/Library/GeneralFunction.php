@@ -111,7 +111,7 @@ function initBlog($current_blog = NULL) {
  * @return string
  */
 function linkTo($link, $name) {
-	return '<a href="' . $link . '">' . $name . '</a>';
+	return '<a href="' . $link . '">' . urlencode($name) . '</a>';
 }
 
 /**
