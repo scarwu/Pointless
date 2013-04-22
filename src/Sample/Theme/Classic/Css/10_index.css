@@ -9,7 +9,7 @@ html, body {
 }
 
 body {
-	font-family: '微軟正黑體', '儷黑Pro', 'Ubuntu';
+	font-family: '微軟正黑體', '儷黑Pro', 'Ubuntu', Arial;
 	background: #DFDFDF;
 	font-size: 14px;
 }
