@@ -2,9 +2,22 @@
 	<article>
 		<div class="title"><?=$data['title']?></div>
 		<div class="info">
-			<span class="date"><?=$data['date']?></span>
+			<span class="comment">
+				<?=linkTo(BLOG_PATH . 'article/' . $data['url'] .'/#disqus_thread', '0 Comment')?>
+			</span>
 			<br />
-			<span class="comments"><?=linkTo(BLOG_PATH . 'article/' . $data['url'] .'/#disqus_thread', '0 Comments')?></span>
+			<span class="date"><?=$data['date']?></span>
+			-
+			<span class="category">
+				Category: <?=linkTo(BLOG_PATH . "category/{$data['category']}", $data['category'])?>
+			</span>
+			-
+			<span class="tag">
+				Tag: 
+				<?php foreach($data['tag'] as $index =>  $tag): ?>
+				<span><?=linkTo(BLOG_PATH . "tag/$tag", $tag) . (count($data['tag'])-1 > $index ? ', ' : '')?></span>
+				<?php endforeach; ?>
+			</span>
 		</div>
 		<div class="content"><?=$data['content']?></div>
 	</article>

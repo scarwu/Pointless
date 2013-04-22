@@ -65,8 +65,7 @@
 #tag .list .category,
 #archive .list .category,
 #category .list .archive {
-	display: inline-block;
-	width: 175px;
+	display: block;
 }
 
 #tag .list article,

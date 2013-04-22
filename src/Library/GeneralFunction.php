@@ -104,17 +104,6 @@ function initBlog($current_blog = NULL) {
 }
 
 /**
- * Create Link
- *
- * @param string
- * @param string
- * @return string
- */
-function linkTo($link, $name) {
-	return '<a href="' . $link . '">' . $name . '</a>';
-}
-
-/**
  * Bind PHP Data to HTML Template
  *
  * @param string

@@ -12,26 +12,28 @@
 </head>
 <body>
 	<div id="main">
-		<header>
-			<hgroup>
-				<h1><?=linkTo(BLOG_PATH, BLOG_NAME)?></h1>
-				<h2><?=BLOG_SLOGAN?></h2>
-			</hgroup>
-		</header>
-		<div id="nav">
-			<a href="<?=BLOG_PATH?>">Home</a>
-			<a href="<?=BLOG_PATH . 'about'?>">About</a>
-			<a class="search" href="javascript:void(0);">Search
-				<form action="http://www.google.com/search?q=as" target="_blank" method="get">
-					<input type="hidden" name="q" value="site:<?=BLOG_DNS?>" />
-					<input type="text" name="q" />
-					<input type="submit" />
-				</form>
-			</a>
-		</div>
-		<div id="container"><?=$data['block']['container'] ?></div>
-		<div id="side"><?=$data['block']['side'] ?></div>
-		<footer><?=BLOG_FOOTER?></footer>
+		<div class="border">
+			<header>
+				<hgroup>
+					<h1><?=linkTo(BLOG_PATH, BLOG_NAME)?></h1>
+					<h2><?=BLOG_SLOGAN?></h2>
+				</hgroup>
+			</header>
+			<div id="nav">
+				<a class="search" href="javascript:void(0);">Search
+					<form action="http://www.google.com/search?q=as" target="_blank" method="get">
+						<input type="hidden" name="q" value="site:<?=BLOG_DNS?>" />
+						<input type="text" name="q" />
+						<input type="submit" />
+					</form>
+				</a>
+				<a href="<?=BLOG_PATH?>">Home</a>
+				<a href="<?=BLOG_PATH . 'about'?>">About</a>
+			</div>
+			<div id="container"><?=$data['block']['container'] ?></div>
+			<div id="side"><?=$data['block']['side'] ?></div>
+			<footer><?=BLOG_FOOTER?></footer>
+		<div>
 	</div>
 	<!-- Define and Load Javascript -->
 	<script src="<?=BLOG_PATH?>theme/main.js"></script>
