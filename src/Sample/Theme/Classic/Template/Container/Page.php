@@ -3,10 +3,21 @@
 	<article>
 		<div class="title"><?=linkTo(BLOG_PATH . 'article/' . $article['url'], $article['title'])?></div>
 		<div class="info">
-			<span class="date"><?=$article['date']?></span>
-			<br />
 			<span class="comments">
-				<?=linkTo(BLOG_PATH . 'article/' . $article['url'] . '/#disqus_thread', '0 Comments')?>
+				<?=linkTo(BLOG_PATH . 'article/' . $article['url'] . '/#disqus_thread', '0 Comment')?>
+			</span>
+			<br />
+			<span class="date"><?=$article['date']?></span>
+			-
+			<span class="category">
+				Category: <?=linkTo(BLOG_PATH . "category/{$article['category']}", $article['category'])?>
+			</span>
+			-
+			<span class="tag">
+				Tag: 
+				<?php foreach($article['tag'] as $index =>  $tag): ?>
+				<span><?=linkTo(BLOG_PATH . "tag/$tag", $tag) . (count($article['tag'])-1 > $index ? ', ' : '')?></span>
+				<?php endforeach; ?>
 			</span>
 		</div>
 		<div class="content"><?=preg_replace('/<!--more-->(.|\n)*/', '', $article['content'])?></div>
@@ -26,3 +37,15 @@
 		<span class="count">< <?=$data['bar']['index']?> / <?=$data['bar']['total']?> ></span>
 	</div>
 </div>
+<?php if(NULL != DISQUS_SHORTNAME): ?>
+<script type="text/javascript">
+	var disqus_shortname = '<?=DISQUS_SHORTNAME?>';
+	(function() {
+		var count = document.createElement('script');
+		count.async = true;
+		count.type = 'text/javascript';
+		count.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(count);
+	}());
+</script>
+<?php endif; ?>
