@@ -34,6 +34,7 @@ class GenCommand extends Command {
 			return;
 		}
 
+		require LIBRARY . 'Helper.php';
 		require LIBRARY . 'Compress.php';
 		require LIBRARY . 'Resource.php';
 		require LIBRARY . 'HTMLGenerator.php';
