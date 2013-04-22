@@ -33,72 +33,17 @@ a:hover {
 	text-decoration: underline;
 }
 
-@media (max-width: 480px) {
-	#main .border {
-		background: #FFF;
-	}
-
-	#side > div {
-		width: 100%;
-	}
+#main {
+	margin: 0 auto;
+	max-width: 1000px;
 }
 
-@media (max-width: 600px) {
-	#nav {
-		border-top: solid 1px #DFDFDF;
-		background: #000;
-	}
-
-	#nav > a {
-		display: inline-block;
-		width: 100%;
-		text-align: center;
-	}
-}
-
-@media (min-width: 481px) and (max-width: 600px) {
-	#main .border {
-		background: #FFF;
-	}
-
-	#side > div {
-		width: 50%;
-	}
-}
-
-@media (min-width: 601px) {
-	#main {
-		margin: 0 auto;
-		max-width: 1000px;
-	}
-
-	#main .border {
-		background: #FFF;
-		margin: 30px 20px 50px 20px;
-		-moz-box-shadow: 0 0 10px #999;
-		-webkit-box-shadow: 0 0 10px #999;
-		box-shadow: 0 0 10px #999;
-	}
-
-	#side > div {
-		width: 33%;
-	}
-
-	#nav {
-		border-top: solid 1px #DFDFDF;
-		height: 45px;
-		background: #000;
-		padding: 0 75px;
-	}
-
-	#nav > a {
-		padding: 0 15px;
-	}
-
-	#nav > .search {
-		float: right;
-		line-height: 45px;
-	}
+#main .border {
+	background: #FFF;
+	margin: 30px 20px 50px 20px;
+	-moz-box-shadow: 0 0 10px #999;
+	-webkit-box-shadow: 0 0 10px #999;
+	box-shadow: 0 0 10px #999;
 }
 
 header {
@@ -131,9 +76,16 @@ header > hgroup > h2 {
 	margin-top: 4px;
 }
 
+#nav {
+	border-top: solid 1px #DFDFDF;
+	background: #000;
+	padding: 0 75px;
+}
+
 #nav > a,
 #nav > a:visited {
 	text-align: center;
+	padding: 0 15px;
 	display: inline-block;
 	height: 45px;
 	line-height: 45px;
@@ -148,6 +100,11 @@ header > hgroup > h2 {
 	-moz-box-shadow: 0 0 10px #999;
 	-webkit-box-shadow: 0 0 10px #999;
 	box-shadow: 0 0 10px #999;
+}
+
+#nav > .search {
+	float: right;
+	line-height: 45px;
 }
 
 #nav > .search form {
@@ -214,6 +171,7 @@ header > hgroup > h2 {
 
 #side > div {
 	display: inline-block;
+	width: 33%;
 	min-height: 50px;
 	float: left;
 }
@@ -255,4 +213,128 @@ article img {
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
+}
+
+#article article
+#page article, {
+	margin-bottom: 50px;
+}
+
+#page article .content {
+	margin-bottom: 25px;
+}
+
+#page article .more {
+	display: inline-block;
+	border: 1px #DDD solid;
+	background: #EEE;
+	padding: 5px 20px;
+	text-align: center;
+	text-decoration: none;
+}
+
+#page article .more:hover {
+	color: #EEE;
+	background: #333333;
+}
+
+#tag .year,
+#archive .year,
+#category .year {
+	font-size: 32px;
+	text-align: center;
+}
+
+#tag .month_archive,
+#archive .month_archive,
+#category .month_archive {
+	position: relative;
+	margin-bottom: 10px;
+	margin-left: 40px;
+}
+
+#tag .month,
+#archive .month,
+#category .month {
+	display: inline-block;
+	font-size: 28px;
+	margin-right: 10px;
+	top: -5px;
+	position: absolute;
+}
+
+#tag .list,
+#archive .list,
+#category .list {
+	display: inline-block;
+	margin-left: 40px;
+}
+
+#tag .list .title,
+#archive .list .title,
+#category .list .title {
+	display: block;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+#tag .list .archive,
+#tag .list .category,
+#archive .list .category,
+#category .list .archive {
+	display: block;
+}
+
+#tag .list article,
+#archive .list article,
+#category .list article {
+	margin-bottom: 10px;
+}
+
+@media (max-width: 480px) {
+	#main .border {
+		background: #FFF;
+	}
+
+	#side > div {
+		width: 100%;
+	}
+}
+
+@media (min-width: 481px) and (max-width: 600px) {
+	#side > div {
+		width: 50%;
+	}
+}
+
+@media (max-width: 600px) {
+	#main .border {
+		margin: 0;
+	}
+
+	header > hgroup {
+		padding: 45px 10px 0 10px;
+	}
+
+	#container {
+		padding: 15px 10px;
+	}
+
+	#nav {
+		padding: 0;
+	}
+
+	
+	#nav > a {
+		width: 100%;
+		padding: 0;
+	}
+
+	#nav .search {
+		float: none;
+	}
+
+	#side {
+		padding: 15px 10px;
+	}
 }
