@@ -34,7 +34,7 @@
 			<?=$data['bar']['index'] < $data['bar']['total']
 				? linkTo(BLOG_PATH . 'page/' . ($data['bar']['index']+1), 'Older Posts >>'): ''?>
 		</span>
-		<span class="count">< <?=$data['bar']['index']?> / <?=$data['bar']['total']?> ></span>
+		<span class="count">&lt; <?=$data['bar']['index']?> / <?=$data['bar']['total']?> &gt;</span>
 	</div>
 </div>
 <?php if(NULL != DISQUS_SHORTNAME): ?>
