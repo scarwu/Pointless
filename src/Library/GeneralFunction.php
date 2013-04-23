@@ -182,8 +182,9 @@ function recursiveRemove($path = NULL) {
 					recursiveRemove($path . '/' . $file);
 			closedir($handle);
 			
-			if($path != PUBLIC_FOLDER && $path !=DEPLOY_FOLDER)
-				return rmdir($path);
+			if(defined('CURRENT_BLOG'))
+				if($path != PUBLIC_FOLDER && $path != DEPLOY_FOLDER)
+					return rmdir($path);
 		}
 		else
 			return unlink($path);
