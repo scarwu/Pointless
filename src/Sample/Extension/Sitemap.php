@@ -27,6 +27,7 @@ class Sitemap {
 			$sitemap .= sprintf($format, BLOG_DNS, BLOG_PATH, $path, date(DATE_ATOM));
 		}
 
+		$sitemap .= sprintf($format, BLOG_DNS, BLOG_PATH, '', date(DATE_ATOM));
 		$sitemap .= "</urlset>";
 
 		writeTo($sitemap, PUBLIC_FOLDER . 'sitemap.xml');
