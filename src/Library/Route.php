@@ -8,7 +8,7 @@
  * @link		http://github.com/scarwu/Pointless
  */
 
-$status = json_decode(file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/status.json'), TRUE);
+$status = json_decode(file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/Status.json'), TRUE);
 
 require $status['list'][$status['current']] . '/Config.php';
 $path = $status['list'][$status['current']] . '/Public/';

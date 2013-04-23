@@ -27,8 +27,8 @@ define('POINTLESS_HOME', $_SERVER['HOME'] . '/.pointless/');
 if(!file_exists(POINTLESS_HOME))
 	mkdir(POINTLESS_HOME, 0755, TRUE);
 
-if(!file_exists(POINTLESS_HOME . 'status.json')) {
-	$handle = fopen(POINTLESS_HOME . 'status.json', 'w+');
+if(!file_exists(POINTLESS_HOME . 'Status.json')) {
+	$handle = fopen(POINTLESS_HOME . 'Status.json', 'w+');
 	fwrite($handle, json_encode(array(
 		'current' => NULL,
 		'list' => array()
@@ -36,10 +36,30 @@ if(!file_exists(POINTLESS_HOME . 'status.json')) {
 	fclose($handle);
 }
 
+if(defined('BUILD_TIMESTAMP')) {
+	if(!file_exists(POINTLESS_HOME . 'Timestamp')) {
+		$handle = fopen(POINTLESS_HOME . 'Timestamp', 'w+');
+		fwrite($handle, BUILD_TIMESTAMP);
+		fclose($handle);
+	}
+
+	if(!file_exists(POINTLESS_HOME . 'Sample'))
+		recursiveCopy(ROOT . 'Sample', POINTLESS_HOME . 'Sample');
+
+	if(BUILD_TIMESTAMP != file_get_contents(POINTLESS_HOME . 'Timestamp')) {
+		recursiveRemove(POINTLESS_HOME . 'Sample');
+		recursiveCopy(ROOT . 'Sample', POINTLESS_HOME . 'Sample');
+
+		$handle = fopen(POINTLESS_HOME . 'Timestamp', 'w+');
+		fwrite($handle, BUILD_TIMESTAMP);
+		fclose($handle);
+	}
+}
+
 /**
  * Load Blog Setting
  */
-$status = json_decode(file_get_contents(POINTLESS_HOME . 'status.json'), TRUE);
+$status = json_decode(file_get_contents(POINTLESS_HOME . 'Status.json'), TRUE);
 if(!count($status['list']) == 0)
 	define('CURRENT_BLOG', $status['list'][$status['current']]);
 

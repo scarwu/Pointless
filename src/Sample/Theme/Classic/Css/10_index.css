@@ -47,15 +47,12 @@ a:hover {
 }
 
 header {
-	height: 150px;
-}
-
-header > hgroup {
+	height: 110px;
 	margin: auto;
 	padding: 45px 0 0 50px;
 }
 
-header > hgroup > h1 {
+header > h1 {
 	margin: 0;
 	padding: 0;
 	vertical-align: bottom;
@@ -64,12 +61,12 @@ header > hgroup > h1 {
 	line-height: 36px;
 }
 
-header > hgroup > h1 > a:hover {
+header > h1 > a:hover {
 	text-decoration: none;
 	color: #999;
 }
 
-header > hgroup > h2 {
+header > h2 {
 	font-size: 16px;
 	color: #999;
 	font-weight: normal;
@@ -312,7 +309,7 @@ article img {
 		margin: 0;
 	}
 
-	header > hgroup {
+	header {
 		padding: 45px 10px 0 10px;
 	}
 
@@ -324,7 +321,6 @@ article img {
 		padding: 0;
 	}
 
-	
 	#nav > a {
 		width: 100%;
 		padding: 0;
@@ -332,6 +328,17 @@ article img {
 
 	#nav .search {
 		float: none;
+		text-align: center;
+	}
+
+	#nav .search input[type=submit] {
+		display: inline-block;
+		padding: 3px 5px;
+		margin: 0 0 0 5px;
+		border: 1px #333 solid;
+		-moz-border-radius: 5px;
+		-webkit-border-radius: 5px;
+		border-radius: 5px;
 	}
 
 	#side {

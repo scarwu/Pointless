@@ -9,12 +9,16 @@
  */
 
 /**
- * Create Link
+ * Create Link To
  *
  * @param string
  * @param string
  * @return string
  */
 function linkTo($link, $name) {
-	return '<a href="' . $link . '">' . $name . '</a>';
+	$segments = explode('/', $link);
+	$segments = array_map('rawurlencode', $segments);
+	$link = implode('/', $segments);
+
+	return "<a href=\"$link\">$name</a>";
 }

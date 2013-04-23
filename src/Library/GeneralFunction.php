@@ -132,9 +132,9 @@ function writeTo($data, $path) {
 		$path = $path . '/index.html';
 	}
 	else {
-		$segment = explode('/', $path);
-		array_pop($segment);
-		$dirpath = join($segment, '/');
+		$segments = explode('/', $path);
+		array_pop($segments);
+		$dirpath = implode($segments, '/');
 		if(!file_exists($dirpath))
 			mkdir($dirpath, 0755, TRUE);
 	}
@@ -182,8 +182,9 @@ function recursiveRemove($path = NULL) {
 					recursiveRemove($path . '/' . $file);
 			closedir($handle);
 			
-			if($path != PUBLIC_FOLDER && $path !=DEPLOY_FOLDER)
-				return rmdir($path);
+			if(defined('CURRENT_BLOG'))
+				if($path != PUBLIC_FOLDER && $path != DEPLOY_FOLDER)
+					return rmdir($path);
 		}
 		else
 			return unlink($path);

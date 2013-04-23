@@ -40,6 +40,6 @@
 			<?=isset($data['bar']['next'])
 				? linkTo(BLOG_PATH . 'tag/' . $data['bar']['next']['url'], $data['bar']['next']['title'] . ' >>'): ''?>
 		</span>
-		<span class="count">< <?=$data['bar']['index']?> / <?=$data['bar']['total']?> ></span>
+		<span class="count">&lt; <?=$data['bar']['index']?> / <?=$data['bar']['total']?> &gt;</span>
 	</div>
 </div>

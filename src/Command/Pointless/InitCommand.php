@@ -35,11 +35,11 @@ class InitCommand extends Command {
 			return;
 		}
 
-		$status = json_decode(file_get_contents(POINTLESS_HOME . 'status.json'), TRUE);
+		$status = json_decode(file_get_contents(POINTLESS_HOME . 'Status.json'), TRUE);
 		$status['current'] = $blog_name;
 		$status['list'][$blog_name] = $_SERVER['PWD'] . '/' . $blog_name;
 
-		$handle = fopen(POINTLESS_HOME . 'status.json', 'w+');
+		$handle = fopen(POINTLESS_HOME . 'Status.json', 'w+');
 		fwrite($handle, json_encode($status));
 		fclose($handle);
 

@@ -27,14 +27,14 @@ class SwitchCommand extends Command {
 	}
 
 	public function run() {
-		$status = json_decode(file_get_contents(POINTLESS_HOME . 'status.json'), TRUE);
+		$status = json_decode(file_get_contents(POINTLESS_HOME . 'Status.json'), TRUE);
 
 		if($this->hasArguments()) {
 			$blog_name = $this->getArguments(0);
 			if(isset($status['list'][$blog_name])) {
 				$status['current'] = $blog_name;
 
-				$handle = fopen(POINTLESS_HOME . 'status.json', 'w+');
+				$handle = fopen(POINTLESS_HOME . 'Status.json', 'w+');
 				fwrite($handle, json_encode($status));
 				fclose($handle);
 
@@ -62,11 +62,11 @@ class SwitchCommand extends Command {
 		// 	$blog_name = explode('/', $blog_path);
 		// 	$blog_name = array_pop($blog_name);
 
-		// 	$status = json_decode(file_get_contents(POINTLESS_HOME . 'status.json'), TRUE);
+		// 	$status = json_decode(file_get_contents(POINTLESS_HOME . 'Status.json'), TRUE);
 		// 	$status['current'] = $blog_name;
 		// 	$status['list'][$blog_name] = realpath($blog_path);
 
-		// 	$handle = fopen(POINTLESS_HOME . 'status.json', 'w+');
+		// 	$handle = fopen(POINTLESS_HOME . 'Status.json', 'w+');
 		// 	fwrite($handle, json_encode($status));
 		// 	fclose($handle);
 
@@ -95,7 +95,7 @@ class SwitchCommand extends Command {
 					}
 				}
 				
-				$handle = fopen(POINTLESS_HOME . 'status.json', 'w+');
+				$handle = fopen(POINTLESS_HOME . 'Status.json', 'w+');
 				fwrite($handle, json_encode($status));
 				fclose($handle);
 
