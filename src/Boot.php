@@ -36,6 +36,9 @@ if(!file_exists(POINTLESS_HOME . 'status.json')) {
 	fclose($handle);
 }
 
+if(!file_exists(POINTLESS_HOME . '/Sample'))
+	recursiveCopy(ROOT . 'Sample', POINTLESS_HOME . '/Sample');
+
 /**
  * Load Blog Setting
  */
