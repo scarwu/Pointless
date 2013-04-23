@@ -132,9 +132,9 @@ function writeTo($data, $path) {
 		$path = $path . '/index.html';
 	}
 	else {
-		$segment = explode('/', $path);
-		array_pop($segment);
-		$dirpath = join($segment, '/');
+		$segments = explode('/', $path);
+		array_pop($segments);
+		$dirpath = implode($segments, '/');
 		if(!file_exists($dirpath))
 			mkdir($dirpath, 0755, TRUE);
 	}
