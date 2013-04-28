@@ -5,6 +5,12 @@ define('BLOG_NAME', 'Pointless');
 // Blog Slogan
 define('BLOG_SLOGAN', 'The Static Blog Generator');
 
+// Blog Description
+define('BLOG_DESCRIPTION', '');
+
+// Blog Key Words
+define('BLOG_KEYWORDS', '');
+
 // Blog Footer
 define('BLOG_FOOTER', 'Powerd By Pointless');
 

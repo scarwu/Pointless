@@ -3,9 +3,11 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<meta name="description" content="<?=BLOG_DESCRIPTION?>">
+	<meta name="keywords" content="<?=BLOG_KEYWORDS?><?=isset($data['keywords']) && '' != $data['keywords'] ? ",{$data['keywords']}" : ''?>">
 
 	<title><?=isset($data['title']) ? $data['title'] . ' | ' : NULL?><?=BLOG_NAME?></title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	<!-- Load Cascading Style Sheets -->
 	<link rel="stylesheet" href="<?=BLOG_PATH?>theme/main.css">
@@ -26,8 +28,8 @@
 				<a href="<?=BLOG_PATH?>">Home</a>
 				<a href="<?=BLOG_PATH . 'about'?>">About</a>
 			</div>
-			<div id="container"><?=$data['block']['container'] ?></div>
-			<div id="side"><?=$data['block']['side'] ?></div>
+			<div id="container"><?=$data['block']['container']?></div>
+			<div id="side"><?=$data['block']['side']?></div>
 			<footer><?=BLOG_FOOTER?></footer>
 		</div>
 	</div>
