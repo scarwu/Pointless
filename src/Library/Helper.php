@@ -16,9 +16,19 @@
  * @return string
  */
 function linkTo($link, $name) {
+	return '<a href="' . urlEncode($link) . '">' . $name . '</a>';
+}
+
+/**
+ * Link Encode
+ *
+ * @param string
+ * @return string
+ */
+function linkEncode($link) {
 	$segments = explode('/', $link);
 	$segments = array_map('rawurlencode', $segments);
 	$link = implode('/', $segments);
 
-	return "<a href=\"$link\">$name</a>";
+	return $link;
 }

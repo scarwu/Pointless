@@ -82,6 +82,7 @@ class AddCommand extends Command {
 			fwrite($handle, '	"url": "' . $info['url'] . '",' . "\n");
 			fwrite($handle, '	"tag": "' . $info['tag'] . '",' . "\n");
 			fwrite($handle, '	"category": "' . $info['category'] . '",' . "\n");
+			fwrite($handle, '	"meta": null,' . "\n");
 			fwrite($handle, '	"date": "' . date("Y-m-d", $time) . '",' . "\n");
 			fwrite($handle, '	"time": "' . date("H:i:s", $time) . '",' . "\n");
 			fwrite($handle, '	"message": true,' . "\n");

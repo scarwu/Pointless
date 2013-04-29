@@ -179,6 +179,7 @@ class GenCommand extends Command {
 					'date' => $temp['date'],
 					'time' => $temp['time'],
 					'category' => $temp['category'],
+					'keywords' => $temp['keywords'],
 					'tag' => explode('|', $temp['tag']),
 					'year' => $date[0],
 					'month' => $date[1],
