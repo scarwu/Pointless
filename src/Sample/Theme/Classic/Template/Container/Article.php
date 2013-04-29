@@ -3,7 +3,7 @@
 		<div class="title"><?=$data['title']?></div>
 		<div class="info">
 			<span class="comment">
-				<?=linkTo(BLOG_PATH . 'article/' . $data['url'] .'/#disqus_thread', '0 Comment')?>
+				<a href="<?=linkEncode(BLOG_PATH . "article/{$data['url']}/")?>#disqus_thread">0 Comment</a>
 			</span>
 			<br />
 			<span class="date"><?=$data['date']?></span>
