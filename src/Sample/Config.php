@@ -55,6 +55,7 @@ define('GOOGLE_ANALYSTIC', NULL);
 define('GITHUB_ACCOUNT', NULL);
 define('GITHUB_REPO', NULL);
 define('GITHUB_BRANCH', NULL);
+define('GITHUB_CNAME', FALSE);
 
 // Local Encoding - For console, If your environment encoding is't utf-8 then modify this
 // Big5 | GBK | other

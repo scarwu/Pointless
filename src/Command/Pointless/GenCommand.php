@@ -81,12 +81,12 @@ class GenCommand extends Command {
 		recursiveRemove(PUBLIC_FOLDER);
 		
 		// Create README
-		$handle = fopen(PUBLIC_FOLDER . 'README', 'w+');
+		$handle = fopen(PUBLIC_FOLDER . 'README.md', 'w+');
 		fwrite($handle, '[Powered by Pointless](https://github.com/scarwu/Pointless)');
 		fclose($handle);
 
 		// Create Github CNAME
-		if(NULL != GITHUB_ACCOUNT) {
+		if(GITHUB_CNAME) {
 			IO::writeln("Create Github CNAME ...", 'yellow');
 			$handle = fopen(PUBLIC_FOLDER . 'CNAME', 'w+');
 			fwrite($handle, BLOG_DNS);
