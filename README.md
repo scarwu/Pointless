@@ -34,8 +34,8 @@ A Useful Static Blog Generator
 
 ## Demo Site
 
-[Pointless Demo](http://scar.simcz.tw/Pointless/)
-[ScarShow](http://scar.simcz.tw/)
+* [Pointless Demo](http://scar.simcz.tw/Pointless/)
+* [ScarShow](http://scar.simcz.tw/)
 
 ## For More
 
