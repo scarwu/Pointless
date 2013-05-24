@@ -2,10 +2,12 @@
 	<article>
 		<div class="title"><?=$data['title']?></div>
 		<div class="info">
+			<?php if(NULL != DISQUS_SHORTNAME): ?>
 			<span class="comment">
 				<a href="<?=linkEncode(BLOG_PATH . "article/{$data['url']}/")?>#disqus_thread">0 Comment</a>
 			</span>
 			<br />
+			<?php endif; ?>
 			<span class="date"><?=$data['date']?></span>
 			-
 			<span class="category">
