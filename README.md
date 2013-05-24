@@ -32,6 +32,11 @@ A Useful Static Blog Generator
 
 	sudo poi update
 
+## Demo Site
+
+[Pointless Demo](http://scar.simcz.tw/Pointless/)
+[ScarShow](http://scar.simcz.tw/)
+
 ## For More
 
 Please watch [Wiki](https://github.com/scarwu/Pointless/wiki) or [ScarShow](http://scar.simcz.tw)
