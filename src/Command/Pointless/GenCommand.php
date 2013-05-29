@@ -141,6 +141,11 @@ class GenCommand extends Command {
 			preg_match(REGEX_RULE, file_get_contents(MARKDOWN_FOLDER . $filename), $match);
 			$temp = json_decode($match[1], TRUE);
 
+			if(NULL == $temp) {
+				IO::writeln('Attribute Error: ' . $filename, 'red');
+				exit(1);
+			}
+
 			if('static' == $temp['type']) {
 				Resource::append('static', array(
 					'title' => $temp['title'],
