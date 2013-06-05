@@ -41,7 +41,7 @@ define('ARTICLE_QUANTITY', 10);
 
 // Article URL Format
 // :year, :month, :day
-// :hour, :minute, :second
+// :hour, :minute, :second, :timestamp
 // :title, :url
 define('ARTICLE_URL', ':year/:month/:day/:url');
 
