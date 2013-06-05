@@ -16,7 +16,7 @@
  * @return string
  */
 function linkTo($link, $name) {
-	return '<a href="' . urlEncode($link) . '">' . $name . '</a>';
+	return '<a href="' . linkEncode($link) . '">' . $name . '</a>';
 }
 
 /**

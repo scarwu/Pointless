@@ -6,7 +6,6 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1">
 	<meta name="description" content="<?=BLOG_DESCRIPTION?>">
 	<meta name="keywords" content="<?=BLOG_KEYWORDS?><?=isset($data['keywords']) && '' != $data['keywords'] ? ",{$data['keywords']}" : ''?>">
-
 	<title><?=isset($data['title']) ? $data['title'] . ' | ' : NULL?><?=BLOG_NAME?></title>
 	
 	<!-- Load Cascading Style Sheets -->

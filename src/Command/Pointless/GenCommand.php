@@ -81,12 +81,12 @@ class GenCommand extends Command {
 		recursiveRemove(PUBLIC_FOLDER);
 		
 		// Create README
-		$handle = fopen(PUBLIC_FOLDER . 'README', 'w+');
+		$handle = fopen(PUBLIC_FOLDER . 'README.md', 'w+');
 		fwrite($handle, '[Powered by Pointless](https://github.com/scarwu/Pointless)');
 		fclose($handle);
 
 		// Create Github CNAME
-		if(NULL != GITHUB_ACCOUNT) {
+		if(GITHUB_CNAME) {
 			IO::writeln("Create Github CNAME ...", 'yellow');
 			$handle = fopen(PUBLIC_FOLDER . 'CNAME', 'w+');
 			fwrite($handle, BLOG_DNS);
@@ -141,6 +141,11 @@ class GenCommand extends Command {
 			preg_match(REGEX_RULE, file_get_contents(MARKDOWN_FOLDER . $filename), $match);
 			$temp = json_decode($match[1], TRUE);
 
+			if(NULL == $temp) {
+				IO::writeln('Attribute Error: ' . $filename, 'red');
+				exit(1);
+			}
+
 			if('static' == $temp['type']) {
 				Resource::append('static', array(
 					'title' => $temp['title'],
@@ -158,16 +163,13 @@ class GenCommand extends Command {
 				$time = explode(':', $temp['time']);
 				$timestamp = strtotime("$date[2]-$date[1]-$date[0] {$temp['time']}");
 
-				// 0: date, 1: url, 2: date + url
+				// 0: url, 1: date + url
 				switch(ARTICLE_URL) {
 					default:
 					case 0:
-						$url = str_replace('-', '/', $temp['date']);
-						break;
-					case 1:
 						$url = $temp['url'];
 						break;
-					case 2:
+					case 1:
 						$url = str_replace('-', '/', $temp['date']) . '/' . $temp['url'];
 						break;
 				}
