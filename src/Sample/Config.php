@@ -40,9 +40,8 @@ define('RSS_ATOM_QUANTITY', 5);
 define('ARTICLE_QUANTITY', 10);
 
 // Article URL Format
-// 0: date       - 1970/01/01
-// 1: url        - welcome
-// 2: date + url - 1970/01/01/welcome
+// 0: url        - welcome
+// 1: date + url - 1970/01/01/welcome
 define('ARTICLE_URL', 0);
 
 // Disqus Shrotname

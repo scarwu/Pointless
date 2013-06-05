@@ -163,16 +163,13 @@ class GenCommand extends Command {
 				$time = explode(':', $temp['time']);
 				$timestamp = strtotime("$date[2]-$date[1]-$date[0] {$temp['time']}");
 
-				// 0: date, 1: url, 2: date + url
+				// 0: url, 1: date + url
 				switch(ARTICLE_URL) {
 					default:
 					case 0:
-						$url = str_replace('-', '/', $temp['date']);
-						break;
-					case 1:
 						$url = $temp['url'];
 						break;
-					case 2:
+					case 1:
 						$url = str_replace('-', '/', $temp['date']) . '/' . $temp['url'];
 						break;
 				}
