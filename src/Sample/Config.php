@@ -40,9 +40,10 @@ define('RSS_ATOM_QUANTITY', 5);
 define('ARTICLE_QUANTITY', 10);
 
 // Article URL Format
-// 0: url        - welcome
-// 1: date + url - 1970/01/01/welcome
-define('ARTICLE_URL', 0);
+// :year, :month, :day
+// :hour, :minute, :second
+// :title, :url
+define('ARTICLE_URL', ':year/:month/:day/:url');
 
 // Disqus Shrotname
 define('DISQUS_SHORTNAME', NULL);
