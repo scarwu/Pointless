@@ -19,7 +19,7 @@ if(!preg_match($pattern, $_SERVER['REQUEST_URI']))
 
 $pattern = '/^' . str_replace('/', '\/', BLOG_PATH) . '(.+)/';
 if(preg_match($pattern, $_SERVER['REQUEST_URI'], $match))
-	$path .= $match[1];
+	$path .= urldecode($match[1]);
 
 $path .= is_dir($path) ? '/index.html' : '';
 
