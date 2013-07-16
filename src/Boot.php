@@ -48,7 +48,9 @@ if(defined('BUILD_TIMESTAMP')) {
 
 	if(BUILD_TIMESTAMP != file_get_contents(POINTLESS_HOME . 'Timestamp')) {
 		recursiveRemove(POINTLESS_HOME . 'Sample');
+		
 		recursiveCopy(ROOT . 'Sample', POINTLESS_HOME . 'Sample');
+		copy(LIBRARY . 'Route.php', POINTLESS_HOME . 'Sample/Route.php');
 
 		$handle = fopen(POINTLESS_HOME . 'Timestamp', 'w+');
 		fwrite($handle, BUILD_TIMESTAMP);

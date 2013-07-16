@@ -41,7 +41,9 @@ class TestCommand extends Command {
 			return;
 		}
 
+		$route_script = (defined('BUILD_TIMESTAMP') ? POINTLESS_HOME . 'Sample/' : LIBRARY) . 'Route.php';
 		$port = $this->hasConfigs() ? $this->getConfigs('port') : 3000;
-		system(sprintf("php -S localhost:$port -t %s %s < `tty` > `tty`", POINTLESS_HOME, LIBRARY . 'Route.php'));
+
+		system(sprintf("php -S localhost:$port -t %s $route_script < `tty` > `tty`", POINTLESS_HOME));
 	}
 }
