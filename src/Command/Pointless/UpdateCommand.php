@@ -34,20 +34,25 @@ class UpdateCommand extends Command {
 		$path = defined('BIN_LOCATE') ? BIN_LOCATE : '/usr/local/bin';
 
 		if(!is_dir($path)) {
-			IO::writeln($path . ' is not a directory', 'red');
+			IO::writeln("$path is not a directory", 'red');
 			return FALSE;
 		}
 
 		if(!is_writable($path)) {
-			IO::writeln('Permission denied: ' . $path, 'red');
+			IO::writeln("Permission denied: $path", 'red');
 			return FALSE;
 		}
 
-		system('wget ' . $remote . ' -O /tmp/poi');
+		system("wget $remote -O /tmp/poi");
 		system('chmod +x /tmp/poi');
+
+		// Reset Timestamp
+		$handle = fopen(POINTLESS_HOME . 'Timestamp', 'w+');
+		fwrite($handle, '0');
+		fclose($handle);
 
 		IO::writeln('Update finish.', 'green');
 		system('/tmp/poi version');
-		system('mv /tmp/poi ' . $path);
+		system("mv /tmp/poi $path");
 	}
 }
