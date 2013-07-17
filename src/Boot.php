@@ -43,12 +43,16 @@ if(defined('BUILD_TIMESTAMP')) {
 		fclose($handle);
 	}
 
-	if(!file_exists(POINTLESS_HOME . 'Sample'))
+	if(!file_exists(POINTLESS_HOME . 'Sample')) {
 		recursiveCopy(ROOT . 'Sample', POINTLESS_HOME . 'Sample');
+		copy(LIBRARY . 'Route.php', POINTLESS_HOME . 'Sample/Route.php');
+	}
 
 	if(BUILD_TIMESTAMP != file_get_contents(POINTLESS_HOME . 'Timestamp')) {
 		recursiveRemove(POINTLESS_HOME . 'Sample');
+		
 		recursiveCopy(ROOT . 'Sample', POINTLESS_HOME . 'Sample');
+		copy(LIBRARY . 'Route.php', POINTLESS_HOME . 'Sample/Route.php');
 
 		$handle = fopen(POINTLESS_HOME . 'Timestamp', 'w+');
 		fwrite($handle, BUILD_TIMESTAMP);
