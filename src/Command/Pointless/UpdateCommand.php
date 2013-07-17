@@ -24,6 +24,11 @@ class UpdateCommand extends Command {
 	}
 	
 	public function run() {
+		if(!defined('BUILD_TIMESTAMP')) {
+			IO::writeln('Development version can not be updated.', 'red');
+			return;
+		}
+
 		$branch = $this->hasOptions('u') ? 'develop' : 'master';
 		$remote = "https://raw.github.com/scarwu/Pointless/$branch/bin/poi";
 		$path = defined('BIN_LOCATE') ? BIN_LOCATE : '/usr/local/bin';
