@@ -19,6 +19,7 @@ class Atom {
 		IO::writeln('Building Atom');
 
 		$count = 0;
+		$date = date(DATE_ATOM);
 
 		$atom = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
 		$atom .= "<feed xmlns=\"http://www.w3.org/2005/Atom\">\n";
@@ -28,16 +29,17 @@ class Atom {
 		$atom .= "\t<link href=\"http://" . BLOG_DNS . BLOG_PATH . "atom.xml\" rel=\"self\" />\n";
 		$atom .= "\t<link href=\"http://" . BLOG_DNS . BLOG_PATH . "\" />\n";
 		$atom .= "\t<id>urn:uuid:" . $this->uuid(BLOG_DNS . BLOG_PATH . 'atom.xml') . "</id>\n";
-		$atom .= "\t<updated>" . date(DATE_ATOM) . "</updated>\n";
+		$atom .= "\t<updated>" . $date . "</updated>\n";
 
 		foreach(Resource::get('article') as $article) {
 			$atom .= "\t<entry>\n";
 			$atom .= "\t\t<title>{$article['title']}</title>\n";
 			$atom .= "\t\t<link href=\"http://" . BLOG_DNS . BLOG_PATH . 'article/' . $article['url'] . "\" />\n";
 			$atom .= "\t\t<id>urn:uuid:" . $this->uuid(BLOG_DNS . BLOG_PATH . 'article/' . $article['url']) . "</id>\n";
-			$atom .= "\t\t<updated>" . date(DATE_ATOM, $article['timestamp']) . "</updated>\n";
+			// $atom .= "\t\t<updated>" . date(DATE_ATOM, $article['timestamp']) . "</updated>\n";
+			$atom .= "\t\t<updated>" . $date . "</updated>\n";
 
-			$summary = preg_replace('/<!--more-->(.|\n)*/', '', $article['content']);
+			$summary = $article['content'];
 			$summary = htmlspecialchars($summary, ENT_QUOTES, "UTF-8");
 
 			$atom .= "\t\t<summary type=\"html\">" . $summary . "</summary>\n";
@@ -73,7 +75,8 @@ class Atom {
 	 * @return string
 	 */
 	private function uuid($input) {
-		$chars = md5(uniqid($input, TRUE));
+		// $chars = md5(uniqid($input, TRUE));
+		$chars = md5($input);
 
 		$uuid  = substr($chars, 0, 8) . '-';
 		$uuid .= substr($chars, 8, 4) . '-';
