@@ -1,6 +1,6 @@
 <?php
 /**
- * Pointless Test Command
+ * Pointless Server Command
  * 
  * @package		Pointless
  * @author		ScarWu
@@ -13,13 +13,13 @@ namespace Pointless;
 use NanoCLI\Command;
 use NanoCLI\IO;
 
-class TestCommand extends Command {
+class ServerCommand extends Command {
 	public function __construct() {
 		parent::__construct();
 	}
 
 	public function help() {
-		IO::writeln('    test       - Start built-in web server');
+		IO::writeln('    server      - Start built-in web server');
 		IO::writeln('    --port=<port number>');
 		IO::writeln('               - Set port number');
 	}
