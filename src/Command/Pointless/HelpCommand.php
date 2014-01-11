@@ -26,7 +26,7 @@ class HelpCommand extends Command {
 		IO::writeln('    add        - Add new article');
 		IO::writeln('    edit       - Edit article');
 		IO::writeln('    delete     - Delete article');
-		IO::writeln('    test       - Start built-in web server');
+		IO::writeln('    server     - Start built-in web server');
 		IO::writeln('    config     - Modify config');
 		IO::writeln('    deploy     - Deploy blog to Github');
 		IO::writeln('    update     - Self-update');

@@ -52,7 +52,14 @@ class UpdateCommand extends Command {
 		fclose($handle);
 
 		IO::writeln('Update finish.', 'green');
-		system('/tmp/poi version');
+		if($_SERVER['SUDO_USER']) {
+			$user = $_SERVER['SUDO_USER'];
+			system("sudo -u $user /tmp/poi version");
+		}
+		else {
+			system('/tmp/poi version');
+		}
+		
 		system("mv /tmp/poi $path");
 	}
 }
