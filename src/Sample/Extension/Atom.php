@@ -4,7 +4,7 @@
  * 
  * @package		Pointless
  * @author		ScarWu
- * @copyright	Copyright (c) 2012-2013, ScarWu (http://scar.simcz.tw/)
+ * @copyright	Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
  * @link		http://github.com/scarwu/Pointless
  */
 
@@ -37,7 +37,7 @@ class Atom {
 			$atom .= "\t\t<id>urn:uuid:" . $this->uuid(BLOG_DNS . BLOG_PATH . 'article/' . $article['url']) . "</id>\n";
 			$atom .= "\t\t<updated>" . date(DATE_ATOM, $article['timestamp']) . "</updated>\n";
 
-			$summary = preg_replace('/<!--more-->(.|\n)*/', '', $article['content']);
+			$summary = $article['content'];
 			$summary = htmlspecialchars($summary, ENT_QUOTES, "UTF-8");
 
 			$atom .= "\t\t<summary type=\"html\">" . $summary . "</summary>\n";
@@ -73,7 +73,7 @@ class Atom {
 	 * @return string
 	 */
 	private function uuid($input) {
-		$chars = md5(uniqid($input, TRUE));
+		$chars = md5($input);
 
 		$uuid  = substr($chars, 0, 8) . '-';
 		$uuid .= substr($chars, 8, 4) . '-';
