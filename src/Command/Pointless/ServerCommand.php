@@ -19,7 +19,7 @@ class ServerCommand extends Command {
 	}
 
 	public function help() {
-		IO::writeln('    server      - Start built-in web server');
+		IO::writeln('    server     - Start built-in web server');
 		IO::writeln('    --port=<port number>');
 		IO::writeln('               - Set port number');
 	}
