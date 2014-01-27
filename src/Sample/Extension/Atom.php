@@ -23,38 +23,39 @@ class Atom {
 		$atom = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
 		$atom .= "<feed xmlns=\"http://www.w3.org/2005/Atom\">\n";
 
-		$atom .= "\t<title>" . BLOG_NAME . "</title>\n";
+		$atom .= "\t<title><![CDATA[" . BLOG_NAME . "]]></title>\n";
 		$atom .= "\t<subtitle>" . BLOG_SLOGAN . "</subtitle>\n";
 		$atom .= "\t<link href=\"http://" . BLOG_DNS . BLOG_PATH . "atom.xml\" rel=\"self\" />\n";
 		$atom .= "\t<link href=\"http://" . BLOG_DNS . BLOG_PATH . "\" />\n";
 		$atom .= "\t<id>urn:uuid:" . $this->uuid(BLOG_DNS . BLOG_PATH . 'atom.xml') . "</id>\n";
 		$atom .= "\t<updated>" . date(DATE_ATOM) . "</updated>\n";
 
+		if(NULL != AUTHOR_NAME || NULL != AUTHOR_EMAIL) {
+			$atom .= "\t<author>\n";
+
+			if(NULL != AUTHOR_NAME)
+				$atom .= "\t\t<name><![CDATA[" . AUTHOR_NAME . "]]></name>\n";
+
+			if(NULL != AUTHOR_EMAIL)
+				$atom .= "\t\t<email>" . AUTHOR_EMAIL . "</email>\n";
+
+  			$atom .= "\t\t<uri>http://" . BLOG_DNS . BLOG_PATH . "</uri>\n";
+			$atom .= "\t</author>\n";
+		}
+
 		foreach(Resource::get('article') as $article) {
+			$title = htmlspecialchars($article['title'], ENT_QUOTES, "UTF-8");
+			$url = BLOG_DNS . BLOG_PATH . 'article/' . $article['url'];
+			$uuid = $this->uuid($url);
+			$date = date(DATE_ATOM, $article['timestamp']);
+			$summary = htmlspecialchars($article['content'], ENT_QUOTES, "UTF-8");
+
 			$atom .= "\t<entry>\n";
-			$atom .= "\t\t<title>{$article['title']}</title>\n";
-			$atom .= "\t\t<link href=\"http://" . BLOG_DNS . BLOG_PATH . 'article/' . $article['url'] . "\" />\n";
-			$atom .= "\t\t<id>urn:uuid:" . $this->uuid(BLOG_DNS . BLOG_PATH . 'article/' . $article['url']) . "</id>\n";
-			$atom .= "\t\t<updated>" . date(DATE_ATOM, $article['timestamp']) . "</updated>\n";
-
-			$summary = $article['content'];
-			$summary = htmlspecialchars($summary, ENT_QUOTES, "UTF-8");
-
-			$atom .= "\t\t<summary type=\"html\">" . $summary . "</summary>\n";
-
-			if(NULL != AUTHOR_NAME || NULL != AUTHOR_EMAIL) {
-				$atom .= "\t\t<author>\n";
-
-				if(NULL != AUTHOR_NAME)
-					$atom .= "\t\t\t<name>" . AUTHOR_NAME . "</name>\n";
-
-				if(NULL != AUTHOR_EMAIL)
-					$atom .= "\t\t\t<email>" . AUTHOR_EMAIL . "</email>\n";
-
-      			$atom .= "\t\t\t<uri>http://" . BLOG_DNS . BLOG_PATH . "</uri>\n";
-				$atom .= "\t\t</author>\n";
-			}
-
+			$atom .= "\t\t<title type=\"html\"><![CDATA[{$title}]]></title>\n";
+			$atom .= "\t\t<link href=\"http://{$url}\" />\n";
+			$atom .= "\t\t<id>urn:uuid:{$uuid}</id>\n";
+			$atom .= "\t\t<updated>{$date}</updated>\n";
+			$atom .= "\t\t<summary type=\"html\"><![CDATA[{$summary}]]></summary>\n";
 			$atom .= "\t</entry>\n";
 
 			if (++$count >= RSS_ATOM_QUANTITY)
