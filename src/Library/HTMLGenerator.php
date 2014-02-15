@@ -38,12 +38,12 @@ class HTMLGenerator {
 	 * Load Theme Script
 	 */
 	private function loadScript() {
-		$handle = opendir(THEME_SCRIPT);
+		$handle = opendir(THEME . '/Script');
 		while($filename = readdir($handle)) {
 			if('.' == $filename || '..' == $filename)
 				continue;
 
-			require THEME_SCRIPT . $filename;
+			require THEME . "/Script/$filename";
 
 			$class_name = preg_replace('/.php$/', '', $filename);
 			$this->script[$class_name] = new $class_name;

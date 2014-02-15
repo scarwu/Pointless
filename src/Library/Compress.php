@@ -46,7 +46,7 @@ class Compress {
 		
 		$css_package = fopen(rtrim($dest, '/') . '/main.css', 'w+');
 		foreach((array)$this->css_list as $filename) {
-			$css = file_get_contents($src . $filename);
+			$css = file_get_contents("$src/$filename");
 			$css = $this->cssCompressor($css);
 			fwrite($css_package, $css);
 		}
@@ -91,7 +91,7 @@ class Compress {
 		
 		$js_package = fopen(rtrim($dest, '/') . '/main.js', 'w+');
 		foreach((array)$this->js_list as $filename) {
-			$handle = fopen($src . $filename, 'r');
+			$handle = fopen("$src/$filename", 'r');
 			while($data = fread($handle, 1024))
 				fwrite($js_package, $data, 1024);
 			fwrite($js_package, "\n");

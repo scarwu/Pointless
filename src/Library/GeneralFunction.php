@@ -42,7 +42,7 @@ function initBlog() {
 		recursiveCopy(ROOT . '/Sample/Theme', BLOG . '/Theme');
 	}
 
-	if('' != $config['blog_theme']) {
+	if('' == $config['blog_theme']) {
 		$config['blog_theme'] = 'Classic';
 	}
 
@@ -53,11 +53,6 @@ function initBlog() {
 	else
 		define('THEME', ROOT . '/Sample/Theme/Classic');
 
-	define('THEME_ASSETS', THEME . '/Assets');
-	define('THEME_SCRIPT', THEME . '/Script');
-	define('THEME_RESOURCE', THEME . '/Resource');
-	define('THEME_TEMPLATE', THEME . '/Template');
-
 	/**
 	 * Extension
 	 */
@@ -65,7 +60,7 @@ function initBlog() {
 
 	if(!file_exists(EXTENSION)) {
 		mkdir(EXTENSION, 0755, TRUE);
-		recursiveCopy(ROOT . 'Sample/Extension', EXTENSION);
+		recursiveCopy(ROOT . '/Sample/Extension', EXTENSION);
 	}
 
 	/**
@@ -87,13 +82,15 @@ function initBlog() {
 	/**
 	 * Resource
 	 */
-	define('RESOURCE_FOLDER', BLOG . '/Resource');
+	define('RESOURCE', BLOG . '/Resource');
 
-	if(!file_exists(RESOURCE_FOLDER))
-		mkdir(RESOURCE_FOLDER, 0755, TRUE);
+	if(!file_exists(RESOURCE))
+		mkdir(RESOURCE, 0755, TRUE);
 
 	// Set Time Zone
-	date_default_timezone_set(TIMEZONE);
+	date_default_timezone_set($config['timezone']);
+
+	return $config;
 }
 
 /**

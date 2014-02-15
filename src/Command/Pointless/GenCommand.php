@@ -16,6 +16,7 @@ use Compress;
 use Resource;
 use HTMLGenerator;
 use ExtensionLoader;
+use Michelf\MarkdownExtra;
 
 class GenCommand extends Command {
 	public function __construct() {
@@ -29,25 +30,24 @@ class GenCommand extends Command {
 	}
 
 	public function run() {
-		require LIBRARY . 'Helper.php';
-		require LIBRARY . 'Compress.php';
-		require LIBRARY . 'Resource.php';
-		require LIBRARY . 'HTMLGenerator.php';
-		require LIBRARY . 'ExtensionLoader.php';
-		require VENDOR . 'Markdown/markdown.php';
+		require LIBRARY . '/Helper.php';
+		require LIBRARY . '/Compress.php';
+		require LIBRARY . '/Resource.php';
+		require LIBRARY . '/HTMLGenerator.php';
+		require LIBRARY . '/ExtensionLoader.php';
+		require VENDOR . '/Markdown/Michelf/MarkdownExtra.inc.php';
 
 		// Initialize Blog
-		initBlog();
-		
+		$this->config = initBlog();
 		$start = microtime(TRUE);
 
 		if($this->hasOptions('css')) {
-			if(file_exists(PUBLIC_FOLDER . 'main.css'))
-				unlink(PUBLIC_FOLDER . 'main.css');
+			if(file_exists(TEMP . '/main.css'))
+				unlink(TEMP . '/main.css');
 
-			IO::writeln("Compress CSS ...", 'yellow');
+			IO::writeln('Compress CSS ...', 'yellow');
 			$Compress = new Compress();
-			$Compress->css(THEME_CSS, PUBLIC_FOLDER . 'theme');
+			$Compress->css(THEME . '/Assets/Css', TEMP . '/theme');
 
 			$time = sprintf("%.3f", abs(microtime(TRUE) - $start));
 			IO::writeln("Generate finish, $time s.", 'green');
@@ -56,12 +56,12 @@ class GenCommand extends Command {
 		}
 
 		if($this->hasOptions('js')) {
-			if(file_exists(PUBLIC_FOLDER . 'main.js'))
-				unlink(PUBLIC_FOLDER . 'main.js');
+			if(file_exists(TEMP . '/main.js'))
+				unlink(TEMP . '/main.js');
 
-			IO::writeln("Compress Javascript ...", 'yellow');
+			IO::writeln('Compress Javascript ...', 'yellow');
 			$Compress = new Compress();
-			$Compress->js(THEME_JS, PUBLIC_FOLDER . 'theme');
+			$Compress->js(THEME . '/Assets/Js', TEMP . '/theme');
 
 			$time = sprintf("%.3f", abs(microtime(TRUE) - $start));
 			IO::writeln("Generate finish, $time s.", 'green');
@@ -72,46 +72,46 @@ class GenCommand extends Command {
 		$start_mem = memory_get_usage();
 
 		// Clear Public Files
-		IO::writeln("Clean Public Files ...", 'yellow');
-		recursiveRemove(PUBLIC_FOLDER);
+		IO::writeln('Clean Public Files ...', 'yellow');
+		recursiveRemove(TEMP);
 		
 		// Create README
-		$handle = fopen(PUBLIC_FOLDER . 'README.md', 'w+');
+		$handle = fopen(TEMP . '/README.md', 'w+');
 		fwrite($handle, '[Powered by Pointless](https://github.com/scarwu/Pointless)');
 		fclose($handle);
 
 		// Create Github CNAME
-		if(GITHUB_CNAME) {
-			IO::writeln("Create Github CNAME ...", 'yellow');
-			$handle = fopen(PUBLIC_FOLDER . 'CNAME', 'w+');
-			fwrite($handle, BLOG_DNS);
+		if($this->config['github_cname']) {
+			IO::writeln('Create Github CNAME ...', 'yellow');
+			$handle = fopen(TEMP . '/CNAME', 'w+');
+			fwrite($handle, $this->config['blog_dn']);
 			fclose($handle);
 		}
 
 		// Copy Resource Files
-		IO::writeln("Copy Resource Files ...", 'yellow');
-		recursiveCopy(RESOURCE_FOLDER, PUBLIC_FOLDER);
+		IO::writeln('Copy Resource Files ...', 'yellow');
+		recursiveCopy(RESOURCE, TEMP);
 		
-		if(file_exists(THEME_RESOURCE))
-			recursiveCopy(THEME_RESOURCE, PUBLIC_FOLDER . 'theme');
+		if(file_exists(THEME . '/Resource'))
+			recursiveCopy(THEME . '/Resource', TEMP . '/theme');
 
 		// Compress CSS and JavaScript
-		IO::writeln("Compress CSS & Javascript ...", 'yellow');
+		IO::writeln('Compress CSS & Javascript ...', 'yellow');
 		$compress = new Compress();
-		$compress->js(THEME_JS, PUBLIC_FOLDER . 'theme');
-		$compress->css(THEME_CSS, PUBLIC_FOLDER . 'theme');
+		$compress->js(THEME . '/Assets/Js', TEMP . '/theme');
+		$compress->css(THEME . '/Assets/Css', TEMP . '/theme');
 		
 		// Initialize Resource Pool
-		IO::writeln("Initialize Resource Pool ...", 'yellow');
+		IO::writeln('Initialize Resource Pool ...', 'yellow');
 		$this->initResourcePool();
 
 		// Generate HTML Pages
-		IO::writeln("Generating HTML ...", 'yellow');
+		IO::writeln('Generating HTML ...', 'yellow');
 		$html = new HTMLGenerator();
 		$html->run();
 
 		// Generate Extension
-		IO::writeln("Generating Extensions ...", 'yellow');
+		IO::writeln('Generating Extensions ...', 'yellow');
 		$extension = new ExtensionLoader();
 		$extension->run();
 		
@@ -127,13 +127,13 @@ class GenCommand extends Command {
 		$article = array();
 
 		// Handle Markdown
-		IO::writeln("Load and Initialize Markdown");
-		$handle = opendir(MARKDOWN_FOLDER);
+		IO::writeln('Load and Initialize Markdown');
+		$handle = opendir(MARKDOWN);
 		while($filename = readdir($handle)) {
 			if('.' == $filename || '..' == $filename || !preg_match('/.md$/', $filename))
 				continue;
 
-			preg_match(REGEX_RULE, file_get_contents(MARKDOWN_FOLDER . $filename), $match);
+			preg_match(REGEX_RULE, file_get_contents(MARKDOWN . "/$filename"), $match);
 			$temp = json_decode($match[1], TRUE);
 
 			if(NULL == $temp) {
@@ -145,7 +145,7 @@ class GenCommand extends Command {
 				Resource::append('static', array(
 					'title' => $temp['title'],
 					'url' => $temp['url'],
-					'content' => Markdown($match[2]),
+					'content' => MarkdownExtra::defaultTransform($match[2]),
 					'message' => isset($temp['message']) ? $temp['message'] : TRUE
 				));
 			}
@@ -170,14 +170,14 @@ class GenCommand extends Command {
 						$time[0], $time[1], $time[2], $timestamp,
 						$temp['title'], $temp['url']
 					),
-					ARTICLE_URL
+					$this->config['article_url']
 				);
 				$url = trim($url, '/');
 
 				$article[] = array(
 					'title' => $temp['title'],
 					'url' => $url,
-					'content' => Markdown($match[2]),
+					'content' => MarkdownExtra::defaultTransform($match[2]),
 					'date' => $temp['date'],
 					'time' => $temp['time'],
 					'category' => $temp['category'],
