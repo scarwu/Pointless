@@ -8,20 +8,20 @@
  * @link        http://github.com/scarwu/Pointless
  */
 
-define('BLOG', $_SERVER['DOCUMENT_ROOT'] . '/Blog');
+define('BLOG', "{$_SERVER['DOCUMENT_ROOT']}/Blog");
 
 require BLOG . '/Config.php';
-$path = BLOG . '/Temp';
+$path = BLOG . '/Temp/';
 
 $pattern = '/^' . str_replace('/', '\/', $config['blog_base']) . '/';
 if(!preg_match($pattern, $_SERVER['REQUEST_URI']))
-    header("Location:http://{$_SERVER['HTTP_HOST']}" . $config['blog_base']);
+    header("Location:http://{$_SERVER['HTTP_HOST']}{$config['blog_base']}");
 
 $pattern = '/^' . str_replace('/', '\/', $config['blog_base']) . '(.+)/';
 if(preg_match($pattern, $_SERVER['REQUEST_URI'], $match))
     $path .= urldecode($match[1]);
 
-$path .= is_dir($path) ? '/index.html' : '';
+$path .= is_dir($path) ? 'index.html' : '';
 
 if(preg_match('/\.css$/', $path))
     header('Content-type: text/css');

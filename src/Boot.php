@@ -105,6 +105,24 @@ define('RESOURCE', BLOG . '/Resource');
 if(!file_exists(RESOURCE))
     mkdir(RESOURCE, 0755, TRUE);
 
+/**
+ * Temp
+ */
+define('TEMP', BLOG . '/Temp');
+
+if(!file_exists(TEMP)) {
+    mkdir(TEMP, 0755, TRUE);
+}
+
+/**
+ * Deploy
+ */
+define('DEPLOY', BLOG . '/Deploy');
+
+if(!file_exists(DEPLOY)) {
+    mkdir(DEPLOY, 0755, TRUE);
+}
+
 // Set Time Zone
 date_default_timezone_set($config['timezone']);
 

@@ -31,12 +31,6 @@ class DeployCommand extends Command {
             return;
         }
 
-        // Check Folder
-        define('DEPLOY', BLOG . '/Deploy');
-        if(!file_exists(DEPLOY)) {
-            mkdir(DEPLOY, 0755, TRUE);
-        }
-
         chdir(DEPLOY);
 
         if(!file_exists(DEPLOY . '.git')) {

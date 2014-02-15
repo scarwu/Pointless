@@ -39,12 +39,6 @@ class GenCommand extends Command {
         $this->config = Resource::get('config');
         $start = microtime(TRUE);
 
-        // Check Folder
-        define('TEMP', BLOG . '/Temp');
-        if(!file_exists(TEMP)) {
-            mkdir(TEMP, 0755, TRUE);
-        }
-
         if($this->hasOptions('css')) {
             if(file_exists(TEMP . '/main.css'))
                 unlink(TEMP . '/main.css');
@@ -196,7 +190,7 @@ class GenCommand extends Command {
         }
         closedir($handle);
 
-        ksort($article);
+        krsort($article);
         Resource::set('article', $article);
     }
 }
