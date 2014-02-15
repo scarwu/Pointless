@@ -37,23 +37,19 @@ if(!file_exists(POINTLESS_HOME . 'Status.json')) {
 }
 
 if(defined('BUILD_TIMESTAMP')) {
-	if(!file_exists(POINTLESS_HOME . 'Timestamp')) {
-		$handle = fopen(POINTLESS_HOME . 'Timestamp', 'w+');
-		fwrite($handle, BUILD_TIMESTAMP);
-		fclose($handle);
-	}
+	$timestamp = file_exists(POINTLESS_HOME . 'Timestamp')
+		? file_get_contents(POINTLESS_HOME . 'Timestamp')
+		: 0;
 
-	if(!file_exists(POINTLESS_HOME . 'Sample')) {
-		recursiveCopy(ROOT . 'Sample', POINTLESS_HOME . 'Sample');
-		copy(LIBRARY . 'Route.php', POINTLESS_HOME . 'Sample/Route.php');
-	}
-
-	if(BUILD_TIMESTAMP != file_get_contents(POINTLESS_HOME . 'Timestamp')) {
+	// Check Timestamp and Update Sample Files
+	if(BUILD_TIMESTAMP != $timestamp) {
 		recursiveRemove(POINTLESS_HOME . 'Sample');
 		
+		// Copy Sample Files
 		recursiveCopy(ROOT . 'Sample', POINTLESS_HOME . 'Sample');
 		copy(LIBRARY . 'Route.php', POINTLESS_HOME . 'Sample/Route.php');
 
+		// Create Timestamp File
 		$handle = fopen(POINTLESS_HOME . 'Timestamp', 'w+');
 		fwrite($handle, BUILD_TIMESTAMP);
 		fclose($handle);

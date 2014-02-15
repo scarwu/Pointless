@@ -63,28 +63,25 @@ class DeleteCommand extends Command {
 
 		uksort($data, 'strnatcasecmp');
 
-		$path = array();
-		$title = array();
 		$count = 0;
-
-		foreach($data as $article) {
+		foreach($data as $key => $article) {
 			if($this->hasOptions('s'))
 				IO::writeln(sprintf("[%3d] %s", $count, $article['title']));
 			else
 				IO::writeln(sprintf("[%3d] %s %s", $count, $article['date'], $article['title']));
 
-			$title[$count] = $article['title'];
-			$path[$count++] = $article['path'];
+			$data[$count++] = $article;
+			unset($data[$key]);
 		}
 		
-		$number = IO::question("\nEnter Number:\n-> ", NULL, function($answer) use($path) {
-			return !is_numeric($answer) || $answer < 0 || $answer >= count($path);
+		$number = IO::question("\nEnter Number:\n-> ", NULL, function($answer) use($data) {
+			return is_numeric($answer) && $answer >= 0 && $answer < count($data);
 		});
 
-		IO::write(sprintf("Are you sure delete - %s? [n/y]\n-> ", $title[$number]), 'red');
+		IO::write(sprintf("Are you sure delete - %s? [n/y]\n-> ", $data[$number]['title']), 'red');
 		if(IO::read() == "y") {
-			system('rm ' . $path[$number]);
-			IO::writeln(sprintf('Successfully removed %s.', $title[$number]));
+			system('rm ' . $data[$number]['path']);
+			IO::writeln(sprintf('Successfully removed %s.', $data[$number]['title']));
 		}
 	}
 }

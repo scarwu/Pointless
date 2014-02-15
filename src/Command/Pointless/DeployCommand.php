@@ -44,7 +44,7 @@ class DeployCommand extends Command {
 		recursiveRemove(DEPLOY_FOLDER);
 		recursiveCopy(PUBLIC_FOLDER, DEPLOY_FOLDER);
 
-		system('git add . && git add -u');
+		system('git add --all .');
 		system(sprintf('git commit -m "%s"', date(DATE_RSS)));
 		system('git push origin '. GITHUB_BRANCH);
 	}
