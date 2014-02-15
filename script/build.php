@@ -9,7 +9,7 @@
  * @link		http://github.com/scarwu/Pointless
  */
 
-$root = dirname(__FILE__);
+$root = '../' . realpath(dirname(__FILE__));
 $version = trim(file_get_contents($root . '/VERSION'));
 
 // Clear Phar

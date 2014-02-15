@@ -10,7 +10,7 @@
  */
 
 // Define Path
-define('ROOT', realpath(dirname(__FILE__)) . '/');
+define('ROOT', realpath(dirname(__FILE__)));
 
 // Load Bootstrap
-require ROOT . 'Boot.php';
+require ROOT . '/Boot.php';

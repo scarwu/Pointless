@@ -29,17 +29,12 @@ class GenCommand extends Command {
 	}
 
 	public function run() {
-		if(!defined('CURRENT_BLOG')) {
-			IO::writeln('Please use "poi init <blog name>" to initialize blog.', 'red');
-			return;
-		}
-
 		require LIBRARY . 'Helper.php';
 		require LIBRARY . 'Compress.php';
 		require LIBRARY . 'Resource.php';
 		require LIBRARY . 'HTMLGenerator.php';
 		require LIBRARY . 'ExtensionLoader.php';
-		require PLUGIN . 'Markdown/markdown.php';
+		require VENDOR . 'Markdown/markdown.php';
 
 		// Initialize Blog
 		initBlog();

@@ -14,72 +14,57 @@ date_default_timezone_set('Etc/UTC');
 /**
  * Path Define and Copy Files
  */
-define('PLUGIN', ROOT . 'Plugin/');
-define('LIBRARY', ROOT . 'Library/');
+define('VENDOR', ROOT . '/Vendor');
+define('LIBRARY', ROOT . '/Library');
 
-require LIBRARY . 'GeneralFunction.php';
+require LIBRARY . '/GeneralFunction.php';
 
 /**
  * User Data
  */
-define('POINTLESS_HOME', $_SERVER['HOME'] . '/.pointless2/');
+define('HOME', $_SERVER['HOME'] . '/.pointless2');
+define('BLOG', HOME . '/Blog');
 
-if(!file_exists(POINTLESS_HOME))
-	mkdir(POINTLESS_HOME, 0755, TRUE);
-
-if(!file_exists(POINTLESS_HOME . 'Status.json')) {
-	$handle = fopen(POINTLESS_HOME . 'Status.json', 'w+');
-	fwrite($handle, json_encode(array(
-		'current' => NULL,
-		'list' => array()
-	)));
-	fclose($handle);
-}
+if(!file_exists(HOME))
+	mkdir(HOME, 0755, TRUE);
 
 if(defined('BUILD_TIMESTAMP')) {
-	$timestamp = file_exists(POINTLESS_HOME . 'Timestamp')
-		? file_get_contents(POINTLESS_HOME . 'Timestamp')
+	$timestamp = file_exists(HOME . '/Timestamp')
+		? file_get_contents(HOME . '/Timestamp')
 		: 0;
 
 	// Check Timestamp and Update Sample Files
 	if(BUILD_TIMESTAMP != $timestamp) {
-		recursiveRemove(POINTLESS_HOME . 'Sample');
+		recursiveRemove(HOME . '/Sample');
 		
 		// Copy Sample Files
-		recursiveCopy(ROOT . 'Sample', POINTLESS_HOME . 'Sample');
-		copy(LIBRARY . 'Route.php', POINTLESS_HOME . 'Sample/Route.php');
+		recursiveCopy(ROOT . '/Sample', HOME . '/Sample');
+		copy(LIBRARY . '/Route.php', HOME . '/Sample/Route.php');
 
 		// Create Timestamp File
-		$handle = fopen(POINTLESS_HOME . 'Timestamp', 'w+');
+		$handle = fopen(HOME . '/Timestamp', 'w+');
 		fwrite($handle, BUILD_TIMESTAMP);
 		fclose($handle);
 	}
 }
 
 /**
- * Load Blog Setting
- */
-$status = json_decode(file_get_contents(POINTLESS_HOME . 'Status.json'), TRUE);
-if(!count($status['list']) == 0)
-	define('CURRENT_BLOG', $status['list'][$status['current']]);
-
-/**
  * Load NanoCLI and Setting
  */
-require PLUGIN . 'NanoCLI/src/NanoCLI/Loader.php';
+require VENDOR . '/NanoCLI/src/NanoCLI/Loader.php';
 
-// Register NanoCLI Autoloader
-NanoCLI\Loader::register('NanoCLI', PLUGIN . 'NanoCLI/src');
-NanoCLI\Loader::register('Pointless', ROOT . 'Command');
+NanoCLI\Loader::register('NanoCLI', VENDOR . '/NanoCLI/src');
+NanoCLI\Loader::register('Pointless', ROOT . '/Command');
 
 spl_autoload_register('NanoCLI\Loader::load');
 
 /**
  * Load Twig Template Engine
  */
-require PLUGIN . 'Twig/lib/Twig/Autoloader.php';
+require VENDOR . '/Twig/lib/Twig/Autoloader.php';
 
 Twig_Autoloader::register();
 
+// Run Pointless Command
 $pointless = new Pointless();
 $pointless->init();

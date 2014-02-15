@@ -14,87 +14,80 @@ define('REGEX_RULE', '/^({(?:.|\n)*?})\n((?:.|\n)*)/');
 /**
  * Define Path and Initialize Blog
  */
-function initBlog($current_blog = NULL) {
-	if(NULL !== $current_blog)
-		define('USER_DATA', $current_blog . '/');
-	elseif(defined('CURRENT_BLOG'))
-		define('USER_DATA', CURRENT_BLOG . '/');
-	else
-		return;
+function initBlog() {
+	if(!file_exists(BLOG))
+		mkdir(BLOG, 0755, TRUE);
 
-	if(!file_exists(USER_DATA))
-		mkdir(USER_DATA, 0755, TRUE);
-
-	if(!file_exists(USER_DATA . 'Config.php'))
-		copy(ROOT . 'Sample/Config.php', USER_DATA . 'Config.php');
+	if(!file_exists(BLOG . '/Config.php'))
+		copy(SAMPLE . '/Config.php', BLOG . '/Config.php');
 
 	// Require Config
-	require USER_DATA . 'Config.php';
+	require BLOG . '/Config.php';
 
 	/**
 	 * Markdown
 	 */
-	define('MARKDOWN_FOLDER', USER_DATA . 'Markdown/');
+	define('MARKDOWN', BLOG . '/Markdown');
 
-	if(!file_exists(MARKDOWN_FOLDER)) {
-		mkdir(MARKDOWN_FOLDER, 0755, TRUE);
-		recursiveCopy(ROOT . 'Sample/Markdown', MARKDOWN_FOLDER);
+	if(!file_exists(MARKDOWN)) {
+		mkdir(MARKDOWN, 0755, TRUE);
+		recursiveCopy(ROOT . '/Sample/Markdown', MARKDOWN);
 	}
 
 	/**
 	 * Theme
 	 */
-	define('THEME_FOLDER', USER_DATA . 'Theme/');
-
-	if(!file_exists(THEME_FOLDER)) {
-		mkdir(THEME_FOLDER, 0755, TRUE);
-		recursiveCopy(ROOT . 'Sample/Theme', THEME_FOLDER);
+	if(!file_exists(BLOG . '/Theme')) {
+		mkdir(BLOG . '/Theme', 0755, TRUE);
+		recursiveCopy(ROOT . '/Sample/Theme', BLOG . '/Theme');
 	}
 
-	// Test Theme Path
-	if(file_exists(THEME_FOLDER . BLOG_THEME) && '' != BLOG_THEME)
-		define('THEME_PATH', THEME_FOLDER . BLOG_THEME. '/');
-	elseif(file_exists(ROOT . 'Sample/Theme/' . BLOG_THEME) && '' != BLOG_THEME)
-		define('THEME_PATH', ROOT . 'Sample/Theme/' . BLOG_THEME. '/');
-	else
-		define('THEME_PATH', ROOT . 'Sample/Theme/Classic/');
+	if('' != $config['blog_theme']) {
+		$config['blog_theme'] = 'Classic';
+	}
 
-	define('THEME_JS', THEME_PATH . 'Js/');
-	define('THEME_CSS', THEME_PATH . 'Css/');
-	define('THEME_SCRIPT', THEME_PATH . 'Script/');
-	define('THEME_RESOURCE', THEME_PATH . 'Resource/');
-	define('THEME_TEMPLATE', THEME_PATH . 'Template/');
+	if(file_exists(BLOG . "/Theme/{$config['blog_theme']}"))
+		define('THEME', BLOG . "/Theme/{$config['blog_theme']}");
+	elseif(file_exists(HOME . "/Sample/Theme/{$config['blog_theme']}"))
+		define('THEME', HOME . "/Sample/Theme/{$config['blog_theme']}");
+	else
+		define('THEME', ROOT . '/Sample/Theme/Classic');
+
+	define('THEME_ASSETS', THEME . '/Assets');
+	define('THEME_SCRIPT', THEME . '/Script');
+	define('THEME_RESOURCE', THEME . '/Resource');
+	define('THEME_TEMPLATE', THEME . '/Template');
 
 	/**
 	 * Extension
 	 */
-	define('EXTENSION_FOLDER', USER_DATA . 'Extension/');
+	define('EXTENSION', BLOG . '/Extension');
 
-	if(!file_exists(EXTENSION_FOLDER)) {
-		mkdir(EXTENSION_FOLDER, 0755, TRUE);
-		recursiveCopy(ROOT . 'Sample/Extension', EXTENSION_FOLDER);
+	if(!file_exists(EXTENSION)) {
+		mkdir(EXTENSION, 0755, TRUE);
+		recursiveCopy(ROOT . 'Sample/Extension', EXTENSION);
 	}
 
 	/**
-	 * Public
+	 * Temp
 	 */
-	define('PUBLIC_FOLDER', USER_DATA . 'Public/');
+	define('TEMP', BLOG . '/Temp');
 
-	if(!file_exists(PUBLIC_FOLDER))
-		mkdir(PUBLIC_FOLDER, 0755, TRUE);
+	if(!file_exists(TEMP))
+		mkdir(TEMP, 0755, TRUE);
 
 	/**
 	 * Deploy
 	 */
-	define('DEPLOY_FOLDER', USER_DATA . 'Deploy/');
+	define('DEPLOY', BLOG . '/Deploy');
 
-	if(!file_exists(DEPLOY_FOLDER))
-		mkdir(DEPLOY_FOLDER, 0755, TRUE);
+	if(!file_exists(DEPLOY))
+		mkdir(DEPLOY, 0755, TRUE);
 
 	/**
 	 * Resource
 	 */
-	define('RESOURCE_FOLDER', USER_DATA . 'Resource/');
+	define('RESOURCE_FOLDER', BLOG . '/Resource');
 
 	if(!file_exists(RESOURCE_FOLDER))
 		mkdir(RESOURCE_FOLDER, 0755, TRUE);
@@ -158,7 +151,7 @@ function recursiveCopy($src, $dest) {
 			$handle = @opendir($src);
 			while($file = readdir($handle))
 				if($file != '.' && $file != '..' && $file != '.git')
-					recursiveCopy($src . '/' . $file, $dest . '/' . $file);
+					recursiveCopy("$src/$file", "$dest/$file");
 			closedir($handle);
 		}
 		else
@@ -179,11 +172,11 @@ function recursiveRemove($path = NULL) {
 			$handle = opendir($path);
 			while($file = readdir($handle))
 				if($file != '.' && $file != '..' && $file != '.git')
-					recursiveRemove($path . '/' . $file);
+					recursiveRemove("$path/$file");
 			closedir($handle);
 			
 			if(defined('CURRENT_BLOG'))
-				if($path != PUBLIC_FOLDER && $path != DEPLOY_FOLDER)
+				if($path != TEMP && $path != DEPLOY)
 					return rmdir($path);
 		}
 		else
