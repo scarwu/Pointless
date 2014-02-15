@@ -1,0 +1,9 @@
+[submodule "src/Vendor/Twig"]
+	path = src/Vendor/Twig
+	url = git://github.com/fabpot/Twig.git
+[submodule "src/Vendor/NanoCLI"]
+	path = src/Vendor/NanoCLI
+	url = git://github.com/scarwu/NanoCLI.git
+[submodule "src/Vendor/Markdown"]
+	path = src/Vendor/Markdown
+	url = git://github.com/michelf/php-markdown.git
