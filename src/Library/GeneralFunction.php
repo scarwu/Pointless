@@ -2,10 +2,10 @@
 /**
  * General Function
  * 
- * @package		Pointless
- * @author		ScarWu
- * @copyright	Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
- * @link		http://github.com/scarwu/Pointless
+ * @package     Pointless
+ * @author      ScarWu
+ * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
+ * @link        http://github.com/scarwu/Pointless
  */
 
 /**
@@ -16,12 +16,12 @@
  * @return string
  */
 function bindData($data, $path) {
-	ob_start();
-	include $path;
-	$result = ob_get_contents();
-	ob_end_clean();
-	
-	return $result;
+    ob_start();
+    include $path;
+    $result = ob_get_contents();
+    ob_end_clean();
+    
+    return $result;
 }
 
 /**
@@ -31,22 +31,22 @@ function bindData($data, $path) {
  * @param string
  */
 function writeTo($data, $path) {
-	if(!preg_match('/\.(html|xml)$/', $path)) {
-		if(!file_exists($path))
-			mkdir($path, 0755, TRUE);
-		$path = $path . '/index.html';
-	}
-	else {
-		$segments = explode('/', $path);
-		array_pop($segments);
-		$dirpath = implode($segments, '/');
-		if(!file_exists($dirpath))
-			mkdir($dirpath, 0755, TRUE);
-	}
+    if(!preg_match('/\.(html|xml)$/', $path)) {
+        if(!file_exists($path))
+            mkdir($path, 0755, TRUE);
+        $path = $path . '/index.html';
+    }
+    else {
+        $segments = explode('/', $path);
+        array_pop($segments);
+        $dirpath = implode($segments, '/');
+        if(!file_exists($dirpath))
+            mkdir($dirpath, 0755, TRUE);
+    }
 
-	$handle = fopen($path, 'w+');
-	fwrite($handle, $data);
-	fclose($handle);
+    $handle = fopen($path, 'w+');
+    fwrite($handle, $data);
+    fclose($handle);
 }
 
 /**
@@ -56,19 +56,19 @@ function writeTo($data, $path) {
  * @param string
  */
 function recursiveCopy($src, $dest) {
-	if(file_exists($src)) {
-		if(is_dir($src)) {
-			if(!file_exists($dest))
-				mkdir($dest, 0755, TRUE);
-			$handle = @opendir($src);
-			while($file = readdir($handle))
-				if($file != '.' && $file != '..' && $file != '.git')
-					recursiveCopy("$src/$file", "$dest/$file");
-			closedir($handle);
-		}
-		else
-			copy($src, $dest);
-	}
+    if(file_exists($src)) {
+        if(is_dir($src)) {
+            if(!file_exists($dest))
+                mkdir($dest, 0755, TRUE);
+            $handle = @opendir($src);
+            while($file = readdir($handle))
+                if($file != '.' && $file != '..' && $file != '.git')
+                    recursiveCopy("$src/$file", "$dest/$file");
+            closedir($handle);
+        }
+        else
+            copy($src, $dest);
+    }
 }
 
 /**
@@ -79,21 +79,21 @@ function recursiveCopy($src, $dest) {
  * @return boolean
  */
 function recursiveRemove($path = NULL) {
-	if(file_exists($path)) {
-		if(is_dir($path)) {
-			$handle = opendir($path);
-			while($file = readdir($handle))
-				if($file != '.' && $file != '..' && $file != '.git')
-					recursiveRemove("$path/$file");
-			closedir($handle);
-			
-			if(defined('CURRENT_BLOG'))
-				if($path != TEMP && $path != DEPLOY)
-					return rmdir($path);
-		}
-		else
-			return unlink($path);
-	}
+    if(file_exists($path)) {
+        if(is_dir($path)) {
+            $handle = opendir($path);
+            while($file = readdir($handle))
+                if($file != '.' && $file != '..' && $file != '.git')
+                    recursiveRemove("$path/$file");
+            closedir($handle);
+            
+            if(defined('CURRENT_BLOG'))
+                if($path != TEMP && $path != DEPLOY)
+                    return rmdir($path);
+        }
+        else
+            return unlink($path);
+    }
 }
 
 /**
@@ -103,14 +103,14 @@ function recursiveRemove($path = NULL) {
  * @return array
  */
 function countSort($list) {
-	uasort($list, function($a, $b) {
-		if (count($a) == count($b))
-			return 0;
+    uasort($list, function($a, $b) {
+        if (count($a) == count($b))
+            return 0;
 
-		return count($a)  > count($b) ? -1 : 1;
-	});
-	
-	return $list;
+        return count($a)  > count($b) ? -1 : 1;
+    });
+    
+    return $list;
 }
 
 /**
@@ -120,17 +120,17 @@ function countSort($list) {
  * @return array
  */
 function createDateList($list) {
-	$result = array();
+    $result = array();
 
-	foreach((array)$list as $article) {
-		if(!isset($result[$article['year']]))
-			$result[$article['year']] = array();
-		
-		if(!isset($result[$article['year']][$article['month']]))
-			$result[$article['year']][$article['month']] = array();
-		
-		$result[$article['year']][$article['month']][] = $article;
-	}
+    foreach((array)$list as $article) {
+        if(!isset($result[$article['year']]))
+            $result[$article['year']] = array();
+        
+        if(!isset($result[$article['year']][$article['month']]))
+            $result[$article['year']][$article['month']] = array();
+        
+        $result[$article['year']][$article['month']][] = $article;
+    }
 
-	return $result;
+    return $result;
 }

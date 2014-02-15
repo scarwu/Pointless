@@ -2,10 +2,10 @@
 /**
  * Bootstrap
  * 
- * @package		Pointless
- * @author		ScarWu
- * @copyright	Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
- * @link		http://github.com/scarwu/Pointless
+ * @package     Pointless
+ * @author      ScarWu
+ * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
+ * @link        http://github.com/scarwu/Pointless
  */
 
 // Set default timezone
@@ -26,35 +26,35 @@ require LIBRARY . '/GeneralFunction.php';
 define('HOME', $_SERVER['HOME'] . '/.pointless2');
 
 if(!file_exists(HOME))
-	mkdir(HOME, 0755, TRUE);
+    mkdir(HOME, 0755, TRUE);
 
 if(defined('BUILD_TIMESTAMP')) {
-	$timestamp = file_exists(HOME . '/Timestamp')
-		? file_get_contents(HOME . '/Timestamp')
-		: 0;
+    $timestamp = file_exists(HOME . '/Timestamp')
+        ? file_get_contents(HOME . '/Timestamp')
+        : 0;
 
-	// Check Timestamp and Update Sample Files
-	if(BUILD_TIMESTAMP != $timestamp) {
-		recursiveRemove(HOME . '/Sample');
-		
-		// Copy Sample Files
-		recursiveCopy(ROOT . '/Sample', HOME . '/Sample');
-		copy(LIBRARY . '/Route.php', HOME . '/Sample/Route.php');
+    // Check Timestamp and Update Sample Files
+    if(BUILD_TIMESTAMP != $timestamp) {
+        recursiveRemove(HOME . '/Sample');
+        
+        // Copy Sample Files
+        recursiveCopy(ROOT . '/Sample', HOME . '/Sample');
+        copy(LIBRARY . '/Route.php', HOME . '/Sample/Route.php');
 
-		// Create Timestamp File
-		$handle = fopen(HOME . '/Timestamp', 'w+');
-		fwrite($handle, BUILD_TIMESTAMP);
-		fclose($handle);
-	}
+        // Create Timestamp File
+        $handle = fopen(HOME . '/Timestamp', 'w+');
+        fwrite($handle, BUILD_TIMESTAMP);
+        fclose($handle);
+    }
 }
 
 define('BLOG', HOME . '/Blog');
 
 if(!file_exists(BLOG))
-	mkdir(BLOG, 0755, TRUE);
+    mkdir(BLOG, 0755, TRUE);
 
 if(!file_exists(BLOG . '/Config.php'))
-	copy(SAMPLE . '/Config.php', BLOG . '/Config.php');
+    copy(SAMPLE . '/Config.php', BLOG . '/Config.php');
 
 // Require Config
 require_once BLOG . '/Config.php';
@@ -67,25 +67,25 @@ Resource::set('config', $config);
 define('MARKDOWN', BLOG . '/Markdown');
 
 if(!file_exists(MARKDOWN)) {
-	mkdir(MARKDOWN, 0755, TRUE);
-	recursiveCopy(ROOT . '/Sample/Markdown', MARKDOWN);
+    mkdir(MARKDOWN, 0755, TRUE);
+    recursiveCopy(ROOT . '/Sample/Markdown', MARKDOWN);
 }
 
 /**
  * Theme
  */
 if(!file_exists(BLOG . '/Theme')) {
-	mkdir(BLOG . '/Theme', 0755, TRUE);
-	recursiveCopy(ROOT . '/Sample/Theme', BLOG . '/Theme');
+    mkdir(BLOG . '/Theme', 0755, TRUE);
+    recursiveCopy(ROOT . '/Sample/Theme', BLOG . '/Theme');
 }
 
 if('' == $config['blog_theme'])
-	$config['blog_theme'] = 'Classic';
+    $config['blog_theme'] = 'Classic';
 
 if(file_exists(BLOG . "/Theme/{$config['blog_theme']}"))
-	define('THEME', BLOG . "/Theme/{$config['blog_theme']}");
+    define('THEME', BLOG . "/Theme/{$config['blog_theme']}");
 else
-	define('THEME', ROOT . '/Sample/Theme/Classic');
+    define('THEME', ROOT . '/Sample/Theme/Classic');
 
 /**
  * Extension
@@ -93,7 +93,7 @@ else
 define('EXTENSION', BLOG . '/Extension');
 
 if(!file_exists(EXTENSION)) {
-	mkdir(EXTENSION, 0755, TRUE);
+    mkdir(EXTENSION, 0755, TRUE);
 }
 
 /**
@@ -102,7 +102,7 @@ if(!file_exists(EXTENSION)) {
 define('RESOURCE', BLOG . '/Resource');
 
 if(!file_exists(RESOURCE))
-	mkdir(RESOURCE, 0755, TRUE);
+    mkdir(RESOURCE, 0755, TRUE);
 
 // Set Time Zone
 date_default_timezone_set($config['timezone']);
