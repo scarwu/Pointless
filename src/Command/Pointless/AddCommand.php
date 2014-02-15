@@ -27,10 +27,10 @@ class AddCommand extends Command {
     public function run() {
         $config = Resource::get('config');
         
-        $info = array(
+        $info = [
             'title' => IO::question("Enter Title:\n-> "),
             'url' => IO::question("Enter Custom Url:\n-> ")
-        );
+        ];
 
         if(!$this->hasOptions('s')) {
             $info['tag'] = IO::question("Enter Tag:\n-> ");
@@ -42,7 +42,7 @@ class AddCommand extends Command {
                 $info[$key] = iconv($config['local_encoding'], 'utf-8', $value);
 
         if($this->hasOptions('s')) {
-            $filename = str_replace(array('\\', '/', ' '), '-', $info['title']);
+            $filename = str_replace(['\\', '/', ' '], '-', $info['title']);
             $filename = 'static_' . strtolower($filename) . '.md';
             $filepath = MARKDOWN . "/$filename";
 

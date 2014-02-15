@@ -16,7 +16,7 @@ class HTMLGenerator {
     private $script;
     
     public function __construct() {
-        $this->script = array();
+        $this->script = [];
     }
     
     /**
@@ -55,15 +55,15 @@ class HTMLGenerator {
      * Generate Block
      */
     private function genBlock() {
-        $filter = array('.', '..', 'Container', 'index.php');
-        $block = array();
+        $filter = ['.', '..', 'Container', 'index.php'];
+        $block = [];
 
         $block_handle = opendir(THEME . '/Template');
         while($block_name = readdir($block_handle)) {
             if(in_array($block_name, $filter))
                 continue;
 
-            $file_list = array();
+            $file_list = [];
 
             $handle = opendir(THEME . "/Template/$block_name");
             while($file = readdir($handle)) {
@@ -78,7 +78,7 @@ class HTMLGenerator {
 
             $result = '';
             foreach((array)$file_list as $file) {
-                $script_name = preg_replace(array('/^\d+_/', '/.php$/'), '', $file);
+                $script_name = preg_replace(['/^\d+_/', '/.php$/'], '', $file);
                 $list = isset($this->script[$script_name]) ? $this->script[$script_name]->getList() : null;
                 $result .= bindData($list, THEME . "/Template/$block_name/$file");
             }

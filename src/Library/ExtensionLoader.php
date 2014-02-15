@@ -16,7 +16,7 @@ class ExtensionLoader {
     private $extension;
 
     public function __construct() {
-        $this->extension = array();
+        $this->extension = [];
     }
 
     /**

@@ -21,8 +21,8 @@ class Compress {
     private $js_list;
 
     public function __construct() {
-        $this->css_list = array();
-        $this->js_list = array();
+        $this->css_list = [];
+        $this->js_list = [];
     }
 
     /**
@@ -64,8 +64,8 @@ class Compress {
         $css = preg_replace('/\/\*.+?\*\//', '', $css);
         $css = preg_replace('/[ ]+/', ' ', $css);
         $css = str_replace(
-            array(' ,', ', ', ': ', ' :', ' {', '{ ', ' }', '} ', ' ;', '; '),
-            array(',', ',', ':', ':', '{', '{', '}', '}', ';', ';'),
+            [' ,', ', ', ': ', ' :', ' {', '{ ', ' }', '} ', ' ;', '; '],
+            [',', ',', ':', ':', '{', '{', '}', '}', ';', ';'],
             $css
         );
         return $css;

@@ -62,7 +62,7 @@ function recursiveCopy($src, $dest) {
                 mkdir($dest, 0755, TRUE);
             $handle = @opendir($src);
             while($file = readdir($handle))
-                if($file != '.' && $file != '..' && $file != '.git')
+                if(!in_array($file, ['.', '..', '.git']))
                     recursiveCopy("$src/$file", "$dest/$file");
             closedir($handle);
         }
@@ -82,55 +82,16 @@ function recursiveRemove($path = NULL) {
     if(file_exists($path)) {
         if(is_dir($path)) {
             $handle = opendir($path);
-            while($file = readdir($handle))
-                if($file != '.' && $file != '..' && $file != '.git')
+            while($file = readdir($handle)) {
+                if(!in_array($file, ['.', '..', '.git']))
                     recursiveRemove("$path/$file");
+            }
             closedir($handle);
             
-            if(defined('CURRENT_BLOG'))
-                if($path != TEMP && $path != DEPLOY)
-                    return rmdir($path);
+            if($path != TEMP && $path != DEPLOY)
+                return rmdir($path);
         }
         else
             return unlink($path);
     }
-}
-
-/**
- * Sort Using Article's Count
- *
- * @param array
- * @return array
- */
-function countSort($list) {
-    uasort($list, function($a, $b) {
-        if (count($a) == count($b))
-            return 0;
-
-        return count($a)  > count($b) ? -1 : 1;
-    });
-    
-    return $list;
-}
-
-/**
- * Create Date List Using Article
- *
- * @param array
- * @return array
- */
-function createDateList($list) {
-    $result = array();
-
-    foreach((array)$list as $article) {
-        if(!isset($result[$article['year']]))
-            $result[$article['year']] = array();
-        
-        if(!isset($result[$article['year']][$article['month']]))
-            $result[$article['year']][$article['month']] = array();
-        
-        $result[$article['year']][$article['month']][] = $article;
-    }
-
-    return $result;
 }

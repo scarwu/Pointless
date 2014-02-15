@@ -27,10 +27,10 @@ class EditCommand extends Command {
     public function run() {
         $config = Resource::get('config');
 
-        $data = array();
+        $data = [];
         $handle = opendir(MARKDOWN);
         while($filename = readdir($handle)) {
-            if('.' == $filename || '..' == $filename)
+            if('.' == $filename || '..' == $filename || !preg_match('/.md$/', $filename))
                 continue;
 
             preg_match(REGEX_RULE, file_get_contents(MARKDOWN . "/$filename"), $match);

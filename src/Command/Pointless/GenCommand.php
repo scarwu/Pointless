@@ -36,11 +36,11 @@ class GenCommand extends Command {
         require LIBRARY . '/ExtensionLoader.php';
         require VENDOR . '/Markdown/Michelf/MarkdownExtra.inc.php';
 
-        $config = Resource::get('config');
+        $this->config = Resource::get('config');
         $start = microtime(TRUE);
 
         // Check Folder
-        define(TEMP, BLOG . '/Temp');
+        define('TEMP', BLOG . '/Temp');
         if(!file_exists(TEMP)) {
             mkdir(TEMP, 0755, TRUE);
         }
@@ -85,10 +85,10 @@ class GenCommand extends Command {
         fclose($handle);
 
         // Create Github CNAME
-        if($config['github_cname']) {
+        if($this->config['github_cname']) {
             IO::writeln('Create Github CNAME ...', 'yellow');
             $handle = fopen(TEMP . '/CNAME', 'w+');
-            fwrite($handle, $config['blog_dn']);
+            fwrite($handle, $this->config['blog_dn']);
             fclose($handle);
         }
 
@@ -128,7 +128,7 @@ class GenCommand extends Command {
      * Initialize Resource Pool
      */
     private function initResourcePool() {
-        $article = array();
+        $article = [];
 
         // Handle Markdown
         IO::writeln('Load and Initialize Markdown');
@@ -146,12 +146,12 @@ class GenCommand extends Command {
             }
 
             if('static' == $temp['type']) {
-                Resource::append('static', array(
+                Resource::append('static', [
                     'title' => $temp['title'],
                     'url' => $temp['url'],
                     'content' => MarkdownExtra::defaultTransform($match[2]),
                     'message' => isset($temp['message']) ? $temp['message'] : TRUE
-                ));
+                ]);
             }
 
             if('article' == $temp['type']) {
@@ -163,7 +163,7 @@ class GenCommand extends Command {
                 $timestamp = strtotime("$date[2]-$date[1]-$date[0] {$temp['time']}");
 
                 // Generate custom url
-                $url = trim($config['article_url'], '/');
+                $url = trim($this->config['article_url'], '/');
                 $url = str_replace([
                     ':year', ':month', ':day',
                     ':hour', ':minute', ':second', ':timestamp',
@@ -174,7 +174,7 @@ class GenCommand extends Command {
                     $temp['title'], $temp['url']
                 ], $url);
 
-                $article[] = array(
+                $article[$timestamp] = [
                     'title' => $temp['title'],
                     'url' => $url,
                     'content' => MarkdownExtra::defaultTransform($match[2]),
@@ -191,18 +191,12 @@ class GenCommand extends Command {
                     'second' => $time[2],
                     'timestamp' => $timestamp,
                     'message' => isset($temp['message']) ? $temp['message'] : TRUE
-                );
+                ];
             }
         }
         closedir($handle);
 
-        usort($article, function($a, $b) {
-            if ($a['timestamp'] == $b['timestamp'])
-                return 0;
-
-            return $a['timestamp'] > $b['timestamp'] ? -1 : 1;
-        });
-
+        ksort($article);
         Resource::set('article', $article);
     }
 }

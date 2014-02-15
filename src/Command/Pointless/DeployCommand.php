@@ -32,7 +32,7 @@ class DeployCommand extends Command {
         }
 
         // Check Folder
-        define(DEPLOY, BLOG . '/Deploy');
+        define('DEPLOY', BLOG . '/Deploy');
         if(!file_exists(DEPLOY)) {
             mkdir(DEPLOY, 0755, TRUE);
         }

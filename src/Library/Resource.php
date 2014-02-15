@@ -13,7 +13,7 @@ class Resource {
     /**
      * @var array
      */
-    private static $resource = array();
+    private static $resource = [];
 
     private function __construct() {}
 
@@ -45,7 +45,7 @@ class Resource {
      */
     public static function append($index, $data) {
         if(!isset(self::$resource[$index]))
-            self::$resource[$index] = array();
+            self::$resource[$index] = [];
 
         self::$resource[$index][] = $data;
     }
