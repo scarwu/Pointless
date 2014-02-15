@@ -1,68 +1,72 @@
 <?php
-// Blog Name
-define('BLOG_NAME', 'Pointless');
 
-// Blog Slogan
-define('BLOG_SLOGAN', 'The Static Blog Generator');
+$config = {
+	// Blog Name
+	'BLOG_NAME' = 'Pointless',
 
-// Blog Description
-define('BLOG_DESCRIPTION', '');
+	// Blog Slogan
+	'BLOG_SLOGAN' = 'The Static Blog Generator',
 
-// Blog Key Words
-define('BLOG_KEYWORDS', '');
+	// Blog Description
+	'BLOG_DESCRIPTION' = '',
 
-// Blog Footer
-define('BLOG_FOOTER', 'Powerd By Pointless');
+	// Blog Key Words
+	'BLOG_KEYWORDS' = '',
 
-// Blog Language
-// en | zh-tw | zh-cn | other
-define('BLOG_LANG', 'en');
+	// Blog Footer
+	'BLOG_FOOTER' = 'Powerd By Pointless',
 
-// Blog Path - If blog is't put on root then modify this
-define('BLOG_PATH', '/');
+	// Blog Language
+	// en | zh-tw | zh-cn | other
+	'BLOG_LANG' = 'en',
 
-// Blog Domain Name - For google search
-define('BLOG_DNS', 'localhost');
+	// Blog Path - If blog is't put on root then modify this
+	'BLOG_PATH' = '/',
 
-// Blog Theme
-define('BLOG_THEME', 'Classic');
+	// Blog Domain Name - For google search
+	'BLOG_DNS' = 'localhost',
 
-// Author Name
-define('AUTHOR_NAME', NULL);
+	// Blog Theme
+	'BLOG_THEME' = 'Classic',
 
-// Author Email
-define('AUTHOR_EMAIL', NULL);
+	// Author Name
+	'AUTHOR_NAME' = NULL,
 
-// RSS' or Atom's Article Quantity
-define('RSS_ATOM_QUANTITY', 5);
+	// Author Email
+	'AUTHOR_EMAIL' = NULL,
 
-// Article Quantity
-define('ARTICLE_QUANTITY', 10);
+	// RSS' or Atom's Article Quantity
+	'RSS_ATOM_QUANTITY' = 5,
 
-// Article URL Format
-// :year, :month, :day
-// :hour, :minute, :second, :timestamp
-// :title, :url
-define('ARTICLE_URL', ':year/:month/:day/:url');
+	// Article Quantity
+	'ARTICLE_QUANTITY' = 10,
 
-// Disqus Shrotname
-define('DISQUS_SHORTNAME', NULL);
+	// Article URL Format
+	// :year, :month, :day
+	// :hour, :minute, :second, :timestamp
+	// :title, :url
+	'ARTICLE_URL' = ':year/:month/:day/:url',
 
-// Google Analystic - UA-xxxxxxxx-x
-define('GOOGLE_ANALYSTIC', NULL);
+	// Disqus Shrotname
+	'DISQUS_SHORTNAME' = NULL,
 
-// Github Deployment Setting
-define('GITHUB_ACCOUNT', NULL);
-define('GITHUB_REPO', NULL);
-define('GITHUB_BRANCH', NULL);
-define('GITHUB_CNAME', FALSE);
+	// Google Analystic - UA-xxxxxxxx-x
+	'GOOGLE_ANALYSTIC' = NULL,
 
-// Local Encoding - For console, If your environment encoding is't utf-8 then modify this
-// Big5 | GBK | other
-define('LOCAL_ENCODING', NULL);
+	// Github Deployment Setting
+	'GITHUB_ACCOUNT' = NULL,
+	'GITHUB_REPO' = NULL,
+	'GITHUB_BRANCH' = NULL,
+	'GITHUB_CNAME' = FALSE,
 
-// Default file editor
-define('FILE_EDITOR', 'vi');
+	// Local Encoding - For console,
+	// If your environment encoding is't utf-8 then modify this
+	// Big5 | GBK | other
+	'LOCAL_ENCODING' = NULL,
 
-// Time Zone
-define('TIMEZONE', 'Asia/Taipei');
+	// Default file editor
+	'FILE_EDITOR' = 'vi',
+
+	// Time Zone
+	'TIMEZONE' = 'Asia/Taipei'
+};

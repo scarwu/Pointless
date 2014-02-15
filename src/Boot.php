@@ -22,7 +22,7 @@ require LIBRARY . 'GeneralFunction.php';
 /**
  * User Data
  */
-define('POINTLESS_HOME', $_SERVER['HOME'] . '/.pointless/');
+define('POINTLESS_HOME', $_SERVER['HOME'] . '/.pointless2/');
 
 if(!file_exists(POINTLESS_HOME))
 	mkdir(POINTLESS_HOME, 0755, TRUE);
@@ -73,6 +73,13 @@ NanoCLI\Loader::register('NanoCLI', PLUGIN . 'NanoCLI/src');
 NanoCLI\Loader::register('Pointless', ROOT . 'Command');
 
 spl_autoload_register('NanoCLI\Loader::load');
+
+/**
+ * Load Twig Template Engine
+ */
+require PLUGIN . 'Twig/lib/Twig/Autoloader.php';
+
+Twig_Autoloader::register();
 
 $pointless = new Pointless();
 $pointless->init();
