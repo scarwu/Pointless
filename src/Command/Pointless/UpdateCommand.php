@@ -20,7 +20,7 @@ class UpdateCommand extends Command {
 
 	public function help() {
 		IO::writeln('    update     - Self-update');
-		IO::writeln('    update -u  - Use unstable version');
+		IO::writeln('    update -d  - Use development version');
 	}
 	
 	public function run() {
@@ -29,7 +29,7 @@ class UpdateCommand extends Command {
 			return;
 		}
 
-		$branch = $this->hasOptions('u') ? 'develop' : 'master';
+		$branch = $this->hasOptions('d') ? 'develop' : 'master';
 		$remote = "https://raw.github.com/scarwu/Pointless/$branch/bin/poi";
 		$path = defined('BIN_LOCATE') ? BIN_LOCATE : '/usr/local/bin';
 
@@ -47,7 +47,7 @@ class UpdateCommand extends Command {
 		system('chmod +x /tmp/poi');
 
 		// Reset Timestamp
-		$handle = fopen(POINTLESS_HOME . 'Timestamp', 'w+');
+		$handle = fopen(HOME . 'Timestamp', 'w+');
 		fwrite($handle, '0');
 		fclose($handle);
 

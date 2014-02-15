@@ -18,6 +18,7 @@ class Atom {
 	public function run() {
 		IO::writeln('Building Atom');
 
+		$config = Resource::get('config');
 		$count = 0;
 
 		$atom = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
@@ -64,7 +65,7 @@ class Atom {
 
 		$atom .= "</feed>";
 
-		writeTo($atom, PUBLIC_FOLDER . 'atom.xml');
+		writeTo($atom, TEMP . '/atom.xml');
 	}
 
 	/**

@@ -9,20 +9,7 @@ A Useful Static Blog Generator
 
 ### Requirement
 
-* PHP 5.3+
-
-### Features & Supported
-
-* [Using CLI Mode](https://github.com/scarwu/NanoCLI)
-* Multi-Blog Switch
-* Lightweight & Easy
-* Built-in web server for Preview
-* [CSS Compressor](https://github.com/scarwu/CssCompress)
-* [Makrdown](https://github.com/michelf/php-markdown)
-* [Syntax Highlight](https://github.com/isagalaev/highlight.js)
-* Github CNAME
-* Google Analystics
-* DISQUS Comment System
+* PHP 5.4+
 
 ### Install
 
@@ -34,7 +21,6 @@ A Useful Static Blog Generator
 
 ## Demo Site
 
-* [Pointless Demo](http://scar.simcz.tw/Pointless/)
 * [ScarShow](http://scar.simcz.tw/)
 
 ## For More

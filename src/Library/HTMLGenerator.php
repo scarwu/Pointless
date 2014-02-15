@@ -58,14 +58,14 @@ class HTMLGenerator {
 		$filter = array('.', '..', 'Container', 'index.php');
 		$block = array();
 
-		$block_handle = opendir(THEME_TEMPLATE);
+		$block_handle = opendir(THEME . '/Template');
 		while($block_name = readdir($block_handle)) {
 			if(in_array($block_name, $filter))
 				continue;
 
 			$file_list = array();
 
-			$handle = opendir(THEME_TEMPLATE . $block_name);
+			$handle = opendir(THEME . "/Template/$block_name");
 			while($file = readdir($handle)) {
 				if('.' == $file || '..' == $file)
 					continue;
@@ -80,7 +80,7 @@ class HTMLGenerator {
 			foreach((array)$file_list as $file) {
 				$script_name = preg_replace(array('/^\d+_/', '/.php$/'), '', $file);
 				$list = isset($this->script[$script_name]) ? $this->script[$script_name]->getList() : null;
-				$result .= bindData($list, THEME_TEMPLATE . $block_name . '/' . $file);
+				$result .= bindData($list, THEME . "/Template/$block_name/$file");
 			}
 
 			$block[strtolower($block_name)] = $result;

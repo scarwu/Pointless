@@ -12,6 +12,7 @@ namespace Pointless;
 
 use NanoCLI\Command;
 use NanoCLI\IO;
+use Resource;
 
 class DeleteCommand extends Command {
 	public function __construct() {
@@ -24,21 +25,15 @@ class DeleteCommand extends Command {
 	}
 
 	public function run() {
-		if(!defined('CURRENT_BLOG')) {
-			IO::writeln('Please use "poi init <blog name>" to initialize blog.', 'red');
-			return;
-		}
-
-		// Initialize Blog
-		initBlog();
+		$config = Resource::get('config');
 
 		$data = array();
-		$handle = opendir(MARKDOWN_FOLDER);
+		$handle = opendir(MARKDOWN);
 		while($filename = readdir($handle)) {
 			if('.' == $filename || '..' == $filename)
 				continue;
 
-			preg_match(REGEX_RULE, file_get_contents(MARKDOWN_FOLDER . $filename), $match);
+			preg_match(REGEX_RULE, file_get_contents(MARKDOWN . "/$filename"), $match);
 			$temp = json_decode($match[1], TRUE);
 
 			if($this->hasOptions('s')) {
@@ -46,7 +41,7 @@ class DeleteCommand extends Command {
 					continue;
 
 				$data[$temp['title']]['title'] = $temp['title'];
-				$data[$temp['title']]['path'] = MARKDOWN_FOLDER . $filename;
+				$data[$temp['title']]['path'] = MARKDOWN . "/$filename";
 			}
 			else {
 				if('article' != $temp['type'])
@@ -56,7 +51,7 @@ class DeleteCommand extends Command {
 
 				$data[$index]['title'] = $temp['title'];
 				$data[$index]['date'] = $temp['date'];
-				$data[$index]['path'] = MARKDOWN_FOLDER . $filename;
+				$data[$index]['path'] = MARKDOWN . "/$filename";
 			}
 		}
 		closedir($handle);

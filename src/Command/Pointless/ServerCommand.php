@@ -25,14 +25,6 @@ class ServerCommand extends Command {
 	}
 	
 	public function run() {
-		if(!defined('CURRENT_BLOG')) {
-			IO::writeln('Please use "poi init <blog name>" to initialize blog.', 'red');
-			return;
-		}
-
-		// Initialize Blog
-		initBlog();
-		
 		list($major, $minor, $release) = explode('.', PHP_VERSION);
 		$version = $major * 10000 + $minor *100 + $release;
 
@@ -41,9 +33,9 @@ class ServerCommand extends Command {
 			return;
 		}
 
-		$route_script = (defined('BUILD_TIMESTAMP') ? POINTLESS_HOME . 'Sample/' : LIBRARY) . 'Route.php';
+		$route_script = (defined('BUILD_TIMESTAMP') ? HOME . '/Sample' : LIBRARY) . '/Route.php';
 		$port = $this->hasConfigs() ? $this->getConfigs('port') : 3000;
 
-		system(sprintf("php -S localhost:$port -t %s $route_script < `tty` > `tty`", POINTLESS_HOME));
+		system(sprintf("php -S localhost:$port -t %s $route_script < `tty` > `tty`", HOME));
 	}
 }

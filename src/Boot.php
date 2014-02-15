@@ -17,13 +17,13 @@ date_default_timezone_set('Etc/UTC');
 define('VENDOR', ROOT . '/Vendor');
 define('LIBRARY', ROOT . '/Library');
 
+require LIBRARY . '/Resource.php';
 require LIBRARY . '/GeneralFunction.php';
 
 /**
- * User Data
+ * Define Path and Initialize Blog
  */
 define('HOME', $_SERVER['HOME'] . '/.pointless2');
-define('BLOG', HOME . '/Blog');
 
 if(!file_exists(HOME))
 	mkdir(HOME, 0755, TRUE);
@@ -47,6 +47,68 @@ if(defined('BUILD_TIMESTAMP')) {
 		fclose($handle);
 	}
 }
+
+define('BLOG', HOME . '/Blog');
+
+if(!file_exists(BLOG))
+	mkdir(BLOG, 0755, TRUE);
+
+if(!file_exists(BLOG . '/Config.php'))
+	copy(SAMPLE . '/Config.php', BLOG . '/Config.php');
+
+// Require Config
+require_once BLOG . '/Config.php';
+
+Resource::set('config', $config);
+
+/**
+ * Markdown
+ */
+define('MARKDOWN', BLOG . '/Markdown');
+
+if(!file_exists(MARKDOWN)) {
+	mkdir(MARKDOWN, 0755, TRUE);
+	recursiveCopy(ROOT . '/Sample/Markdown', MARKDOWN);
+}
+
+/**
+ * Theme
+ */
+if(!file_exists(BLOG . '/Theme')) {
+	mkdir(BLOG . '/Theme', 0755, TRUE);
+	recursiveCopy(ROOT . '/Sample/Theme', BLOG . '/Theme');
+}
+
+if('' == $config['blog_theme'])
+	$config['blog_theme'] = 'Classic';
+
+if(file_exists(BLOG . "/Theme/{$config['blog_theme']}"))
+	define('THEME', BLOG . "/Theme/{$config['blog_theme']}");
+else
+	define('THEME', ROOT . '/Sample/Theme/Classic');
+
+/**
+ * Extension
+ */
+define('EXTENSION', BLOG . '/Extension');
+
+if(!file_exists(EXTENSION)) {
+	mkdir(EXTENSION, 0755, TRUE);
+}
+
+/**
+ * Resource
+ */
+define('RESOURCE', BLOG . '/Resource');
+
+if(!file_exists(RESOURCE))
+	mkdir(RESOURCE, 0755, TRUE);
+
+// Set Time Zone
+date_default_timezone_set($config['timezone']);
+
+// Define Regular Expression Rule
+define('REGEX_RULE', '/^({(?:.|\n)*?})\n((?:.|\n)*)/');
 
 /**
  * Load NanoCLI and Setting

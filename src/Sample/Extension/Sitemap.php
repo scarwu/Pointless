@@ -18,6 +18,7 @@ class Sitemap {
 	public function run() {
 		IO::writeln('Building Sitemap');
 
+		$config = Resource::get('config');
 		$format = "\t<url>\n\t\t<loc>http://%s%s%s</loc>\n\t\t<lastmod>%s</lastmod>\n\t</url>\n";
 
 		$sitemap = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
@@ -30,6 +31,6 @@ class Sitemap {
 		$sitemap .= sprintf($format, BLOG_DNS, BLOG_PATH, '', date(DATE_ATOM));
 		$sitemap .= "</urlset>";
 
-		writeTo($sitemap, PUBLIC_FOLDER . 'sitemap.xml');
+		writeTo($sitemap, TEMP . '/sitemap.xml');
 	}
 }

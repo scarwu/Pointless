@@ -12,8 +12,8 @@ namespace Pointless;
 
 use NanoCLI\Command;
 use NanoCLI\IO;
-use Compress;
 use Resource;
+use Compress;
 use HTMLGenerator;
 use ExtensionLoader;
 use Michelf\MarkdownExtra;
@@ -32,14 +32,18 @@ class GenCommand extends Command {
 	public function run() {
 		require LIBRARY . '/Helper.php';
 		require LIBRARY . '/Compress.php';
-		require LIBRARY . '/Resource.php';
 		require LIBRARY . '/HTMLGenerator.php';
 		require LIBRARY . '/ExtensionLoader.php';
 		require VENDOR . '/Markdown/Michelf/MarkdownExtra.inc.php';
 
-		// Initialize Blog
-		$this->config = initBlog();
+		$config = Resource::get('config');
 		$start = microtime(TRUE);
+
+		// Check Folder
+		define(TEMP, BLOG . '/Temp');
+		if(!file_exists(TEMP)) {
+			mkdir(TEMP, 0755, TRUE);
+		}
 
 		if($this->hasOptions('css')) {
 			if(file_exists(TEMP . '/main.css'))
@@ -81,10 +85,10 @@ class GenCommand extends Command {
 		fclose($handle);
 
 		// Create Github CNAME
-		if($this->config['github_cname']) {
+		if($config['github_cname']) {
 			IO::writeln('Create Github CNAME ...', 'yellow');
 			$handle = fopen(TEMP . '/CNAME', 'w+');
-			fwrite($handle, $this->config['blog_dn']);
+			fwrite($handle, $config['blog_dn']);
 			fclose($handle);
 		}
 
@@ -159,20 +163,16 @@ class GenCommand extends Command {
 				$timestamp = strtotime("$date[2]-$date[1]-$date[0] {$temp['time']}");
 
 				// Generate custom url
-				$url = str_replace(
-					array(
-						':year', ':month', ':day',
-						':hour', ':minute', ':second', ':timestamp',
-						':title', ':url'
-					),
-					array(
-						$date[0], $date[1], $date[2],
-						$time[0], $time[1], $time[2], $timestamp,
-						$temp['title'], $temp['url']
-					),
-					$this->config['article_url']
-				);
-				$url = trim($url, '/');
+				$url = trim($config['article_url'], '/');
+				$url = str_replace([
+					':year', ':month', ':day',
+					':hour', ':minute', ':second', ':timestamp',
+					':title', ':url'
+				], [
+					$date[0], $date[1], $date[2],
+					$time[0], $time[1], $time[2], $timestamp,
+					$temp['title'], $temp['url']
+				], $url);
 
 				$article[] = array(
 					'title' => $temp['title'],

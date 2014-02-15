@@ -12,6 +12,7 @@ namespace Pointless;
 
 use NanoCLI\Command;
 use NanoCLI\IO;
+use Resource;
 
 class ConfigCommand extends Command {
 	public function __construct() {
@@ -19,14 +20,9 @@ class ConfigCommand extends Command {
 	}
 	
 	public function run() {
-		if(!defined('CURRENT_BLOG')) {
-			IO::writeln('Please use "poi init <blog name>" to initialize blog.', 'red');
-			return;
-		}
-		
-		// Initialize Blog
-		initBlog();
-		
-		system(sprintf("%s %s < `tty` > `tty`", FILE_EDITOR, USER_DATA . 'Config.php'));
+		$config = Resource::get('config');
+		$file = BLOG . '/Config.php';
+
+		system("{$config['editor']} $file < `tty` > `tty`");
 	}
 }

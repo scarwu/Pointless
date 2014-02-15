@@ -8,16 +8,16 @@
  * @link		http://github.com/scarwu/Pointless
  */
 
-$status = json_decode(file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/Status.json'), TRUE);
+define('BLOG', $_SERVER['DOCUMENT_ROOT'] . '/Blog');
 
-require $status['list'][$status['current']] . '/Config.php';
-$path = $status['list'][$status['current']] . '/Public/';
+require BLOG . '/Config.php';
+$path = BLOG . '/Temp';
 
-$pattern = '/^' . str_replace('/', '\/', BLOG_PATH) . '/';
+$pattern = '/^' . str_replace('/', '\/', $config['blog_base']) . '/';
 if(!preg_match($pattern, $_SERVER['REQUEST_URI']))
-	header("Location:http://{$_SERVER['HTTP_HOST']}" . BLOG_PATH);
+	header("Location:http://{$_SERVER['HTTP_HOST']}" . $config['blog_base']);
 
-$pattern = '/^' . str_replace('/', '\/', BLOG_PATH) . '(.+)/';
+$pattern = '/^' . str_replace('/', '\/', $config['blog_base']) . '(.+)/';
 if(preg_match($pattern, $_SERVER['REQUEST_URI'], $match))
 	$path .= urldecode($match[1]);
 

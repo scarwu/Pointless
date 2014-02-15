@@ -12,6 +12,7 @@ namespace Pointless;
 
 use NanoCLI\Command;
 use NanoCLI\IO;
+use Resource;
 
 class DeployCommand extends Command {
 	public function __construct() {
@@ -19,33 +20,37 @@ class DeployCommand extends Command {
 	}
 	
 	public function run() {
-		if(!defined('CURRENT_BLOG')) {
-			IO::writeln('Please use "poi init <blog name>" to initialize blog.', 'red');
-			return;
-		}
+		$config = Resource::get('config');
+
+		$account = $config['github_account'];
+		$repo = $config['github_repo']
+		$branch = $config['github_branch']
 		
-		// Initialize Blog
-		initBlog();
-		
-		if(NULL == GITHUB_ACCOUNT || NULL == GITHUB_REPO || NULL == GITHUB_BRANCH) {
+		if(NULL == $account || NULL == $repo || NULL == $branch) {
 			IO::writeln('Please add Github setting in Pointless config.', 'red');
 			return;
 		}
 
-		chdir(DEPLOY_FOLDER);
-
-		if(!file_exists(DEPLOY_FOLDER . '.git')) {
-			system('git init');
-			system('git remote add origin git@github.com:' . GITHUB_ACCOUNT . '/' . GITHUB_REPO. '.git');
+		// Check Folder
+		define(DEPLOY, BLOG . '/Deploy');
+		if(!file_exists(DEPLOY)) {
+			mkdir(DEPLOY, 0755, TRUE);
 		}
 
-		system('git pull origin ' . GITHUB_BRANCH);
+		chdir(DEPLOY);
 
-		recursiveRemove(DEPLOY_FOLDER);
-		recursiveCopy(PUBLIC_FOLDER, DEPLOY_FOLDER);
+		if(!file_exists(DEPLOY . '.git')) {
+			system('git init');
+			system("git remote add origin git@github.com:$account/$repo.git");
+		}
+
+		system("git pull origin $branch");
+
+		recursiveRemove(DEPLOY);
+		recursiveCopy(TEMP, DEPLOY);
 
 		system('git add --all .');
 		system(sprintf('git commit -m "%s"', date(DATE_RSS)));
-		system('git push origin '. GITHUB_BRANCH);
+		system("git push origin $branch");
 	}
 }
