@@ -34,11 +34,13 @@ class Atom {
         if(NULL != $config['author_name'] || NULL != $config['author_email']) {
             $atom .= "\t<author>\n";
 
-            if(NULL != $config['author_name'])
+            if(NULL != $config['author_name']) {
                 $atom .= "\t\t<name><![CDATA[{$config['author_name']}]]></name>\n";
+            }
 
-            if(NULL != $config['author_email'])
+            if(NULL != $config['author_email']) {
                 $atom .= "\t\t<email>{$config['author_email']}</email>\n";
+            }
 
             $atom .= "\t\t<uri>http://{$config['blog_url']}</uri>\n";
             $atom .= "\t</author>\n";

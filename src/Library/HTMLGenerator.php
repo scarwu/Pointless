@@ -30,8 +30,9 @@ class HTMLGenerator {
         // Generate Block
         $this->genBlock();
 
-        foreach((array)$this->script as $class)
+        foreach((array)$this->script as $class) {
             $class->gen();
+        }
     }
 
     /**

@@ -40,8 +40,9 @@ class GenCommand extends Command {
         $start = microtime(TRUE);
 
         if($this->hasOptions('css')) {
-            if(file_exists(TEMP . '/main.css'))
+            if(file_exists(TEMP . '/main.css')) {
                 unlink(TEMP . '/main.css');
+            }
 
             IO::writeln('Compress CSS ...', 'yellow');
             $Compress = new Compress();
@@ -54,8 +55,9 @@ class GenCommand extends Command {
         }
 
         if($this->hasOptions('js')) {
-            if(file_exists(TEMP . '/main.js'))
+            if(file_exists(TEMP . '/main.js')) {
                 unlink(TEMP . '/main.js');
+            }
 
             IO::writeln('Compress Javascript ...', 'yellow');
             $Compress = new Compress();
@@ -90,8 +92,9 @@ class GenCommand extends Command {
         IO::writeln('Copy Resource Files ...', 'yellow');
         recursiveCopy(RESOURCE, TEMP);
         
-        if(file_exists(THEME . '/Resource'))
+        if(file_exists(THEME . '/Resource')) {
             recursiveCopy(THEME . '/Resource', TEMP . '/theme');
+        }
 
         // Compress CSS and JavaScript
         IO::writeln('Compress CSS & Javascript ...', 'yellow');
@@ -154,7 +157,7 @@ class GenCommand extends Command {
 
                 $date = explode('-', $temp['date']);
                 $time = explode(':', $temp['time']);
-                $timestamp = strtotime("$date[2]-$date[1]-$date[0] {$temp['time']}");
+                $timestamp = strtotime("{$date[2]}-{$date[1]}-{$date[0]} {$temp['time']}");
 
                 // Generate custom url
                 $url = trim($this->config['article_url'], '/');

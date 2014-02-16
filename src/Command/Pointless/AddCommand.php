@@ -37,9 +37,11 @@ class AddCommand extends Command {
             $info['category'] = IO::question("Enter Category:\n-> ");
         }
 
-        if(NULL != $config['local_encoding'])
-            foreach($info as $key => $value)
+        if(NULL != $config['local_encoding']) {
+            foreach($info as $key => $value) {
                 $info[$key] = iconv($config['local_encoding'], 'utf-8', $value);
+            }
+        }
 
         if($this->hasOptions('s')) {
             $filename = str_replace(['\\', '/', ' '], '-', $info['title']);

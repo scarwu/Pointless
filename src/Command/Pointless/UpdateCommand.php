@@ -21,6 +21,7 @@ class UpdateCommand extends Command {
     public function help() {
         IO::writeln('    update     - Self-update');
         IO::writeln('    update -d  - Use development version');
+        IO::writeln('    update -e  - Use experipment version');
     }
     
     public function run() {
@@ -29,7 +30,16 @@ class UpdateCommand extends Command {
             return;
         }
 
-        $branch = $this->hasOptions('d') ? 'develop' : 'master';
+        $branch = 'master';
+
+        if($this->hasOptions('d')) {
+            $branch = 'develop';
+        }
+
+        if($this->hasOptions('e')) {
+            $branch = 'experipment';
+        }
+
         $remote = "https://raw.github.com/scarwu/Pointless/$branch/bin/poi";
         $path = defined('BIN_LOCATE') ? BIN_LOCATE : '/usr/local/bin';
 

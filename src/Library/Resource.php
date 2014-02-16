@@ -44,8 +44,9 @@ class Resource {
      * @param array
      */
     public static function append($index, $data) {
-        if(!isset(self::$resource[$index]))
+        if(!isset(self::$resource[$index])) {
             self::$resource[$index] = [];
+        }
 
         self::$resource[$index][] = $data;
     }

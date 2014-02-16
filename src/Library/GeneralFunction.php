@@ -32,16 +32,20 @@ function bindData($data, $path) {
  */
 function writeTo($data, $path) {
     if(!preg_match('/\.(html|xml)$/', $path)) {
-        if(!file_exists($path))
+        if(!file_exists($path)) {
             mkdir($path, 0755, TRUE);
+        }
+
         $path = $path . '/index.html';
     }
     else {
         $segments = explode('/', $path);
         array_pop($segments);
+
         $dirpath = implode($segments, '/');
-        if(!file_exists($dirpath))
+        if(!file_exists($dirpath)) {
             mkdir($dirpath, 0755, TRUE);
+        }
     }
 
     $handle = fopen($path, 'w+');
@@ -58,16 +62,21 @@ function writeTo($data, $path) {
 function recursiveCopy($src, $dest) {
     if(file_exists($src)) {
         if(is_dir($src)) {
-            if(!file_exists($dest))
+            if(!file_exists($dest)) {
                 mkdir($dest, 0755, TRUE);
+            }
+
             $handle = @opendir($src);
-            while($file = readdir($handle))
-                if(!in_array($file, ['.', '..', '.git']))
+            while($file = readdir($handle)) {
+                if(!in_array($file, ['.', '..', '.git'])) {
                     recursiveCopy("$src/$file", "$dest/$file");
+                }
+            }
             closedir($handle);
         }
-        else
+        else {
             copy($src, $dest);
+        }
     }
 }
 
@@ -83,15 +92,18 @@ function recursiveRemove($path = NULL) {
         if(is_dir($path)) {
             $handle = opendir($path);
             while($file = readdir($handle)) {
-                if(!in_array($file, ['.', '..', '.git']))
+                if(!in_array($file, ['.', '..', '.git'])) {
                     recursiveRemove("$path/$file");
+                }
             }
             closedir($handle);
 
-            if($path != TEMP && $path != DEPLOY)
+            if($path != TEMP && $path != DEPLOY) {
                 return rmdir($path);
+            }
         }
-        else
+        else {
             return unlink($path);
+        }
     }
 }

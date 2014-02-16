@@ -60,10 +60,12 @@ class EditCommand extends Command {
 
         $count = 0;
         foreach($data as $key => $article) {
-            if($this->hasOptions('s'))
+            if($this->hasOptions('s')) {
                 $msg = "[%3d] {$article['title']}";
-            else
+            }
+            else {
                 $msg = "[%3d] {$article['date']} {$article['title']}";
+            }
 
             IO::writeln(sprintf($msg, $count));
             

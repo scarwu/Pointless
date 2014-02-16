@@ -25,16 +25,19 @@ require LIBRARY . '/GeneralFunction.php';
  */
 define('HOME', $_SERVER['HOME'] . '/.pointless2');
 
-if(!file_exists(HOME))
+if(!file_exists(HOME)) {
     mkdir(HOME, 0755, TRUE);
+}
 
 define('BLOG', HOME . '/Blog');
 
-if(!file_exists(BLOG))
+if(!file_exists(BLOG)) {
     mkdir(BLOG, 0755, TRUE);
+}
 
-if(!file_exists(BLOG . '/Config.php'))
+if(!file_exists(BLOG . '/Config.php')) {
     copy(ROOT . '/Sample/Config.php', BLOG . '/Config.php');
+}
 
 // Require Config
 require BLOG . '/Config.php';
@@ -78,13 +81,16 @@ if(!file_exists(BLOG . '/Theme')) {
     recursiveCopy(ROOT . '/Sample/Theme', BLOG . '/Theme');
 }
 
-if('' == $config['blog_theme'])
+if('' == $config['blog_theme']) {
     $config['blog_theme'] = 'Classic';
+}
 
-if(file_exists(BLOG . "/Theme/{$config['blog_theme']}"))
+if(file_exists(BLOG . "/Theme/{$config['blog_theme']}")) {
     define('THEME', BLOG . "/Theme/{$config['blog_theme']}");
-else
+}
+else {
     define('THEME', ROOT . '/Sample/Theme/Classic');
+}
 
 /**
  * Extension
@@ -100,8 +106,9 @@ if(!file_exists(EXTENSION)) {
  */
 define('RESOURCE', BLOG . '/Resource');
 
-if(!file_exists(RESOURCE))
+if(!file_exists(RESOURCE)) {
     mkdir(RESOURCE, 0755, TRUE);
+}
 
 // Set Time Zone
 date_default_timezone_set($config['timezone']);
@@ -113,8 +120,9 @@ define('REGEX_RULE', '/^({(?:.|\n)*?})\n((?:.|\n)*)/');
  * Copy Sample Files
  */
 if(defined('BUILD_TIMESTAMP')) {
-    if(!file_exists(HOME . '/Sample'))
+    if(!file_exists(HOME . '/Sample')) {
         mkdir(HOME . '/Sample', 0755, TRUE);
+    }
 
     $timestamp = file_exists(HOME . '/Timestamp')
         ? file_get_contents(HOME . '/Timestamp')

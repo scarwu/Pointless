@@ -10,11 +10,12 @@
  */
 
 $root = realpath(dirname(__FILE__)) . '/..';
-$version = trim(file_get_contents($root . '/VERSION'));
+$version = trim(file_get_contents("$root/VERSION"));
 
 // Clear Phar
-if(file_exists($root . '/bin/poi'))
-    unlink($root . '/bin/poi');
+if(file_exists("$root/bin/poi'")) {
+    unlink("$root/bin/poi");
+}
 
 // Setting Stub
 $stub = <<<EOF
@@ -34,10 +35,10 @@ EOF;
 $phar = new Phar('bin/poi.phar');
 $phar->setAlias('poi.phar');
 $phar->setStub(sprintf($stub, $version, time()));
-$phar->buildFromDirectory($root . '/src', '/(\.php|\.md|\.js|\.css)/');
+$phar->buildFromDirectory("$root/src", '/(\.php|\.md|\.js|\.css)/');
 $phar->compressFiles(Phar::GZ);
 $phar->stopBuffering();
 
 // Setting Phar is Executable
-chmod($root . '/bin/poi.phar', 0755);
-rename($root . '/bin/poi.phar', $root . '/bin/poi');
+chmod("$root/bin/poi.phar", 0755);
+rename("$root/bin/poi.phar", "$root/bin/poi");

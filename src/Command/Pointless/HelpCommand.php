@@ -56,7 +56,8 @@ EOF;
                 IO::writeln('    No description for ' . $command . '.', 'red');
             }
         }
-        else
+        else {
             $this->help();
+        }
     }
 }

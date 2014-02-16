@@ -1,72 +1,72 @@
 <?php
 
-$config = {
+$config => [
 	// Blog Name
-	'BLOG_NAME' = 'Pointless',
+	'blog_name' => 'Pointless',
 
 	// Blog Slogan
-	'BLOG_SLOGAN' = 'The Static Blog Generator',
+	'blog_slogan' => 'The Static Blog Generator',
 
 	// Blog Description
-	'BLOG_DESCRIPTION' = '',
+	'blog_desciption' => '',
 
 	// Blog Key Words
-	'BLOG_KEYWORDS' = '',
+	'blog_keywords' => '',
 
 	// Blog Footer
-	'BLOG_FOOTER' = 'Powerd By Pointless',
+	'blog_footer' => 'Powerd By Pointless',
 
 	// Blog Language
 	// en | zh-tw | zh-cn | other
-	'BLOG_LANG' = 'en',
+	'blog_lang' => 'en',
 
-	// Blog Path - If blog is't put on root then modify this
-	'BLOG_PATH' = '/',
+	// Blog Base - If blog is't put on root then modify this
+	'blog_base' => '/',
 
 	// Blog Domain Name - For google search
-	'BLOG_DNS' = 'localhost',
+	'blog_dn' => 'localhost',
 
 	// Blog Theme
-	'BLOG_THEME' = 'Classic',
+	'blog_theme' => 'Classic',
 
 	// Author Name
-	'AUTHOR_NAME' = NULL,
+	'author_name' => NULL,
 
 	// Author Email
-	'AUTHOR_EMAIL' = NULL,
+	'author_name' => NULL,
 
-	// RSS' or Atom's Article Quantity
-	'RSS_ATOM_QUANTITY' = 5,
+	// Feed Article Quantity
+	'feed_quantity' => 5,
 
 	// Article Quantity
-	'ARTICLE_QUANTITY' = 10,
+	'article_quantity' => 10,
 
 	// Article URL Format
 	// :year, :month, :day
 	// :hour, :minute, :second, :timestamp
 	// :title, :url
-	'ARTICLE_URL' = ':year/:month/:day/:url',
+	'article_url' => ':year/:month/:day/:url',
 
 	// Disqus Shrotname
-	'DISQUS_SHORTNAME' = NULL,
+	'disqus_shrotname' => NULL,
 
-	// Google Analystic - UA-xxxxxxxx-x
-	'GOOGLE_ANALYSTIC' = NULL,
+	// Google Analytics - UA-xxxxxxxx-x
+	'google_analytics' => NULL,
 
 	// Github Deployment Setting
-	'GITHUB_ACCOUNT' = NULL,
-	'GITHUB_REPO' = NULL,
-	'GITHUB_BRANCH' = NULL,
-	'GITHUB_CNAME' = FALSE,
+	'github_account' => NULL,
+	'github_repo' => NULL,
+	'github_branch' => NULL,
+	'github_cname' => FALSE,
 
 	// Local Encoding - For console,
 	// If your environment encoding is't utf-8 then modify this
 	// Big5 | GBK | other
-	'LOCAL_ENCODING' = NULL,
+	'local_encoding' => NULL,
 
 	// Default file editor
-	'FILE_EDITOR' = 'vi',
+	'editor' => 'vi',
 
 	// Time Zone
-	'TIMEZONE' = 'Asia/Taipei'
-};
+	'timezone' => 'Asia/Taipei'
+];

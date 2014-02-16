@@ -27,19 +27,20 @@ class ExtensionLoader {
         // Load Custom Extension
         if(file_exists(EXTENSION)) {
             $handle = opendir(EXTENSION);
-            while($filename = readdir($handle))
+            while($filename = readdir($handle)) {
                 if('.' != $filename && '..' != $filename) {
                     require EXTENSION . $filename;
 
                     $class_name = preg_replace('/.php$/', '', $filename);
                     $this->extension[$class_name] = new $class_name;
                 }
+            }
             closedir($handle);
         }
 
         // Load Default Extension
         $handle = opendir(ROOT . '/Sample/Extension/');
-        while($filename = readdir($handle))
+        while($filename = readdir($handle)) {
             if('.' != $filename && '..' != $filename) {
                 $class_name = preg_replace('/.php$/', '', $filename);
 
@@ -48,9 +49,11 @@ class ExtensionLoader {
                     $this->extension[$class_name] = new $class_name;
                 }
             }
+        }
         closedir($handle);
 
-        foreach((array)$this->extension as $class)
+        foreach((array)$this->extension as $class) {
             $class->run();
+        }
     }
 }
