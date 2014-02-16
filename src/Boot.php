@@ -28,39 +28,37 @@ define('HOME', $_SERVER['HOME'] . '/.pointless2');
 if(!file_exists(HOME))
     mkdir(HOME, 0755, TRUE);
 
-if(defined('BUILD_TIMESTAMP')) {
-    $timestamp = file_exists(HOME . '/Timestamp')
-        ? file_get_contents(HOME . '/Timestamp')
-        : 0;
-
-    // Check Timestamp and Update Sample Files
-    if(BUILD_TIMESTAMP != $timestamp) {
-        recursiveRemove(HOME . '/Sample');
-        
-        // Copy Sample Files
-        recursiveCopy(ROOT . '/Sample', HOME . '/Sample');
-        copy(LIBRARY . '/Route.php', HOME . '/Sample/Route.php');
-
-        // Create Timestamp File
-        $handle = fopen(HOME . '/Timestamp', 'w+');
-        fwrite($handle, BUILD_TIMESTAMP);
-        fclose($handle);
-    }
-}
-
 define('BLOG', HOME . '/Blog');
 
 if(!file_exists(BLOG))
     mkdir(BLOG, 0755, TRUE);
 
 if(!file_exists(BLOG . '/Config.php'))
-    copy(SAMPLE . '/Config.php', BLOG . '/Config.php');
+    copy(ROOT . '/Sample/Config.php', BLOG . '/Config.php');
 
 // Require Config
-require_once BLOG . '/Config.php';
+require BLOG . '/Config.php';
 
 $config['blog_url'] = $config['blog_dn'] . $config['blog_base'];
 Resource::set('config', $config);
+
+/**
+ * Temp
+ */
+define('TEMP', BLOG . '/Temp');
+
+if(!file_exists(TEMP)) {
+    mkdir(TEMP, 0755, TRUE);
+}
+
+/**
+ * Deploy
+ */
+define('DEPLOY', BLOG . '/Deploy');
+
+if(!file_exists(DEPLOY)) {
+    mkdir(DEPLOY, 0755, TRUE);
+}
 
 /**
  * Markdown
@@ -105,29 +103,37 @@ define('RESOURCE', BLOG . '/Resource');
 if(!file_exists(RESOURCE))
     mkdir(RESOURCE, 0755, TRUE);
 
-/**
- * Temp
- */
-define('TEMP', BLOG . '/Temp');
-
-if(!file_exists(TEMP)) {
-    mkdir(TEMP, 0755, TRUE);
-}
-
-/**
- * Deploy
- */
-define('DEPLOY', BLOG . '/Deploy');
-
-if(!file_exists(DEPLOY)) {
-    mkdir(DEPLOY, 0755, TRUE);
-}
-
 // Set Time Zone
 date_default_timezone_set($config['timezone']);
 
 // Define Regular Expression Rule
 define('REGEX_RULE', '/^({(?:.|\n)*?})\n((?:.|\n)*)/');
+
+/**
+ * Copy Sample Files
+ */
+if(defined('BUILD_TIMESTAMP')) {
+    if(!file_exists(HOME . '/Sample'))
+        mkdir(HOME . '/Sample', 0755, TRUE);
+
+    $timestamp = file_exists(HOME . '/Timestamp')
+        ? file_get_contents(HOME . '/Timestamp')
+        : 0;
+
+    // Check Timestamp and Update Sample Files
+    if(BUILD_TIMESTAMP != $timestamp) {
+        recursiveRemove(HOME . '/Sample');
+        
+        // Copy Sample Files
+        recursiveCopy(ROOT . '/Sample', HOME . '/Sample');
+        copy(LIBRARY . '/Route.php', HOME . '/Sample/Route.php');
+
+        // Create Timestamp File
+        $handle = fopen(HOME . '/Timestamp', 'w+');
+        fwrite($handle, BUILD_TIMESTAMP);
+        fclose($handle);
+    }
+}
 
 /**
  * Load NanoCLI and Setting

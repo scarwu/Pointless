@@ -9,7 +9,7 @@
  * @link        http://github.com/scarwu/Pointless
  */
 
-$root = '../' . realpath(dirname(__FILE__));
+$root = realpath(dirname(__FILE__)) . '/..';
 $version = trim(file_get_contents($root . '/VERSION'));
 
 // Clear Phar
@@ -24,8 +24,8 @@ Phar::mapPhar('poi.phar');
 define('BUILD_VERSION', '%s');
 define('BUILD_TIMESTAMP', %d);
 define('BIN_LOCATE', realpath(dirname(__FILE__)));
-define('ROOT', 'phar://poi.phar/');
-require ROOT. 'Boot.php';
+define('ROOT', 'phar://poi.phar');
+require ROOT . '/Boot.php';
 __HALT_COMPILER();
 ?>
 EOF;

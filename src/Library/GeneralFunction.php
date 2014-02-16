@@ -87,7 +87,7 @@ function recursiveRemove($path = NULL) {
                     recursiveRemove("$path/$file");
             }
             closedir($handle);
-            
+
             if($path != TEMP && $path != DEPLOY)
                 return rmdir($path);
         }
