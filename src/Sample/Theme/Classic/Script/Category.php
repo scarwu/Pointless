@@ -63,12 +63,14 @@ class Category {
                 $first = $index;
             }
 
+            $data = [];
             $data['title'] ="Category: $index";
             $data['path'] = "category/$index";
             $data['list'] = $this->createDateList($article_list);
             
             // Extend Data
             $data['name'] = "{$data['title']} | {$config['blog_name']}";
+            $data['header'] = $config['blog_name'];
             $data['slogan'] = $config['blog_slogan'];
             $data['description'] = $config['blog_description'];
             $data['keywords'] = $config['blog_keywords'];
@@ -88,12 +90,12 @@ class Category {
             
             if(isset($key[$count - 1])) {
                 $data['bar']['p_title'] = $key[$count - 1];
-                $data['bar']['p_path'] = "{$data['base']}/category/" . $key[$count - 1];
+                $data['bar']['p_path'] = "{$data['base']}category/" . $key[$count - 1];
             }
 
             if(isset($key[$count + 1])) {
                 $data['bar']['n_title'] = $key[$count + 1];
-                $data['bar']['n_path'] = "{$data['base']}/category/" . $key[$count + 1];
+                $data['bar']['n_path'] = "{$data['base']}category/" . $key[$count + 1];
             }
             
             $count++;

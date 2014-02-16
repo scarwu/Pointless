@@ -49,6 +49,7 @@ class Article {
 
             // Extend Data
             $data['name'] = "{$data['title']} | {$config['blog_name']}";
+            $data['header'] = $config['blog_name'];
             $data['slogan'] = $config['blog_slogan'];
             $data['description'] = $config['blog_description'];
             $data['keywords'] = $config['blog_keywords'] . $data['keywords'];
@@ -71,7 +72,7 @@ class Article {
                 $path = $this->list[$key[$count - 1]]['url'];
 
                 $data['bar']['p_title'] = $title;
-                $data['bar']['p_path'] = "{$data['base']}/article/$path";
+                $data['bar']['p_path'] = "{$data['base']}article/$path";
             }
 
             if(isset($key[$count + 1])) {
@@ -79,7 +80,7 @@ class Article {
                 $path = $this->list[$key[$count + 1]]['url'];
 
                 $data['bar']['n_title'] = $title;
-                $data['bar']['n_path'] = "{$data['base']}/article/$path";
+                $data['bar']['n_path'] = "{$data['base']}article/$path";
             }
 
             $count++;

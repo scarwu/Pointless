@@ -10,7 +10,7 @@
 				<?php foreach((array)$article_list as $article): ?>
 				<article>
 					<span class="title">
-						<?=linkTo("{$data['base']}{$article['url']}", $article['title'])?>
+						<?=linkTo("{$data['base']}article/{$article['url']}", $article['title'])?>
 					</span>
 					<span class="category">
 						Category: <?=linkTo("{$data['base']}category/{$article['category']}", $article['category'])?>

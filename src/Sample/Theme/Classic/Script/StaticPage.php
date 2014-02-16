@@ -45,6 +45,7 @@ class StaticPage {
 
             // Extend Data
             $data['name'] = "{$data['title']} | {$config['blog_name']}";
+            $data['header'] = $config['blog_name'];
             $data['slogan'] = $config['blog_slogan'];
             $data['description'] = $config['blog_description'];
             $data['keywords'] = $config['blog_keywords'];

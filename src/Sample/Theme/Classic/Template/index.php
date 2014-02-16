@@ -15,7 +15,7 @@
 	<div id="main">
 		<div class="border">
 			<header>
-				<h1><?=linkTo($data['base'], $data['name'])?></h1>
+				<h1><?=linkTo($data['base'], $data['header'])?></h1>
 				<h2><?=$data['slogan']?></h2>
 			</header>
 			<div id="nav">
