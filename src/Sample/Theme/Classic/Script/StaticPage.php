@@ -36,19 +36,22 @@ class StaticPage {
 	 * @param string
 	 */
 	public function gen() {
-		foreach((array)$this->list as $index => $container_data) {
-			IO::writeln('Building ' . $container_data['url']);
+		foreach((array)$this->list as $data) {
+			IO::writeln("Building {$data['url']}");
 			
-			$output_data['title'] = $container_data['title'];
-			$output_data['block'] = Resource::get('block');
-			$output_data['block']['container'] = bindData($container_data, THEME_TEMPLATE . 'Container/StaticPage.php');
+			$data['config'] = Resource::get('config');
+
+			$container = bindData($data, THEME . '/Template/Container/StaticPage.php');
+
+			$data['block'] = Resource::get('block');
+			$data['block']['container'] = $container;
 
 			// Write HTML to Disk
-			$result = bindData($output_data, THEME_TEMPLATE . 'index.php');
-			writeTo($result, PUBLIC_FOLDER . $container_data['url']);
+			$result = bindData($data, THEME . '/Template/index.php');
+			writeTo($result, TEMP . "/{$data['url']}");
 
 			// Sitemap
-			Resource::append('sitemap', $container_data['url']);
+			Resource::append('sitemap', $data['url']);
 		}
 	}
 }

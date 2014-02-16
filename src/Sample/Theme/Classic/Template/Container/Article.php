@@ -2,22 +2,22 @@
 	<article>
 		<div class="title"><?=$data['title']?></div>
 		<div class="info">
-			<?php if(NULL != DISQUS_SHORTNAME): ?>
+			<?php if(NULL != $data['config']['disqus_shortname']): ?>
 			<span class="comment">
-				<a href="<?=linkEncode(BLOG_PATH . "article/{$data['url']}/")?>#disqus_thread">0 Comment</a>
+				<a href="<?=linkEncode("{$data['config']['blog_base']}article/{$data['url']}/")?>#disqus_thread">0 Comment</a>
 			</span>
 			<br />
 			<?php endif; ?>
 			<span class="date"><?=$data['date']?></span>
 			-
 			<span class="category">
-				Category: <?=linkTo(BLOG_PATH . "category/{$data['category']}", $data['category'])?>
+				Category: <?=linkTo("{$data['config']['blog_base']}category/{$data['category']}", $data['category'])?>
 			</span>
 			-
 			<span class="tag">
 				Tag: 
 				<?php foreach($data['tag'] as $index =>  $tag): ?>
-				<span><?=linkTo(BLOG_PATH . "tag/$tag", $tag) . (count($data['tag'])-1 > $index ? ', ' : '')?></span>
+				<span><?=linkTo("{$data['config']['blog_base']}tag/$tag", $tag) . (count($data['tag'])-1 > $index ? ', ' : '')?></span>
 				<?php endforeach; ?>
 			</span>
 		</div>
@@ -27,20 +27,20 @@
 	<div class="bar">
 		<span class="new">
 			<?=isset($data['bar']['prev'])
-				? linkTo(BLOG_PATH . 'article/' . $data['bar']['prev']['url'], '<< ' . $data['bar']['prev']['title']): ''?>
+				? linkTo("{$data['config']['blog_base']}article/{$data['bar']['prev']['url']}", "<< {$data['bar']['prev']['title']}"): ''?>
 		</span>
 		<span class="old">
 			<?=isset($data['bar']['next'])
-				? linkTo(BLOG_PATH . 'article/' . $data['bar']['next']['url'], $data['bar']['next']['title'] . ' >>'): ''?>
+				? linkTo("{$data['config']['blog_base']}article/{$data['bar']['next']['url']}", "{$data['bar']['next']['title']} >>"): ''?>
 		</span>
-		<span class="count">&lt; <?=$data['bar']['index']?> / <?=$data['bar']['total']?> &gt;</span>
+		<span class="count">&lt; <?="{$data['bar']['index']} / {$data['bar']['total']}"?> &gt;</span>
 	</div>
-	<?php if(NULL != DISQUS_SHORTNAME): ?>
+	<?php if(NULL != $data['config']['disqus_shortname']): ?>
 	<hr>
 	<!-- DISQUS -->
 	<div id="disqus_thread"></div>
 	<script type="text/javascript">
-		var disqus_shortname = '<?=DISQUS_SHORTNAME?>';
+		var disqus_shortname = '<?=$data['config']['disqus_shortname']?>';
 		(function() {
 			var embed = document.createElement('script');
 			embed.type = 'text/javascript';

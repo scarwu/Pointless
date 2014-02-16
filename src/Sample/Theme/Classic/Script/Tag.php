@@ -18,18 +18,23 @@ class Tag {
 	private $list;
 	
 	public function __construct() {
-		$this->list = array();
+		$this->list = [];
 
-		foreach(Resource::get('article') as $index => $value) {
+		foreach(Resource::get('article') as $value) {
 			foreach($value['tag'] as $tag) {
 				if(!isset($this->list[$tag]))
-					$this->list[$tag] = array();
+					$this->list[$tag] = [];
 
 				$this->list[$tag][] = $value;
 			}
 		}
 
-		$this->list = countSort($this->list);
+		uasort($this->list, function($a, $b) {
+            if (count($a) == count($b))
+                return 0;
+
+            return count($a) > count($b) ? -1 : 1;
+        });
 	}
 	
 	/**
@@ -47,49 +52,75 @@ class Tag {
 	 * @param string
 	 */
 	public function gen() {
-		$max = array(0, NULL);
+		$first = NULL;
 		$count = 0;
 		$total = count($this->list);
 		$key = array_keys($this->list);
 		
 		foreach((array)$this->list as $index => $article_list) {
-			IO::writeln('Building tag/' . $index);
-			$max = count($article_list) > $max[0] ? array(count($article_list), $index) : $max;
+			IO::writeln("Building tag/$index");
+			if(NULL == $first) {
+				$first = $index;
+			}
 			
-			$container_data['title'] = 'Tag: ' . $index;
-			$container_data['list'] = createDateList($article_list);
-			$container_data['bar'] = array(
+			$data['title'] = "Tag: $index";
+			$data['list'] = $this->createDateList($article_list);
+			$data['bar'] = [
 				'index' => $count + 1,
 				'total' => $total
-			);
-			if(isset($key[$count - 1]))
-				$container_data['bar']['prev'] = array(
+			];
+			if(isset($key[$count - 1])) {
+				$data['bar']['prev'] = [
 					'title' => $key[$count - 1],
 					'url' => $key[$count - 1]
-				);
-			if(isset($key[$count + 1]))
-				$container_data['bar']['next'] = array(
+				];
+			}
+			if(isset($key[$count + 1])) {
+				$data['bar']['next'] = [
 					'title' => $key[$count + 1],
 					'url' => $key[$count + 1]
-				);
+				];
+			}
 			
 			$count++;
 			
-			$output_data['title'] = $container_data['title'];
-			$output_data['block'] = Resource::get('block');
-			$output_data['block']['container'] = bindData($container_data, THEME_TEMPLATE . 'Container/Tag.php');
+			$data['url'] = "tag/$index";
+			$data['config'] = Resource::get('config');
+
+			$container = bindData($data, THEME . '/Template/Container/Tag.php');
+
+			$data['block'] = Resource::get('block');
+			$data['block']['container'] = $container;
 			
 			// Write HTML to Disk
-			$result = bindData($output_data, THEME_TEMPLATE . 'index.php');
-			writeTo($result, PUBLIC_FOLDER . 'tag/' . $index);
+			$result = bindData($data, THEME . '/Template/index.php');
+			writeTo($result, TEMP . "/{$data['url']}");
 
 			// Sitemap
-			Resource::append('sitemap', 'tag/' . $index);
+			Resource::append('sitemap', $data['url']);
 		}
 
-		if(file_exists(PUBLIC_FOLDER . 'tag/' . $max[1] . '/index.html')) {
-			copy(PUBLIC_FOLDER . 'tag/' . $max[1] . '/index.html', PUBLIC_FOLDER . 'tag/index.html');
+		if(file_exists(TEMP . "/tag/$first/index.html")) {
+			copy(TEMP . "/tag/$first/index.html", TEMP . '/tag/index.html');
 			Resource::append('sitemap', 'tag');
 		}
+	}
+
+	private function createDateList($list) {
+		$result = [];
+
+		foreach((array)$list as $article) {
+			if(!isset($result[$article['year']])) {
+				$result[$article['year']] = [];
+			}
+
+			if(!isset($result[$article['year']][$article['month']])) {
+				$result[$article['year']][$article['month']] = [];
+			}
+
+			$result[$article['year']][$article['month']][] = $article;
+		}
+
+		return $result;
 	}
 }

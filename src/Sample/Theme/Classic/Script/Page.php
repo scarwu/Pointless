@@ -36,31 +36,36 @@ class Page {
 	 * @param string
 	 */
 	public function gen() {
-		$total = ceil(count($this->list) / ARTICLE_QUANTITY);
+		$quantity = Resource::get('config')['article_quantity'];
+		$total = ceil(count($this->list) / $quantity);
 				
 		for($index = 1;$index <= $total;$index++) {
-			IO::writeln('Building page/' . $index);
+			IO::writeln("Building page/$index");
 			
-			$container_data['bar'] = array(
+			$data['bar'] = [
 				'index' => $index,
 				'total' => $total
-			);
-			$container_data['list'] = array_slice($this->list, ARTICLE_QUANTITY * ($index - 1), ARTICLE_QUANTITY);
+			];
+			$data['list'] = array_slice($this->list, $quantity * ($index - 1), $quantity);
+			$data['url'] = "page/$index";
+			$data['config'] = Resource::get('config');
 
-			$output_data['block'] = Resource::get('block');
-			$output_data['block']['container'] = bindData($container_data, THEME_TEMPLATE . 'Container/Page.php');
+			$container = bindData($data, THEME . '/Template/Container/Page.php');
+
+			$data['block'] = Resource::get('block');
+			$data['block']['container'] = $container;
 			
 			// Write HTML to Disk
-			$result = bindData($output_data, THEME_TEMPLATE . 'index.php');
-			writeTo($result, PUBLIC_FOLDER . 'page/' . $index);
+			$result = bindData($data, THEME . '/Template/index.php');
+			writeTo($result, TEMP . "/{$data['url']}");
 
 			// Sitemap
-			Resource::append('sitemap', 'page/' . $index);
+			Resource::append('sitemap', $data['url']);
 		}
 		
-		if(file_exists(PUBLIC_FOLDER . 'page/1/index.html')) {
-			copy(PUBLIC_FOLDER . 'page/1/index.html', PUBLIC_FOLDER . 'page/index.html');
-			copy(PUBLIC_FOLDER . 'page/1/index.html', PUBLIC_FOLDER . 'index.html');
+		if(file_exists(TEMP . '/page/1/index.html')) {
+			copy(TEMP . '/page/1/index.html', TEMP . '/page/index.html');
+			copy(TEMP . '/page/1/index.html', TEMP . '/index.html');
 			Resource::append('sitemap', 'page');
 		}
 	}

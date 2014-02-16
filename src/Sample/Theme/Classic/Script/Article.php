@@ -36,37 +36,47 @@ class Article {
 	 * @param string
 	 */
 	public function gen() {
+		$count = 0;
 		$total = count($this->list);
+		$key = array_keys($this->list);
 
-		foreach((array)$this->list as $index => $container_data) {
-			IO::writeln('Building article/' . $container_data['url']);
+		foreach((array)$this->list as $data) {
+			IO::writeln("Building article/{$data['url']}");
 			
-			$container_data['bar'] = array(
-				'index' => $index + 1,
+			$data['bar'] = [
+				'index' => $count + 1,
 				'total' => $total
-			);
-			if(isset($this->list[$index - 1]))
-				$container_data['bar']['prev'] = array(
-					'title' => $this->list[$index - 1]['title'],
-					'url' => $this->list[$index - 1]['url']
-				);
-			if(isset($this->list[$index + 1]))
-				$container_data['bar']['next'] = array(
-					'title' => $this->list[$index + 1]['title'],
-					'url' => $this->list[$index + 1]['url']
-				);
+			];
+			if(isset($key[$count - 1])) {
+				$data['bar']['prev'] = [
+					'title' => $this->list[$key[$count - 1]]['title'],
+					'url' => $this->list[$key[$count - 1]]['url']
+				];
+			}
+			if(isset($key[$count + 1])) {
+				$data['bar']['next'] = [
+					'title' => $this->list[$key[$count + 1]]['title'],
+					'url' => $this->list[$key[$count + 1]]['url']
+				];
+			}
 
-			$output_data['title'] = $container_data['title'];
-			$output_data['block'] = Resource::get('block');
-			$output_data['block']['container'] = bindData($container_data, THEME_TEMPLATE . 'Container/Article.php');
-			$output_data['keywords'] = $container_data['keywords'];
+			$count++;
+
+			$data['keywords'] = $data['keywords'];
+			$data['url'] = "article/{$data['url']}";
+			$data['config'] = Resource::get('config');
+
+			$container = bindData($data, THEME . '/Template/Container/Article.php');
+
+			$data['block'] = Resource::get('block');
+			$data['block']['container'] = $container;
 			
 			// Write HTML to Disk
-			$result = bindData($output_data, THEME_TEMPLATE . 'index.php');
-			writeTo($result, PUBLIC_FOLDER . 'article/' . $container_data['url']);
+			$result = bindData($data, THEME . '/Template/index.php');
+			writeTo($result, TEMP . "/{$data['url']}");
 
 			// Sitemap
-			Resource::append('sitemap', 'article/' . $container_data['url']);
+			Resource::append('sitemap', $data['url']);
 		}
 	}
 }
