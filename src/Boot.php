@@ -42,7 +42,6 @@ if(!file_exists(BLOG . '/Config.php')) {
 // Require Config
 require BLOG . '/Config.php';
 
-$config['blog_url'] = $config['blog_dn'] . $config['blog_base'];
 Resource::set('config', $config);
 
 /**

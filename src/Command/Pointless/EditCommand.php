@@ -61,13 +61,13 @@ class EditCommand extends Command {
         $count = 0;
         foreach($data as $key => $article) {
             if($this->hasOptions('s')) {
-                $msg = "[%3d] {$article['title']}";
+                $msg = $article['title'];
             }
             else {
-                $msg = "[%3d] {$article['date']} {$article['title']}";
+                $msg = "{$article['date']} {$article['title']}";
             }
 
-            IO::writeln(sprintf($msg, $count));
+            IO::writeln(sprintf("[%3d] ", $count) . $msg);
             
             $data[$count++] = $article;
             unset($data[$key]);

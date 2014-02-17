@@ -47,8 +47,8 @@ $config => [
 	// :title, :url
 	'article_url' => ':year/:month/:day/:url',
 
-	// Disqus Shrotname
-	'disqus_shrotname' => NULL,
+	// Disqus Shortname
+	'disqus_shortname' => NULL,
 
 	// Google Analytics - UA-xxxxxxxx-x
 	'google_analytics' => NULL,

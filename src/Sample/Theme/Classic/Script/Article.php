@@ -2,71 +2,100 @@
 /**
  * Article Data Generator Script for Theme
  * 
- * @package		Pointless
- * @author		ScarWu
- * @copyright	Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
- * @link		http://github.com/scarwu/Pointless
+ * @package     Pointless
+ * @author      ScarWu
+ * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
+ * @link        http://github.com/scarwu/Pointless
  */
 
 use NanoCLI\IO;
 
 class Article {
 
-	/**
-	 * @var array
-	 */
-	private $list;
-	
-	public function __construct() {
-		$this->list = Resource::get('article');
-	}
-	
-	/**
-	 * Get List
-	 *
-	 * @return array
-	 */
-	public function getList() {
-		return $this->list;
-	}
-	
-	/**
-	 * Generate Data
-	 *
-	 * @param string
-	 */
-	public function gen() {
-		$total = count($this->list);
+    /**
+     * @var array
+     */
+    private $list;
+    
+    public function __construct() {
+        $this->list = Resource::get('article');
+    }
+    
+    /**
+     * Get List
+     *
+     * @return array
+     */
+    public function getList() {
+        return $this->list;
+    }
+    
+    /**
+     * Generate Data
+     *
+     * @param string
+     */
+    public function gen() {
+        $count = 0;
+        $total = count($this->list);
+        $key = array_keys($this->list);
 
-		foreach((array)$this->list as $index => $container_data) {
-			IO::writeln('Building article/' . $container_data['url']);
-			
-			$container_data['bar'] = array(
-				'index' => $index + 1,
-				'total' => $total
-			);
-			if(isset($this->list[$index - 1]))
-				$container_data['bar']['prev'] = array(
-					'title' => $this->list[$index - 1]['title'],
-					'url' => $this->list[$index - 1]['url']
-				);
-			if(isset($this->list[$index + 1]))
-				$container_data['bar']['next'] = array(
-					'title' => $this->list[$index + 1]['title'],
-					'url' => $this->list[$index + 1]['url']
-				);
+        $config = Resource::get('config');
 
-			$output_data['title'] = $container_data['title'];
-			$output_data['block'] = Resource::get('block');
-			$output_data['block']['container'] = bindData($container_data, THEME_TEMPLATE . 'Container/Article.php');
-			$output_data['keywords'] = $container_data['keywords'];
-			
-			// Write HTML to Disk
-			$result = bindData($output_data, THEME_TEMPLATE . 'index.php');
-			writeTo($result, PUBLIC_FOLDER . 'article/' . $container_data['url']);
+        foreach((array)$this->list as $data) {
+            IO::writeln("Building article/{$data['url']}");
+            
+            $data['path'] = "article/{$data['url']}";
 
-			// Sitemap
-			Resource::append('sitemap', 'article/' . $container_data['url']);
-		}
-	}
+            // Extend Data
+            $data['name'] = "{$data['title']} | {$config['blog_name']}";
+            $data['header'] = $config['blog_name'];
+            $data['slogan'] = $config['blog_slogan'];
+            $data['description'] = $config['blog_description'];
+            $data['keywords'] = $config['blog_keywords'] . $data['keywords'];
+            $data['footer'] = $config['blog_footer'];
+            $data['dn'] = $config['blog_dn'];
+            $data['base'] = $config['blog_base'];
+            $data['url'] = $config['blog_dn'] . $config['blog_base'];
+            $data['lang'] = $config['blog_lang'];
+            $data['author'] = $config['author_name'];
+            $data['email'] = $config['author_email'];
+            $data['google_analytics'] = $config['google_analytics'];
+            $data['disqus_shortname'] = $config['disqus_shortname'];
+
+            // Bar
+            $data['bar']['index'] = $count + 1;
+            $data['bar']['total'] = $total;
+
+            if(isset($key[$count - 1])) {
+                $title = $this->list[$key[$count - 1]]['title'];
+                $path = $this->list[$key[$count - 1]]['url'];
+
+                $data['bar']['p_title'] = $title;
+                $data['bar']['p_path'] = "{$data['base']}article/$path";
+            }
+
+            if(isset($key[$count + 1])) {
+                $title = $this->list[$key[$count + 1]]['title'];
+                $path = $this->list[$key[$count + 1]]['url'];
+
+                $data['bar']['n_title'] = $title;
+                $data['bar']['n_path'] = "{$data['base']}article/$path";
+            }
+
+            $count++;
+
+            $container = bindData($data, THEME . '/Template/Container/Article.php');
+
+            $data['block'] = Resource::get('block');
+            $data['block']['container'] = $container;
+            
+            // Write HTML to Disk
+            $result = bindData($data, THEME . '/Template/index.php');
+            writeTo($result, TEMP . "/{$data['path']}");
+
+            // Sitemap
+            Resource::append('sitemap', $data['path']);
+        }
+    }
 }

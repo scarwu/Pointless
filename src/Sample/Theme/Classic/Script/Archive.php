@@ -2,89 +2,130 @@
 /**
  * Archive Data Generator Script for Theme
  * 
- * @package		Pointless
- * @author		ScarWu
- * @copyright	Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
- * @link		http://github.com/scarwu/Pointless
+ * @package        Pointless
+ * @author        ScarWu
+ * @copyright    Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
+ * @link        http://github.com/scarwu/Pointless
  */
 
 use NanoCLI\IO;
 
 class Archive {
 
-	/**
-	 * @var array
-	 */
-	private $list;
+    /**
+     * @var array
+     */
+    private $list;
 
-	public function __construct() {
-		$this->list = array();
+    public function __construct() {
+        $this->list = array();
 
-		foreach(Resource::get('article') as $index => $value) {
-			if(!isset($this->list[$value['year']]))
-				$this->list[$value['year']] = array();
+        foreach(Resource::get('article') as $index => $value) {
+            if(!isset($this->list[$value['year']]))
+                $this->list[$value['year']] = array();
 
-			$this->list[$value['year']][] = $value;
-		}
-	}
+            $this->list[$value['year']][] = $value;
+        }
+    }
 
-	/**
-	 * Get List
-	 *
-	 * @return array
-	 */
-	public function getList() {
-		return $this->list;
-	}
+    /**
+     * Get List
+     *
+     * @return array
+     */
+    public function getList() {
+        return $this->list;
+    }
 
-	/**
-	 * Generate Data
-	 *
-	 * @param string
-	 */
-	public function gen() {
-		$max = 0;
-		$count = 0;
-		$total = count($this->list);
-		
-		foreach((array)$this->list as $index => $article_list) {
-			IO::writeln('Building archive/', $index);
-			$max = $index > $max ? $index : $max;
-			
-			$container_data['title'] = 'Archive: ' . $index;
-			$container_data['list'] = createDateList($article_list);
-			$container_data['bar'] = array(
-				'index' => $count + 1,
-				'total' => $total
-			);
-			if(isset($this->list[$index - 1]))
-				$container_data['bar']['next'] = array(
-					'title' => $index - 1,
-					'url' => $index - 1
-				);
-			if(isset($this->list[$index + 1]))
-				$container_data['bar']['prev'] = array(
-					'title' => $index + 1,
-					'url' => $index + 1
-				);
-				
-			$count++;
+    /**
+     * Generate Data
+     *
+     * @param string
+     */
+    public function gen() {
+        $first = NULL;
+        $count = 0;
+        $total = count($this->list);
+        
+        $config = Resource::get('config');
 
-			$output_data['title'] = $container_data['title'];
-			$output_data['block'] = Resource::get('block');
-			$output_data['block']['container'] = bindData($container_data, THEME_TEMPLATE . 'Container/Archive.php');
-			
-			// Write HTML to Disk
-			$result = bindData($output_data, THEME_TEMPLATE . 'index.php');
-			writeTo($result, PUBLIC_FOLDER . 'archive/' . $index);
+        foreach((array)$this->list as $index => $article_list) {
+            IO::writeln("Building archive/$index");
+            if(NULL == $first) {
+                $first = $index;
+            }
 
-			// Sitemap
-			Resource::append('sitemap', 'archive/' . $index);
-		}
-		
-		if(file_exists(PUBLIC_FOLDER . 'archive/' . $max . '/index.html')) {
-			copy(PUBLIC_FOLDER . 'archive/' . $max . '/index.html', PUBLIC_FOLDER . 'archive/index.html');
-			Resource::append('sitemap', 'archive');
-		}
-	}
+            $data = [];
+            $data['title'] = "Archive: $index";
+            $data['path'] = "archive/$index";
+            $data['list'] = $this->createDateList($article_list);
+
+            // Extend Data
+            $data['name'] = "{$data['title']} | {$config['blog_name']}";
+            $data['header'] = $config['blog_name'];
+            $data['slogan'] = $config['blog_slogan'];
+            $data['description'] = $config['blog_description'];
+            $data['keywords'] = $config['blog_keywords'];
+            $data['footer'] = $config['blog_footer'];
+            $data['dn'] = $config['blog_dn'];
+            $data['base'] = $config['blog_base'];
+            $data['url'] = $config['blog_dn'] . $config['blog_base'];
+            $data['lang'] = $config['blog_lang'];
+            $data['author'] = $config['author_name'];
+            $data['email'] = $config['author_email'];
+            $data['google_analytics'] = $config['google_analytics'];
+            $data['disqus_shortname'] = $config['disqus_shortname'];
+
+            // Bar
+            $data['bar']['index'] = $count + 1;
+            $data['bar']['total'] = $total;
+
+            if(isset($this->list[$index - 1])) {
+                $data['bar']['n_title'] = $index - 1;
+                $data['bar']['n_path'] = "{$data['base']}archive/" . ($index - 1);
+            }
+
+            if(isset($this->list[$index + 1])) {
+                $data['bar']['p_title'] = $index + 1;
+                $data['bar']['p_path'] = "{$data['base']}archive/" . ($index + 1);
+            }
+                
+            $count++;
+            
+            $container = bindData($data, THEME . '/Template/Container/Archive.php');
+
+            $data['block'] = Resource::get('block');
+            $data['block']['container'] = $container;
+            
+            // Write HTML to Disk
+            $result = bindData($data, THEME . '/Template/index.php');
+            writeTo($result, TEMP . "/{$data['path']}");
+
+            // Sitemap
+            Resource::append('sitemap', $data['path']);
+        }
+        
+        if(file_exists(TEMP . "/archive/$first/index.html")) {
+            copy(TEMP . "/archive/$first/index.html", TEMP . '/archive/index.html');
+            Resource::append('sitemap', 'archive');
+        }
+    }
+
+    private function createDateList($list) {
+        $result = [];
+
+        foreach((array)$list as $article) {
+            if(!isset($result[$article['year']])) {
+                $result[$article['year']] = [];
+            }
+
+            if(!isset($result[$article['year']][$article['month']])) {
+                $result[$article['year']][$article['month']] = [];
+            }
+
+            $result[$article['year']][$article['month']][] = $article;
+        }
+
+        return $result;
+    }
 }

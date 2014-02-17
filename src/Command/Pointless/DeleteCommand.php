@@ -61,11 +61,13 @@ class DeleteCommand extends Command {
         $count = 0;
         foreach($data as $key => $article) {
             if($this->hasOptions('s')) {
-                IO::writeln(sprintf("[%3d] %s", $count, $article['title']));
+                $msg = $article['title'];
             }
             else {
-                IO::writeln(sprintf("[%3d] %s %s", $count, $article['date'], $article['title']));
+                $msg = "{$article['date']} {$article['title']}";
             }
+
+            IO::writeln(sprintf("[%3d] ", $count) . $msg);
 
             $data[$count++] = $article;
             unset($data[$key]);

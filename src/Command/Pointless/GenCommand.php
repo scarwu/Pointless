@@ -142,6 +142,7 @@ class GenCommand extends Command {
                 exit(1);
             }
 
+            // Append Static Page
             if('static' == $temp['type']) {
                 Resource::append('static', [
                     'title' => $temp['title'],
@@ -151,6 +152,7 @@ class GenCommand extends Command {
                 ]);
             }
 
+            // Create Article
             if('article' == $temp['type']) {
                 if(!(isset($temp['publish']) ? $temp['publish'] : TRUE))
                     continue;

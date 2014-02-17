@@ -44,52 +44,72 @@ class AddCommand extends Command {
         }
 
         if($this->hasOptions('s')) {
-            $filename = str_replace(['\\', '/', ' '], '-', $info['title']);
+            $filename = $this->escape($info['url']);
             $filename = 'static_' . strtolower($filename) . '.md';
             $filepath = MARKDOWN . "/$filename";
 
             if(file_exists($filepath)) {
-                IO::writeln("\nStatic Page {$info['title']} is exsist.");
+                IO::writeln("\nStatic Page $filename is exsist.");
                 return;
             }
 
+            $json = json_encode([
+                'type' => 'static',
+                'title' => $info['title'],
+                'url' => $this->escape($info['url']),
+                'message' => false,
+            ], JSON_PRETTY_PRINT);
+
             $handle = fopen($filepath, 'w+');
-            fwrite($handle, "{\n");
-            fwrite($handle, '    "type": "static",' . "\n");
-            fwrite($handle, '    "title": "' . $info['title'] . '",' . "\n");
-            fwrite($handle, '    "url": "' . $info['url'] . '",' . "\n");
-            fwrite($handle, '    "message": false' . "\n");
-            fwrite($handle, "}\n\n\n");
+            fwrite($handle, $json . "\n\n\n");
+            fclose($handle);
             
             IO::writeln("\nStatic Page $filename was created.");
             system("{$config['editor']} $filepath < `tty` > `tty`");
         }
         else {
             $time = time();
+            $filename = $this->escape($filename);
             $filename = sprintf("%s%s.md", date("Ymd_", $time), $info['url']);
             $filepath = MARKDOWN . "/$filename";
 
             if(file_exists($filepath)) {
-                IO::writeln("\nArticle {$info['title']} is exsist.");
+                IO::writeln("\nArticle $filename is exsist.");
                 return;
             }
 
+            $json = json_encode([
+                'type' => 'article',
+                'title' => $info['title'],
+                'url' => $this->escape($info['url']),
+                'tag' => $info['tag'],
+                'category' => $info['category'],
+                'keywords' => null,
+                'date' => date("Y-m-d", $time),
+                'time' => date("H:i:s", $time),
+                'message' => true,
+                'publish' => false
+            ], JSON_PRETTY_PRINT);
+
             $handle = fopen($filepath, 'w+');
-            fwrite($handle, "{\n");
-            fwrite($handle, '    "type": "article",' . "\n");
-            fwrite($handle, '    "title": "' . $info['title'] . '",' . "\n");
-            fwrite($handle, '    "url": "' . $info['url'] . '",' . "\n");
-            fwrite($handle, '    "tag": "' . $info['tag'] . '",' . "\n");
-            fwrite($handle, '    "category": "' . $info['category'] . '",' . "\n");
-            fwrite($handle, '    "keywords": null,' . "\n");
-            fwrite($handle, '    "date": "' . date("Y-m-d", $time) . '",' . "\n");
-            fwrite($handle, '    "time": "' . date("H:i:s", $time) . '",' . "\n");
-            fwrite($handle, '    "message": true,' . "\n");
-            fwrite($handle, '    "publish": false' . "\n");
-            fwrite($handle, "}\n\n\n");
+            fwrite($handle, $json . "\n\n\n");
+            fclose($handle);
             
             IO::writeln("\nArticle $filename is created.");
             system("{$config['editor']} $filepath < `tty` > `tty`");
         }
+    }
+
+    private function escape($filename) {
+        $char = [
+            "'", '"', '&', '$', '=',
+            '!', '?', '/', '<', '>', 
+            '(', ')', ':', ';', '@',
+            '#', '%', '^', '*', ',',
+            '.', '~', '`', '|', '\\'
+        ];
+
+        $filename = str_replace($char, '', $filename);
+        return stripslashes($filename);
     }
 }

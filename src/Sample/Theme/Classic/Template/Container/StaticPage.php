@@ -4,12 +4,11 @@
 		<div class="info"></div>
 		<div class="content"><?=$data['content']?></div>
 	</article>
-	<?php if(NULL != DISQUS_SHORTNAME && $data['message']): ?>
+	<?php if(NULL != $data['disqus_shortname'] && $data['message']): ?>
 	<hr>
-	<!-- DISQUS -->
 	<div id="disqus_thread"></div>
 	<script type="text/javascript">
-		var disqus_shortname = '<?=DISQUS_SHORTNAME?>';
+		var disqus_shortname = '<?=$data['disqus_shortname']?>';
 		(function() {
 			var embed = document.createElement('script');
 			embed.async = true;

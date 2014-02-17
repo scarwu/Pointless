@@ -10,15 +10,18 @@
 				<?php foreach((array)$article_list as $article): ?>
 				<article>
 					<span class="title">
-						<?=linkTo(BLOG_PATH . 'article/' . $article['url'], $article['title'])?>
+						<?=linkTo("{$data['base']}article/{$article['url']}", $article['title'])?>
 					</span>
 					<span class="archive">
-						Archive: <?=linkTo(BLOG_PATH . 'archive/' . $article['year'], $article['year'])?>
+						Archive:
+						<?=linkTo("{$data['base']}archive/{$article['year']}", $article['year'])?>
 					</span>
-					<span class="tag">Tag: 
+					<span class="tag">
+						Tag:
 						<?php foreach((array)$article['tag'] as $index => $tag): ?>
-						<?=linkTo(BLOG_PATH . 'tag/' . $tag, $tag) . (count($article['tag'])-1 > $index ? ', ' : '')?>
+						<?php $article['tag'][$index] = linkTo("{$data['base']}tag/$tag", $tag); ?>
 						<?php endforeach; ?>
+						<?=join($article['tag'], ', ')?>
 					</span>
 				</article>
 				<?php endforeach; ?>
@@ -30,13 +33,15 @@
 	<?php endforeach; ?>
 	<div class="bar">
 		<span class="new">
-			<?=isset($data['bar']['prev'])
-				? linkTo(BLOG_PATH . 'category/' . $data['bar']['prev']['url'], '<< ' . $data['bar']['prev']['title']): ''?>
+			<?=isset($data['bar']['p_path'])
+				? linkTo($data['bar']['p_path'], "<< {$data['bar']['p_title']}") : ''?>
 		</span>
 		<span class="old">
-			<?=isset($data['bar']['next'])
-				? linkTo(BLOG_PATH . 'category/' . $data['bar']['next']['url'], $data['bar']['next']['title'] . ' >>'): ''?>
+			<?=isset($data['bar']['n_path'])
+				? linkTo($data['bar']['n_path'], "{$data['bar']['n_title']} >>") : ''?>
 		</span>
-		<span class="count">&lt; <?=$data['bar']['index']?> / <?=$data['bar']['total']?> &gt;</span>
+		<span class="count">
+			<?="{$data['bar']['index']} / {$data['bar']['total']}"?>
+		</span>
 	</div>
 </div>
