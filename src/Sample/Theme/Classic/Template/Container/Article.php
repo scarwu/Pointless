@@ -4,24 +4,30 @@
 		<div class="info">
 			<?php if(NULL != $data['disqus_shortname']): ?>
 			<span class="comment">
-				<a href="<?=linkEncode("{$data['base']}{$data['path']}/")?>#disqus_thread">0 Comment</a>
+				<a href="<?=linkEncode("{$data['base']}{$data['path']}/")?>#disqus_thread">
+					0 Comment
+				</a>
 			</span>
 			<br />
 			<?php endif; ?>
 			<span class="date"><?=$data['date']?></span>
 			-
 			<span class="category">
-				Category: <?=linkTo("{$data['base']}category/{$data['category']}", $data['category'])?>
+				Category:
+				<?=linkTo("{$data['base']}category/{$data['category']}", $data['category'])?>
 			</span>
 			-
 			<span class="tag">
 				Tag: 
-				<?php foreach($data['tag'] as $index =>  $tag): ?>
-				<span><?=linkTo("{$data['base']}tag/$tag", $tag) . (count($data['tag'])-1 > $index ? ', ' : '')?></span>
+				<?php foreach((array)$data['tag'] as $index => $tag): ?>
+				<?php $data['tag'][$index] = linkTo("{$data['base']}tag/$tag", $tag); ?>
 				<?php endforeach; ?>
+				<?=join($data['tag'], ', ')?>
 			</span>
 		</div>
-		<div class="content"><?=$data['content']?></div>
+		<div class="content">
+			<?=$data['content']?>
+		</div>
 	</article>
 	<hr>
 	<div class="bar">
@@ -33,11 +39,12 @@
 			<?=isset($data['bar']['n_path'])
 				? linkTo($data['bar']['n_path'], "{$data['bar']['n_title']} >>"): ''?>
 		</span>
-		<span class="count">&lt; <?="{$data['bar']['index']} / {$data['bar']['total']}"?> &gt;</span>
+		<span class="count">
+			<?="{$data['bar']['index']} / {$data['bar']['total']}"?>
+		</span>
 	</div>
 	<?php if(NULL != $data['disqus_shortname']): ?>
 	<hr>
-	<!-- DISQUS -->
 	<div id="disqus_thread"></div>
 	<script type="text/javascript">
 		var disqus_shortname = '<?=$data['disqus_shortname']?>';

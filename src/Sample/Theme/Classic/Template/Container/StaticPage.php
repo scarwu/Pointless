@@ -6,7 +6,6 @@
 	</article>
 	<?php if(NULL != $data['disqus_shortname'] && $data['message']): ?>
 	<hr>
-	<!-- DISQUS -->
 	<div id="disqus_thread"></div>
 	<script type="text/javascript">
 		var disqus_shortname = '<?=$data['disqus_shortname']?>';

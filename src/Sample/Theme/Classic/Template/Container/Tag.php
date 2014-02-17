@@ -13,15 +13,18 @@
 						<?=linkTo("{$data['base']}article/{$article['url']}", $article['title'])?>
 					</span>
 					<span class="archive">
-						Archive: <?=linkTo("{$data['base']}archive/{$article['year']}", $article['year'])?>
+						Archive:
+						<?=linkTo("{$data['base']}archive/{$article['year']}", $article['year'])?>
 					</span>
 					<span class="category">
-						Category: <?=linkTo("{$data['base']}category/{$article['category']}", $article['category'])?>
+						Category:
+						<?=linkTo("{$data['base']}category/{$article['category']}", $article['category'])?>
 					</span>
 					<span class="tag">Tag: 
 						<?php foreach((array)$article['tag'] as $index => $tag): ?>
-						<?=linkTo("{$data['base']}tag/$tag", $tag) . (count($article['tag'])-1 > $index ? ', ' : '')?>
+						<?php $article['tag'][$index] = linkTo("{$data['base']}tag/$tag", $tag); ?>
 						<?php endforeach; ?>
+						<?=join($article['tag'], ', ')?>
 					</span>
 				</article>
 				<?php endforeach; ?>
@@ -40,6 +43,8 @@
 			<?=isset($data['bar']['n_path'])
 				? linkTo($data['bar']['n_path'], "{$data['bar']['n_title']} >>") : ''?>
 		</span>
-		<span class="count">&lt; <?="{$data['bar']['index']} / {$data['bar']['total']}"?> &gt;</span>
+		<span class="count">
+			<?="{$data['bar']['index']} / {$data['bar']['total']}"?>
+		</span>
 	</div>
 </div>

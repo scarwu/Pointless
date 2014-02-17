@@ -1,7 +1,9 @@
 <div id="page">
 	<?php foreach((array)$data['list'] as $article): ?>
 	<article>
-		<div class="title"><?=linkTo("{$data['base']}article/{$article['url']}", $article['title'])?></div>
+		<div class="title">
+			<?=linkTo("{$data['base']}article/{$article['url']}", $article['title'])?>
+		</div>
 		<div class="info">
 			<?php if(NULL != $data['disqus_shortname']): ?>
 			<span class="comments">
@@ -17,13 +19,18 @@
 			-
 			<span class="tag">
 				Tag: 
-				<?php foreach($article['tag'] as $index =>  $tag): ?>
-				<span><?=linkTo("{$data['base']}tag/$tag", $tag) . (count($article['tag'])-1 > $index ? ', ' : '')?></span>
+				<?php foreach((array)$article['tag'] as $index => $tag): ?>
+				<?php $article['tag'][$index] = linkTo("{$data['base']}tag/$tag", $tag); ?>
 				<?php endforeach; ?>
+				<?=join($article['tag'], ', ')?>
 			</span>
 		</div>
-		<div class="content"><?=preg_replace('/<!--more-->(.|\n)*/', '', $article['content'])?></div>
-		<a class="more" href="<?="{$data['base']}article/{$article['url']}"?>">Read more</a>
+		<div class="content">
+			<?=preg_replace('/<!--more-->(.|\n)*/', '', $article['content'])?>
+		</div>
+		<a class="more" href="<?="{$data['base']}article/{$article['url']}"?>">
+			Read more
+		</a>
 	</article>
 	<hr>
 	<?php endforeach; ?>
@@ -36,7 +43,9 @@
 			<?=isset($data['bar']['p_path'])
 				? linkTo($data['bar']['p_path'], 'Older Posts >>'): ''?>
 		</span>
-		<span class="count">&lt; <?="{$data['bar']['index']} / {$data['bar']['total']}"?> &gt;</span>
+		<span class="count">
+			<?="{$data['bar']['index']} / {$data['bar']['total']}"?>
+		</span>
 	</div>
 </div>
 <?php if(NULL != $data['disqus_shortname']): ?>
