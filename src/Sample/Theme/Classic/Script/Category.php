@@ -2,92 +2,138 @@
 /**
  * Category Data Generator Script for Theme
  * 
- * @package		Pointless
- * @author		ScarWu
- * @copyright	Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
- * @link		http://github.com/scarwu/Pointless
+ * @package     Pointless
+ * @author      ScarWu
+ * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
+ * @link        http://github.com/scarwu/Pointless
  */
 
 use NanoCLI\IO;
 
 class Category {
 
-	/**
-	 * @var array
-	 */
-	private $list;
-	
-	public function __construct() {
-		$this->list = array();
-		
-		foreach(Resource::get('article') as $index => $value) {
-			if(!isset($this->list[$value['category']]))
-				$this->list[$value['category']] = array();
+    /**
+     * @var array
+     */
+    private $list;
+    
+    public function __construct() {
+        $this->list = array();
+        
+        foreach(Resource::get('article') as $value) {
+            if(!isset($this->list[$value['category']]))
+                $this->list[$value['category']] = array();
 
-			$this->list[$value['category']][] = $value;
-		}
+            $this->list[$value['category']][] = $value;
+        }
 
-		$this->list = countSort($this->list);
-	}
-	
-	/**
-	 * Get List
-	 *
-	 * @return array
-	 */
-	public function getList() {
-		return $this->list;
-	}
-	
-	/**
-	 * Generate Data
-	 *
-	 * @param string
-	 */
-	public function gen() {
-		$max = array(0, NULL);
-		$count = 0;
-		$total = count($this->list);
-		$key = array_keys($this->list);
-		
-		foreach((array)$this->list as $index => $article_list) {
-			IO::writeln('Building category/' . $index);
-			$max = count($article_list) > $max[0] ? array(count($article_list), $index) : $max;
-			
-			$container_data['title'] ='Category: ' . $index;
-			$container_data['list'] = createDateList($article_list);
-			$container_data['bar'] = array(
-				'index' => $count + 1,
-				'total' => $total
-			);
-			if(isset($key[$count - 1]))
-				$container_data['bar']['prev'] = array(
-					'title' => $key[$count - 1],
-					'url' => $key[$count - 1]
-				);
-			if(isset($key[$count + 1]))
-				$container_data['bar']['next'] = array(
-					'title' => $key[$count + 1],
-					'url' => $key[$count + 1]
-				);
-			
-			$count++;
-			
-			$output_data['title'] = $container_data['title'];
-			$output_data['block'] = Resource::get('block');
-			$output_data['block']['container'] = bindData($container_data, THEME_TEMPLATE . 'Container/Category.php');
-			
-			// Write HTML to Disk
-			$result = bindData($output_data, THEME_TEMPLATE . 'index.php');
-			writeTo($result, PUBLIC_FOLDER . 'category/' . $index);
+        uasort($this->list, function($a, $b) {
+            if (count($a) == count($b))
+                return 0;
 
-			// Sitemap
-			Resource::append('sitemap', 'category/' . $index);
-		}
+            return count($a) > count($b) ? -1 : 1;
+        });
+    }
+    
+    /**
+     * Get List
+     *
+     * @return array
+     */
+    public function getList() {
+        return $this->list;
+    }
+    
+    /**
+     * Generate Data
+     *
+     * @param string
+     */
+    public function gen() {
+        $first = NULL;
+        $count = 0;
+        $total = count($this->list);
+        $key = array_keys($this->list);
 
-		if(file_exists(PUBLIC_FOLDER . 'category/' . $max[1] . '/index.html')) {
-			copy(PUBLIC_FOLDER . 'category/' . $max[1] . '/index.html', PUBLIC_FOLDER . 'category/index.html');
-			Resource::append('sitemap', 'category');
-		}
-	}
+        $config = Resource::get('config');
+        
+        foreach((array)$this->list as $index => $article_list) {
+            IO::writeln("Building category/$index");
+            if(NULL == $first) {
+                $first = $index;
+            }
+
+            $data = [];
+            $data['title'] ="Category: $index";
+            $data['path'] = "category/$index";
+            $data['list'] = $this->createDateList($article_list);
+            
+            // Extend Data
+            $data['name'] = "{$data['title']} | {$config['blog_name']}";
+            $data['header'] = $config['blog_name'];
+            $data['slogan'] = $config['blog_slogan'];
+            $data['description'] = $config['blog_description'];
+            $data['keywords'] = $config['blog_keywords'];
+            $data['footer'] = $config['blog_footer'];
+            $data['dn'] = $config['blog_dn'];
+            $data['base'] = $config['blog_base'];
+            $data['url'] = $config['blog_dn'] . $config['blog_base'];
+            $data['lang'] = $config['blog_lang'];
+            $data['author'] = $config['author_name'];
+            $data['email'] = $config['author_email'];
+            $data['google_analytics'] = $config['google_analytics'];
+            $data['disqus_shortname'] = $config['disqus_shortname'];
+
+            // Bar
+            $data['bar']['index'] = $count + 1;
+            $data['bar']['total'] = $total;
+            
+            if(isset($key[$count - 1])) {
+                $data['bar']['p_title'] = $key[$count - 1];
+                $data['bar']['p_path'] = "{$data['base']}category/" . $key[$count - 1];
+            }
+
+            if(isset($key[$count + 1])) {
+                $data['bar']['n_title'] = $key[$count + 1];
+                $data['bar']['n_path'] = "{$data['base']}category/" . $key[$count + 1];
+            }
+            
+            $count++;
+
+            $container = bindData($data, THEME . '/Template/Container/Category.php');
+
+            $data['block'] = Resource::get('block');
+            $data['block']['container'] = $container;
+            
+            // Write HTML to Disk
+            $result = bindData($data, THEME . '/Template/index.php');
+            writeTo($result, TEMP . "/{$data['path']}");
+
+            // Sitemap
+            Resource::append('sitemap', $data['path']);
+        }
+
+        if(file_exists(TEMP . "/category/$first/index.html")) {
+            copy(TEMP . "/category/$first/index.html", TEMP . "/category/index.html");
+            Resource::append('sitemap', 'category');
+        }
+    }
+
+    private function createDateList($list) {
+        $result = [];
+
+        foreach((array)$list as $article) {
+            if(!isset($result[$article['year']])) {
+                $result[$article['year']] = [];
+            }
+
+            if(!isset($result[$article['year']][$article['month']])) {
+                $result[$article['year']][$article['month']] = [];
+            }
+
+            $result[$article['year']][$article['month']][] = $article;
+        }
+
+        return $result;
+    }
 }
