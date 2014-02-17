@@ -22,7 +22,8 @@ class VersionCommand extends Command {
         $version = 'v0.0.0 dev';
 
         if(defined('BUILD_VERSION')) {
-            $version = BUILD_VERSION . ' (' . date(DATE_RSS, BUILD_TIMESTAMP) . ')';
+            $date = date(DATE_RSS, BUILD_TIMESTAMP);
+            $version = BUILD_VERSION . " ($date)";
         }
 
         IO::writeln($version);

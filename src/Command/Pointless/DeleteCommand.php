@@ -25,8 +25,6 @@ class DeleteCommand extends Command {
     }
 
     public function run() {
-        $config = Resource::get('config');
-
         $data = [];
         $handle = opendir(MARKDOWN);
         while($filename = readdir($handle)) {

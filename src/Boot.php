@@ -80,12 +80,12 @@ if(!file_exists(BLOG . '/Theme')) {
     recursiveCopy(ROOT . '/Sample/Theme', BLOG . '/Theme');
 }
 
-if('' == $config['blog_theme']) {
-    $config['blog_theme'] = 'Classic';
+if('' == $config['theme']) {
+    $config['theme'] = 'Classic';
 }
 
-if(file_exists(BLOG . "/Theme/{$config['blog_theme']}")) {
-    define('THEME', BLOG . "/Theme/{$config['blog_theme']}");
+if(file_exists(BLOG . "/Theme/{$config['theme']}")) {
+    define('THEME', BLOG . "/Theme/{$config['theme']}");
 }
 else {
     define('THEME', ROOT . '/Sample/Theme/Classic');

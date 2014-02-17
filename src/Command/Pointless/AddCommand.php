@@ -25,7 +25,8 @@ class AddCommand extends Command {
     }
 
     public function run() {
-        $config = Resource::get('config');
+        $encoding = Resource::get('config')['encoding'];
+        $editor = Resource::get('config')['editor'];
         
         $info = [
             'title' => IO::question("Enter Title:\n-> "),
@@ -37,15 +38,16 @@ class AddCommand extends Command {
             $info['category'] = IO::question("Enter Category:\n-> ");
         }
 
-        if(NULL != $config['local_encoding']) {
+        if(NULL != $encoding) {
             foreach($info as $key => $value) {
-                $info[$key] = iconv($config['local_encoding'], 'utf-8', $value);
+                $info[$key] = iconv($encoding, 'utf-8', $value);
             }
         }
 
         if($this->hasOptions('s')) {
-            $filename = $this->escape($info['url']);
-            $filename = 'static_' . strtolower($filename) . '.md';
+            $filename = $this->replace($info['url']);
+            $filename = strtolower($filename);
+            $filename = "static_$filename.md";
             $filepath = MARKDOWN . "/$filename";
 
             if(file_exists($filepath)) {
@@ -56,7 +58,7 @@ class AddCommand extends Command {
             $json = json_encode([
                 'type' => 'static',
                 'title' => $info['title'],
-                'url' => $this->escape($info['url']),
+                'url' => $this->replace($info['url']),
                 'message' => false,
             ], JSON_PRETTY_PRINT);
 
@@ -65,12 +67,12 @@ class AddCommand extends Command {
             fclose($handle);
             
             IO::writeln("\nStatic Page $filename was created.");
-            system("{$config['editor']} $filepath < `tty` > `tty`");
+            system("$editor $filepath < `tty` > `tty`");
         }
         else {
             $time = time();
-            $filename = $this->escape($filename);
-            $filename = sprintf("%s%s.md", date("Ymd_", $time), $info['url']);
+            $filename = $this->replace($info['url']);
+            $filename = date("Ymd_", $time) . "$filename.md";
             $filepath = MARKDOWN . "/$filename";
 
             if(file_exists($filepath)) {
@@ -81,7 +83,7 @@ class AddCommand extends Command {
             $json = json_encode([
                 'type' => 'article',
                 'title' => $info['title'],
-                'url' => $this->escape($info['url']),
+                'url' => $this->replace($info['url']),
                 'tag' => $info['tag'],
                 'category' => $info['category'],
                 'keywords' => null,
@@ -96,11 +98,11 @@ class AddCommand extends Command {
             fclose($handle);
             
             IO::writeln("\nArticle $filename is created.");
-            system("{$config['editor']} $filepath < `tty` > `tty`");
+            system("$editor $filepath < `tty` > `tty`");
         }
     }
 
-    private function escape($filename) {
+    private function replace($filename) {
         $char = [
             "'", '"', '&', '$', '=',
             '!', '?', '/', '<', '>', 

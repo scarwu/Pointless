@@ -53,7 +53,7 @@ EOF;
                 $class->help();
             }
             catch(Exception $e) {
-                IO::writeln('    No description for ' . $command . '.', 'red');
+                IO::writeln("    No description for $command.", 'red');
             }
         }
         else {

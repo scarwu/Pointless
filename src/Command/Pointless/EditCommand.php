@@ -25,8 +25,8 @@ class EditCommand extends Command {
     }
     
     public function run() {
-        $config = Resource::get('config');
-
+        $editor = Resource::get('config')['editor'];
+        
         $data = [];
         $handle = opendir(MARKDOWN);
         while($filename = readdir($handle)) {
@@ -77,6 +77,6 @@ class EditCommand extends Command {
             return is_numeric($answer) && $answer >= 0 && $answer < count($data);
         });
 
-        system("{$config['editor']} {$data[$number]['path']} < `tty` > `tty`");
+        system("$editor {$data[$number]['path']} < `tty` > `tty`");
     }
 }

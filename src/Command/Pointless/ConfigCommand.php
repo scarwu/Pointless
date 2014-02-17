@@ -20,9 +20,9 @@ class ConfigCommand extends Command {
     }
     
     public function run() {
-        $config = Resource::get('config');
+        $editor = Resource::get('config')['editor'];
         $filepath = BLOG . '/Config.php';
 
-        system("{$config['editor']} $filepath < `tty` > `tty`");
+        system("$editor $filepath < `tty` > `tty`");
     }
 }

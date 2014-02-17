@@ -18,43 +18,39 @@ class Atom {
     public function run() {
         IO::writeln('Building Atom');
 
-        $config = Resource::get('config');
-        $data['name'] = $config['blog_name'];
-        $data['slogan'] = $config['blog_slogan'];
-        $data['url'] = $config['blog_dn'] . $config['blog_base'];
-        $data['author'] = $config['author_name'];
-        $data['email'] = $config['author_email'];
+        $blog = Resource::get('config')['blog'];
+        $blog['url'] = $blog['dn'] . $blog['base'];
 
         $count = 0;
 
         $atom = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
         $atom .= "<feed xmlns=\"http://www.w3.org/2005/Atom\">\n";
 
-        $atom .= "\t<title><![CDATA[{$data['name']}]]></title>\n";
-        $atom .= "\t<subtitle>{$data['slogan']}</subtitle>\n";
-        $atom .= "\t<link href=\"http://{$data['url']}atom.xml\" rel=\"self\" />\n";
-        $atom .= "\t<link href=\"http://{$data['url']}\" />\n";
-        $atom .= "\t<id>urn:uuid:" . $this->uuid("{$data['url']}atom.xml") . "</id>\n";
+        $atom .= "\t<title><![CDATA[{$blog['name']}]]></title>\n";
+        $atom .= "\t<subtitle>{$blog['slogan']}</subtitle>\n";
+        $atom .= "\t<link href=\"http://{$blog['url']}atom.xml\" rel=\"self\" />\n";
+        $atom .= "\t<link href=\"http://{$blog['url']}\" />\n";
+        $atom .= "\t<id>urn:uuid:" . $this->uuid("{$blog['url']}atom.xml") . "</id>\n";
         $atom .= "\t<updated>" . date(DATE_ATOM) . "</updated>\n";
 
-        if(NULL != $data['author'] || NULL != $data['email']) {
+        if(NULL != $blog['author'] || NULL != $blog['email']) {
             $atom .= "\t<author>\n";
 
-            if(NULL != $data['author']) {
-                $atom .= "\t\t<name><![CDATA[{$data['author']}]]></name>\n";
+            if(NULL != $blog['author']) {
+                $atom .= "\t\t<name><![CDATA[{$blog['author']}]]></name>\n";
             }
 
-            if(NULL != $data['email']) {
-                $atom .= "\t\t<email>{$data['email']}</email>\n";
+            if(NULL != $blog['email']) {
+                $atom .= "\t\t<email>{$blog['email']}</email>\n";
             }
 
-            $atom .= "\t\t<uri>http://{$data['url']}</uri>\n";
+            $atom .= "\t\t<uri>http://{$blog['url']}</uri>\n";
             $atom .= "\t</author>\n";
         }
 
         foreach((array)Resource::get('article') as $article) {
             $title = htmlspecialchars($article['title'], ENT_QUOTES, "UTF-8");
-            $url = "{$data['url']}article/{$article['url']}";
+            $url = "{$blog['url']}article/{$article['url']}";
             $uuid = $this->uuid($url);
             $date = date(DATE_ATOM, $article['timestamp']);
             $summary = htmlspecialchars($article['content'], ENT_QUOTES, "UTF-8");
@@ -67,7 +63,7 @@ class Atom {
             $atom .= "\t\t<summary type=\"html\"><![CDATA[{$summary}]]></summary>\n";
             $atom .= "\t</entry>\n";
 
-            if (++$count >= $config['feed_quantity'])
+            if (++$count >= $blog['feed_quantity'])
                 break;
         }
 

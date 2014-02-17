@@ -20,11 +20,11 @@ class DeployCommand extends Command {
     }
     
     public function run() {
-        $config = Resource::get('config');
+        $github = Resource::get('config')['github'];
 
-        $account = $config['github_account'];
-        $repo = $config['github_repo']
-        $branch = $config['github_branch']
+        $account = $github['account'];
+        $repo = $github['repo'];
+        $branch = $github['branch'];
         
         if(NULL == $account || NULL == $repo || NULL == $branch) {
             IO::writeln('Please add Github setting in Pointless config.', 'red');
