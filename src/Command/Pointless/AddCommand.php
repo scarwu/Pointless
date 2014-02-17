@@ -23,6 +23,10 @@ class AddCommand extends Command {
 		IO::writeln('    add -s     - Add new Static Page');
 	}
 
+	public function filterTitle($title) {
+		return str_replace('"', '\u0022', $title);
+	}
+
 	public function run() {
 		if(!defined('CURRENT_BLOG')) {
 			IO::writeln('Please use "poi init <blog name>" to initialize blog.', 'red');
@@ -33,7 +37,7 @@ class AddCommand extends Command {
 		initBlog();
 		
 		$info = array(
-			'title' => IO::question("Enter Title:\n-> "),
+			'title' => $this->filterTitle(IO::question("Enter Title:\n-> ")),
 			'url' => IO::question("Enter Custom Url:\n-> ")
 		);
 
