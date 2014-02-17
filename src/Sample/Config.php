@@ -1,6 +1,6 @@
 <?php
 
-$config => [
+$config = [
 	// Blog Name
 	'blog_name' => 'Pointless',
 
