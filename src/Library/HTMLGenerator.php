@@ -80,10 +80,12 @@ class HTMLGenerator {
             $result = '';
             foreach((array)$file_list as $file) {
                 $script_name = preg_replace(['/^\d+_/', '/.php$/'], '', $file);
-                $data['config'] = Resource::get('config');
+
+                $data['blog'] = Resource::get('config')['blog'];
                 $data['list'] = isset($this->script[$script_name])
                     ? $this->script[$script_name]->getList()
                     : NULL;
+                
                 $result .= bindData($data, THEME . "/Template/$block_name/$file");
             }
 

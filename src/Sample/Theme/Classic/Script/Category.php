@@ -55,7 +55,7 @@ class Category {
         $total = count($this->list);
         $key = array_keys($this->list);
 
-        $config = Resource::get('config');
+        $blog = Resource::get('config')['blog'];
         
         foreach((array)$this->list as $index => $article_list) {
             IO::writeln("Building category/$index");
@@ -69,20 +69,9 @@ class Category {
             $data['list'] = $this->createDateList($article_list);
             
             // Extend Data
-            $data['name'] = "{$data['title']} | {$config['blog_name']}";
-            $data['header'] = $config['blog_name'];
-            $data['slogan'] = $config['blog_slogan'];
-            $data['description'] = $config['blog_description'];
-            $data['keywords'] = $config['blog_keywords'];
-            $data['footer'] = $config['blog_footer'];
-            $data['dn'] = $config['blog_dn'];
-            $data['base'] = $config['blog_base'];
-            $data['url'] = $config['blog_dn'] . $config['blog_base'];
-            $data['lang'] = $config['blog_lang'];
-            $data['author'] = $config['author_name'];
-            $data['email'] = $config['author_email'];
-            $data['google_analytics'] = $config['google_analytics'];
-            $data['disqus_shortname'] = $config['disqus_shortname'];
+            $data['name'] = "{$data['title']} | {$blog['name']}";
+            $data['header'] = $blog['name'];
+            $data['url'] = $blog['dn'] . $blog['base'];
 
             // Bar
             $data['bar']['index'] = $count + 1;

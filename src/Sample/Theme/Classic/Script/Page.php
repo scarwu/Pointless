@@ -39,7 +39,7 @@ class Page {
         $quantity = Resource::get('config')['article_quantity'];
         $total = ceil(count($this->list) / $quantity);
 
-        $config = Resource::get('config');
+        $blog = Resource::get('config')['blog'];
                 
         for($index = 1;$index <= $total;$index++) {
             IO::writeln("Building page/$index");
@@ -49,20 +49,8 @@ class Page {
             $data['list'] = array_slice($this->list, $quantity * ($index - 1), $quantity);
 
             // Extend Data
-            $data['name'] = $config['blog_name'];
-            $data['header'] = $config['blog_name'];
-            $data['slogan'] = $config['blog_slogan'];
-            $data['description'] = $config['blog_description'];
-            $data['keywords'] = $config['blog_keywords'];
-            $data['footer'] = $config['blog_footer'];
-            $data['dn'] = $config['blog_dn'];
-            $data['base'] = $config['blog_base'];
-            $data['url'] = $config['blog_dn'] . $config['blog_base'];
-            $data['lang'] = $config['blog_lang'];
-            $data['author'] = $config['author_name'];
-            $data['email'] = $config['author_email'];
-            $data['google_analytics'] = $config['google_analytics'];
-            $data['disqus_shortname'] = $config['disqus_shortname'];
+            $data['header'] = $blog['name'];
+            $data['url'] = $blog['dn'] . $blog['base'];
 
             // Bar
             $data['bar']['index'] = $index;

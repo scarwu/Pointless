@@ -18,6 +18,7 @@ class Atom {
     public function run() {
         IO::writeln('Building Atom');
 
+        $quantity = Resource::get('config')['feed_quantity'];
         $blog = Resource::get('config')['blog'];
         $blog['url'] = $blog['dn'] . $blog['base'];
 
@@ -63,7 +64,7 @@ class Atom {
             $atom .= "\t\t<summary type=\"html\"><![CDATA[{$summary}]]></summary>\n";
             $atom .= "\t</entry>\n";
 
-            if (++$count >= $blog['feed_quantity'])
+            if (++$count >= $quantity)
                 break;
         }
 

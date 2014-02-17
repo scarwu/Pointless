@@ -29,7 +29,7 @@ class ExtensionLoader {
             $handle = opendir(EXTENSION);
             while($filename = readdir($handle)) {
                 if('.' != $filename && '..' != $filename) {
-                    require EXTENSION . $filename;
+                    require EXTENSION . "/$filename";
 
                     $class_name = preg_replace('/.php$/', '', $filename);
                     $this->extension[$class_name] = new $class_name;
@@ -45,7 +45,7 @@ class ExtensionLoader {
                 $class_name = preg_replace('/.php$/', '', $filename);
 
                 if(!isset($this->extension[$class_name])) {
-                    require ROOT . '/Sample/Extension/' . $filename;
+                    require ROOT . "/Sample/Extension/$filename";
                     $this->extension[$class_name] = new $class_name;
                 }
             }

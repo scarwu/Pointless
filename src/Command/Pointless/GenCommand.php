@@ -36,7 +36,9 @@ class GenCommand extends Command {
         require LIBRARY . '/ExtensionLoader.php';
         require VENDOR . '/Markdown/Michelf/MarkdownExtra.inc.php';
 
-        $this->config = Resource::get('config');
+        $blog = Resource::get('config')['blog'];
+        $github = Resource::get('config')['github'];
+
         $start = microtime(TRUE);
 
         if($this->hasOptions('css')) {
@@ -81,10 +83,10 @@ class GenCommand extends Command {
         fclose($handle);
 
         // Create Github CNAME
-        if($this->config['github_cname']) {
+        if($github['cname']) {
             IO::writeln('Create Github CNAME ...', 'yellow');
             $handle = fopen(TEMP . '/CNAME', 'w+');
-            fwrite($handle, $this->config['blog_dn']);
+            fwrite($handle, $blog['dn']);
             fclose($handle);
         }
 
@@ -126,6 +128,8 @@ class GenCommand extends Command {
      */
     private function initResourcePool() {
         $article = [];
+        $article_url = Resource::get('config')['article_url'];
+        $article_url = trim($article_url, '/');
 
         // Handle Markdown
         IO::writeln('Load and Initialize Markdown');
@@ -135,61 +139,60 @@ class GenCommand extends Command {
                 continue;
 
             preg_match(REGEX_RULE, file_get_contents(MARKDOWN . "/$filename"), $match);
-            $temp = json_decode($match[1], TRUE);
+            $post = json_decode($match[1], TRUE);
 
-            if(NULL == $temp) {
+            if(NULL == $post) {
                 IO::writeln('Attribute Error: ' . $filename, 'red');
                 exit(1);
             }
 
             // Append Static Page
-            if('static' == $temp['type']) {
+            if('static' == $post['type']) {
                 Resource::append('static', [
-                    'title' => $temp['title'],
-                    'url' => $temp['url'],
+                    'title' => $post['title'],
+                    'url' => $post['url'],
                     'content' => MarkdownExtra::defaultTransform($match[2]),
-                    'message' => isset($temp['message']) ? $temp['message'] : TRUE
+                    'message' => isset($post['message']) ? $post['message'] : TRUE
                 ]);
             }
 
             // Create Article
-            if('article' == $temp['type']) {
-                if(!(isset($temp['publish']) ? $temp['publish'] : TRUE))
+            if('article' == $post['type']) {
+                if(!(isset($post['publish']) ? $post['publish'] : TRUE))
                     continue;
 
-                $date = explode('-', $temp['date']);
-                $time = explode(':', $temp['time']);
-                $timestamp = strtotime("{$date[2]}-{$date[1]}-{$date[0]} {$temp['time']}");
+                list($year, $month, $day) = explode('-', $post['date']);
+                list($hour, $minute, $second) = explode(':', $post['time']);
+                $timestamp = strtotime("$day-$month-$year {$post['time']}");
 
                 // Generate custom url
-                $url = trim($this->config['article_url'], '/');
                 $url = str_replace([
                     ':year', ':month', ':day',
                     ':hour', ':minute', ':second', ':timestamp',
                     ':title', ':url'
                 ], [
-                    $date[0], $date[1], $date[2],
-                    $time[0], $time[1], $time[2], $timestamp,
-                    $temp['title'], $temp['url']
-                ], $url);
+                    $year, $month, $day,
+                    $hour, $minute, $second, $timestamp,
+                    $post['title'], $post['url']
+                ], $article_url);
 
                 $article[$timestamp] = [
-                    'title' => $temp['title'],
+                    'title' => $post['title'],
                     'url' => $url,
                     'content' => MarkdownExtra::defaultTransform($match[2]),
-                    'date' => $temp['date'],
-                    'time' => $temp['time'],
-                    'category' => $temp['category'],
-                    'keywords' => $temp['keywords'],
-                    'tag' => explode('|', $temp['tag']),
-                    'year' => $date[0],
-                    'month' => $date[1],
-                    'day' => $date[2],
-                    'hour' => $time[0],
-                    'minute' => $time[1],
-                    'second' => $time[2],
+                    'date' => $post['date'],
+                    'time' => $post['time'],
+                    'category' => $post['category'],
+                    'keywords' => $post['keywords'],
+                    'tag' => explode('|', $post['tag']),
+                    'year' => $year,
+                    'month' => $month,
+                    'day' => $day,
+                    'hour' => $hour,
+                    'minute' => $minute,
+                    'second' => $second,
                     'timestamp' => $timestamp,
-                    'message' => isset($temp['message']) ? $temp['message'] : TRUE
+                    'message' => isset($post['message']) ? $post['message'] : TRUE
                 ];
             }
         }
