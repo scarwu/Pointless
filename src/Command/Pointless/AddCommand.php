@@ -105,13 +105,15 @@ class AddCommand extends Command {
     private function replace($filename) {
         $char = [
             "'", '"', '&', '$', '=',
-            '!', '?', '/', '<', '>', 
+            '!', '?', '/', '<', '>',
             '(', ')', ':', ';', '@',
             '#', '%', '^', '*', ',',
             '.', '~', '`', '|', '\\'
         ];
 
         $filename = str_replace($char, '', $filename);
+        $filename = str_replace(' ', '-', $filename);
+
         return stripslashes($filename);
     }
 }
