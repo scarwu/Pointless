@@ -8,7 +8,6 @@
 	<meta name="keywords" content="<?=$data['keywords']?>">
 	<title><?=$data['name']?></title>
 	
-	<!-- Load Cascading Style Sheets -->
 	<link rel="stylesheet" href="<?=$data['base']?>theme/main.css">
 </head>
 <body>

@@ -39,17 +39,36 @@ class HTMLGenerator {
      * Load Theme Script
      */
     private function loadScript() {
-        $handle = opendir(THEME . '/Script');
+
+        // Load Custom Script
+        if(file_exists(SCRIPT)) {
+            $handle = opendir(SCRIPT);
+            while($filename = readdir($handle)) {
+                if('.' == $filename || '..' == $filename)
+                    continue;
+
+                require SCRIPT . "/$filename";
+
+                $class_name = preg_replace('/.php$/', '', $filename);
+                $this->script[$class_name] = new $class_name;
+            }
+            closedir($handle);
+        }
+
+        // Load Default Script
+        $handle = opendir(ROOT . '/Sample/Script');
         while($filename = readdir($handle)) {
             if('.' == $filename || '..' == $filename)
                 continue;
 
-            require THEME . "/Script/$filename";
-
             $class_name = preg_replace('/.php$/', '', $filename);
-            $this->script[$class_name] = new $class_name;
+
+            if(!isset($this->script[$class_name])) {
+                require ROOT . "/Sample/Script/$filename";
+                $this->script[$class_name] = new $class_name;
+            }
         }
-        closedir($handle);
+
     }
 
     /**

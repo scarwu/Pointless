@@ -48,7 +48,7 @@ class GenCommand extends Command {
 
             IO::writeln('Compress CSS ...', 'yellow');
             $Compress = new Compress();
-            $Compress->css(THEME . '/Assets/Css', TEMP . '/theme');
+            $Compress->css(THEME . '/Css', TEMP . '/theme');
 
             $time = sprintf("%.3f", abs(microtime(TRUE) - $start));
             IO::writeln("Generate finish, $time s.", 'green');
@@ -63,7 +63,7 @@ class GenCommand extends Command {
 
             IO::writeln('Compress Javascript ...', 'yellow');
             $Compress = new Compress();
-            $Compress->js(THEME . '/Assets/Js', TEMP . '/theme');
+            $Compress->js(THEME . '/Js', TEMP . '/theme');
 
             $time = sprintf("%.3f", abs(microtime(TRUE) - $start));
             IO::writeln("Generate finish, $time s.", 'green');
@@ -101,8 +101,8 @@ class GenCommand extends Command {
         // Compress CSS and JavaScript
         IO::writeln('Compress CSS & Javascript ...', 'yellow');
         $compress = new Compress();
-        $compress->js(THEME . '/Assets/Js', TEMP . '/theme');
-        $compress->css(THEME . '/Assets/Css', TEMP . '/theme');
+        $compress->js(THEME . '/Js', TEMP . '/theme');
+        $compress->css(THEME . '/Css', TEMP . '/theme');
         
         // Initialize Resource Pool
         IO::writeln('Initialize Resource Pool ...', 'yellow');

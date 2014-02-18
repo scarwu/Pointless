@@ -20,7 +20,8 @@
 						Category:
 						<?=linkTo("{$data['base']}category/{$article['category']}", $article['category'])?>
 					</span>
-					<span class="tag">Tag: 
+					<span class="tag">
+						Tag: 
 						<?php foreach((array)$article['tag'] as $index => $tag): ?>
 						<?php $article['tag'][$index] = linkTo("{$data['base']}tag/$tag", $tag); ?>
 						<?php endforeach; ?>

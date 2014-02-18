@@ -28,26 +28,28 @@ class ExtensionLoader {
         if(file_exists(EXTENSION)) {
             $handle = opendir(EXTENSION);
             while($filename = readdir($handle)) {
-                if('.' != $filename && '..' != $filename) {
-                    require EXTENSION . "/$filename";
+                if('.' == $filename || '..' == $filename)
+                    continue;
 
-                    $class_name = preg_replace('/.php$/', '', $filename);
-                    $this->extension[$class_name] = new $class_name;
-                }
+                require EXTENSION . "/$filename";
+
+                $class_name = preg_replace('/.php$/', '', $filename);
+                $this->extension[$class_name] = new $class_name;
             }
             closedir($handle);
         }
 
         // Load Default Extension
-        $handle = opendir(ROOT . '/Sample/Extension/');
+        $handle = opendir(ROOT . '/Sample/Extension');
         while($filename = readdir($handle)) {
-            if('.' != $filename && '..' != $filename) {
-                $class_name = preg_replace('/.php$/', '', $filename);
+            if('.' == $filename || '..' == $filename)
+                continue;
 
-                if(!isset($this->extension[$class_name])) {
-                    require ROOT . "/Sample/Extension/$filename";
-                    $this->extension[$class_name] = new $class_name;
-                }
+            $class_name = preg_replace('/.php$/', '', $filename);
+
+            if(!isset($this->extension[$class_name])) {
+                require ROOT . "/Sample/Extension/$filename";
+                $this->extension[$class_name] = new $class_name;
             }
         }
         closedir($handle);
