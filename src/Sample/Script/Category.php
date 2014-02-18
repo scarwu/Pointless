@@ -18,11 +18,11 @@ class Category {
     private $list;
     
     public function __construct() {
-        $this->list = array();
+        $this->list = [];
         
         foreach(Resource::get('article') as $value) {
             if(!isset($this->list[$value['category']]))
-                $this->list[$value['category']] = array();
+                $this->list[$value['category']] = [];
 
             $this->list[$value['category']][] = $value;
         }
@@ -57,49 +57,51 @@ class Category {
 
         $blog = Resource::get('config')['blog'];
         
-        foreach((array)$this->list as $index => $article_list) {
+        foreach((array)$this->list as $index => $post_list) {
             IO::writeln("Building category/$index");
             if(NULL == $first) {
                 $first = $index;
             }
 
-            $data = [];
-            $data['title'] ="Category: $index";
-            $data['path'] = "category/$index";
-            $data['list'] = $this->createDateList($article_list);
-            
-            // Extend Data
-            $data['name'] = "{$data['title']} | {$blog['name']}";
-            $data['header'] = $blog['name'];
-            $data['url'] = $blog['dn'] . $blog['base'];
-
-            // Bar
-            $data['bar']['index'] = $count + 1;
-            $data['bar']['total'] = $total;
+            $post = [];
+            $post['title'] ="Category: $index";
+            $post['url'] = "category/$index";
+            $post['list'] = $this->createDateList($post_list);
+            $post['bar']['index'] = $count + 1;
+            $post['bar']['total'] = $total;
             
             if(isset($key[$count - 1])) {
-                $data['bar']['p_title'] = $key[$count - 1];
-                $data['bar']['p_path'] = "{$data['base']}category/" . $key[$count - 1];
+                $post['bar']['p_title'] = $key[$count - 1];
+                $post['bar']['p_path'] = "{$blog['base']}category/" . $key[$count - 1];
             }
 
             if(isset($key[$count + 1])) {
-                $data['bar']['n_title'] = $key[$count + 1];
-                $data['bar']['n_path'] = "{$data['base']}category/" . $key[$count + 1];
+                $post['bar']['n_title'] = $key[$count + 1];
+                $post['bar']['n_path'] = "{$blog['base']}category/" . $key[$count + 1];
             }
             
             $count++;
 
-            $container = bindData($data, THEME . '/Template/Container/Category.php');
+            $container = bindData($post, THEME . '/Template/Container/Category.php');
 
-            $data['block'] = Resource::get('block');
-            $data['block']['container'] = $container;
+            $block = Resource::get('block');
+            $block['container'] = $container;
+
+            $ext = [];
+            $ext['name'] = "{$post['title']} | {$blog['name']}";
+            $ext['url'] = $blog['dn'] . $blog['base'];
+
+            $data = [];
+            $data['blog'] = $blog;
+            $data['block'] = $block;
+            $data['ext'] = $ext;
             
             // Write HTML to Disk
             $result = bindData($data, THEME . '/Template/index.php');
-            writeTo($result, TEMP . "/{$data['path']}");
+            writeTo($result, TEMP . "/{$post['url']}");
 
             // Sitemap
-            Resource::append('sitemap', $data['path']);
+            Resource::append('sitemap', $post['url']);
         }
 
         if(file_exists(TEMP . "/category/$first/index.html")) {

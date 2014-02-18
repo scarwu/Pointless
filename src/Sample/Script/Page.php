@@ -40,43 +40,45 @@ class Page {
         $total = ceil(count($this->list) / $quantity);
 
         $blog = Resource::get('config')['blog'];
-                
+        
         for($index = 1;$index <= $total;$index++) {
             IO::writeln("Building page/$index");
             
-            $data = [];
-            $data['path'] = "page/$index";
-            $data['list'] = array_slice($this->list, $quantity * ($index - 1), $quantity);
-
-            // Extend Data
-            $data['header'] = $blog['name'];
-            $data['url'] = $blog['dn'] . $blog['base'];
-
-            // Bar
-            $data['bar']['index'] = $index;
-            $data['bar']['total'] = $total;
+            $post = [];
+            $post['url'] = "page/$index";
+            $post['list'] = array_slice($this->list, $quantity * ($index - 1), $quantity);
+            $post['bar']['index'] = $index;
+            $post['bar']['total'] = $total;
 
             if($index - 1 > 1) {
-                $data['bar']['p_title'] = $index - 1;
-                $data['bar']['p_path'] = "{$data['base']}page/" . ($index - 1);
+                $post['bar']['p_title'] = $index - 1;
+                $post['bar']['p_path'] = "{$blog['base']}page/" . ($index - 1);
             }
             
             if($index + 1 < $total) {
-                $data['bar']['n_title'] = $index + 1;
-                $data['bar']['n_path'] = "{$data['base']}page/" . ($index + 1);
+                $post['bar']['n_title'] = $index + 1;
+                $post['bar']['n_path'] = "{$blog['base']}page/" . ($index + 1);
             }
 
-            $container = bindData($data, THEME . '/Template/Container/Page.php');
+            $container = bindData($post, THEME . '/Template/Container/Page.php');
 
-            $data['block'] = Resource::get('block');
-            $data['block']['container'] = $container;
+            $block = Resource::get('block');
+            $block['container'] = $container;
+
+            $ext = [];
+            $ext['url'] = $blog['dn'] . $blog['base'];
+
+            $data = [];
+            $data['blog'] = $blog;
+            $data['block'] = $block;
+            $data['ext'] = $ext;
             
             // Write HTML to Disk
             $result = bindData($data, THEME . '/Template/index.php');
-            writeTo($result, TEMP . "/{$data['path']}");
+            writeTo($result, TEMP . "/{$post['url']}");
 
             // Sitemap
-            Resource::append('sitemap', $data['path']);
+            Resource::append('sitemap', $post['url']);
         }
         
         if(file_exists(TEMP . '/page/1/index.html')) {

@@ -42,50 +42,52 @@ class Article {
 
         $blog = Resource::get('config')['blog'];
 
-        foreach((array)$this->list as $data) {
-            IO::writeln("Building article/{$data['url']}");
+        foreach((array)$this->list as $post) {
+            IO::writeln("Building article/{$post['url']}");
             
-            $data['path'] = "article/{$data['url']}";
-
-            // Extend Data
-            $data['name'] = "{$data['title']} | {$blog['name']}";
-            $data['header'] = $blog['name'];
-            $data['keywords'] = $blog['keywords'] . $data['keywords'];
-            $data['url'] = $blog['dn'] . $blog['base'];
-
-            // Bar
-            $data['bar']['index'] = $count + 1;
-            $data['bar']['total'] = $total;
+            $post['url'] = "article/{$post['url']}";
+            $post['bar']['index'] = $count + 1;
+            $post['bar']['total'] = $total;
 
             if(isset($key[$count - 1])) {
                 $title = $this->list[$key[$count - 1]]['title'];
                 $path = $this->list[$key[$count - 1]]['url'];
 
-                $data['bar']['p_title'] = $title;
-                $data['bar']['p_path'] = "{$data['base']}article/$path";
+                $post['bar']['p_title'] = $title;
+                $post['bar']['p_path'] = "{$blog['base']}article/$path";
             }
 
             if(isset($key[$count + 1])) {
                 $title = $this->list[$key[$count + 1]]['title'];
                 $path = $this->list[$key[$count + 1]]['url'];
 
-                $data['bar']['n_title'] = $title;
-                $data['bar']['n_path'] = "{$data['base']}article/$path";
+                $post['bar']['n_title'] = $title;
+                $post['bar']['n_path'] = "{$blog['base']}article/$path";
             }
 
             $count++;
 
-            $container = bindData($data, THEME . '/Template/Container/Article.php');
+            $container = bindData($post, THEME . '/Template/Container/Article.php');
 
-            $data['block'] = Resource::get('block');
-            $data['block']['container'] = $container;
+            $block = Resource::get('block');
+            $block['container'] = $container;
+
+            $ext = [];
+            $ext['name'] = "{$post['title']} | {$blog['name']}";
+            $ext['keywords'] = $blog['keywords'] . $post['keywords'];
+            $ext['url'] = $blog['dn'] . $blog['base'];
+
+            $data = [];
+            $data['blog'] = $blog;
+            $data['block'] = $block;
+            $data['ext'] = $ext;
             
             // Write HTML to Disk
             $result = bindData($data, THEME . '/Template/index.php');
-            writeTo($result, TEMP . "/{$data['path']}");
+            writeTo($result, TEMP . "/{$post['url']}");
 
             // Sitemap
-            Resource::append('sitemap', $data['path']);
+            Resource::append('sitemap', $post['url']);
         }
     }
 }

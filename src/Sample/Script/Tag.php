@@ -59,49 +59,51 @@ class Tag {
 
         $blog = Resource::get('config')['blog'];
         
-        foreach((array)$this->list as $index => $article_list) {
+        foreach((array)$this->list as $index => $post_list) {
             IO::writeln("Building tag/$index");
             if(NULL == $first) {
                 $first = $index;
             }
             
-            $data = [];
-            $data['title'] = "Tag: $index";
-            $data['path'] = "tag/$index";
-            $data['list'] = $this->createDateList($article_list);
-            
-            // Extend Data
-            $data['name'] = "{$data['title']} | {$blog['name']}";
-            $data['header'] = $blog['name'];
-            $data['url'] = $blog['dn'] . $blog['base'];
-
-            // Bar
-            $data['bar']['index'] = $count + 1;
-            $data['bar']['total'] = $total;
+            $post = [];
+            $post['title'] = "Tag: $index";
+            $post['url'] = "tag/$index";
+            $post['list'] = $this->createDateList($post_list);
+            $post['bar']['index'] = $count + 1;
+            $post['bar']['total'] = $total;
 
             if(isset($key[$count - 1])) {
-                $data['bar']['p_title'] = $key[$count - 1];
-                $data['bar']['p_path'] = "{$data['base']}tag/" . $key[$count - 1];
+                $post['bar']['p_title'] = $key[$count - 1];
+                $post['bar']['p_path'] = "{$blog['base']}tag/" . $key[$count - 1];
             }
             
             if(isset($key[$count + 1])) {
-                $data['bar']['n_title'] = $key[$count + 1];
-                $data['bar']['n_path'] = "{$data['base']}tag/" . $key[$count + 1];
+                $post['bar']['n_title'] = $key[$count + 1];
+                $post['bar']['n_path'] = "{$blog['base']}tag/" . $key[$count + 1];
             }
             
             $count++;
 
-            $container = bindData($data, THEME . '/Template/Container/Tag.php');
+            $container = bindData($post, THEME . '/Template/Container/Tag.php');
 
-            $data['block'] = Resource::get('block');
-            $data['block']['container'] = $container;
+            $block = Resource::get('block');
+            $block['container'] = $container;
+
+            $ext = [];
+            $ext['name'] = "{$post['title']} | {$blog['name']}";
+            $ext['url'] = $blog['dn'] . $blog['base'];
+
+            $data = [];
+            $data['blog'] = $blog;
+            $data['block'] = $block;
+            $data['ext'] = $ext;
             
             // Write HTML to Disk
             $result = bindData($data, THEME . '/Template/index.php');
-            writeTo($result, TEMP . "/{$data['path']}");
+            writeTo($result, TEMP . "/{$post['url']}");
 
             // Sitemap
-            Resource::append('sitemap', $data['path']);
+            Resource::append('sitemap', $post['url']);
         }
 
         if(file_exists(TEMP . "/tag/$first/index.html")) {

@@ -38,27 +38,29 @@ class StaticPage {
     public function gen() {
         $blog = Resource::get('config')['blog'];
 
-        foreach((array)$this->list as $data) {
-            IO::writeln("Building {$data['url']}");
-            
-            $data['path'] = $data['url'];
+        foreach((array)$this->list as $post) {
+            IO::writeln("Building {$post['url']}");
 
-            // Extend Data
-            $data['name'] = "{$data['title']} | {$blog['name']}";
-            $data['header'] = $blog['name'];
-            $data['url'] = $blog['dn'] . $blog['base'];
+            $container = bindData($post, THEME . '/Template/Container/StaticPage.php');
 
-            $container = bindData($data, THEME . '/Template/Container/StaticPage.php');
+            $block = Resource::get('block');
+            $block['container'] = $container;
 
-            $data['block'] = Resource::get('block');
-            $data['block']['container'] = $container;
+            $ext = [];
+            $ext['name'] = "{$post['title']} | {$blog['name']}";
+            $ext['url'] = $blog['dn'] . $blog['base'];
+
+            $data = [];
+            $data['blog'] = $blog;
+            $data['block'] = $block;
+            $data['ext'] = $ext;
 
             // Write HTML to Disk
             $result = bindData($data, THEME . '/Template/index.php');
-            writeTo($result, TEMP . "/{$data['path']}");
+            writeTo($result, TEMP . "/{$post['url']}");
 
             // Sitemap
-            Resource::append('sitemap', $data['path']);
+            Resource::append('sitemap', $post['url']);
         }
     }
 }
