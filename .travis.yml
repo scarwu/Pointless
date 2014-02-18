@@ -1,5 +1,4 @@
 script:
-  - sh ./script/setup.sh
   - php ./script/build.php
   - php ./bin/poi gen
   - php ./bin/poi version
