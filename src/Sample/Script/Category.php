@@ -86,13 +86,17 @@ class Category {
             
             $count++;
 
-            $container = bindData($post, THEME . '/Template/Container/Category.php');
+            $data = [];
+            $data['blog'] = $blog;
+            $data['post'] = $post;
+
+            $container = bindData($data, THEME . '/Template/Container/Category.php');
 
             $block = Resource::get('block');
             $block['container'] = $container;
 
             $ext = [];
-            $ext['name'] = "{$post['title']} | {$blog['name']}";
+            $ext['title'] = "{$post['title']} | {$blog['name']}";
             $ext['url'] = $blog['dn'] . $blog['base'];
 
             $data = [];

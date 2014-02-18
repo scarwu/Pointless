@@ -1,53 +1,53 @@
 <div id="article">
 	<article>
-		<div class="title"><?=$data['title']?></div>
+		<div class="title"><?=$post['title']?></div>
 		<div class="info">
-			<?php if(NULL != $data['disqus_shortname']): ?>
+			<?php if(NULL != $blog['disqus_shortname']): ?>
 			<span class="comment">
-				<a href="<?=linkEncode("{$data['base']}{$data['path']}/")?>#disqus_thread">
+				<a href="<?=linkEncode("{$blog['base']}{$post['url']}/")?>#disqus_thread">
 					0 Comment
 				</a>
 			</span>
 			<br />
 			<?php endif; ?>
-			<span class="date"><?=$data['date']?></span>
+			<span class="date"><?=$post['date']?></span>
 			-
 			<span class="category">
 				Category:
-				<?=linkTo("{$data['base']}category/{$data['category']}", $data['category'])?>
+				<?=linkTo("{$blog['base']}category/{$post['category']}", $post['category'])?>
 			</span>
 			-
 			<span class="tag">
 				Tag: 
-				<?php foreach((array)$data['tag'] as $index => $tag): ?>
-				<?php $data['tag'][$index] = linkTo("{$data['base']}tag/$tag", $tag); ?>
+				<?php foreach((array)$post['tag'] as $index => $tag): ?>
+				<?php $post['tag'][$index] = linkTo("{$blog['base']}tag/$tag", $tag); ?>
 				<?php endforeach; ?>
-				<?=join($data['tag'], ', ')?>
+				<?=join($post['tag'], ', ')?>
 			</span>
 		</div>
 		<div class="content">
-			<?=$data['content']?>
+			<?=$post['content']?>
 		</div>
 	</article>
 	<hr>
 	<div class="bar">
 		<span class="new">
-			<?=isset($data['bar']['p_path'])
-				? linkTo($data['bar']['p_path'], "<< {$data['bar']['p_title']}"): ''?>
+			<?=isset($post['bar']['p_url'])
+				? linkTo($post['bar']['p_url'], "<< {$post['bar']['p_title']}"): ''?>
 		</span>
 		<span class="old">
-			<?=isset($data['bar']['n_path'])
-				? linkTo($data['bar']['n_path'], "{$data['bar']['n_title']} >>"): ''?>
+			<?=isset($post['bar']['n_url'])
+				? linkTo($post['bar']['n_url'], "{$post['bar']['n_title']} >>"): ''?>
 		</span>
 		<span class="count">
-			<?="{$data['bar']['index']} / {$data['bar']['total']}"?>
+			<?="{$post['bar']['index']} / {$post['bar']['total']}"?>
 		</span>
 	</div>
-	<?php if(NULL != $data['disqus_shortname']): ?>
+	<?php if(NULL != $blog['disqus_shortname']): ?>
 	<hr>
 	<div id="disqus_thread"></div>
 	<script type="text/javascript">
-		var disqus_shortname = '<?=$data['disqus_shortname']?>';
+		var disqus_shortname = '<?=$blog['disqus_shortname']?>';
 		(function() {
 			var embed = document.createElement('script');
 			embed.type = 'text/javascript';

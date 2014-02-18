@@ -41,13 +41,17 @@ class StaticPage {
         foreach((array)$this->list as $post) {
             IO::writeln("Building {$post['url']}");
 
-            $container = bindData($post, THEME . '/Template/Container/StaticPage.php');
+            $data = [];
+            $data['blog'] = $blog;
+            $data['post'] = $post;
+
+            $container = bindData($data, THEME . '/Template/Container/StaticPage.php');
 
             $block = Resource::get('block');
             $block['container'] = $container;
 
             $ext = [];
-            $ext['name'] = "{$post['title']} | {$blog['name']}";
+            $ext['title'] = "{$post['title']} | {$blog['name']}";
             $ext['url'] = $blog['dn'] . $blog['base'];
 
             $data = [];

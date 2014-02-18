@@ -69,13 +69,17 @@ class Article {
 
             $count++;
 
-            $container = bindData($post, THEME . '/Template/Container/Article.php');
+            $data = [];
+            $data['blog'] = $blog;
+            $data['post'] = $post;
+
+            $container = bindData($data, THEME . '/Template/Container/Article.php');
 
             $block = Resource::get('block');
             $block['container'] = $container;
 
             $ext = [];
-            $ext['name'] = "{$post['title']} | {$blog['name']}";
+            $ext['title'] = "{$post['title']} | {$blog['name']}";
             $ext['keywords'] = "{$blog['keywords']},{$post['keywords']}";
             $ext['url'] = $blog['dn'] . $blog['base'];
 

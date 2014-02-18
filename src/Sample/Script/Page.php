@@ -60,12 +60,17 @@ class Page {
                 $post['bar']['n_url'] = "{$blog['base']}page/" . ($index + 1);
             }
 
-            $container = bindData($post, THEME . '/Template/Container/Page.php');
+            $data = [];
+            $data['blog'] = $blog;
+            $data['post'] = $post;
+
+            $container = bindData($data, THEME . '/Template/Container/Page.php');
 
             $block = Resource::get('block');
             $block['container'] = $container;
 
             $ext = [];
+            $ext['title'] = $blog['name'];
             $ext['url'] = $blog['dn'] . $blog['base'];
 
             $data = [];

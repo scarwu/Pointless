@@ -1,6 +1,6 @@
 <div id="tag">
-	<div class="title"><?=$data['title']?></div>
-	<?php foreach((array)$data['list'] as $year => $month_list): ?>
+	<div class="title"><?=$post['title']?></div>
+	<?php foreach((array)$post['list'] as $year => $month_list): ?>
 	<div class="year_archive">
 		<div class="year"><?=$year?></div>
 		<?php foreach((array)$month_list as $month => $article_list): ?>
@@ -10,20 +10,20 @@
 				<?php foreach((array)$article_list as $article): ?>
 				<article>
 					<span class="title">
-						<?=linkTo("{$data['base']}article/{$article['url']}", $article['title'])?>
+						<?=linkTo("{$blog['base']}article/{$article['url']}", $article['title'])?>
 					</span>
 					<span class="archive">
 						Archive:
-						<?=linkTo("{$data['base']}archive/{$article['year']}", $article['year'])?>
+						<?=linkTo("{$blog['base']}archive/{$article['year']}", $article['year'])?>
 					</span>
 					<span class="category">
 						Category:
-						<?=linkTo("{$data['base']}category/{$article['category']}", $article['category'])?>
+						<?=linkTo("{$blog['base']}category/{$article['category']}", $article['category'])?>
 					</span>
 					<span class="tag">
 						Tag: 
 						<?php foreach((array)$article['tag'] as $index => $tag): ?>
-						<?php $article['tag'][$index] = linkTo("{$data['base']}tag/$tag", $tag); ?>
+						<?php $article['tag'][$index] = linkTo("{$blog['base']}tag/$tag", $tag); ?>
 						<?php endforeach; ?>
 						<?=join($article['tag'], ', ')?>
 					</span>
@@ -37,15 +37,15 @@
 	<?php endforeach; ?>
 	<div class="bar">
 		<span class="new">
-			<?=isset($data['bar']['p_path'])
-				? linkTo($data['bar']['p_path'], "<< {$data['bar']['p_title']}") : ''?>
+			<?=isset($post['bar']['p_path'])
+				? linkTo($post['bar']['p_path'], "<< {$post['bar']['p_title']}") : ''?>
 		</span>
 		<span class="old">
-			<?=isset($data['bar']['n_path'])
-				? linkTo($data['bar']['n_path'], "{$data['bar']['n_title']} >>") : ''?>
+			<?=isset($post['bar']['n_path'])
+				? linkTo($post['bar']['n_path'], "{$post['bar']['n_title']} >>") : ''?>
 		</span>
 		<span class="count">
-			<?="{$data['bar']['index']} / {$data['bar']['total']}"?>
+			<?="{$post['bar']['index']} / {$post['bar']['total']}"?>
 		</span>
 	</div>
 </div>

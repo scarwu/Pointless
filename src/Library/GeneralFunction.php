@@ -15,13 +15,17 @@
  * @param string
  * @return string
  */
-function bindData($data, $path) {
+function bindData($_data, $_path) {
+    foreach($_data as $_key => $_value) {
+        $$_key = $_value;
+    }
+
     ob_start();
-    include $path;
-    $result = ob_get_contents();
+    include $_path;
+    $_result = ob_get_contents();
     ob_end_clean();
     
-    return $result;
+    return $_result;
 }
 
 /**

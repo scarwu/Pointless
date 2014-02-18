@@ -78,14 +78,18 @@ class Archive {
             }
                 
             $count++;
+
+            $data = [];
+            $data['blog'] = $blog;
+            $data['post'] = $post;
             
-            $container = bindData($post, THEME . '/Template/Container/Archive.php');
+            $container = bindData($data, THEME . '/Template/Container/Archive.php');
 
             $block = Resource::get('block');
             $block['container'] = $container;
 
             $ext = [];
-            $ext['name'] = "{$post['title']} | {$blog['name']}";
+            $ext['title'] = "{$post['title']} | {$blog['name']}";
             $ext['url'] = $blog['dn'] . $blog['base'];
 
             $data = [];
