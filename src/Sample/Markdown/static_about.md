@@ -16,7 +16,7 @@ A Useful Static Blog Generator
 
 ### Requirement
 
-* PHP 5.3+
+* PHP 5.4+
 
 ### Install
 
@@ -25,6 +25,10 @@ A Useful Static Blog Generator
 ### Update
 
 	sudo poi update
+
+## Demo Site
+
+* [ScarShow](http://scar.simcz.tw/)
 
 ## For More
 
