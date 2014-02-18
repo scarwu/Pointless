@@ -53,7 +53,7 @@ class Category {
         $first = NULL;
         $count = 0;
         $total = count($this->list);
-        $key = array_keys($this->list);
+        $keys = array_keys($this->list);
 
         $blog = Resource::get('config')['blog'];
         
@@ -70,14 +70,18 @@ class Category {
             $post['bar']['index'] = $count + 1;
             $post['bar']['total'] = $total;
             
-            if(isset($key[$count - 1])) {
-                $post['bar']['p_title'] = $key[$count - 1];
-                $post['bar']['p_path'] = "{$blog['base']}category/" . $key[$count - 1];
+            if(isset($keys[$count - 1])) {
+                $category = $keys[$count - 1];
+
+                $post['bar']['p_title'] = $category;
+                $post['bar']['p_url'] = "{$blog['base']}category/$category";
             }
 
-            if(isset($key[$count + 1])) {
-                $post['bar']['n_title'] = $key[$count + 1];
-                $post['bar']['n_path'] = "{$blog['base']}category/" . $key[$count + 1];
+            if(isset($keys[$count + 1])) {
+                $category = $keys[$count + 1];
+
+                $post['bar']['n_title'] = $category;
+                $post['bar']['n_url'] = "{$blog['base']}category/$category";
             }
             
             $count++;
@@ -92,9 +96,8 @@ class Category {
             $ext['url'] = $blog['dn'] . $blog['base'];
 
             $data = [];
-            $data['blog'] = $blog;
+            $data['blog'] = array_merge($blog, $ext);
             $data['block'] = $block;
-            $data['ext'] = $ext;
             
             // Write HTML to Disk
             $result = bindData($data, THEME . '/Template/index.php');

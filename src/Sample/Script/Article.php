@@ -38,7 +38,7 @@ class Article {
     public function gen() {
         $count = 0;
         $total = count($this->list);
-        $key = array_keys($this->list);
+        $keys = array_keys($this->list);
 
         $blog = Resource::get('config')['blog'];
 
@@ -49,20 +49,22 @@ class Article {
             $post['bar']['index'] = $count + 1;
             $post['bar']['total'] = $total;
 
-            if(isset($key[$count - 1])) {
-                $title = $this->list[$key[$count - 1]]['title'];
-                $path = $this->list[$key[$count - 1]]['url'];
+            if(isset($keys[$count - 1])) {
+                $key = $keys[$count - 1];
+                $title = $this->list[$key]['title'];
+                $url = $this->list[$key]['url'];
 
                 $post['bar']['p_title'] = $title;
-                $post['bar']['p_path'] = "{$blog['base']}article/$path";
+                $post['bar']['p_url'] = "{$blog['base']}article/$url";
             }
 
-            if(isset($key[$count + 1])) {
-                $title = $this->list[$key[$count + 1]]['title'];
-                $path = $this->list[$key[$count + 1]]['url'];
+            if(isset($keys[$count + 1])) {
+                $key = $keys[$count + 1];
+                $title = $this->list[$key]['title'];
+                $url = $this->list[$key]['url'];
 
                 $post['bar']['n_title'] = $title;
-                $post['bar']['n_path'] = "{$blog['base']}article/$path";
+                $post['bar']['n_url'] = "{$blog['base']}article/$url";
             }
 
             $count++;
@@ -74,13 +76,12 @@ class Article {
 
             $ext = [];
             $ext['name'] = "{$post['title']} | {$blog['name']}";
-            $ext['keywords'] = $blog['keywords'] . $post['keywords'];
+            $ext['keywords'] = "{$blog['keywords']},{$post['keywords']}";
             $ext['url'] = $blog['dn'] . $blog['base'];
 
             $data = [];
-            $data['blog'] = $blog;
+            $data['blog'] = array_merge($blog, $ext);
             $data['block'] = $block;
-            $data['ext'] = $ext;
             
             // Write HTML to Disk
             $result = bindData($data, THEME . '/Template/index.php');

@@ -52,12 +52,12 @@ class Page {
 
             if($index - 1 > 1) {
                 $post['bar']['p_title'] = $index - 1;
-                $post['bar']['p_path'] = "{$blog['base']}page/" . ($index - 1);
+                $post['bar']['p_url'] = "{$blog['base']}page/" . ($index - 1);
             }
             
             if($index + 1 < $total) {
                 $post['bar']['n_title'] = $index + 1;
-                $post['bar']['n_path'] = "{$blog['base']}page/" . ($index + 1);
+                $post['bar']['n_url'] = "{$blog['base']}page/" . ($index + 1);
             }
 
             $container = bindData($post, THEME . '/Template/Container/Page.php');
@@ -69,9 +69,8 @@ class Page {
             $ext['url'] = $blog['dn'] . $blog['base'];
 
             $data = [];
-            $data['blog'] = $blog;
+            $data['blog'] = array_merge($blog, $ext);
             $data['block'] = $block;
-            $data['ext'] = $ext;
             
             // Write HTML to Disk
             $result = bindData($data, THEME . '/Template/index.php');

@@ -51,9 +51,8 @@ class StaticPage {
             $ext['url'] = $blog['dn'] . $blog['base'];
 
             $data = [];
-            $data['blog'] = $blog;
+            $data['blog'] = array_merge($blog, $ext);
             $data['block'] = $block;
-            $data['ext'] = $ext;
 
             // Write HTML to Disk
             $result = bindData($data, THEME . '/Template/index.php');

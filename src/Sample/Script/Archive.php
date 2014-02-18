@@ -46,6 +46,7 @@ class Archive {
         $first = NULL;
         $count = 0;
         $total = count($this->list);
+        $keys = array_keys($this->list);
         
         $blog = Resource::get('config')['blog'];
 
@@ -62,14 +63,18 @@ class Archive {
             $post['bar']['index'] = $count + 1;
             $post['bar']['total'] = $total;
 
-            if(isset($this->list[$index - 1])) {
-                $post['bar']['n_title'] = $index - 1;
-                $post['bar']['n_path'] = "{$blog['base']}archive/" . ($index - 1);
+            if(isset($keys[$count - 1])) {
+                $archive = $keys[$count - 1];
+
+                $post['bar']['p_title'] = $archive;
+                $post['bar']['p_url'] = "{$blog['base']}archive/$archive";
             }
 
-            if(isset($this->list[$index + 1])) {
-                $post['bar']['p_title'] = $index + 1;
-                $post['bar']['p_path'] = "{$blog['base']}archive/" . ($index + 1);
+            if(isset($keys[$count + 1])) {
+                $archive = $keys[$count + 1];
+
+                $post['bar']['n_title'] = $archive;
+                $post['bar']['n_url'] = "{$blog['base']}archive/$archive";
             }
                 
             $count++;
@@ -84,9 +89,8 @@ class Archive {
             $ext['url'] = $blog['dn'] . $blog['base'];
 
             $data = [];
-            $data['blog'] = $blog;
+            $data['blog'] = array_merge($blog, $ext);
             $data['block'] = $block;
-            $data['ext'] = $ext;
             
             // Write HTML to Disk
             $result = bindData($data, THEME . '/Template/index.php');
