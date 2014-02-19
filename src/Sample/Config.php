@@ -24,13 +24,13 @@ $config = [
     'feed_quantity' => 5,
     'article_quantity' => 5,
 
-    // Article URL Format
 	// :year, :month, :day
 	// :hour, :minute, :second, :timestamp
 	// :title, :url
     'article_url' => ':year/:month/:day/:url',
 
-    'timezone' => 'Asia/Taipei',
+    // Reference: http://php.net/manual/en/timezones.php
+    'timezone' => 'Etc/UTC',
 
     'github' => [
         'account' => NULL,
@@ -39,9 +39,8 @@ $config = [
         'cname' => FALSE
     ],
 
-    // Local Encoding - For console,
-    // If your environment encoding is't utf-8 then modify this
-    // Big5 | GBK | other
+    // Reference: http://php.net/manual/en/function.iconv.php
+    // Big5 | GBK | other => UTF-8
     'encoding' => NULL,
 
     'editor' => 'vi'
