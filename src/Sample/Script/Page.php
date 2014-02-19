@@ -67,7 +67,7 @@ class Page {
             $container = bindData([
                 'blog' => array_merge($blog, $ext),
                 'post' => $post
-            ], THEME . '/Template/Container/Page.php');
+            ], THEME . '/Template/container/page.php');
 
             $block = Resource::get('block');
             $block['container'] = $container;

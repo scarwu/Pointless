@@ -93,7 +93,7 @@ class Category {
             $container = bindData([
                 'blog' => array_merge($blog, $ext),
                 'post' => $post
-            ], THEME . '/Template/Container/Category.php');
+            ], THEME . '/Template/container/category.php');
 
             $block = Resource::get('block');
             $block['container'] = $container;

@@ -31,29 +31,25 @@ class Compress {
      * @param string
      * @param string
      */
-    public function css($src, $dest) {
-        $handle = opendir($src);
-        while($file = readdir($handle)) {
-            if('.' != $file && '..' != $file) {
-                $this->css_list[] = $file;
-            }
-        }
-
-        closedir($handle);
-        
-        sort($this->css_list);
-        
-        if(!file_exists($dest)) {
-            mkdir($dest, 0755, TRUE);
+    public function css() {
+        foreach(Resource::get('theme')['css'] as $filename) {
+            if(!file_exists(THEME . "/Css/$filename"))
+                continue;
+                
+            $this->css_list[] = THEME . "/Css/$filename";
         }
         
-        $css_package = fopen(rtrim($dest, '/') . '/main.css', 'w+');
-        foreach((array)$this->css_list as $filename) {
-            $css = file_get_contents("$src/$filename");
+        if(!file_exists(TEMP . '/theme')) {
+            mkdir(TEMP . '/theme', 0755, TRUE);
+        }
+        
+        $handle = fopen(TEMP . '/theme/main.css', 'w+');
+        foreach((array)$this->css_list as $filepath) {
+            $css = file_get_contents($filepath);
             $css = $this->cssCompressor($css);
-            fwrite($css_package, $css);
+            fwrite($handle, $css);
         }
-        fclose($css_package);
+        fclose($handle);
     }
     
     /**
@@ -80,30 +76,23 @@ class Compress {
      * @param string
      * @param string
      */
-    public function js($src, $dest) {
-        $handle = opendir($src);
-        while($file = readdir($handle)) {
-            if('.' != $file && '..' != $file) {
-                $this->js_list[] = $file;
-            }
-        }
-        closedir($handle);
-        
-        sort($this->js_list);
-        
-        if(!file_exists($dest)) {
-            mkdir($dest, 0755, TRUE);
+    public function js() {
+        foreach(Resource::get('theme')['js'] as $filename) {
+            if(!file_exists(THEME . "/Js/$filename"))
+                continue;
+
+            $this->js_list[] = THEME . "/Js/$filename";
         }
         
-        $js_package = fopen(rtrim($dest, '/') . '/main.js', 'w+');
-        foreach((array)$this->js_list as $filename) {
-            $handle = fopen("$src/$filename", 'r');
-            while($data = fread($handle, 1024)) {
-                fwrite($js_package, $data, 1024);
-            }
-            fwrite($js_package, "\n");
-            fclose($handle);
+        if(!file_exists(TEMP . '/theme')) {
+            mkdir(TEMP . '/theme', 0755, TRUE);
         }
-        fclose($js_package);
+        
+        $handle = fopen(TEMP . '/theme/main.js', 'w+');
+        foreach((array)$this->js_list as $filepath) {
+            $js = file_get_contents($filepath);
+            fwrite($handle, $js);
+        }
+        fclose($handle);
     }
 }

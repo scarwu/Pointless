@@ -2,7 +2,7 @@
 $theme = [
     'js' => [
         'modernizr-2.6.2.min.js',
-        '20_highlight.pack.js',
+        'highlight.pack.js',
         'custom.js'
     ],
     'css' => [
@@ -13,9 +13,9 @@ $theme = [
     ],
     'template' => [
         'side' => [
-            'side_tag.php',
-            'side_category.php',
-            'side_archive.php'
+            'tag.php',
+            'category.php',
+            'archive.php'
         ]
     ]
 ];

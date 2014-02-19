@@ -75,42 +75,35 @@ class HTMLGenerator {
      * Generate Block
      */
     private function genBlock() {
-        $filter = ['.', '..', 'Container', 'index.php'];
         $block = [];
 
-        $block_handle = opendir(THEME . '/Template');
-        while($block_name = readdir($block_handle)) {
-            if(in_array($block_name, $filter))
-                continue;
+        foreach(Resource::get('theme')['template'] as $blockname => $files) {
 
-            $file_list = [];
+            $result = NULL;
 
-            $handle = opendir(THEME . "/Template/$block_name");
-            while($file = readdir($handle)) {
-                if('.' == $file || '..' == $file)
+            foreach ($files as $filename) {
+                if(!file_exists(THEME . "/Template/$blockname/$filename"))
                     continue;
 
-                $file_list[] = $file;
-            }
-            closedir($handle);
-
-            sort($file_list);
-
-            $result = '';
-            foreach((array)$file_list as $file) {
-                $script_name = preg_replace(['/^\d+_/', '/.php$/'], '', $file);
+                $script = preg_replace('/.php$/', '', $filename);
+                $script = explode('_', $script);
+                foreach($script as $key => $value) {
+                    $script[$key] = ucfirst($value);
+                }
+                $script = join($script);
 
                 $data['blog'] = Resource::get('config')['blog'];
-                $data['list'] = isset($this->script[$script_name])
-                    ? $this->script[$script_name]->getList()
+                $data['list'] = isset($this->script[$script])
+                    ? $this->script[$script]->getList()
                     : NULL;
                 
-                $result .= bindData($data, THEME . "/Template/$block_name/$file");
+                $result .= bindData($data, THEME . "/Template/$blockname/$filename");
             }
 
-            $block[strtolower($block_name)] = $result;
+            if(NULL != $result) {
+                $block[$blockname] = $result;
+            }
         }
-        closedir($block_handle);
 
         Resource::set('block', $block);
     }

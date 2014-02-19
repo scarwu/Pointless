@@ -48,7 +48,7 @@ class StaticPage {
             $container = bindData([
                 'blog' => array_merge($blog, $ext),
                 'post' => $post
-            ], THEME . '/Template/Container/StaticPage.php');
+            ], THEME . '/Template/container/static_page.php');
 
             $block = Resource::get('block');
             $block['container'] = $container;

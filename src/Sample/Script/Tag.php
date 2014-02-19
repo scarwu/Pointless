@@ -95,7 +95,7 @@ class Tag {
             $container = bindData([
                 'blog' => array_merge($blog, $ext),
                 'post' => $post
-            ], THEME . '/Template/Container/Tag.php');
+            ], THEME . '/Template/container/tag.php');
 
             $block = Resource::get('block');
             $block['container'] = $container;

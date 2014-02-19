@@ -86,7 +86,7 @@ class Archive {
             $container = bindData([
                 'blog' => array_merge($blog, $ext),
                 'post' => $post
-            ], THEME . '/Template/Container/Archive.php');
+            ], THEME . '/Template/container/archive.php');
 
             $block = Resource::get('block');
             $block['container'] = $container;
