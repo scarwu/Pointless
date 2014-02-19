@@ -50,12 +50,12 @@ class Page {
             $post['bar']['index'] = $index;
             $post['bar']['total'] = $total;
 
-            if($index - 1 > 1) {
+            if($index - 1 >= 1) {
                 $post['bar']['p_title'] = $index - 1;
                 $post['bar']['p_url'] = "{$blog['base']}page/" . ($index - 1);
             }
             
-            if($index + 1 < $total) {
+            if($index + 1 <= $total) {
                 $post['bar']['n_title'] = $index + 1;
                 $post['bar']['n_url'] = "{$blog['base']}page/" . ($index + 1);
             }
