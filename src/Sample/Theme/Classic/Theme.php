@@ -1,5 +1,5 @@
 <?php
-$config = [
+$theme = [
     'js' => [
         'modernizr-2.6.2.min.js',
         '20_highlight.pack.js',
@@ -13,9 +13,9 @@ $config = [
     ],
     'template' => [
         'side' => [
-            'Tag.php',
-            'Category.php',
-            'Archive.php'
+            'side_tag.php',
+            'side_category.php',
+            'side_archive.php'
         ]
     ]
 ];
