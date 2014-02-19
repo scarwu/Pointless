@@ -79,25 +79,27 @@ class Archive {
                 
             $count++;
 
-            $data = [];
-            $data['blog'] = $blog;
-            $data['post'] = $post;
-            
-            $container = bindData($data, THEME . '/Template/Container/Archive.php');
-
-            $block = Resource::get('block');
-            $block['container'] = $container;
-
             $ext = [];
             $ext['title'] = "{$post['title']} | {$blog['name']}";
             $ext['url'] = $blog['dn'] . $blog['base'];
+
+            $container = bindData([
+                'blog' => array_merge($blog, $ext),
+                'post' => $post
+            ], THEME . '/Template/container/archive.php');
+
+            $block = Resource::get('block');
+            $block['container'] = $container;
 
             $data = [];
             $data['blog'] = array_merge($blog, $ext);
             $data['block'] = $block;
             
             // Write HTML to Disk
-            $result = bindData($data, THEME . '/Template/index.php');
+            $result = bindData([
+                'blog' => array_merge($blog, $ext),
+                'block' => $block
+            ], THEME . '/Template/index.php');
             writeTo($result, TEMP . "/{$post['url']}");
 
             // Sitemap

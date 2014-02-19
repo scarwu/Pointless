@@ -92,15 +92,6 @@ else {
 }
 
 /**
- * Script
- */
-define('SCRIPT', BLOG . '/Script');
-
-if(!file_exists(SCRIPT)) {
-    mkdir(SCRIPT, 0755, TRUE);
-}
-
-/**
  * Extension
  */
 define('EXTENSION', BLOG . '/Extension');
@@ -160,13 +151,6 @@ NanoCLI\Loader::register('NanoCLI', VENDOR . '/NanoCLI/src');
 NanoCLI\Loader::register('Pointless', ROOT . '/Command');
 
 spl_autoload_register('NanoCLI\Loader::load');
-
-/**
- * Load Twig Template Engine
- */
-require VENDOR . '/Twig/lib/Twig/Autoloader.php';
-
-Twig_Autoloader::register();
 
 // Run Pointless Command
 $pointless = new Pointless();

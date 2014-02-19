@@ -36,19 +36,23 @@ class GenCommand extends Command {
         require LIBRARY . '/ExtensionLoader.php';
         require VENDOR . '/Markdown/Michelf/MarkdownExtra.inc.php';
 
+        // Load Theme Config
+        require THEME . '/Theme.php';
+        Resource::set('theme', $theme);
+
         $blog = Resource::get('config')['blog'];
         $github = Resource::get('config')['github'];
 
         $start = microtime(TRUE);
 
         if($this->hasOptions('css')) {
-            if(file_exists(TEMP . '/main.css')) {
-                unlink(TEMP . '/main.css');
+            if(file_exists(TEMP . '/theme/main.css')) {
+                unlink(TEMP . '/theme/main.css');
             }
 
             IO::writeln('Compress CSS ...', 'yellow');
             $Compress = new Compress();
-            $Compress->css(THEME . '/Css', TEMP . '/theme');
+            $Compress->css();
 
             $time = sprintf("%.3f", abs(microtime(TRUE) - $start));
             IO::writeln("Generate finish, $time s.", 'green');
@@ -63,7 +67,7 @@ class GenCommand extends Command {
 
             IO::writeln('Compress Javascript ...', 'yellow');
             $Compress = new Compress();
-            $Compress->js(THEME . '/Js', TEMP . '/theme');
+            $Compress->js();
 
             $time = sprintf("%.3f", abs(microtime(TRUE) - $start));
             IO::writeln("Generate finish, $time s.", 'green');
@@ -97,13 +101,13 @@ class GenCommand extends Command {
         if(file_exists(THEME . '/Resource')) {
             recursiveCopy(THEME . '/Resource', TEMP . '/theme');
         }
-
+        
         // Compress CSS and JavaScript
         IO::writeln('Compress CSS & Javascript ...', 'yellow');
         $compress = new Compress();
-        $compress->js(THEME . '/Js', TEMP . '/theme');
-        $compress->css(THEME . '/Css', TEMP . '/theme');
-        
+        $compress->js();
+        $compress->css();
+
         // Initialize Resource Pool
         IO::writeln('Initialize Resource Pool ...', 'yellow');
         $this->initResourcePool();
