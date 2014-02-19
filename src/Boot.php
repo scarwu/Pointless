@@ -92,15 +92,6 @@ else {
 }
 
 /**
- * Script
- */
-define('SCRIPT', BLOG . '/Script');
-
-if(!file_exists(SCRIPT)) {
-    mkdir(SCRIPT, 0755, TRUE);
-}
-
-/**
  * Extension
  */
 define('EXTENSION', BLOG . '/Extension');

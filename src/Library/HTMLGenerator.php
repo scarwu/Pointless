@@ -41,13 +41,13 @@ class HTMLGenerator {
     private function loadScript() {
 
         // Load Custom Script
-        if(file_exists(SCRIPT)) {
-            $handle = opendir(SCRIPT);
+        if(file_exists(THEME . '/Script')) {
+            $handle = opendir(THEME . '/Script');
             while($filename = readdir($handle)) {
                 if('.' == $filename || '..' == $filename)
                     continue;
 
-                require SCRIPT . "/$filename";
+                require THEME . "/Script/$filename";
 
                 $class_name = preg_replace('/.php$/', '', $filename);
                 $this->script[$class_name] = new $class_name;

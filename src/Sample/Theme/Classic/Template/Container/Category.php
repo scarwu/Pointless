@@ -33,12 +33,12 @@
 	<?php endforeach; ?>
 	<div class="bar">
 		<span class="new">
-			<?=isset($post['bar']['p_path'])
-				? linkTo($post['bar']['p_path'], "<< {$post['bar']['p_title']}") : ''?>
+			<?=isset($post['bar']['p_url'])
+				? linkTo($post['bar']['p_url'], "<< {$post['bar']['p_title']}") : ''?>
 		</span>
 		<span class="old">
-			<?=isset($post['bar']['n_path'])
-				? linkTo($post['bar']['n_path'], "{$post['bar']['n_title']} >>") : ''?>
+			<?=isset($post['bar']['n_url'])
+				? linkTo($post['bar']['n_url'], "{$post['bar']['n_title']} >>") : ''?>
 		</span>
 		<span class="count">
 			<?="{$post['bar']['index']} / {$post['bar']['total']}"?>

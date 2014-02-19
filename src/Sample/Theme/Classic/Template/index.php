@@ -33,7 +33,7 @@
 	</div>
 	<!-- Define and Load Javascript -->
 	<script src="<?=$blog['base']?>theme/main.js"></script>
-	<?php if($blog['google_analytics']): ?>
+	<?php if(NULL != $blog['google_analytics']): ?>
 	<script>
 		var _gaq = [['_setAccount', '<?=$blog['google_analytics']?>'], ['_trackPageview']]; (function(d, t) {
 			var g = d.createElement(t), s = d.getElementsByTagName(t)[0];
