@@ -25,6 +25,11 @@ class DeleteCommand extends Command {
     }
 
     public function run() {
+        if(!checkDefaultBlog())
+            return;
+        
+        initBlog();
+        
         $data = [];
         $handle = opendir(MARKDOWN);
         while($filename = readdir($handle)) {

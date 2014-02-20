@@ -25,6 +25,11 @@ class ServerCommand extends Command {
     }
     
     public function run() {
+        if(!checkDefaultBlog())
+            return;
+        
+        initBlog();
+        
         $route_script = (defined('BUILD_TIMESTAMP') ? HOME . '/Sample' : LIBRARY) . '/Route.php';
         $port = $this->hasConfigs() ? $this->getConfigs('port') : 3000;
 
