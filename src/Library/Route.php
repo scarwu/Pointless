@@ -8,7 +8,8 @@
  * @link        http://github.com/scarwu/Pointless
  */
 
-define('BLOG', "{$_SERVER['DOCUMENT_ROOT']}/Blog");
+$blog = file_get_contents("{$_SERVER['DOCUMENT_ROOT']}/Default");
+define('BLOG', $blog);
 
 require BLOG . '/Config.php';
 $path = BLOG . '/Temp/';
