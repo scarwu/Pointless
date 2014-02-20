@@ -25,6 +25,11 @@ class AddCommand extends Command {
     }
 
     public function run() {
+        if(!checkDefaultBlog())
+            return;
+        
+        initBlog();
+        
         $encoding = Resource::get('config')['encoding'];
         $editor = Resource::get('config')['editor'];
         
