@@ -2,10 +2,10 @@
 /**
  * Template Helper
  * 
- * @package		Pointless
- * @author		ScarWu
- * @copyright	Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
- * @link		http://github.com/scarwu/Pointless
+ * @package     Pointless
+ * @author      ScarWu
+ * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
+ * @link        http://github.com/scarwu/Pointless
  */
 
 /**
@@ -16,7 +16,7 @@
  * @return string
  */
 function linkTo($link, $name) {
-	return '<a href="' . linkEncode($link) . '">' . $name . '</a>';
+    return '<a href="' . linkEncode($link) . '">' . $name . '</a>';
 }
 
 /**
@@ -26,9 +26,9 @@ function linkTo($link, $name) {
  * @return string
  */
 function linkEncode($link) {
-	$segments = explode('/', $link);
-	$segments = array_map('rawurlencode', $segments);
-	$link = implode('/', $segments);
+    $segments = explode('/', $link);
+    $segments = array_map('rawurlencode', $segments);
+    $link = implode('/', $segments);
 
-	return $link;
+    return $link;
 }

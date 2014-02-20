@@ -1,15 +1,14 @@
 <div id="static">
 	<article>
-		<div class="title"><?=$data['title']?></div>
+		<div class="title"><?=$post['title']?></div>
 		<div class="info"></div>
-		<div class="content"><?=$data['content']?></div>
+		<div class="content"><?=$post['content']?></div>
 	</article>
-	<?php if(NULL != DISQUS_SHORTNAME && $data['message']): ?>
+	<?php if(NULL != $blog['disqus_shortname'] && $post['message']): ?>
 	<hr>
-	<!-- DISQUS -->
 	<div id="disqus_thread"></div>
 	<script type="text/javascript">
-		var disqus_shortname = '<?=DISQUS_SHORTNAME?>';
+		var disqus_shortname = '<?=$blog['disqus_shortname']?>';
 		(function() {
 			var embed = document.createElement('script');
 			embed.async = true;

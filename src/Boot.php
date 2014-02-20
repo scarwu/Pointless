@@ -2,10 +2,10 @@
 /**
  * Bootstrap
  * 
- * @package		Pointless
- * @author		ScarWu
- * @copyright	Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
- * @link		http://github.com/scarwu/Pointless
+ * @package     Pointless
+ * @author      ScarWu
+ * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
+ * @link        http://github.com/scarwu/Pointless
  */
 
 // Set default timezone
@@ -14,65 +14,144 @@ date_default_timezone_set('Etc/UTC');
 /**
  * Path Define and Copy Files
  */
-define('PLUGIN', ROOT . 'Plugin/');
-define('LIBRARY', ROOT . 'Library/');
+define('VENDOR', ROOT . '/Vendor');
+define('LIBRARY', ROOT . '/Library');
 
-require LIBRARY . 'GeneralFunction.php';
+require LIBRARY . '/Resource.php';
+require LIBRARY . '/GeneralFunction.php';
 
 /**
- * User Data
+ * Define Path and Initialize Blog
  */
-define('POINTLESS_HOME', $_SERVER['HOME'] . '/.pointless/');
+define('HOME', $_SERVER['HOME'] . '/.pointless2');
 
-if(!file_exists(POINTLESS_HOME))
-	mkdir(POINTLESS_HOME, 0755, TRUE);
-
-if(!file_exists(POINTLESS_HOME . 'Status.json')) {
-	$handle = fopen(POINTLESS_HOME . 'Status.json', 'w+');
-	fwrite($handle, json_encode(array(
-		'current' => NULL,
-		'list' => array()
-	)));
-	fclose($handle);
+if(!file_exists(HOME)) {
+    mkdir(HOME, 0755, TRUE);
 }
 
+define('BLOG', HOME . '/Blog');
+
+if(!file_exists(BLOG)) {
+    mkdir(BLOG, 0755, TRUE);
+}
+
+if(!file_exists(BLOG . '/Config.php')) {
+    copy(ROOT . '/Sample/Config.php', BLOG . '/Config.php');
+}
+
+// Require Config
+require BLOG . '/Config.php';
+
+Resource::set('config', $config);
+
+/**
+ * Temp
+ */
+define('TEMP', BLOG . '/Temp');
+
+if(!file_exists(TEMP)) {
+    mkdir(TEMP, 0755, TRUE);
+}
+
+/**
+ * Deploy
+ */
+define('DEPLOY', BLOG . '/Deploy');
+
+if(!file_exists(DEPLOY)) {
+    mkdir(DEPLOY, 0755, TRUE);
+}
+
+/**
+ * Markdown
+ */
+define('MARKDOWN', BLOG . '/Markdown');
+
+if(!file_exists(MARKDOWN)) {
+    mkdir(MARKDOWN, 0755, TRUE);
+    recursiveCopy(ROOT . '/Sample/Markdown', MARKDOWN);
+}
+
+/**
+ * Theme
+ */
+if(!file_exists(BLOG . '/Theme')) {
+    mkdir(BLOG . '/Theme', 0755, TRUE);
+    recursiveCopy(ROOT . '/Sample/Theme', BLOG . '/Theme');
+}
+
+if('' == $config['theme']) {
+    $config['theme'] = 'Classic';
+}
+
+if(file_exists(BLOG . "/Theme/{$config['theme']}")) {
+    define('THEME', BLOG . "/Theme/{$config['theme']}");
+}
+else {
+    define('THEME', ROOT . '/Sample/Theme/Classic');
+}
+
+/**
+ * Extension
+ */
+define('EXTENSION', BLOG . '/Extension');
+
+if(!file_exists(EXTENSION)) {
+    mkdir(EXTENSION, 0755, TRUE);
+}
+
+/**
+ * Resource
+ */
+define('RESOURCE', BLOG . '/Resource');
+
+if(!file_exists(RESOURCE)) {
+    mkdir(RESOURCE, 0755, TRUE);
+}
+
+// Set Time Zone
+date_default_timezone_set($config['timezone']);
+
+// Define Regular Expression Rule
+define('REGEX_RULE', '/^({(?:.|\n)*?})\n((?:.|\n)*)/');
+
+/**
+ * Copy Sample Files
+ */
 if(defined('BUILD_TIMESTAMP')) {
-	$timestamp = file_exists(POINTLESS_HOME . 'Timestamp')
-		? file_get_contents(POINTLESS_HOME . 'Timestamp')
-		: 0;
+    if(!file_exists(HOME . '/Sample')) {
+        mkdir(HOME . '/Sample', 0755, TRUE);
+    }
 
-	// Check Timestamp and Update Sample Files
-	if(BUILD_TIMESTAMP != $timestamp) {
-		recursiveRemove(POINTLESS_HOME . 'Sample');
-		
-		// Copy Sample Files
-		recursiveCopy(ROOT . 'Sample', POINTLESS_HOME . 'Sample');
-		copy(LIBRARY . 'Route.php', POINTLESS_HOME . 'Sample/Route.php');
+    $timestamp = file_exists(HOME . '/Timestamp')
+        ? file_get_contents(HOME . '/Timestamp')
+        : 0;
 
-		// Create Timestamp File
-		$handle = fopen(POINTLESS_HOME . 'Timestamp', 'w+');
-		fwrite($handle, BUILD_TIMESTAMP);
-		fclose($handle);
-	}
+    // Check Timestamp and Update Sample Files
+    if(BUILD_TIMESTAMP != $timestamp) {
+        recursiveRemove(HOME . '/Sample');
+        
+        // Copy Sample Files
+        recursiveCopy(ROOT . '/Sample', HOME . '/Sample');
+        copy(LIBRARY . '/Route.php', HOME . '/Sample/Route.php');
+
+        // Create Timestamp File
+        $handle = fopen(HOME . '/Timestamp', 'w+');
+        fwrite($handle, BUILD_TIMESTAMP);
+        fclose($handle);
+    }
 }
-
-/**
- * Load Blog Setting
- */
-$status = json_decode(file_get_contents(POINTLESS_HOME . 'Status.json'), TRUE);
-if(!count($status['list']) == 0)
-	define('CURRENT_BLOG', $status['list'][$status['current']]);
 
 /**
  * Load NanoCLI and Setting
  */
-require PLUGIN . 'NanoCLI/src/NanoCLI/Loader.php';
+require VENDOR . '/NanoCLI/src/NanoCLI/Loader.php';
 
-// Register NanoCLI Autoloader
-NanoCLI\Loader::register('NanoCLI', PLUGIN . 'NanoCLI/src');
-NanoCLI\Loader::register('Pointless', ROOT . 'Command');
+NanoCLI\Loader::register('NanoCLI', VENDOR . '/NanoCLI/src');
+NanoCLI\Loader::register('Pointless', ROOT . '/Command');
 
 spl_autoload_register('NanoCLI\Loader::load');
 
+// Run Pointless Command
 $pointless = new Pointless();
 $pointless->init();
