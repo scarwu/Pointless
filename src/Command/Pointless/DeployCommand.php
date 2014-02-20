@@ -19,7 +19,16 @@ class DeployCommand extends Command {
         parent::__construct();
     }
     
+    public function help() {
+        IO::writeln('    deploy     - Deploy blog to Github');
+    }
+
     public function run() {
+        if(!checkDefaultBlog())
+            return;
+        
+        initBlog();
+        
         $github = Resource::get('config')['github'];
 
         $account = $github['account'];

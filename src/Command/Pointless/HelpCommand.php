@@ -20,6 +20,7 @@ class HelpCommand extends Command {
     }
     
     public function help() {
+        IO::writeln('    home       - Init and switch default blog');
         IO::writeln('    gen        - Generate blog');
         IO::writeln('    add        - Add new article');
         IO::writeln('    edit       - Edit article');

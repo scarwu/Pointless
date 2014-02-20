@@ -18,8 +18,17 @@ class ConfigCommand extends Command {
     public function __construct() {
         parent::__construct();
     }
+
+    public function help() {
+        IO::writeln('    config     - Modify config');
+    }
     
     public function run() {
+        if(!checkDefaultBlog())
+            return;
+        
+        initBlog();
+        
         $editor = Resource::get('config')['editor'];
         $filepath = BLOG . '/Config.php';
 

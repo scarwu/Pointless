@@ -25,6 +25,11 @@ class EditCommand extends Command {
     }
     
     public function run() {
+        if(!checkDefaultBlog())
+            return;
+        
+        initBlog();
+        
         $editor = Resource::get('config')['editor'];
         
         $data = [];

@@ -26,10 +26,15 @@ class GenCommand extends Command {
     public function help() {
         IO::writeln('    gen        - Generate blog');
         IO::writeln('    gen -css   - Compress CSS');
-        IO::writeln('    gen -js    - Compress Javascript');
+        IO::writeln('    gen -js    - Compress JavaScript');
     }
 
     public function run() {
+        if(!checkDefaultBlog())
+            return;
+        
+        initBlog();
+        
         require LIBRARY . '/Helper.php';
         require LIBRARY . '/Compress.php';
         require LIBRARY . '/HTMLGenerator.php';
