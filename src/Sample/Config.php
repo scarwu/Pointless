@@ -19,7 +19,7 @@ $config = [
         'google_analytics' => NULL, // Google Analytics - UA-xxxxxxxx-x
     ],
 
-    'theme' => 'Classis',
+    'theme' => 'Classic',
 
     'feed_quantity' => 5,
     'article_quantity' => 5,
