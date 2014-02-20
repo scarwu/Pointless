@@ -54,6 +54,7 @@ class EditCommand extends Command {
 
                 $index = $temp['date'] . $temp['time'];
 
+                $data[$index]['publish'] = $temp['publish'];
                 $data[$index]['title'] = $temp['title'];
                 $data[$index]['date'] = $temp['date'];
                 $data[$index]['path'] = MARKDOWN . "/$filename";
@@ -72,7 +73,12 @@ class EditCommand extends Command {
                 $msg = "{$article['date']} {$article['title']}";
             }
 
-            IO::writeln(sprintf("[%3d] ", $count) . $msg);
+            if($article['publish']) {
+                IO::writeln(sprintf("[ %3d] ", $count) . $msg);
+            }
+            else {
+                IO::writeln(sprintf("[*%3d] ", $count) . $msg);
+            }
             
             $data[$count++] = $article;
             unset($data[$key]);
