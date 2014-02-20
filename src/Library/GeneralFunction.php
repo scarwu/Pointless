@@ -197,7 +197,7 @@ function recursiveCopy($src, $dest) {
  * @param string
  * @return boolean
  */
-function recursiveRemove($path = NULL) {
+function recursiveRemove($path = NULL, $self = NULL) {
     if(file_exists($path)) {
         if(is_dir($path)) {
             $handle = opendir($path);
@@ -208,7 +208,7 @@ function recursiveRemove($path = NULL) {
             }
             closedir($handle);
 
-            if($path != TEMP && $path != DEPLOY) {
+            if($path != $self) {
                 return rmdir($path);
             }
         }

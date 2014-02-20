@@ -49,7 +49,7 @@ class DeployCommand extends Command {
 
         system("git pull origin $branch");
 
-        recursiveRemove(DEPLOY);
+        recursiveRemove(DEPLOY, DEPLOY);
         recursiveCopy(TEMP, DEPLOY);
 
         system('git add --all .');

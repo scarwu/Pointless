@@ -84,8 +84,8 @@ class GenCommand extends Command {
 
         // Clear Public Files
         IO::writeln('Clean Public Files ...', 'yellow');
-        recursiveRemove(TEMP);
-        
+        recursiveRemove(TEMP, TEMP);
+        exit();
         // Create README
         $handle = fopen(TEMP . '/README.md', 'w+');
         fwrite($handle, '[Powered by Pointless](https://github.com/scarwu/Pointless)');
