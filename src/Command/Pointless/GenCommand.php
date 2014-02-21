@@ -185,6 +185,9 @@ class GenCommand extends Command {
                     $post['title'], $post['url']
                 ], $article_url);
 
+                $post['tag'] = explode('|', $post['tag']);
+                sort($post['tag']);
+
                 $article[$timestamp] = [
                     'title' => $post['title'],
                     'url' => $url,
@@ -193,7 +196,7 @@ class GenCommand extends Command {
                     'time' => $post['time'],
                     'category' => $post['category'],
                     'keywords' => $post['keywords'],
-                    'tag' => explode('|', $post['tag']),
+                    'tag' => $post['tag'],
                     'year' => $year,
                     'month' => $month,
                     'day' => $day,
