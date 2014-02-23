@@ -17,5 +17,13 @@ $theme = [
             'category.php',
             'archive.php'
         ]
+    ],
+    'script' => [
+        'StaticPage.php',
+        'Article.php',
+        'Page.php',
+        'Archive.php',
+        'Category.php',
+        'Tag.php'
     ]
 ];

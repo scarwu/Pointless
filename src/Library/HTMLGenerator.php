@@ -40,31 +40,18 @@ class HTMLGenerator {
      */
     private function loadScript() {
 
-        // Load Custom Script
-        if(file_exists(THEME . '/Script')) {
-            $handle = opendir(THEME . '/Script');
-            while($filename = readdir($handle)) {
-                if('.' == $filename || '..' == $filename)
-                    continue;
-
+        // Load Script
+        foreach(Resource::get('theme')['script'] as $filename) {
+            if(file_exists(THEME . "/Script/$filename")) {
                 require THEME . "/Script/$filename";
 
                 $class_name = preg_replace('/.php$/', '', $filename);
                 $this->script[$class_name] = new $class_name;
             }
-            closedir($handle);
-        }
-
-        // Load Default Script
-        $handle = opendir(ROOT . '/Sample/Script');
-        while($filename = readdir($handle)) {
-            if('.' == $filename || '..' == $filename)
-                continue;
-
-            $class_name = preg_replace('/.php$/', '', $filename);
-
-            if(!isset($this->script[$class_name])) {
+            else if(ROOT . "/Sample/Script/$filename") {
                 require ROOT . "/Sample/Script/$filename";
+
+                $class_name = preg_replace('/.php$/', '', $filename);
                 $this->script[$class_name] = new $class_name;
             }
         }
