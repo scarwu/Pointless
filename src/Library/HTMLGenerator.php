@@ -48,14 +48,13 @@ class HTMLGenerator {
                 $class_name = preg_replace('/.php$/', '', $filename);
                 $this->script[$class_name] = new $class_name;
             }
-            else if(ROOT . "/Sample/Script/$filename") {
+            else if(file_exists(ROOT . "/Sample/Script/$filename")) {
                 require ROOT . "/Sample/Script/$filename";
 
                 $class_name = preg_replace('/.php$/', '', $filename);
                 $this->script[$class_name] = new $class_name;
             }
         }
-
     }
 
     /**

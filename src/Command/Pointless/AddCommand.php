@@ -113,7 +113,7 @@ class AddCommand extends Command {
             '!', '?', '/', '<', '>',
             '(', ')', ':', ';', '@',
             '#', '%', '^', '*', ',',
-            '.', '~', '`', '|', '\\'
+            '~', '`', '|', '\\'
         ];
 
         $filename = str_replace($char, '', $filename);

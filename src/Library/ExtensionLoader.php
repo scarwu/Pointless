@@ -24,35 +24,21 @@ class ExtensionLoader {
      */
     public function run() {
 
-        // Load Custom Extension
-        if(file_exists(EXTENSION)) {
-            $handle = opendir(EXTENSION);
-            while($filename = readdir($handle)) {
-                if('.' == $filename || '..' == $filename)
-                    continue;
-
+        // Load Extension
+        foreach(Resource::get('theme')['extension'] as $filename) {
+            if(file_exists(EXTENSION . "/$filename")) {
                 require EXTENSION . "/$filename";
 
                 $class_name = preg_replace('/.php$/', '', $filename);
                 $this->extension[$class_name] = new $class_name;
             }
-            closedir($handle);
-        }
-
-        // Load Default Extension
-        $handle = opendir(ROOT . '/Sample/Extension');
-        while($filename = readdir($handle)) {
-            if('.' == $filename || '..' == $filename)
-                continue;
-
-            $class_name = preg_replace('/.php$/', '', $filename);
-
-            if(!isset($this->extension[$class_name])) {
+            else if(file_exists(ROOT . "/Sample/Extension/$filename")) {
                 require ROOT . "/Sample/Extension/$filename";
+
+                $class_name = preg_replace('/.php$/', '', $filename);
                 $this->extension[$class_name] = new $class_name;
             }
         }
-        closedir($handle);
 
         foreach((array)$this->extension as $class) {
             $class->run();
