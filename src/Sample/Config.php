@@ -21,6 +21,11 @@ $config = [
 
     'theme' => 'Classic',
 
+    'extension' => [
+        'Atom',
+        'Sitemap'
+    ],
+
     'feed_quantity' => 5,
     'article_quantity' => 5,
 

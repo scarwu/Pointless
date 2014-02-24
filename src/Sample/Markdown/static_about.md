@@ -2,7 +2,8 @@
 	"type": "static",
 	"title": "About",
 	"url": "about",
-	"message": false
+	"message": false,
+	"publish": true
 }
 
 Pointless

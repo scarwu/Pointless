@@ -42,17 +42,15 @@ class HTMLGenerator {
 
         // Load Script
         foreach(Resource::get('theme')['script'] as $filename) {
-            if(file_exists(THEME . "/Script/$filename")) {
-                require THEME . "/Script/$filename";
+            $filename = preg_replace('/.php$/', '', $filename);
 
-                $class_name = preg_replace('/.php$/', '', $filename);
-                $this->script[$class_name] = new $class_name;
+            if(file_exists(THEME . "/Script/$filename.php")) {
+                require THEME . "/Script/$filename.php";
+                $this->script[$filename] = new $filename;
             }
-            else if(file_exists(ROOT . "/Sample/Script/$filename")) {
-                require ROOT . "/Sample/Script/$filename";
-
-                $class_name = preg_replace('/.php$/', '', $filename);
-                $this->script[$class_name] = new $class_name;
+            else if(file_exists(ROOT . "/Sample/Script/$filename.php")) {
+                require ROOT . "/Sample/Script/$filename.php";
+                $this->script[$filename] = new $filename;
             }
         }
     }
@@ -68,11 +66,12 @@ class HTMLGenerator {
             $result = NULL;
 
             foreach ($files as $filename) {
-                if(!file_exists(THEME . "/Template/$blockname/$filename"))
+                $filename = preg_replace('/.php$/', '', $filename);
+
+                if(!file_exists(THEME . "/Template/$blockname/$filename.php"))
                     continue;
 
-                $script = preg_replace('/.php$/', '', $filename);
-                $script = explode('_', $script);
+                $script = explode('_', $filename);
                 foreach($script as $key => $value) {
                     $script[$key] = ucfirst($value);
                 }
@@ -83,7 +82,7 @@ class HTMLGenerator {
                     ? $this->script[$script]->getList()
                     : NULL;
                 
-                $result .= bindData($data, THEME . "/Template/$blockname/$filename");
+                $result .= bindData($data, THEME . "/Template/$blockname/$filename.php");
             }
 
             if(NULL != $result) {
