@@ -155,6 +155,9 @@ class GenCommand extends Command {
                 exit(1);
             }
 
+            if(!(isset($post['publish']) ? $post['publish'] : TRUE))
+                continue;
+
             // Append Static Page
             if('static' == $post['type']) {
                 Resource::append('static', [
@@ -167,9 +170,6 @@ class GenCommand extends Command {
 
             // Create Article
             if('article' == $post['type']) {
-                if(!(isset($post['publish']) ? $post['publish'] : TRUE))
-                    continue;
-
                 list($year, $month, $day) = explode('-', $post['date']);
                 list($hour, $minute, $second) = explode(':', $post['time']);
                 $timestamp = strtotime("$day-$month-$year {$post['time']}");

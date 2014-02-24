@@ -63,8 +63,9 @@ class AddCommand extends Command {
             $json = json_encode([
                 'type' => 'static',
                 'title' => $info['title'],
-                'url' => $this->replace($info['url']),
-                'message' => false
+                'url' => $this->replace($info['url'], TRUE),
+                'message' => false,
+                'publish' => false
             ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
             $handle = fopen($filepath, 'w+');
@@ -107,17 +108,20 @@ class AddCommand extends Command {
         }
     }
 
-    private function replace($filename) {
+    private function replace($filename, $skip = FALSE) {
         $char = [
             "'", '"', '&', '$', '=',
-            '!', '?', '/', '<', '>',
+            '!', '?', '<', '>', '|',
             '(', ')', ':', ';', '@',
             '#', '%', '^', '*', ',',
-            '~', '`', '|', '\\'
+            '~', '`', '\\'
         ];
 
+        if(!$skip) {
+            $filename = str_replace(['.', '/'], '-', $filename);
+        }
+
         $filename = str_replace($char, '', $filename);
-        $filename = str_replace(' ', '-', $filename);
 
         return stripslashes($filename);
     }
