@@ -45,6 +45,7 @@ class EditCommand extends Command {
                 if('static' != $temp['type'])
                     continue;
 
+                $data[$temp['title']]['publish'] = $temp['publish'];
                 $data[$temp['title']]['title'] = $temp['title'];
                 $data[$temp['title']]['path'] = MARKDOWN . "/$filename";
             }
@@ -61,6 +62,11 @@ class EditCommand extends Command {
             }
         }
         closedir($handle);
+
+        if(count($data) == 0) {
+            IO::writeln('No post(s).', 'red');
+            return;
+        }
 
         uksort($data, 'strnatcasecmp');
 

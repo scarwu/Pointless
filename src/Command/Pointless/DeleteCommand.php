@@ -59,6 +59,11 @@ class DeleteCommand extends Command {
         }
         closedir($handle);
 
+        if(count($data) == 0) {
+            IO::writeln('No post(s).', 'red');
+            return;
+        }
+
         uksort($data, 'strnatcasecmp');
 
         $count = 0;
