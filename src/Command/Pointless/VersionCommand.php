@@ -17,6 +17,10 @@ class VersionCommand extends Command {
     public function __construct() {
         parent::__construct();
     }
+
+    public function help() {
+        IO::writeln('    version    - Show version');
+    }
     
     public function run() {
         $version = 'v0.0.0 dev';

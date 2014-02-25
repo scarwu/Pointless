@@ -25,6 +25,11 @@ class AddCommand extends Command {
     }
 
     public function run() {
+        if(!checkDefaultBlog())
+            return;
+        
+        initBlog();
+        
         $encoding = Resource::get('config')['encoding'];
         $editor = Resource::get('config')['editor'];
         
@@ -59,8 +64,8 @@ class AddCommand extends Command {
                 'type' => 'static',
                 'title' => $info['title'],
                 'url' => $this->replace($info['url']),
-                'message' => false,
-            ], JSON_PRETTY_PRINT);
+                'message' => false
+            ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
             $handle = fopen($filepath, 'w+');
             fwrite($handle, $json . "\n\n\n");
@@ -91,7 +96,7 @@ class AddCommand extends Command {
                 'time' => date("H:i:s", $time),
                 'message' => true,
                 'publish' => false
-            ], JSON_PRETTY_PRINT);
+            ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
             $handle = fopen($filepath, 'w+');
             fwrite($handle, $json . "\n\n\n");

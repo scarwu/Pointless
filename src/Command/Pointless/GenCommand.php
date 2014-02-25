@@ -26,10 +26,15 @@ class GenCommand extends Command {
     public function help() {
         IO::writeln('    gen        - Generate blog');
         IO::writeln('    gen -css   - Compress CSS');
-        IO::writeln('    gen -js    - Compress Javascript');
+        IO::writeln('    gen -js    - Compress JavaScript');
     }
 
     public function run() {
+        if(!checkDefaultBlog())
+            return;
+        
+        initBlog();
+        
         require LIBRARY . '/Helper.php';
         require LIBRARY . '/Compress.php';
         require LIBRARY . '/HTMLGenerator.php';
@@ -79,7 +84,7 @@ class GenCommand extends Command {
 
         // Clear Public Files
         IO::writeln('Clean Public Files ...', 'yellow');
-        recursiveRemove(TEMP);
+        recursiveRemove(TEMP, TEMP);
         
         // Create README
         $handle = fopen(TEMP . '/README.md', 'w+');
@@ -180,6 +185,9 @@ class GenCommand extends Command {
                     $post['title'], $post['url']
                 ], $article_url);
 
+                $post['tag'] = explode('|', $post['tag']);
+                sort($post['tag']);
+
                 $article[$timestamp] = [
                     'title' => $post['title'],
                     'url' => $url,
@@ -188,7 +196,7 @@ class GenCommand extends Command {
                     'time' => $post['time'],
                     'category' => $post['category'],
                     'keywords' => $post['keywords'],
-                    'tag' => explode('|', $post['tag']),
+                    'tag' => $post['tag'],
                     'year' => $year,
                     'month' => $month,
                     'day' => $day,

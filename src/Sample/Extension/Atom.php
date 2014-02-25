@@ -50,11 +50,11 @@ class Atom {
         }
 
         foreach((array)Resource::get('article') as $article) {
-            $title = htmlspecialchars($article['title'], ENT_QUOTES, "UTF-8");
+            $title = $article['title'];
             $url = "{$blog['url']}article/{$article['url']}";
             $uuid = $this->uuid($url);
             $date = date(DATE_ATOM, $article['timestamp']);
-            $summary = htmlspecialchars($article['content'], ENT_QUOTES, "UTF-8");
+            $summary = $article['content'];
 
             $atom .= "\t<entry>\n";
             $atom .= "\t\t<title type=\"html\"><![CDATA[{$title}]]></title>\n";

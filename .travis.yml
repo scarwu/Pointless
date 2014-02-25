@@ -1,9 +1,13 @@
 script:
   - php ./script/build.php
-  - php ./bin/poi gen
-  - php ./bin/poi version
-  - php ./bin/poi update
-  - php ./bin/poi update -u
+  - mkdir test
+  - cd test
+  - php ../bin/poi
+  - php ../bin/poi home -i
+  - php ../bin/poi gen
+  - php ../bin/poi version
+  - php ../bin/poi update
+  - php ../bin/poi update -u
 language: php
 php:
   - 5.4

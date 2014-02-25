@@ -19,7 +19,16 @@ class DeployCommand extends Command {
         parent::__construct();
     }
     
+    public function help() {
+        IO::writeln('    deploy     - Deploy blog to Github');
+    }
+
     public function run() {
+        if(!checkDefaultBlog())
+            return;
+        
+        initBlog();
+        
         $github = Resource::get('config')['github'];
 
         $account = $github['account'];
@@ -33,14 +42,14 @@ class DeployCommand extends Command {
 
         chdir(DEPLOY);
 
-        if(!file_exists(DEPLOY . '.git')) {
+        if(!file_exists(DEPLOY . '/.git')) {
             system('git init');
             system("git remote add origin git@github.com:$account/$repo.git");
         }
 
         system("git pull origin $branch");
 
-        recursiveRemove(DEPLOY);
+        recursiveRemove(DEPLOY, DEPLOY);
         recursiveCopy(TEMP, DEPLOY);
 
         system('git add --all .');

@@ -8,6 +8,112 @@
  * @link        http://github.com/scarwu/Pointless
  */
 
+use NanoCLI\IO;
+
+/**
+ * Check Default Blog
+ */
+function checkDefaultBlog() {
+    $msg = 'Default blog is\'t set. Please use command "home -s" or "home -i".';
+
+    if(!file_exists(HOME . '/Default')) {
+        IO::writeln($msg, 'red');
+        return FALSE;
+    }
+
+    $path = file_get_contents(HOME . '/Default');
+
+    if('' == $path) {
+        IO::writeln($msg, 'red');
+        return FALSE;
+    }
+
+    if(!file_exists($path) || !file_exists("$path/.pointless")) {
+        file_put_contents(HOME . '/defualt', '');
+
+        IO::writeln($msg, 'red');
+        return FALSE;
+    }
+
+    define('BLOG', $path);
+
+    return TRUE;
+}
+
+/**
+ * Initialize Blog
+ */
+function initBlog() {
+    if(!file_exists(BLOG . '/.pointless')) {
+        file_put_contents(BLOG . '/.pointless', '');
+    }
+
+    if(!file_exists(BLOG . '/Config.php')) {
+        copy(ROOT . '/Sample/Config.php', BLOG . '/Config.php');
+    }
+
+    // Require Config
+    require BLOG . '/Config.php';
+    Resource::set('config', $config);
+
+    // Temp
+    define('TEMP', BLOG . '/Temp');
+
+    if(!file_exists(TEMP)) {
+        mkdir(TEMP, 0755, TRUE);
+    }
+
+    // Deploy
+    define('DEPLOY', BLOG . '/Deploy');
+
+    if(!file_exists(DEPLOY)) {
+        mkdir(DEPLOY, 0755, TRUE);
+    }
+
+    // Markdown
+    define('MARKDOWN', BLOG . '/Markdown');
+
+    if(!file_exists(MARKDOWN)) {
+        mkdir(MARKDOWN, 0755, TRUE);
+        recursiveCopy(ROOT . '/Sample/Markdown', MARKDOWN);
+    }
+
+    // Theme
+    if(!file_exists(BLOG . '/Theme')) {
+        mkdir(BLOG . '/Theme', 0755, TRUE);
+        recursiveCopy(ROOT . '/Sample/Theme', BLOG . '/Theme');
+    }
+
+    if('' == $config['theme']) {
+        $config['theme'] = 'Classic';
+    }
+
+    if(file_exists(BLOG . "/Theme/{$config['theme']}")) {
+        define('THEME', BLOG . "/Theme/{$config['theme']}");
+    }
+    else {
+        define('THEME', ROOT . '/Sample/Theme/Classic');
+    }
+
+    // Extension
+    define('EXTENSION', BLOG . '/Extension');
+
+    if(!file_exists(EXTENSION)) {
+        mkdir(EXTENSION, 0755, TRUE);
+    }
+
+    // Resource
+    define('RESOURCE', BLOG . '/Resource');
+
+    if(!file_exists(RESOURCE)) {
+        mkdir(RESOURCE, 0755, TRUE);
+    }
+
+    // Set Timezone
+    date_default_timezone_set($config['timezone']);
+}
+
+
 /**
  * Bind PHP Data to HTML Template
  *
@@ -91,7 +197,7 @@ function recursiveCopy($src, $dest) {
  * @param string
  * @return boolean
  */
-function recursiveRemove($path = NULL) {
+function recursiveRemove($path = NULL, $self = NULL) {
     if(file_exists($path)) {
         if(is_dir($path)) {
             $handle = opendir($path);
@@ -102,7 +208,7 @@ function recursiveRemove($path = NULL) {
             }
             closedir($handle);
 
-            if($path != TEMP && $path != DEPLOY) {
+            if($path != $self) {
                 return rmdir($path);
             }
         }
