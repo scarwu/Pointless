@@ -28,7 +28,11 @@ class HomeCommand extends Command {
 
         // Set default blog path
         if($this->hasOptions('s')) {
-            $path = $_SERVER['PWD'];
+            $path = getcwd();
+
+            if('' != ($dir = $this->getOptions()['s'])) {
+                $path = "$path/$dir";
+            }
 
             if(file_exists("$path/.pointless")) {
                 file_put_contents(HOME . '/Default', $path);
@@ -44,12 +48,27 @@ class HomeCommand extends Command {
 
         // Initialize blog
         if($this->hasOptions('i')) {
-            define('BLOG', $_SERVER['PWD']);
+            $path = getcwd();
+
+            if('' != ($dir = $this->getOptions()['i'])) {
+                $path = "$path/$dir";
+
+                if(file_exists($path)) {
+                    IO::writeln("Path \"$path\" is exists.", 'red');
+                    return;
+                }
+
+                mkdir($dir);
+                chdir($dir);
+            }
+
+            define('BLOG', $path);
             file_put_contents(HOME . '/Default', BLOG);
 
             initBlog();
 
             IO::writeln("Blog is initialized.", 'green');
+            IO::writeln("Default blog is setting to path \"$path\".", 'green');
 
             return;
         }
