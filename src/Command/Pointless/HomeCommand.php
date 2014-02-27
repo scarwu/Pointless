@@ -20,8 +20,10 @@ class HomeCommand extends Command {
     
     public function help() {
         IO::writeln('    home       - Show default blog path');
-        IO::writeln('    home -s    - Set another blog as default');
-        IO::writeln('    home -i    - Init a new blog');
+        IO::writeln('    home -s <path or not>');
+        IO::writeln('               - Set another blog as default');
+        IO::writeln('    home -i <path or not>');
+        IO::writeln('               - Init a new blog');
     }
 
     public function run() {
@@ -74,9 +76,7 @@ class HomeCommand extends Command {
         }
 
         if(checkDefaultBlog()) {
-            
             initBlog();
-
             IO::writeln('Default blog path: ' . BLOG);
         }
     }

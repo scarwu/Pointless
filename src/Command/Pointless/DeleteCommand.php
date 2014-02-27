@@ -20,8 +20,10 @@ class DeleteCommand extends Command {
     }
 
     public function help() {
-        IO::writeln('    delete     - Delete article');
-        IO::writeln('    delete -s  - Delete Static Page');
+        IO::writeln('    delete <number or not>');
+        IO::writeln('               - Delete article');
+        IO::writeln('    delete -s <numebr ot not>');
+        IO::writeln('               - Delete Static Page');
     }
 
     public function run() {
@@ -30,65 +32,80 @@ class DeleteCommand extends Command {
         
         initBlog();
         
-        $data = [];
+        $list = [];
         $handle = opendir(MARKDOWN);
         while($filename = readdir($handle)) {
             if('.' == $filename || '..' == $filename || !preg_match('/.md$/', $filename))
                 continue;
 
             preg_match(REGEX_RULE, file_get_contents(MARKDOWN . "/$filename"), $match);
-            $temp = json_decode($match[1], TRUE);
+            $post = json_decode($match[1], TRUE);
 
             if($this->hasOptions('s')) {
-                if('static' != $temp['type'])
+                if('static' != $post['type'])
                     continue;
 
-                $data[$temp['title']]['title'] = $temp['title'];
-                $data[$temp['title']]['path'] = MARKDOWN . "/$filename";
+                $index = $post['title'];
+
+                $list[$index]['msg'] = $post['title'];
+                $list[$index]['title'] = $post['title'];
+                $list[$index]['path'] = MARKDOWN . "/$filename";
             }
             else {
-                if('article' != $temp['type'])
+                if('article' != $post['type'])
                     continue;
 
-                $index = $temp['date'] . $temp['time'];
+                $index = $post['date'] . $post['time'];
 
-                $data[$index]['title'] = $temp['title'];
-                $data[$index]['date'] = $temp['date'];
-                $data[$index]['path'] = MARKDOWN . "/$filename";
+                $list[$index]['msg'] = "{$post['date']} {$post['title']}";
+                $list[$index]['title'] = $post['title'];
+                $list[$index]['path'] = MARKDOWN . "/$filename";
             }
         }
         closedir($handle);
+        uksort($list, 'strnatcasecmp');
 
-        if(count($data) == 0) {
+        if(count($list) == 0) {
             IO::writeln('No post(s).', 'red');
             return;
         }
-
-        uksort($data, 'strnatcasecmp');
-
-        $count = 0;
-        foreach($data as $key => $article) {
-            if($this->hasOptions('s')) {
-                $msg = $article['title'];
-            }
-            else {
-                $msg = "{$article['date']} {$article['title']}";
-            }
-
-            IO::writeln(sprintf("[%3d] ", $count) . $msg);
-
-            $data[$count++] = $article;
-            unset($data[$key]);
-        }
         
-        $number = IO::question("\nEnter Number:\n-> ", NULL, function($answer) use($data) {
-            return is_numeric($answer) && $answer >= 0 && $answer < count($data);
-        });
+        $number = $this->getNumber();
+            if($number < 0 || $number >= count($list))
+                $number = NULL;
 
-        IO::write(sprintf("Are you sure delete - %s? [n/y]\n-> ", $data[$number]['title']), 'red');
-        if(IO::read() == "y") {
-            system('rm ' . $data[$number]['path']);
-            IO::writeln(sprintf('Successfully removed %s.', $data[$number]['title']));
+            if(NULL == $number) {
+            $count = 0;
+            foreach($list as $post) {
+                IO::writeln(sprintf("[%3d] ", $count) . $post['msg']);
+
+                $count++;
+            }
+            
+            $number = IO::question("\nEnter Number:\n-> ", NULL, function($answer) use($list) {
+                return is_numeric($answer) && $answer >= 0 && $answer < count($list);
+            });
         }
+
+        $path = $list[array_keys($list)[$number]]['path'];
+        $title = $list[array_keys($list)[$number]]['title'];
+        IO::write("Are you sure delete post \"$title\"? [n/y]\n-> ", 'red');
+        if(IO::read() == "y") {
+            system("rm $path");
+            IO::writeln("Successfully removed post \"$title\".");
+        }
+    }
+
+    private function getNumber() {
+        if($this->hasOptions('s')) {
+            return $this->getOptions('s') != ''
+                ? $this->getOptions('s') : NULL;
+        }
+
+        if($this->hasArguments()) {
+            return $this->getArguments()[0];
+        }
+
+        return NULL;
     }
 }
