@@ -1,7 +1,7 @@
 <?php
 /**
  * Pointless Deploy Command
- * 
+ *
  * @package     Pointless
  * @author      ScarWu
  * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
@@ -14,35 +14,41 @@ use NanoCLI\Command;
 use NanoCLI\IO;
 use Resource;
 
-class DeployCommand extends Command {
-    public function __construct() {
+class DeployCommand extends Command
+{
+    public function __construct()
+    {
         parent::__construct();
     }
-    
-    public function help() {
+
+    public function help()
+    {
         IO::writeln('    deploy     - Deploy blog to Github');
     }
 
-    public function run() {
-        if(!checkDefaultBlog())
-            return;
-        
+    public function run()
+    {
+        if (!checkDefaultBlog()) {
+            return false;
+        }
+
         initBlog();
-        
+
         $github = Resource::get('config')['github'];
 
         $account = $github['account'];
         $repo = $github['repo'];
         $branch = $github['branch'];
-        
-        if(NULL == $account || NULL == $repo || NULL == $branch) {
+
+        if (null === $account || null === $repo || null === $branch) {
             IO::writeln('Please add Github setting in Pointless config.', 'red');
-            return;
+
+            return false;
         }
 
         chdir(DEPLOY);
 
-        if(!file_exists(DEPLOY . '/.git')) {
+        if (!file_exists(DEPLOY . '/.git')) {
             system('git init');
             system("git remote add origin git@github.com:$account/$repo.git");
         }

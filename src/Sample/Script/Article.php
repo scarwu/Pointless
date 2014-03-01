@@ -1,7 +1,7 @@
 <?php
 /**
  * Article Data Generator Script for Theme
- * 
+ *
  * @package     Pointless
  * @author      ScarWu
  * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
@@ -10,46 +10,49 @@
 
 use NanoCLI\IO;
 
-class Article {
-
+class Article
+{
     /**
      * @var array
      */
     private $list;
-    
-    public function __construct() {
+
+    public function __construct()
+    {
         $this->list = Resource::get('article');
     }
-    
+
     /**
      * Get List
      *
      * @return array
      */
-    public function getList() {
+    public function getList()
+    {
         return $this->list;
     }
-    
+
     /**
      * Generate Data
      *
      * @param string
      */
-    public function gen() {
+    public function gen()
+    {
         $count = 0;
         $total = count($this->list);
         $keys = array_keys($this->list);
 
         $blog = Resource::get('config')['blog'];
 
-        foreach((array)$this->list as $post) {
+        foreach ((array) $this->list as $post) {
             IO::writeln("Building article/{$post['url']}");
-            
+
             $post['url'] = "article/{$post['url']}";
             $post['bar']['index'] = $count + 1;
             $post['bar']['total'] = $total;
 
-            if(isset($keys[$count - 1])) {
+            if (isset($keys[$count - 1])) {
                 $key = $keys[$count - 1];
                 $title = $this->list[$key]['title'];
                 $url = $this->list[$key]['url'];
@@ -58,7 +61,7 @@ class Article {
                 $post['bar']['p_url'] = "{$blog['base']}article/$url";
             }
 
-            if(isset($keys[$count + 1])) {
+            if (isset($keys[$count + 1])) {
                 $key = $keys[$count + 1];
                 $title = $this->list[$key]['title'];
                 $url = $this->list[$key]['url'];
@@ -81,7 +84,7 @@ class Article {
 
             $block = Resource::get('block');
             $block['container'] = $container;
-            
+
             // Write HTML to Disk
             $result = bindData([
                 'blog' => array_merge($blog, $ext),

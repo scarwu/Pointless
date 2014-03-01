@@ -1,15 +1,15 @@
 <?php
 /**
  * Resource Pool
- * 
+ *
  * @package     Pointless
  * @author      ScarWu
  * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
  * @link        http://github.com/scarwu/Pointless
  */
 
-class Resource {
-
+class Resource
+{
     /**
      * @var array
      */
@@ -19,12 +19,17 @@ class Resource {
 
     /**
      * Get Resource
-     * 
+     *
      * @param string
      * @return array
      */
-    public static function get($index) {
-        return isset(self::$resource[$index]) ? self::$resource[$index] : NULL;
+    public static function get($index)
+    {
+        if (array_key_exists($index, self::$resource[$index])) {
+            return self::$resource[$index]);
+        }
+
+        return null;
     }
 
     /**
@@ -33,7 +38,8 @@ class Resource {
      * @param string
      * @param array
      */
-    public static function set($index, $data) {
+    public static function set($index, $data)
+    {
         self::$resource[$index] = $data;
     }
 
@@ -43,8 +49,9 @@ class Resource {
      * @param string
      * @param array
      */
-    public static function append($index, $data) {
-        if(!isset(self::$resource[$index])) {
+    public static function append($index, $data)
+    {
+        if (!array_key_exists($index, self::$resource)) {
             self::$resource[$index] = [];
         }
 

@@ -1,36 +1,37 @@
 <?php
 /**
  * HTML Generator
- * 
+ *
  * @package     Pointless
  * @author      ScarWu
  * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
  * @link        http://github.com/scarwu/Pointless
  */
 
-class HTMLGenerator {
-
+class HTMLGenerator
+{
     /**
      * @var array
      */
     private $script;
-    
-    public function __construct() {
+
+    public function __construct()
+    {
         $this->script = [];
     }
-    
+
     /**
      * Run HTML Generator
      */
-    public function run() {
-
+    public function run()
+    {
         // Load Script
         $this->loadScript();
-        
+
         // Generate Block
         $this->genBlock();
 
-        foreach((array)$this->script as $class) {
+        foreach ((array) $this->script as $class) {
             $class->gen();
         }
     }
@@ -38,17 +39,16 @@ class HTMLGenerator {
     /**
      * Load Theme Script
      */
-    private function loadScript() {
-
+    private function loadScript()
+    {
         // Load Script
-        foreach(Resource::get('theme')['script'] as $filename) {
+        foreach (Resource::get('theme')['script'] as $filename) {
             $filename = preg_replace('/.php$/', '', $filename);
 
-            if(file_exists(THEME . "/Script/$filename.php")) {
+            if (file_exists(THEME . "/Script/$filename.php")) {
                 require THEME . "/Script/$filename.php";
                 $this->script[$filename] = new $filename;
-            }
-            else if(file_exists(ROOT . "/Sample/Script/$filename.php")) {
+            } elseif (file_exists(ROOT . "/Sample/Script/$filename.php")) {
                 require ROOT . "/Sample/Script/$filename.php";
                 $this->script[$filename] = new $filename;
             }
@@ -58,21 +58,22 @@ class HTMLGenerator {
     /**
      * Generate Block
      */
-    private function genBlock() {
+    private function genBlock()
+    {
         $block = [];
 
-        foreach(Resource::get('theme')['template'] as $blockname => $files) {
+        foreach (Resource::get('theme')['template'] as $blockname => $files) {
 
-            $result = NULL;
+            $result = null;
 
             foreach ($files as $filename) {
                 $filename = preg_replace('/.php$/', '', $filename);
 
-                if(!file_exists(THEME . "/Template/$blockname/$filename.php"))
+                if (!file_exists(THEME . "/Template/$blockname/$filename.php"))
                     continue;
 
                 $script = explode('_', $filename);
-                foreach($script as $key => $value) {
+                foreach ($script as $key => $value) {
                     $script[$key] = ucfirst($value);
                 }
                 $script = join($script);
@@ -80,12 +81,12 @@ class HTMLGenerator {
                 $data['blog'] = Resource::get('config')['blog'];
                 $data['list'] = isset($this->script[$script])
                     ? $this->script[$script]->getList()
-                    : NULL;
-                
+                    : null;
+
                 $result .= bindData($data, THEME . "/Template/$blockname/$filename.php");
             }
 
-            if(NULL != $result) {
+            if (null !== $result) {
                 $block[$blockname] = $result;
             }
         }

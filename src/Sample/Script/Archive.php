@@ -1,7 +1,7 @@
 <?php
 /**
  * Archive Data Generator Script for Theme
- * 
+ *
  * @package     Pointless
  * @author      ScarWu
  * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
@@ -10,19 +10,21 @@
 
 use NanoCLI\IO;
 
-class Archive {
-
+class Archive
+{
     /**
      * @var array
      */
     private $list;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->list = [];
 
-        foreach(Resource::get('article') as $index => $value) {
-            if(!isset($this->list[$value['year']]))
+        foreach (Resource::get('article') as $index => $value) {
+            if (!isset($this->list[$value['year']])) {
                 $this->list[$value['year']] = [];
+            }
 
             $this->list[$value['year']][] = $value;
         }
@@ -33,7 +35,8 @@ class Archive {
      *
      * @return array
      */
-    public function getList() {
+    public function getList()
+    {
         return $this->list;
     }
 
@@ -42,17 +45,18 @@ class Archive {
      *
      * @param string
      */
-    public function gen() {
-        $first = NULL;
+    public function gen()
+    {
+        $first = null;
         $count = 0;
         $total = count($this->list);
         $keys = array_keys($this->list);
-        
+
         $blog = Resource::get('config')['blog'];
 
-        foreach((array)$this->list as $index => $post_list) {
+        foreach ((array) $this->list as $index => $post_list) {
             IO::writeln("Building archive/$index");
-            if(NULL == $first) {
+            if (null === $first) {
                 $first = $index;
             }
 
@@ -63,20 +67,20 @@ class Archive {
             $post['bar']['index'] = $count + 1;
             $post['bar']['total'] = $total;
 
-            if(isset($keys[$count - 1])) {
+            if (isset($keys[$count - 1])) {
                 $archive = $keys[$count - 1];
 
                 $post['bar']['p_title'] = $archive;
                 $post['bar']['p_url'] = "{$blog['base']}archive/$archive";
             }
 
-            if(isset($keys[$count + 1])) {
+            if (isset($keys[$count + 1])) {
                 $archive = $keys[$count + 1];
 
                 $post['bar']['n_title'] = $archive;
                 $post['bar']['n_url'] = "{$blog['base']}archive/$archive";
             }
-                
+
             $count++;
 
             $ext = [];
@@ -94,7 +98,7 @@ class Archive {
             $data = [];
             $data['blog'] = array_merge($blog, $ext);
             $data['block'] = $block;
-            
+
             // Write HTML to Disk
             $result = bindData([
                 'blog' => array_merge($blog, $ext),
@@ -105,22 +109,23 @@ class Archive {
             // Sitemap
             Resource::append('sitemap', $post['url']);
         }
-        
-        if(file_exists(TEMP . "/archive/$first/index.html")) {
+
+        if (file_exists(TEMP . "/archive/$first/index.html")) {
             copy(TEMP . "/archive/$first/index.html", TEMP . '/archive/index.html');
             Resource::append('sitemap', 'archive');
         }
     }
 
-    private function createDateList($list) {
+    private function createDateList($list)
+    {
         $result = [];
 
-        foreach((array)$list as $article) {
-            if(!isset($result[$article['year']])) {
+        foreach ((array) $list as $article) {
+            if (!isset($result[$article['year']])) {
                 $result[$article['year']] = [];
             }
 
-            if(!isset($result[$article['year']][$article['month']])) {
+            if (!isset($result[$article['year']][$article['month']])) {
                 $result[$article['year']][$article['month']] = [];
             }
 

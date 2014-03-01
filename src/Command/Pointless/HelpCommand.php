@@ -1,7 +1,7 @@
 <?php
 /**
  * Pointless Help Command
- * 
+ *
  * @package     Pointless
  * @author      ScarWu
  * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
@@ -14,12 +14,15 @@ use NanoCLI\Command;
 use NanoCLI\IO;
 use Exception;
 
-class HelpCommand extends Command {
-    public function __construct() {
+class HelpCommand extends Command
+{
+    public function __construct()
+    {
         parent::__construct();
     }
-    
-    public function help() {
+
+    public function help()
+    {
         IO::writeln('    home       - Init and switch default blog');
         IO::writeln('    gen        - Generate blog');
         IO::writeln('    add        - Add new article');
@@ -32,7 +35,8 @@ class HelpCommand extends Command {
         IO::writeln('    version    - Show version');
     }
 
-    public function run() {
+    public function run()
+    {
         $pointless = <<<EOF
                                            __
       ______  ______  __  ______  ______  / /\______  _____  _____
@@ -45,19 +49,17 @@ class HelpCommand extends Command {
 EOF;
 
         IO::writeln($pointless, 'green');
-        if($this->hasArguments()) {
+        if ($this->hasArguments()) {
             $command = $this->getArguments(0);
 
             try {
                 $class_name = 'Pointless\\' . ucfirst($command) . 'Command';
                 $class = new $class_name();
                 $class->help();
-            }
-            catch(Exception $e) {
+            } catch (Exception $e) {
                 IO::writeln("    No description for $command.", 'red');
             }
-        }
-        else {
+        } else {
             $this->help();
         }
     }

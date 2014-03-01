@@ -1,7 +1,7 @@
 <?php
 /**
  * Bootstrap
- * 
+ *
  * @package     Pointless
  * @author      ScarWu
  * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
@@ -25,8 +25,8 @@ require LIBRARY . '/GeneralFunction.php';
  */
 define('HOME', $_SERVER['HOME'] . '/.pointless2');
 
-if(!file_exists(HOME)) {
-    mkdir(HOME, 0755, TRUE);
+if (!file_exists(HOME)) {
+    mkdir(HOME, 0755, true);
 }
 
 // Define Regular Expression Rule
@@ -35,9 +35,9 @@ define('REGEX_RULE', '/^({(?:.|\n)*?})\n((?:.|\n)*)/');
 /**
  * Copy Sample Files
  */
-if(defined('BUILD_TIMESTAMP')) {
-    if(!file_exists(HOME . '/Sample')) {
-        mkdir(HOME . '/Sample', 0755, TRUE);
+if (defined('BUILD_TIMESTAMP')) {
+    if (!file_exists(HOME . '/Sample')) {
+        mkdir(HOME . '/Sample', 0755, true);
     }
 
     $timestamp = file_exists(HOME . '/Timestamp')
@@ -45,9 +45,9 @@ if(defined('BUILD_TIMESTAMP')) {
         : 0;
 
     // Check Timestamp and Update Sample Files
-    if(BUILD_TIMESTAMP != $timestamp) {
+    if (BUILD_TIMESTAMP !== $timestamp) {
         recursiveRemove(HOME . '/Sample');
-        
+
         // Copy Sample Files
         recursiveCopy(ROOT . '/Sample', HOME . '/Sample');
         copy(LIBRARY . '/Route.php', HOME . '/Sample/Route.php');
