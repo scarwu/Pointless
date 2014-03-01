@@ -2,91 +2,94 @@
 /**
  * HTML Generator
  * 
- * @package		Pointless
- * @author		ScarWu
- * @copyright	Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
- * @link		http://github.com/scarwu/Pointless
+ * @package     Pointless
+ * @author      ScarWu
+ * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
+ * @link        http://github.com/scarwu/Pointless
  */
 
 class HTMLGenerator {
 
-	/**
-	 * @var array
-	 */
-	private $script;
-	
-	public function __construct() {
-		$this->script = array();
-	}
-	
-	/**
-	 * Run HTML Generator
-	 */
-	public function run() {
+    /**
+     * @var array
+     */
+    private $script;
+    
+    public function __construct() {
+        $this->script = [];
+    }
+    
+    /**
+     * Run HTML Generator
+     */
+    public function run() {
 
-		// Load Script
-		$this->loadScript();
-		
-		// Generate Block
-		$this->genBlock();
+        // Load Script
+        $this->loadScript();
+        
+        // Generate Block
+        $this->genBlock();
 
-		foreach((array)$this->script as $class)
-			$class->gen();
-	}
+        foreach((array)$this->script as $class) {
+            $class->gen();
+        }
+    }
 
-	/**
-	 * Load Theme Script
-	 */
-	private function loadScript() {
-		$handle = opendir(THEME_SCRIPT);
-		while($filename = readdir($handle)) {
-			if('.' == $filename || '..' == $filename)
-				continue;
+    /**
+     * Load Theme Script
+     */
+    private function loadScript() {
 
-			require THEME_SCRIPT . $filename;
+        // Load Script
+        foreach(Resource::get('theme')['script'] as $filename) {
+            $filename = preg_replace('/.php$/', '', $filename);
 
-			$class_name = preg_replace('/.php$/', '', $filename);
-			$this->script[$class_name] = new $class_name;
-		}
-		closedir($handle);
-	}
+            if(file_exists(THEME . "/Script/$filename.php")) {
+                require THEME . "/Script/$filename.php";
+                $this->script[$filename] = new $filename;
+            }
+            else if(file_exists(ROOT . "/Sample/Script/$filename.php")) {
+                require ROOT . "/Sample/Script/$filename.php";
+                $this->script[$filename] = new $filename;
+            }
+        }
+    }
 
-	/**
-	 * Generate Block
-	 */
-	private function genBlock() {
-		$filter = array('.', '..', 'Container', 'index.php');
-		$block = array();
+    /**
+     * Generate Block
+     */
+    private function genBlock() {
+        $block = [];
 
-		$block_handle = opendir(THEME_TEMPLATE);
-		while($block_name = readdir($block_handle)) {
-			if(in_array($block_name, $filter))
-				continue;
+        foreach(Resource::get('theme')['template'] as $blockname => $files) {
 
-			$file_list = array();
+            $result = NULL;
 
-			$handle = opendir(THEME_TEMPLATE . $block_name);
-			while($file = readdir($handle)) {
-				if('.' == $file || '..' == $file)
-					continue;
+            foreach ($files as $filename) {
+                $filename = preg_replace('/.php$/', '', $filename);
 
-				$file_list[] = $file;
-			}
-			closedir($handle);
+                if(!file_exists(THEME . "/Template/$blockname/$filename.php"))
+                    continue;
 
-			sort($file_list);
+                $script = explode('_', $filename);
+                foreach($script as $key => $value) {
+                    $script[$key] = ucfirst($value);
+                }
+                $script = join($script);
 
-			$result = '';
-			foreach((array)$file_list as $file) {
-				$script_name = preg_replace(array('/^\d+_/', '/.php$/'), '', $file);
-				$list = isset($this->script[$script_name]) ? $this->script[$script_name]->getList() : null;
-				$result .= bindData($list, THEME_TEMPLATE . $block_name . '/' . $file);
-			}
+                $data['blog'] = Resource::get('config')['blog'];
+                $data['list'] = isset($this->script[$script])
+                    ? $this->script[$script]->getList()
+                    : NULL;
+                
+                $result .= bindData($data, THEME . "/Template/$blockname/$filename.php");
+            }
 
-			$block[strtolower($block_name)] = $result;
-		}
-		closedir($block_handle);
+            if(NULL != $result) {
+                $block[$blockname] = $result;
+            }
+        }
 
-		Resource::set('block', $block);
-	}
+        Resource::set('block', $block);
+    }
 }

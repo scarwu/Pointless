@@ -2,99 +2,127 @@
 /**
  * Pointless Add Command
  * 
- * @package		Pointless
- * @author		ScarWu
- * @copyright	Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
- * @link		http://github.com/scarwu/Pointless
+ * @package     Pointless
+ * @author      ScarWu
+ * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
+ * @link        http://github.com/scarwu/Pointless
  */
 
 namespace Pointless;
 
 use NanoCLI\Command;
 use NanoCLI\IO;
+use Resource;
 
 class AddCommand extends Command {
-	public function __construct() {
-		parent::__construct();
-	}
-	
-	public function help() {
-		IO::writeln('    add        - Add new article');
-		IO::writeln('    add -s     - Add new Static Page');
-	}
+    public function __construct() {
+        parent::__construct();
+    }
+    
+    public function help() {
+        IO::writeln('    add        - Add new article');
+        IO::writeln('    add -s     - Add new Static Page');
+    }
 
-	public function filterTitle($title) {
-		return str_replace('"', '\u0022', $title);
-	}
+    public function run() {
+        if(!checkDefaultBlog())
+            return;
+        
+        initBlog();
+        
+        $encoding = Resource::get('config')['encoding'];
+        $editor = Resource::get('config')['editor'];
+        
+        $info = [
+            'title' => IO::question("Enter Title:\n-> "),
+            'url' => IO::question("Enter Custom Url:\n-> ")
+        ];
 
-	public function run() {
-		if(!defined('CURRENT_BLOG')) {
-			IO::writeln('Please use "poi init <blog name>" to initialize blog.', 'red');
-			return;
-		}
+        if(!$this->hasOptions('s')) {
+            $info['tag'] = IO::question("Enter Tag:\n-> ");
+            $info['category'] = IO::question("Enter Category:\n-> ");
+        }
 
-		// Initialize Blog
-		initBlog();
-		
-		$info = array(
-			'title' => $this->filterTitle(IO::question("Enter Title:\n-> ")),
-			'url' => IO::question("Enter Custom Url:\n-> ")
-		);
+        if(NULL != $encoding) {
+            foreach($info as $key => $value) {
+                $info[$key] = iconv($encoding, 'utf-8', $value);
+            }
+        }
 
-		if(!$this->hasOptions('s')) {
-			$info['tag'] = IO::question("Enter Tag:\n-> ");
-			$info['category'] = IO::question("Enter Category:\n-> ");
-		}
+        if($this->hasOptions('s')) {
+            $filename = $this->replace($info['url']);
+            $filename = strtolower($filename);
+            $filename = "static_$filename.md";
+            $filepath = MARKDOWN . "/$filename";
 
-		if(NULL != LOCAL_ENCODING)
-			foreach($info as $key => $value)
-				$info[$key] = iconv(LOCAL_ENCODING, 'utf-8', $value);
+            if(file_exists($filepath)) {
+                IO::writeln("\nStatic Page $filename is exsist.");
+                return;
+            }
 
-		if($this->hasOptions('s')) {
-			$filename = str_replace(array('\\', '/', ' '), '-', $info['title']);
-			$filename = 'static_' . strtolower($filename) . '.md';
+            $json = json_encode([
+                'type' => 'static',
+                'title' => $info['title'],
+                'url' => $this->replace($info['url'], TRUE),
+                'message' => false,
+                'publish' => false
+            ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
-			if(file_exists(MARKDOWN_FOLDER . $filename)) {
-				IO::writeln("\nStatic Page {$info['title']} is exsist.");
-				return;
-			}
+            $handle = fopen($filepath, 'w+');
+            fwrite($handle, $json . "\n\n\n");
+            fclose($handle);
+            
+            IO::writeln("\nStatic Page $filename was created.");
+            system("$editor $filepath < `tty` > `tty`");
+        }
+        else {
+            $time = time();
+            $filename = $this->replace($info['url']);
+            $filename = date("Ymd_", $time) . "$filename.md";
+            $filepath = MARKDOWN . "/$filename";
 
-			$handle = fopen(MARKDOWN_FOLDER . $filename, 'w+');
-			fwrite($handle, "{\n");
-			fwrite($handle, '	"type": "static",' . "\n");
-			fwrite($handle, '	"title": "' . $info['title'] . '",' . "\n");
-			fwrite($handle, '	"url": "' . $info['url'] . '",' . "\n");
-			fwrite($handle, '	"message": false' . "\n");
-			fwrite($handle, "}\n\n\n");
-			
-			IO::writeln("\nStatic Page $filename was created.");
-			system(FILE_EDITOR . ' ' . MARKDOWN_FOLDER . "$filename < `tty` > `tty`");
-		}
-		else {
-			$time = time();
-			$filename = sprintf("%s%s.md", date("Ymd_", $time), $info['url']);
+            if(file_exists($filepath)) {
+                IO::writeln("\nArticle $filename is exsist.");
+                return;
+            }
 
-			if(file_exists(MARKDOWN_FOLDER . $filename)) {
-				IO::writeln("\nArticle {$info['title']} is exsist.");
-				return;
-			}
+            $json = json_encode([
+                'type' => 'article',
+                'title' => $info['title'],
+                'url' => $this->replace($info['url']),
+                'tag' => $info['tag'],
+                'category' => $info['category'],
+                'keywords' => null,
+                'date' => date("Y-m-d", $time),
+                'time' => date("H:i:s", $time),
+                'message' => true,
+                'publish' => false
+            ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
-			$handle = fopen(MARKDOWN_FOLDER . $filename, 'w+');
-			fwrite($handle, "{\n");
-			fwrite($handle, '	"type": "article",' . "\n");
-			fwrite($handle, '	"title": "' . $info['title'] . '",' . "\n");
-			fwrite($handle, '	"url": "' . $info['url'] . '",' . "\n");
-			fwrite($handle, '	"tag": "' . $info['tag'] . '",' . "\n");
-			fwrite($handle, '	"category": "' . $info['category'] . '",' . "\n");
-			fwrite($handle, '	"keywords": null,' . "\n");
-			fwrite($handle, '	"date": "' . date("Y-m-d", $time) . '",' . "\n");
-			fwrite($handle, '	"time": "' . date("H:i:s", $time) . '",' . "\n");
-			fwrite($handle, '	"message": true,' . "\n");
-			fwrite($handle, '	"publish": false' . "\n");
-			fwrite($handle, "}\n\n\n");
-			
-			IO::writeln("\nArticle $filename is created.");
-			system(FILE_EDITOR . ' ' . MARKDOWN_FOLDER . "$filename < `tty` > `tty`");
-		}
-	}
+            $handle = fopen($filepath, 'w+');
+            fwrite($handle, $json . "\n\n\n");
+            fclose($handle);
+            
+            IO::writeln("\nArticle $filename is created.");
+            system("$editor $filepath < `tty` > `tty`");
+        }
+    }
+
+    private function replace($filename, $skip = FALSE) {
+        $char = [
+            "'", '"', '&', '$', '=',
+            '!', '?', '<', '>', '|',
+            '(', ')', ':', ';', '@',
+            '#', '%', '^', '*', ',',
+            '~', '`', '\\'
+        ];
+
+        if(!$skip) {
+            $filename = str_replace(['.', '/'], '-', $filename);
+        }
+
+        $filename = str_replace($char, '', $filename);
+
+        return stripslashes($filename);
+    }
 }

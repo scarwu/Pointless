@@ -1,21 +1,14 @@
 script:
-  - ./setup.sh
-  - php ./build.php
-  - php ./bin/poi gen
-  - php ./bin/poi init blog1
-  - php ./bin/poi init blog2
-  - php ./bin/poi init blog3
-  - php ./bin/poi switch -l
-  - php ./bin/poi switch blog2
-  - php ./bin/poi switch -r blog2
-  - php ./bin/poi switch -l
-  - php ./bin/poi switch blog3
-  - php ./bin/poi switch -l
-  - php ./bin/poi gen
-  - php ./bin/poi version
-  - php ./bin/poi update
-  - php ./bin/poi update -u
+  - php ./script/build.php
+  - mkdir test
+  - cd test
+  - php ../bin/poi
+  - php ../bin/poi home -i
+  - php ../bin/poi gen
+  - php ../bin/poi version
+  - php ../bin/poi update
+  - php ../bin/poi update -u
 language: php
 php:
-  - 5.3
   - 5.4
+  - 5.5

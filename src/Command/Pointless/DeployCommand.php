@@ -2,50 +2,58 @@
 /**
  * Pointless Deploy Command
  * 
- * @package		Pointless
- * @author		ScarWu
- * @copyright	Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
- * @link		http://github.com/scarwu/Pointless
+ * @package     Pointless
+ * @author      ScarWu
+ * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
+ * @link        http://github.com/scarwu/Pointless
  */
 
 namespace Pointless;
 
 use NanoCLI\Command;
 use NanoCLI\IO;
+use Resource;
 
 class DeployCommand extends Command {
-	public function __construct() {
-		parent::__construct();
-	}
-	
-	public function run() {
-		if(!defined('CURRENT_BLOG')) {
-			IO::writeln('Please use "poi init <blog name>" to initialize blog.', 'red');
-			return;
-		}
-		
-		// Initialize Blog
-		initBlog();
-		
-		if(NULL == GITHUB_ACCOUNT || NULL == GITHUB_REPO || NULL == GITHUB_BRANCH) {
-			IO::writeln('Please add Github setting in Pointless config.', 'red');
-			return;
-		}
+    public function __construct() {
+        parent::__construct();
+    }
+    
+    public function help() {
+        IO::writeln('    deploy     - Deploy blog to Github');
+    }
 
-		chdir(DEPLOY_FOLDER);
+    public function run() {
+        if(!checkDefaultBlog())
+            return;
+        
+        initBlog();
+        
+        $github = Resource::get('config')['github'];
 
-		if(!file_exists(DEPLOY_FOLDER . '.git')) {
-			system('git init');
-			system('git remote add origin git@github.com:' . GITHUB_ACCOUNT . '/' . GITHUB_REPO. '.git');
-		}
+        $account = $github['account'];
+        $repo = $github['repo'];
+        $branch = $github['branch'];
+        
+        if(NULL == $account || NULL == $repo || NULL == $branch) {
+            IO::writeln('Please add Github setting in Pointless config.', 'red');
+            return;
+        }
 
-		system('git pull origin ' . GITHUB_BRANCH);
+        chdir(DEPLOY);
 
-		recursiveRemove(DEPLOY_FOLDER);
-		recursiveCopy(PUBLIC_FOLDER, DEPLOY_FOLDER);
+        if(!file_exists(DEPLOY . '/.git')) {
+            system('git init');
+            system("git remote add origin git@github.com:$account/$repo.git");
+        }
 
-		system('git add --all .');
-		system(sprintf('git commit -m "%s"', date(DATE_RSS)));
-		system('git push origin '. GITHUB_BRANCH);
-	}
+        system("git pull origin $branch");
+
+        recursiveRemove(DEPLOY, DEPLOY);
+        recursiveCopy(TEMP, DEPLOY);
+
+        system('git add --all .');
+        system(sprintf('git commit -m "%s"', date(DATE_RSS)));
+        system("git push origin $branch");
+    }
 }
