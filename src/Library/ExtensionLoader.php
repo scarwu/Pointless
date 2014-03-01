@@ -26,7 +26,7 @@ class ExtensionLoader
     public function run()
     {
         // Load Extension
-        foreach (Resource::get('config')['extension'] as $filename) {
+        foreach ((array) Resource::get('config')['extension'] as $filename) {
             $filename = preg_replace('/.php$/', '', $filename);
 
             if (file_exists(EXTENSION . "/$filename.php")) {

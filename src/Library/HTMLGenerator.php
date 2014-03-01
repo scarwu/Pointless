@@ -42,7 +42,7 @@ class HTMLGenerator
     private function loadScript()
     {
         // Load Script
-        foreach (Resource::get('theme')['script'] as $filename) {
+        foreach ((array) Resource::get('theme')['script'] as $filename) {
             $filename = preg_replace('/.php$/', '', $filename);
 
             if (file_exists(THEME . "/Script/$filename.php")) {
@@ -62,7 +62,7 @@ class HTMLGenerator
     {
         $block = [];
 
-        foreach (Resource::get('theme')['template'] as $blockname => $files) {
+        foreach ((array) Resource::get('theme')['template'] as $blockname => $files) {
 
             $result = null;
 

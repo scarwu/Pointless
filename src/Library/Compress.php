@@ -34,7 +34,7 @@ class Compress
      */
     public function css()
     {
-        foreach (Resource::get('theme')['css'] as $filename) {
+        foreach ((array) Resource::get('theme')['css'] as $filename) {
             $filename = preg_replace('/.css$/', '', $filename);
 
             if (!file_exists(THEME . "/Css/$filename.css")) {
@@ -89,7 +89,7 @@ class Compress
      */
     public function js()
     {
-        foreach (Resource::get('theme')['js'] as $filename) {
+        foreach ((array) Resource::get('theme')['js'] as $filename) {
             $filename = preg_replace('/.js$/', '', $filename);
 
             if (!file_exists(THEME . "/Js/$filename.js")) {

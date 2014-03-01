@@ -25,8 +25,8 @@ class Resource
      */
     public static function get($index)
     {
-        if (array_key_exists($index, self::$resource[$index])) {
-            return self::$resource[$index]);
+        if (array_key_exists($index, self::$resource)) {
+            return self::$resource[$index];
         }
 
         return null;
