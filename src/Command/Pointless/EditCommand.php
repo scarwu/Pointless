@@ -99,8 +99,7 @@ class EditCommand extends Command {
 
     private function getNumber() {
         if($this->hasOptions('s')) {
-            return $this->getOptions('s') != ''
-                ? $this->getOptions('s') : NULL;
+            return $this->getOptions('s');
         }
 
         if($this->hasArguments()) {
