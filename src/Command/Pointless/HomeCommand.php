@@ -30,13 +30,14 @@ class HomeCommand extends Command {
 
         // Set default blog path
         if($this->hasOptions('s')) {
-            $path = getcwd();
+            $path = $this->getPath();
 
-            if('' != ($dir = $this->getOptions()['s'])) {
-                $path = "$path/$dir";
+            if(!file_exists($path)) {
+                IO::writeln("Path \"$path\" is't exists.", 'red');
+                return;
             }
 
-            if(file_exists("$path/.pointless")) {
+            if(file_exists("$path/.pointless") && is_file("$path/.pointless")) {
                 file_put_contents(HOME . '/Default', $path);
 
                 IO::writeln("Default blog is setting to path \"$path\".", 'green');
@@ -50,18 +51,19 @@ class HomeCommand extends Command {
 
         // Initialize blog
         if($this->hasOptions('i')) {
-            $path = getcwd();
+            $path = $this->getPath();
 
-            if('' != ($dir = $this->getOptions()['i'])) {
-                $path = "$path/$dir";
-
-                if(file_exists($path)) {
-                    IO::writeln("Path \"$path\" is exists.", 'red');
-                    return;
+            if(file_exists($path)) {
+                IO::writeln("Path \"$path\" is exists.", 'red');
+                return;
+            }
+            else {
+                if(!mkdir($path, 0755, TRUE)) {
+                    IO::writeln("Permission denied: $path", 'red');
+                    return FALSE;
                 }
 
-                mkdir($dir);
-                chdir($dir);
+                chdir($path);
             }
 
             define('BLOG', $path);
@@ -79,5 +81,21 @@ class HomeCommand extends Command {
             initBlog();
             IO::writeln('Default blog path: ' . BLOG);
         }
+    }
+
+    private function getPath() {
+        if($this->hasOptions('s')) {
+            $path = $this->getOptions('s');
+        }
+
+        if($this->hasOptions('i')) {
+            $path = $this->getOptions('i');
+        }
+        
+        if(!preg_match('/^\/(.+)/', $path)) {
+            $path = getcwd() . "/$path";
+        }
+
+        return $path;
     }
 }
