@@ -40,7 +40,7 @@ class EditCommand extends Command
         $list = [];
         $handle = opendir(MARKDOWN);
         while ($filename = readdir($handle)) {
-            if ('.' === $filename || '..' === $filename || !preg_match('/.md$/', $filename)) {
+            if (!preg_match('/.md$/', $filename)) {
                 continue;
             }
 

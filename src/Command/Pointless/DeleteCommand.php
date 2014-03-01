@@ -39,7 +39,7 @@ class DeleteCommand extends Command
         $list = [];
         $handle = opendir(MARKDOWN);
         while ($filename = readdir($handle)) {
-            if ('.' === $filename || '..' === $filename || !preg_match('/.md$/', $filename)) {
+            if (!preg_match('/.md$/', $filename)) {
                 continue;
             }
 
@@ -78,8 +78,9 @@ class DeleteCommand extends Command
         }
 
         $number = $this->getNumber();
-        if ($number < 0 || $number >= count($list))
+        if ($number < 0 || $number >= count($list)) {
             $number = null;
+        }
 
         if (null === $number) {
             $count = 0;

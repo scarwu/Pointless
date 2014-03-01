@@ -31,7 +31,7 @@
             <footer><?=$blog['footer']?></footer>
         </div>
     </div>
-    
+
     <script src="<?=$blog['base']?>theme/main.js"></script>
     <?php if (null !== $blog['google_analytics']): ?>
     <script>

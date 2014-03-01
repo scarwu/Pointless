@@ -32,8 +32,9 @@ class Tag
         }
 
         uasort($this->list, function ($a, $b) {
-            if (count($a) === count($b))
+            if (count($a) === count($b)) {
                 return 0;
+            }
 
             return count($a) > count($b) ? -1 : 1;
         });

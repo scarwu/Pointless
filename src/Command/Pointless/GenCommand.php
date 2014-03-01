@@ -150,7 +150,7 @@ class GenCommand extends Command
         IO::writeln('Load and Initialize Markdown');
         $handle = opendir(MARKDOWN);
         while ($filename = readdir($handle)) {
-            if ('.' === $filename || '..' === $filename || !preg_match('/.md$/', $filename)) {
+            if (!preg_match('/.md$/', $filename)) {
                 continue;
             }
 

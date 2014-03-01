@@ -181,7 +181,7 @@ function recursiveCopy($src, $dest)
                 mkdir($dest, 0755, true);
             }
 
-            $handle = @opendir($src);
+            $handle = opendir($src);
             while ($file = readdir($handle)) {
                 if (!in_array($file, ['.', '..', '.git'])) {
                     recursiveCopy("$src/$file", "$dest/$file");

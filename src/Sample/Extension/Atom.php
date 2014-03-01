@@ -65,8 +65,9 @@ class Atom
             $atom .= "\t\t<summary type=\"html\"><![CDATA[{$summary}]]></summary>\n";
             $atom .= "\t</entry>\n";
 
-            if (++$count >= $quantity)
+            if (++$count >= $quantity) {
                 break;
+            }
         }
 
         $atom .= "</feed>";

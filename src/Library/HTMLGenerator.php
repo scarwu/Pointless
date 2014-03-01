@@ -69,8 +69,9 @@ class HTMLGenerator
             foreach ($files as $filename) {
                 $filename = preg_replace('/.php$/', '', $filename);
 
-                if (!file_exists(THEME . "/Template/$blockname/$filename.php"))
+                if (!file_exists(THEME . "/Template/$blockname/$filename.php")) {
                     continue;
+                }
 
                 $script = explode('_', $filename);
                 foreach ($script as $key => $value) {
