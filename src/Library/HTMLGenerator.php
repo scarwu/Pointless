@@ -79,11 +79,15 @@ class HTMLGenerator
                 }
                 $script = join($script);
 
-                $data['blog'] = Resource::get('config')['blog'];
-                $data['list'] = isset($this->script[$script])
-                    ? $this->script[$script]->getList()
-                    : null;
+                $data = [];
+                if (array_key_exists($script, $this->script)) {
+                    $method = 'get' . ucfirst($blockname) . 'Data';
 
+                    if (method_exists($this->script[$script], $method)) {
+                        $data = $this->script[$script]->$method();
+                    }
+                }
+                
                 $result .= bindData($data, THEME . "/Template/$blockname/$filename.php");
             }
 

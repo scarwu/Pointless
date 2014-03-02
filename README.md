@@ -22,6 +22,6 @@ A Useful Static Blog Generator
 
 [ScarShow](http://scar.simcz.tw)
 
-## Wiki
+## For More
 
 [Wiki](https://github.com/scarwu/Pointless/wiki)

@@ -23,16 +23,6 @@ class Page
     }
 
     /**
-     * Get List
-     *
-     * @return array
-     */
-    public function getList()
-    {
-        return $this->list;
-    }
-
-    /**
      * Generate Data
      *
      * @param string

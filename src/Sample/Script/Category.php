@@ -38,13 +38,16 @@ class Category
     }
 
     /**
-     * Get List
+     * Get Side Data
      *
      * @return array
      */
-    public function getList()
+    public function getSideData()
     {
-        return $this->list;
+        $data['blog'] = Resource::get('config')['blog'];
+        $data['list'] = $this->list;
+
+        return $data;
     }
 
     /**
