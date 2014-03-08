@@ -1,7 +1,7 @@
 <?php
 /**
  * Static Page Data Generator Script for Theme
- * 
+ *
  * @package     Pointless
  * @author      ScarWu
  * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
@@ -10,35 +10,28 @@
 
 use NanoCLI\IO;
 
-class StaticPage {
-
+class StaticPage
+{
     /**
      * @var array
      */
     private $list;
-    
-    public function __construct() {
+
+    public function __construct()
+    {
         $this->list = Resource::get('static');
     }
-    
-    /**
-     * Get List
-     *
-     * @return array
-     */
-    public function getList() {
-        return $this->list;
-    }
-    
+
     /**
      * Generate Data
      *
      * @param string
      */
-    public function gen() {
+    public function gen()
+    {
         $blog = Resource::get('config')['blog'];
 
-        foreach((array)$this->list as $post) {
+        foreach ((array) $this->list as $post) {
             IO::writeln("Building {$post['url']}");
 
             $ext = [];

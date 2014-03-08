@@ -1,6 +1,0 @@
-[submodule "src/Vendor/NanoCLI"]
-	path = src/Vendor/NanoCLI
-	url = git://github.com/scarwu/NanoCLI.git
-[submodule "src/Vendor/Markdown"]
-	path = src/Vendor/Markdown
-	url = git://github.com/michelf/php-markdown.git

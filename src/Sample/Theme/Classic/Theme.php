@@ -1,15 +1,14 @@
 <?php
 $theme = [
     'js' => [
-        'modernizr-2.6.2.min',
+        'modernizr-2.7.1-custom.min',
         'highlight.pack',
-        'custom'
+        'main'
     ],
     'css' => [
         'normalize',
-        'main',
-        'index',
-        'solarized_dark'
+        'solarized_dark',
+        'main'
     ],
     'template' => [
         'side' => [

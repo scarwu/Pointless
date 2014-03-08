@@ -1,7 +1,7 @@
 <?php
 /**
  * Pointless Home Command
- * 
+ *
  * @package     Pointless
  * @author      ScarWu
  * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
@@ -13,12 +13,15 @@ namespace Pointless;
 use NanoCLI\Command;
 use NanoCLI\IO;
 
-class HomeCommand extends Command {
-    public function __construct() {
+class HomeCommand extends Command
+{
+    public function __construct()
+    {
         parent::__construct();
     }
-    
-    public function help() {
+
+    public function help()
+    {
         IO::writeln('    home       - Show default blog path');
         IO::writeln('    home -s <path or not>');
         IO::writeln('               - Set another blog as default');
@@ -26,41 +29,44 @@ class HomeCommand extends Command {
         IO::writeln('               - Init a new blog');
     }
 
-    public function run() {
-
+    public function run()
+    {
         // Set default blog path
-        if($this->hasOptions('s')) {
+        if ($this->hasOptions('s')) {
             $path = $this->getPath();
 
-            if(!file_exists($path)) {
+            if (!file_exists($path)) {
                 IO::writeln("Path \"$path\" is't exists.", 'red');
-                return;
+
+                return false;
             }
 
-            if(file_exists("$path/.pointless") && is_file("$path/.pointless")) {
+            if (file_exists("$path/.pointless") && is_file("$path/.pointless")) {
                 file_put_contents(HOME . '/Default', $path);
 
                 IO::writeln("Default blog is setting to path \"$path\".", 'green');
-                return;
-            }
-            else {
+
+                return true;
+            } else {
                 IO::writeln("Path \"$path\" is't the Pointless blog folder.", 'red');
-                return;
+
+                return false;
             }
         }
 
         // Initialize blog
-        if($this->hasOptions('i')) {
+        if ($this->hasOptions('i')) {
             $path = $this->getPath();
 
-            if(file_exists($path)) {
+            if (file_exists($path)) {
                 IO::writeln("Path \"$path\" is exists.", 'red');
-                return;
-            }
-            else {
-                if(!mkdir($path, 0755, TRUE)) {
+
+                return false;
+            } else {
+                if (!mkdir($path, 0755, true)) {
                     IO::writeln("Permission denied: $path", 'red');
-                    return FALSE;
+
+                    return false;
                 }
 
                 chdir($path);
@@ -74,25 +80,26 @@ class HomeCommand extends Command {
             IO::writeln("Blog is initialized.", 'green');
             IO::writeln("Default blog is setting to path \"$path\".", 'green');
 
-            return;
+            return true;
         }
 
-        if(checkDefaultBlog()) {
+        if (checkDefaultBlog()) {
             initBlog();
             IO::writeln('Default blog path: ' . BLOG);
         }
     }
 
-    private function getPath() {
-        if($this->hasOptions('s')) {
+    private function getPath()
+    {
+        if ($this->hasOptions('s')) {
             $path = $this->getOptions('s');
         }
 
-        if($this->hasOptions('i')) {
+        if ($this->hasOptions('i')) {
             $path = $this->getOptions('i');
         }
-        
-        if(!preg_match('/^\/(.+)/', $path)) {
+
+        if (!preg_match('/^\/(.+)/', $path)) {
             $path = getcwd() . "/$path";
         }
 
