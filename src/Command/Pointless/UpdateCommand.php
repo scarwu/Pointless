@@ -64,18 +64,11 @@ class UpdateCommand extends Command
         system('chmod +x /tmp/poi');
 
         // Reset Timestamp
-        $handle = fopen(HOME . 'Timestamp', 'w+');
-        fwrite($handle, '0');
-        fclose($handle);
+        file_put_contents(HOME . '/Timestamp', 0);
 
         IO::writeln('Update finish.', 'green');
-        if (isset($_SERVER['SUDO_USER'])) {
-            $user = $_SERVER['SUDO_USER'];
-            system("sudo -u $user /tmp/poi version");
-        } else {
-            system('/tmp/poi version');
-        }
 
+        system('/tmp/poi version');
         system("mv /tmp/poi $path");
     }
 }

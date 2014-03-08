@@ -115,6 +115,13 @@ function initBlog()
 
     // Set Timezone
     date_default_timezone_set($config['timezone']);
+
+    // Change Owner
+    if (isset($_SERVER['SUDO_USER'])) {
+        $user = fileowner(HOME);
+        $group = filegroup(HOME);
+        system("chown $user.$group -R " . BLOG);
+    }
 }
 
 /**
