@@ -3,7 +3,8 @@
 Phar::mapPhar('poi.phar');
 define('BUILD_VERSION', '%s');
 define('BUILD_TIMESTAMP', %d);
-define('ROOT', 'phar://poi.phar');
+define('ROOT', 'phar://poi.phar/src');
+define('VENDOR', 'phar://poi.phar/vendor');
 require ROOT . '/Boot.php';
 __HALT_COMPILER();
 ?>

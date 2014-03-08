@@ -9,9 +9,15 @@
  * @link        http://github.com/scarwu/Pointless
  */
 
-$root = realpath(dirname(__FILE__)) . '/..';
-$stub = file_get_contents("$root/script/stub.php");
+$root = realpath(dirname(__FILE__) . '/..');
+
 $version = trim(file_get_contents("$root/VERSION"));
+
+$stub = file_get_contents("$root/script/stub.php");
+$stub = sprintf($stub, $version, time());
+
+$regex = str_replace('/', '\/', $root);
+$regex = "/^$regex\/(vendor|src)/";
 
 // Clear Phar
 if (file_exists("$root/bin/poi'")) {
@@ -19,10 +25,10 @@ if (file_exists("$root/bin/poi'")) {
 }
 
 // Create Phar
-$phar = new Phar('bin/poi.phar');
+$phar = new Phar("$root/bin/poi.phar");
 $phar->setAlias('poi.phar');
-$phar->setStub(sprintf($stub, $version, time()));
-$phar->buildFromDirectory("$root/src", '/(\.php|\.md|\.js|\.css)/');
+$phar->setStub($stub);
+$phar->buildFromDirectory($root, $regex);
 $phar->compressFiles(Phar::GZ);
 $phar->stopBuffering();
 

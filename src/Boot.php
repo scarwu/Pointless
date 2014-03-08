@@ -65,7 +65,7 @@ if (defined('BUILD_TIMESTAMP')) {
 }
 
 // Composer Autoloader
-require ROOT . '/../vendor/autoload.php';
+require VENDOR . '/autoload.php';
 
 // NanoCLI Command Loader
 NanoCLI\Loader::set('Pointless', ROOT . '/Command');
