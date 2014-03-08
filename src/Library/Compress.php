@@ -38,6 +38,7 @@ class Compress
             $filename = preg_replace('/.css$/', '', $filename);
 
             if (!file_exists(THEME . "/Css/$filename.css")) {
+                IO::writeln("CSS file \"$filename.css\" not found.", 'red');
                 continue;
             }
 
@@ -93,6 +94,7 @@ class Compress
             $filename = preg_replace('/.js$/', '', $filename);
 
             if (!file_exists(THEME . "/Js/$filename.js")) {
+                IO::writeln("Javascript file \"$filename.js\" not found.", 'red');
                 continue;
             }
 
