@@ -161,7 +161,7 @@ class GenCommand extends Command
             $post = json_decode($match[1], true);
 
             if (null === $post) {
-                IO::writeln('Attribute Error: ' . $filename, 'red');
+                IO::writeln("Attribute Error: $filename", 'red');
                 exit(1);
             }
 

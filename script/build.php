@@ -10,26 +10,13 @@
  */
 
 $root = realpath(dirname(__FILE__)) . '/..';
+$stub = file_get_contents("$root/script/stub.php");
 $version = trim(file_get_contents("$root/VERSION"));
 
 // Clear Phar
 if (file_exists("$root/bin/poi'")) {
     unlink("$root/bin/poi");
 }
-
-// Setting Stub
-$stub = <<<EOF
-#!/usr/bin/env php
-<?php
-Phar::mapPhar('poi.phar');
-define('BUILD_VERSION', '%s');
-define('BUILD_TIMESTAMP', %d);
-define('BIN_LOCATE', realpath(dirname(__FILE__)));
-define('ROOT', 'phar://poi.phar');
-require ROOT . '/Boot.php';
-__HALT_COMPILER();
-?>
-EOF;
 
 // Create Phar
 $phar = new Phar('bin/poi.phar');

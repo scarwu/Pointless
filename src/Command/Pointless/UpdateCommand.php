@@ -46,13 +46,7 @@ class UpdateCommand extends Command
         }
 
         $remote = "https://raw.github.com/scarwu/Pointless/$branch/bin/poi";
-        $path = defined('BIN_LOCATE') ? BIN_LOCATE : '/usr/local/bin';
-
-        if (!is_dir($path)) {
-            IO::writeln("$path is not a directory", 'red');
-
-            return false;
-        }
+        $path = realpath(dirname(__FILE__));
 
         if (!is_writable($path)) {
             IO::writeln("Permission denied: $path", 'red');

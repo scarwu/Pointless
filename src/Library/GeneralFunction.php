@@ -61,31 +61,34 @@ function initBlog()
     require BLOG . '/Config.php';
     Resource::set('config', $config);
 
-    // Temp
+    // Define Path
     define('TEMP', BLOG . '/Temp');
-
-    if (!file_exists(TEMP)) {
-        mkdir(TEMP, 0755, true);
-    }
-
-    // Deploy
     define('DEPLOY', BLOG . '/Deploy');
-
-    if (!file_exists(DEPLOY)) {
-        mkdir(DEPLOY, 0755, true);
-    }
-
-    // Markdown
+    define('RESOURCE', BLOG . '/Resource');
+    define('EXTENSION', BLOG . '/Extension');
     define('MARKDOWN', BLOG . '/Markdown');
 
+    if (!file_exists(TEMP)) {
+        mkdir(TEMP, 0755);
+    }
+
+    if (!file_exists(DEPLOY)) {
+        mkdir(DEPLOY, 0755);
+    }
+
+    if (!file_exists(RESOURCE)) {
+        mkdir(RESOURCE, 0755);
+    }
+
+    if (!file_exists(EXTENSION)) {
+        mkdir(EXTENSION, 0755);
+    }
+
     if (!file_exists(MARKDOWN)) {
-        mkdir(MARKDOWN, 0755, true);
         recursiveCopy(ROOT . '/Sample/Markdown', MARKDOWN);
     }
 
-    // Theme
     if (!file_exists(BLOG . '/Theme')) {
-        mkdir(BLOG . '/Theme', 0755, true);
         recursiveCopy(ROOT . '/Sample/Theme', BLOG . '/Theme');
     }
 
@@ -97,20 +100,6 @@ function initBlog()
         define('THEME', BLOG . "/Theme/{$config['theme']}");
     } else {
         define('THEME', ROOT . '/Sample/Theme/Classic');
-    }
-
-    // Extension
-    define('EXTENSION', BLOG . '/Extension');
-
-    if (!file_exists(EXTENSION)) {
-        mkdir(EXTENSION, 0755, true);
-    }
-
-    // Resource
-    define('RESOURCE', BLOG . '/Resource');
-
-    if (!file_exists(RESOURCE)) {
-        mkdir(RESOURCE, 0755, true);
     }
 
     // Set Timezone
@@ -158,7 +147,7 @@ function writeTo($data, $path)
             mkdir($path, 0755, true);
         }
 
-        $path = $path . '/index.html';
+        $path = "$path/index.html";
     } else {
         $segments = explode('/', $path);
         array_pop($segments);
