@@ -14,7 +14,6 @@ date_default_timezone_set('Etc/UTC');
 /**
  * Path Define and Copy Files
  */
-define('VENDOR', ROOT . '/Vendor');
 define('LIBRARY', ROOT . '/Library');
 
 require LIBRARY . '/Resource.php';
@@ -60,14 +59,12 @@ if (defined('BUILD_TIMESTAMP')) {
 }
 
 /**
- * Load NanoCLI and Setting
+ * Composer Autoloader and Set NanoCLI
  */
-require VENDOR . '/NanoCLI/src/NanoCLI/Loader.php';
+require ROOT . '/../vendor/autoload.php';
 
-NanoCLI\Loader::register('NanoCLI', VENDOR . '/NanoCLI/src');
-NanoCLI\Loader::register('Pointless', ROOT . '/Command');
-
-spl_autoload_register('NanoCLI\Loader::load');
+NanoCLI\Loader::set('Pointless', ROOT . '/Command');
+NanoCLI\Loader::register();
 
 // Run Pointless Command
 $pointless = new Pointless();

@@ -1,0 +1,20 @@
+{
+    "name": "scarwu/pointless",
+    "homepage": "https://github.com/scarwu/Pointless",
+    "description": "A Useful Static Blog Generator",
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Scar Wu",
+            "email": "xneriscool@gmail.com",
+            "homepage": "http://scar.simcz.tw"
+        }
+    ],
+    "require": {
+        "scarwu/nanocli": "0.5.*",
+        "michelf/php-markdown": "1.4.*"
+    }
+}

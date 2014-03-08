@@ -44,7 +44,6 @@ class GenCommand extends Command
         require LIBRARY . '/Compress.php';
         require LIBRARY . '/HTMLGenerator.php';
         require LIBRARY . '/ExtensionLoader.php';
-        require VENDOR . '/Markdown/Michelf/MarkdownExtra.inc.php';
 
         // Load Theme Config
         require THEME . '/Theme.php';
