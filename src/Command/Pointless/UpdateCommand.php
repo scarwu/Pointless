@@ -46,10 +46,9 @@ class UpdateCommand extends Command
         }
 
         $remote = "https://raw.github.com/scarwu/Pointless/$branch/bin/poi";
-        $path = realpath(dirname(__FILE__));
 
-        if (!is_writable($path)) {
-            IO::writeln("Permission denied: $path", 'red');
+        if (!is_writable(BIN_LOCATE)) {
+            IO::writeln('Permission denied: ' . BIN_LOCATE, 'red');
 
             return false;
         }
@@ -63,6 +62,6 @@ class UpdateCommand extends Command
         IO::writeln('Update finish.', 'green');
 
         system('/tmp/poi version');
-        system("mv /tmp/poi $path");
+        system('mv /tmp/poi ' . BIN_LOCATE);
     }
 }
