@@ -74,9 +74,8 @@ class AddCommand extends Command
                 'publish' => false
             ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
-            $handle = fopen($filepath, 'w+');
-            fwrite($handle, "$json\n\n\n");
-            fclose($handle);
+            // Create Markdown
+            file_put_contents($filepath, "$json\n\n\n");
 
             IO::writeln("\nStatic Page $filename was created.");
             system("$editor $filepath < `tty` > `tty`");
@@ -105,9 +104,8 @@ class AddCommand extends Command
                 'publish' => false
             ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
-            $handle = fopen($filepath, 'w+');
-            fwrite($handle, "$json\n\n\n");
-            fclose($handle);
+            // Create Markdown
+            file_put_contents($filepath, "$json\n\n\n");
 
             IO::writeln("\nArticle $filename is created.");
             system("$editor $filepath < `tty` > `tty`");

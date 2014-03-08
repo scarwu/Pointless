@@ -46,16 +46,9 @@ class UpdateCommand extends Command
         }
 
         $remote = "https://raw.github.com/scarwu/Pointless/$branch/bin/poi";
-        $path = defined('BIN_LOCATE') ? BIN_LOCATE : '/usr/local/bin';
 
-        if (!is_dir($path)) {
-            IO::writeln("$path is not a directory", 'red');
-
-            return false;
-        }
-
-        if (!is_writable($path)) {
-            IO::writeln("Permission denied: $path", 'red');
+        if (!is_writable(BIN_LOCATE)) {
+            IO::writeln('Permission denied: ' . BIN_LOCATE, 'red');
 
             return false;
         }
@@ -64,18 +57,11 @@ class UpdateCommand extends Command
         system('chmod +x /tmp/poi');
 
         // Reset Timestamp
-        $handle = fopen(HOME . 'Timestamp', 'w+');
-        fwrite($handle, '0');
-        fclose($handle);
+        file_put_contents(HOME . '/Timestamp', 0);
 
         IO::writeln('Update finish.', 'green');
-        if (isset($_SERVER['SUDO_USER'])) {
-            $user = $_SERVER['SUDO_USER'];
-            system("sudo -u $user /tmp/poi version");
-        } else {
-            system('/tmp/poi version');
-        }
 
-        system("mv /tmp/poi $path");
+        system('/tmp/poi version');
+        system('mv /tmp/poi ' . BIN_LOCATE);
     }
 }

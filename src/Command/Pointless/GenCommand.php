@@ -12,11 +12,11 @@ namespace Pointless;
 
 use NanoCLI\Command;
 use NanoCLI\IO;
+use Michelf\MarkdownExtra;
 use Resource;
 use Compress;
 use HTMLGenerator;
 use ExtensionLoader;
-use Michelf\MarkdownExtra;
 
 class GenCommand extends Command
 {
@@ -44,7 +44,6 @@ class GenCommand extends Command
         require LIBRARY . '/Compress.php';
         require LIBRARY . '/HTMLGenerator.php';
         require LIBRARY . '/ExtensionLoader.php';
-        require VENDOR . '/Markdown/Michelf/MarkdownExtra.inc.php';
 
         // Load Theme Config
         require THEME . '/Theme.php';
@@ -92,16 +91,13 @@ class GenCommand extends Command
         recursiveRemove(TEMP, TEMP);
 
         // Create README
-        $handle = fopen(TEMP . '/README.md', 'w+');
-        fwrite($handle, '[Powered by Pointless](https://github.com/scarwu/Pointless)');
-        fclose($handle);
+        $readme = '[Powered by Pointless](https://github.com/scarwu/Pointless)';
+        file_put_contents(TEMP . '/README.md', $readme);
 
         // Create Github CNAME
         if ($github['cname']) {
             IO::writeln('Create Github CNAME ...', 'yellow');
-            $handle = fopen(TEMP . '/CNAME', 'w+');
-            fwrite($handle, $blog['dn']);
-            fclose($handle);
+            file_put_contents(TEMP . '/CNAME', $blog['dn']);
         }
 
         // Copy Resource Files
@@ -135,6 +131,13 @@ class GenCommand extends Command
         $time = sprintf("%.3f", abs(microtime(true) - $start));
         $mem = sprintf("%.3f", abs(memory_get_usage() - $start_mem) / 1024);
         IO::writeln("Generate finish, $time s and memory usage $mem kb.", 'green');
+
+        // Change Owner
+        if (isset($_SERVER['SUDO_USER'])) {
+            $user = fileowner(HOME);
+            $group = filegroup(HOME);
+            system("chown $user.$group -R " . TEMP);
+        }
     }
 
     /**
@@ -158,7 +161,7 @@ class GenCommand extends Command
             $post = json_decode($match[1], true);
 
             if (null === $post) {
-                IO::writeln('Attribute Error: ' . $filename, 'red');
+                IO::writeln("Attribute Error: $filename", 'red');
                 exit(1);
             }
 
