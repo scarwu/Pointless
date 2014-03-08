@@ -1,36 +1,37 @@
 <?php
 /**
  * HTML Generator
- * 
+ *
  * @package     Pointless
  * @author      ScarWu
  * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
  * @link        http://github.com/scarwu/Pointless
  */
 
-class HTMLGenerator {
-
+class HTMLGenerator
+{
     /**
      * @var array
      */
     private $script;
-    
-    public function __construct() {
+
+    public function __construct()
+    {
         $this->script = [];
     }
-    
+
     /**
      * Run HTML Generator
      */
-    public function run() {
-
+    public function run()
+    {
         // Load Script
         $this->loadScript();
-        
+
         // Generate Block
         $this->genBlock();
 
-        foreach((array)$this->script as $class) {
+        foreach ((array) $this->script as $class) {
             $class->gen();
         }
     }
@@ -38,69 +39,59 @@ class HTMLGenerator {
     /**
      * Load Theme Script
      */
-    private function loadScript() {
+    private function loadScript()
+    {
+        // Load Script
+        foreach ((array) Resource::get('theme')['script'] as $filename) {
+            $filename = preg_replace('/.php$/', '', $filename);
 
-        // Load Custom Script
-        if(file_exists(THEME . '/Script')) {
-            $handle = opendir(THEME . '/Script');
-            while($filename = readdir($handle)) {
-                if('.' == $filename || '..' == $filename)
-                    continue;
-
-                require THEME . "/Script/$filename";
-
-                $class_name = preg_replace('/.php$/', '', $filename);
-                $this->script[$class_name] = new $class_name;
-            }
-            closedir($handle);
-        }
-
-        // Load Default Script
-        $handle = opendir(ROOT . '/Sample/Script');
-        while($filename = readdir($handle)) {
-            if('.' == $filename || '..' == $filename)
-                continue;
-
-            $class_name = preg_replace('/.php$/', '', $filename);
-
-            if(!isset($this->script[$class_name])) {
-                require ROOT . "/Sample/Script/$filename";
-                $this->script[$class_name] = new $class_name;
+            if (file_exists(THEME . "/Script/$filename.php")) {
+                require THEME . "/Script/$filename.php";
+                $this->script[$filename] = new $filename;
+            } elseif (file_exists(ROOT . "/Sample/Script/$filename.php")) {
+                require ROOT . "/Sample/Script/$filename.php";
+                $this->script[$filename] = new $filename;
             }
         }
-
     }
 
     /**
      * Generate Block
      */
-    private function genBlock() {
+    private function genBlock()
+    {
         $block = [];
 
-        foreach(Resource::get('theme')['template'] as $blockname => $files) {
+        foreach ((array) Resource::get('theme')['template'] as $blockname => $files) {
 
-            $result = NULL;
+            $result = null;
 
             foreach ($files as $filename) {
-                if(!file_exists(THEME . "/Template/$blockname/$filename"))
-                    continue;
+                $filename = preg_replace('/.php$/', '', $filename);
 
-                $script = preg_replace('/.php$/', '', $filename);
-                $script = explode('_', $script);
-                foreach($script as $key => $value) {
+                if (!file_exists(THEME . "/Template/$blockname/$filename.php")) {
+                    continue;
+                }
+
+                $script = explode('_', $filename);
+                foreach ($script as $key => $value) {
                     $script[$key] = ucfirst($value);
                 }
                 $script = join($script);
 
-                $data['blog'] = Resource::get('config')['blog'];
-                $data['list'] = isset($this->script[$script])
-                    ? $this->script[$script]->getList()
-                    : NULL;
+                $data = [];
+                if (array_key_exists($script, $this->script)) {
+                    $method = 'get' . ucfirst($blockname) . 'Data';
+
+                    if (method_exists($this->script[$script], $method)) {
+                        $data = $this->script[$script]->$method();
+                    }
+                }
                 
-                $result .= bindData($data, THEME . "/Template/$blockname/$filename");
+                $result .= bindData($data, THEME . "/Template/$blockname/$filename.php");
             }
 
-            if(NULL != $result) {
+            if (null !== $result) {
                 $block[$blockname] = $result;
             }
         }

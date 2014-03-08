@@ -1,60 +1,44 @@
 <?php
 /**
  * Extension Loader
- * 
+ *
  * @package     Pointless
  * @author      ScarWu
  * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
  * @link        http://github.com/scarwu/Pointless
  */
 
-class ExtensionLoader {
-
+class ExtensionLoader
+{
     /**
      * @var array
      */
     private $extension;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->extension = [];
     }
 
     /**
      * Run Loader
      */
-    public function run() {
+    public function run()
+    {
+        // Load Extension
+        foreach ((array) Resource::get('config')['extension'] as $filename) {
+            $filename = preg_replace('/.php$/', '', $filename);
 
-        // Load Custom Extension
-        if(file_exists(EXTENSION)) {
-            $handle = opendir(EXTENSION);
-            while($filename = readdir($handle)) {
-                if('.' == $filename || '..' == $filename)
-                    continue;
-
-                require EXTENSION . "/$filename";
-
-                $class_name = preg_replace('/.php$/', '', $filename);
-                $this->extension[$class_name] = new $class_name;
-            }
-            closedir($handle);
-        }
-
-        // Load Default Extension
-        $handle = opendir(ROOT . '/Sample/Extension');
-        while($filename = readdir($handle)) {
-            if('.' == $filename || '..' == $filename)
-                continue;
-
-            $class_name = preg_replace('/.php$/', '', $filename);
-
-            if(!isset($this->extension[$class_name])) {
-                require ROOT . "/Sample/Extension/$filename";
-                $this->extension[$class_name] = new $class_name;
+            if (file_exists(EXTENSION . "/$filename.php")) {
+                require EXTENSION . "/$filename.php";
+                $this->extension[$filename] = new $filename;
+            } elseif (file_exists(ROOT . "/Sample/Extension/$filename.php")) {
+                require ROOT . "/Sample/Extension/$filename.php";
+                $this->extension[$filename] = new $filename;
             }
         }
-        closedir($handle);
 
-        foreach((array)$this->extension as $class) {
+        foreach ((array) $this->extension as $class) {
             $class->run();
         }
     }

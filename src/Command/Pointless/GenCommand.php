@@ -1,7 +1,7 @@
 <?php
 /**
  * Pointless Gen Command
- * 
+ *
  * @package     Pointless
  * @author      ScarWu
  * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
@@ -18,23 +18,28 @@ use HTMLGenerator;
 use ExtensionLoader;
 use Michelf\MarkdownExtra;
 
-class GenCommand extends Command {
-    public function __construct() {
+class GenCommand extends Command
+{
+    public function __construct()
+    {
         parent::__construct();
     }
-    
-    public function help() {
+
+    public function help()
+    {
         IO::writeln('    gen        - Generate blog');
         IO::writeln('    gen -css   - Compress CSS');
         IO::writeln('    gen -js    - Compress JavaScript');
     }
 
-    public function run() {
-        if(!checkDefaultBlog())
-            return;
-        
+    public function run()
+    {
+        if (!checkDefaultBlog()) {
+            return false;
+        }
+
         initBlog();
-        
+
         require LIBRARY . '/Helper.php';
         require LIBRARY . '/Compress.php';
         require LIBRARY . '/HTMLGenerator.php';
@@ -48,10 +53,10 @@ class GenCommand extends Command {
         $blog = Resource::get('config')['blog'];
         $github = Resource::get('config')['github'];
 
-        $start = microtime(TRUE);
+        $start = microtime(true);
 
-        if($this->hasOptions('css')) {
-            if(file_exists(TEMP . '/theme/main.css')) {
+        if ($this->hasOptions('css')) {
+            if (file_exists(TEMP . '/theme/main.css')) {
                 unlink(TEMP . '/theme/main.css');
             }
 
@@ -59,14 +64,14 @@ class GenCommand extends Command {
             $Compress = new Compress();
             $Compress->css();
 
-            $time = sprintf("%.3f", abs(microtime(TRUE) - $start));
+            $time = sprintf("%.3f", abs(microtime(true) - $start));
             IO::writeln("Generate finish, $time s.", 'green');
 
-            return;
+            return true;
         }
 
-        if($this->hasOptions('js')) {
-            if(file_exists(TEMP . '/main.js')) {
+        if ($this->hasOptions('js')) {
+            if (file_exists(TEMP . '/main.js')) {
                 unlink(TEMP . '/main.js');
             }
 
@@ -74,25 +79,25 @@ class GenCommand extends Command {
             $Compress = new Compress();
             $Compress->js();
 
-            $time = sprintf("%.3f", abs(microtime(TRUE) - $start));
+            $time = sprintf("%.3f", abs(microtime(true) - $start));
             IO::writeln("Generate finish, $time s.", 'green');
 
-            return;
+            return true;
         }
 
         $start_mem = memory_get_usage();
 
         // Clear Public Files
         IO::writeln('Clean Public Files ...', 'yellow');
-        recursiveRemove(TEMP);
-        
+        recursiveRemove(TEMP, TEMP);
+
         // Create README
         $handle = fopen(TEMP . '/README.md', 'w+');
         fwrite($handle, '[Powered by Pointless](https://github.com/scarwu/Pointless)');
         fclose($handle);
 
         // Create Github CNAME
-        if($github['cname']) {
+        if ($github['cname']) {
             IO::writeln('Create Github CNAME ...', 'yellow');
             $handle = fopen(TEMP . '/CNAME', 'w+');
             fwrite($handle, $blog['dn']);
@@ -102,11 +107,11 @@ class GenCommand extends Command {
         // Copy Resource Files
         IO::writeln('Copy Resource Files ...', 'yellow');
         recursiveCopy(RESOURCE, TEMP);
-        
-        if(file_exists(THEME . '/Resource')) {
+
+        if (file_exists(THEME . '/Resource')) {
             recursiveCopy(THEME . '/Resource', TEMP . '/theme');
         }
-        
+
         // Compress CSS and JavaScript
         IO::writeln('Compress CSS & Javascript ...', 'yellow');
         $compress = new Compress();
@@ -126,8 +131,8 @@ class GenCommand extends Command {
         IO::writeln('Generating Extensions ...', 'yellow');
         $extension = new ExtensionLoader();
         $extension->run();
-        
-        $time = sprintf("%.3f", abs(microtime(TRUE) - $start));
+
+        $time = sprintf("%.3f", abs(microtime(true) - $start));
         $mem = sprintf("%.3f", abs(memory_get_usage() - $start_mem) / 1024);
         IO::writeln("Generate finish, $time s and memory usage $mem kb.", 'green');
     }
@@ -135,7 +140,8 @@ class GenCommand extends Command {
     /**
      * Initialize Resource Pool
      */
-    private function initResourcePool() {
+    private function initResourcePool()
+    {
         $article = [];
         $article_url = Resource::get('config')['article_url'];
         $article_url = trim($article_url, '/');
@@ -143,33 +149,35 @@ class GenCommand extends Command {
         // Handle Markdown
         IO::writeln('Load and Initialize Markdown');
         $handle = opendir(MARKDOWN);
-        while($filename = readdir($handle)) {
-            if('.' == $filename || '..' == $filename || !preg_match('/.md$/', $filename))
+        while ($filename = readdir($handle)) {
+            if (!preg_match('/.md$/', $filename)) {
                 continue;
+            }
 
             preg_match(REGEX_RULE, file_get_contents(MARKDOWN . "/$filename"), $match);
-            $post = json_decode($match[1], TRUE);
+            $post = json_decode($match[1], true);
 
-            if(NULL == $post) {
+            if (null === $post) {
                 IO::writeln('Attribute Error: ' . $filename, 'red');
                 exit(1);
             }
 
+            if (!$post['publish']) {
+                continue;
+            }
+
             // Append Static Page
-            if('static' == $post['type']) {
+            if ('static' === $post['type']) {
                 Resource::append('static', [
                     'title' => $post['title'],
                     'url' => $post['url'],
                     'content' => MarkdownExtra::defaultTransform($match[2]),
-                    'message' => isset($post['message']) ? $post['message'] : TRUE
+                    'message' => $post['message']
                 ]);
             }
 
             // Create Article
-            if('article' == $post['type']) {
-                if(!(isset($post['publish']) ? $post['publish'] : TRUE))
-                    continue;
-
+            if ('article' === $post['type']) {
                 list($year, $month, $day) = explode('-', $post['date']);
                 list($hour, $minute, $second) = explode(':', $post['time']);
                 $timestamp = strtotime("$day-$month-$year {$post['time']}");
@@ -185,6 +193,9 @@ class GenCommand extends Command {
                     $post['title'], $post['url']
                 ], $article_url);
 
+                $post['tag'] = explode('|', $post['tag']);
+                sort($post['tag']);
+
                 $article[$timestamp] = [
                     'title' => $post['title'],
                     'url' => $url,
@@ -193,7 +204,7 @@ class GenCommand extends Command {
                     'time' => $post['time'],
                     'category' => $post['category'],
                     'keywords' => $post['keywords'],
-                    'tag' => explode('|', $post['tag']),
+                    'tag' => $post['tag'],
                     'year' => $year,
                     'month' => $month,
                     'day' => $day,
@@ -201,7 +212,7 @@ class GenCommand extends Command {
                     'minute' => $minute,
                     'second' => $second,
                     'timestamp' => $timestamp,
-                    'message' => isset($post['message']) ? $post['message'] : TRUE
+                    'message' => $post['message']
                 ];
             }
         }

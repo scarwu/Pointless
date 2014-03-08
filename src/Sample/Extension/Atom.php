@@ -1,7 +1,7 @@
 <?php
 /**
  * Atom Generator Extension
- * 
+ *
  * @package     Pointless
  * @author      ScarWu
  * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
@@ -10,12 +10,13 @@
 
 use NanoCLI\IO;
 
-class Atom {
-
+class Atom
+{
     /**
      * Run Generator
      */
-    public function run() {
+    public function run()
+    {
         IO::writeln('Building Atom');
 
         $quantity = Resource::get('config')['feed_quantity'];
@@ -34,14 +35,14 @@ class Atom {
         $atom .= "\t<id>urn:uuid:" . $this->uuid("{$blog['url']}atom.xml") . "</id>\n";
         $atom .= "\t<updated>" . date(DATE_ATOM) . "</updated>\n";
 
-        if(NULL != $blog['author'] || NULL != $blog['email']) {
+        if (null !== $blog['author'] || null !== $blog['email']) {
             $atom .= "\t<author>\n";
 
-            if(NULL != $blog['author']) {
+            if (null !== $blog['author']) {
                 $atom .= "\t\t<name><![CDATA[{$blog['author']}]]></name>\n";
             }
 
-            if(NULL != $blog['email']) {
+            if (null !== $blog['email']) {
                 $atom .= "\t\t<email>{$blog['email']}</email>\n";
             }
 
@@ -49,12 +50,12 @@ class Atom {
             $atom .= "\t</author>\n";
         }
 
-        foreach((array)Resource::get('article') as $article) {
-            $title = htmlspecialchars($article['title'], ENT_QUOTES, "UTF-8");
+        foreach ((array) Resource::get('article') as $article) {
+            $title = $article['title'];
             $url = "{$blog['url']}article/{$article['url']}";
             $uuid = $this->uuid($url);
             $date = date(DATE_ATOM, $article['timestamp']);
-            $summary = htmlspecialchars($article['content'], ENT_QUOTES, "UTF-8");
+            $summary = $article['content'];
 
             $atom .= "\t<entry>\n";
             $atom .= "\t\t<title type=\"html\"><![CDATA[{$title}]]></title>\n";
@@ -64,8 +65,9 @@ class Atom {
             $atom .= "\t\t<summary type=\"html\"><![CDATA[{$summary}]]></summary>\n";
             $atom .= "\t</entry>\n";
 
-            if (++$count >= $quantity)
+            if (++$count >= $quantity) {
                 break;
+            }
         }
 
         $atom .= "</feed>";
@@ -79,7 +81,8 @@ class Atom {
      * @param string
      * @return string
      */
-    private function uuid($input) {
+    private function uuid($input)
+    {
         $chars = md5($input);
 
         $uuid  = substr($chars, 0, 8) . '-';

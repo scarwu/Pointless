@@ -1,7 +1,7 @@
 <?php
 /**
  * Sitemap Generator Extension
- * 
+ *
  * @package     Pointless
  * @author      ScarWu
  * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
@@ -10,12 +10,13 @@
 
 use NanoCLI\IO;
 
-class Sitemap {
-
+class Sitemap
+{
     /**
      * Run Generator
      */
-    public function run() {
+    public function run()
+    {
         IO::writeln('Building Sitemap');
 
         $blog = Resource::get('config')['blog'];
@@ -26,7 +27,7 @@ class Sitemap {
         $sitemap = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
         $sitemap .= "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";
 
-        foreach((array)Resource::get('sitemap') as $path) {
+        foreach ((array) Resource::get('sitemap') as $path) {
             $sitemap .= sprintf($format, $blog['url'], $path, date(DATE_ATOM));
         }
 

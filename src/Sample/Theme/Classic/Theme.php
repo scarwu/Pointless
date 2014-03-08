@@ -1,21 +1,29 @@
 <?php
 $theme = [
     'js' => [
-        'modernizr-2.6.2.min.js',
-        'highlight.pack.js',
-        'custom.js'
+        'modernizr-2.6.2.min',
+        'highlight.pack',
+        'custom'
     ],
     'css' => [
-        'normalize.css',
-        'main.css',
-        'index.css',
-        'solarized_dark.css'
+        'normalize',
+        'main',
+        'index',
+        'solarized_dark'
     ],
     'template' => [
         'side' => [
-            'tag.php',
-            'category.php',
-            'archive.php'
+            'tag',
+            'category',
+            'archive'
         ]
+    ],
+    'script' => [
+        'StaticPage',
+        'Article',
+        'Page',
+        'Archive',
+        'Category',
+        'Tag'
     ]
 ];

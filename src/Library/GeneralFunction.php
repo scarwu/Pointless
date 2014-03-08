@@ -1,7 +1,7 @@
 <?php
 /**
  * General Function
- * 
+ *
  * @package     Pointless
  * @author      ScarWu
  * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
@@ -13,42 +13,47 @@ use NanoCLI\IO;
 /**
  * Check Default Blog
  */
-function checkDefaultBlog() {
+function checkDefaultBlog()
+{
     $msg = 'Default blog is\'t set. Please use command "home -s" or "home -i".';
 
-    if(!file_exists(HOME . '/Default')) {
+    if (!file_exists(HOME . '/Default')) {
         IO::writeln($msg, 'red');
-        return FALSE;
+
+        return false;
     }
 
     $path = file_get_contents(HOME . '/Default');
 
-    if('' == $path) {
+    if ('' === $path) {
         IO::writeln($msg, 'red');
-        return FALSE;
+
+        return false;
     }
 
-    if(!file_exists($path) || !file_exists("$path/.pointless")) {
+    if (!file_exists($path) || !file_exists("$path/.pointless")) {
         file_put_contents(HOME . '/defualt', '');
 
         IO::writeln($msg, 'red');
-        return FALSE;
+
+        return false;
     }
 
     define('BLOG', $path);
 
-    return TRUE;
+    return true;
 }
 
 /**
  * Initialize Blog
  */
-function initBlog() {
-    if(!file_exists(BLOG . '/.pointless')) {
+function initBlog()
+{
+    if (!file_exists(BLOG . '/.pointless')) {
         file_put_contents(BLOG . '/.pointless', '');
     }
 
-    if(!file_exists(BLOG . '/Config.php')) {
+    if (!file_exists(BLOG . '/Config.php')) {
         copy(ROOT . '/Sample/Config.php', BLOG . '/Config.php');
     }
 
@@ -59,60 +64,58 @@ function initBlog() {
     // Temp
     define('TEMP', BLOG . '/Temp');
 
-    if(!file_exists(TEMP)) {
-        mkdir(TEMP, 0755, TRUE);
+    if (!file_exists(TEMP)) {
+        mkdir(TEMP, 0755, true);
     }
 
     // Deploy
     define('DEPLOY', BLOG . '/Deploy');
 
-    if(!file_exists(DEPLOY)) {
-        mkdir(DEPLOY, 0755, TRUE);
+    if (!file_exists(DEPLOY)) {
+        mkdir(DEPLOY, 0755, true);
     }
 
     // Markdown
     define('MARKDOWN', BLOG . '/Markdown');
 
-    if(!file_exists(MARKDOWN)) {
-        mkdir(MARKDOWN, 0755, TRUE);
+    if (!file_exists(MARKDOWN)) {
+        mkdir(MARKDOWN, 0755, true);
         recursiveCopy(ROOT . '/Sample/Markdown', MARKDOWN);
     }
 
     // Theme
-    if(!file_exists(BLOG . '/Theme')) {
-        mkdir(BLOG . '/Theme', 0755, TRUE);
+    if (!file_exists(BLOG . '/Theme')) {
+        mkdir(BLOG . '/Theme', 0755, true);
         recursiveCopy(ROOT . '/Sample/Theme', BLOG . '/Theme');
     }
 
-    if('' == $config['theme']) {
+    if ('' === $config['theme']) {
         $config['theme'] = 'Classic';
     }
 
-    if(file_exists(BLOG . "/Theme/{$config['theme']}")) {
+    if (file_exists(BLOG . "/Theme/{$config['theme']}")) {
         define('THEME', BLOG . "/Theme/{$config['theme']}");
-    }
-    else {
+    } else {
         define('THEME', ROOT . '/Sample/Theme/Classic');
     }
 
     // Extension
     define('EXTENSION', BLOG . '/Extension');
 
-    if(!file_exists(EXTENSION)) {
-        mkdir(EXTENSION, 0755, TRUE);
+    if (!file_exists(EXTENSION)) {
+        mkdir(EXTENSION, 0755, true);
     }
 
     // Resource
     define('RESOURCE', BLOG . '/Resource');
 
-    if(!file_exists(RESOURCE)) {
-        mkdir(RESOURCE, 0755, TRUE);
+    if (!file_exists(RESOURCE)) {
+        mkdir(RESOURCE, 0755, true);
     }
 
     // Set Timezone
     date_default_timezone_set($config['timezone']);
 }
-
 
 /**
  * Bind PHP Data to HTML Template
@@ -121,8 +124,9 @@ function initBlog() {
  * @param string
  * @return string
  */
-function bindData($_data, $_path) {
-    foreach($_data as $_key => $_value) {
+function bindData($_data, $_path)
+{
+    foreach ($_data as $_key => $_value) {
         $$_key = $_value;
     }
 
@@ -130,7 +134,7 @@ function bindData($_data, $_path) {
     include $_path;
     $_result = ob_get_contents();
     ob_end_clean();
-    
+
     return $_result;
 }
 
@@ -140,21 +144,21 @@ function bindData($_data, $_path) {
  * @param string
  * @param string
  */
-function writeTo($data, $path) {
-    if(!preg_match('/\.(html|xml)$/', $path)) {
-        if(!file_exists($path)) {
-            mkdir($path, 0755, TRUE);
+function writeTo($data, $path)
+{
+    if (!preg_match('/\.(html|xml)$/', $path)) {
+        if (!file_exists($path)) {
+            mkdir($path, 0755, true);
         }
 
         $path = $path . '/index.html';
-    }
-    else {
+    } else {
         $segments = explode('/', $path);
         array_pop($segments);
 
         $dirpath = implode($segments, '/');
-        if(!file_exists($dirpath)) {
-            mkdir($dirpath, 0755, TRUE);
+        if (!file_exists($dirpath)) {
+            mkdir($dirpath, 0755, true);
         }
     }
 
@@ -169,22 +173,22 @@ function writeTo($data, $path) {
  * @param string
  * @param string
  */
-function recursiveCopy($src, $dest) {
-    if(file_exists($src)) {
-        if(is_dir($src)) {
-            if(!file_exists($dest)) {
-                mkdir($dest, 0755, TRUE);
+function recursiveCopy($src, $dest)
+{
+    if (file_exists($src)) {
+        if (is_dir($src)) {
+            if (!file_exists($dest)) {
+                mkdir($dest, 0755, true);
             }
 
-            $handle = @opendir($src);
-            while($file = readdir($handle)) {
-                if(!in_array($file, ['.', '..', '.git'])) {
+            $handle = opendir($src);
+            while ($file = readdir($handle)) {
+                if (!in_array($file, ['.', '..', '.git'])) {
                     recursiveCopy("$src/$file", "$dest/$file");
                 }
             }
             closedir($handle);
-        }
-        else {
+        } else {
             copy($src, $dest);
         }
     }
@@ -197,22 +201,22 @@ function recursiveCopy($src, $dest) {
  * @param string
  * @return boolean
  */
-function recursiveRemove($path = NULL) {
-    if(file_exists($path)) {
-        if(is_dir($path)) {
+function recursiveRemove($path = null, $self = null)
+{
+    if (file_exists($path)) {
+        if (is_dir($path)) {
             $handle = opendir($path);
-            while($file = readdir($handle)) {
-                if(!in_array($file, ['.', '..', '.git'])) {
+            while ($file = readdir($handle)) {
+                if (!in_array($file, ['.', '..', '.git'])) {
                     recursiveRemove("$path/$file");
                 }
             }
             closedir($handle);
 
-            if($path != TEMP && $path != DEPLOY) {
+            if ($path !== $self) {
                 return rmdir($path);
             }
-        }
-        else {
+        } else {
             return unlink($path);
         }
     }

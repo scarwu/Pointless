@@ -2,7 +2,7 @@
 <?php
 /**
  * Phar Builder
- * 
+ *
  * @package     Pointless
  * @author      ScarWu
  * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
@@ -13,7 +13,7 @@ $root = realpath(dirname(__FILE__)) . '/..';
 $version = trim(file_get_contents("$root/VERSION"));
 
 // Clear Phar
-if(file_exists("$root/bin/poi'")) {
+if (file_exists("$root/bin/poi'")) {
     unlink("$root/bin/poi");
 }
 
