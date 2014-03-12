@@ -1,0 +1,6 @@
+{
+    "require": {
+        "scarwu/nanocli": "0.5.*",
+        "michelf/php-markdown": "1.4.*"
+    }
+}

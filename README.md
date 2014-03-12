@@ -1,5 +1,4 @@
-Pointless
-=========
+# Pointless
 
 A Useful Static Blog Generator
 
@@ -13,16 +12,16 @@ A Useful Static Blog Generator
 
 ### Install
 
-	sudo curl https://raw.github.com/scarwu/Pointless/master/install.sh | sh
+	sudo curl https://raw.github.com/scarwu/Pointless/master/script/install.sh | sh
 
 ### Update
 
 	sudo poi update
 
-## Demo Site
+## Demo
 
-* [ScarShow](http://scar.simcz.tw/)
+[ScarShow](http://scar.simcz.tw)
 
 ## For More
 
-Please watch [Wiki](https://github.com/scarwu/Pointless/wiki) or [ScarShow](http://scar.simcz.tw)
+[Wiki](https://github.com/scarwu/Pointless/wiki)

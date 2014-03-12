@@ -1,7 +1,7 @@
 <?php
 /**
  * Pointless Update Command
- * 
+ *
  * @package     Pointless
  * @author      ScarWu
  * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
@@ -13,63 +13,55 @@ namespace Pointless;
 use NanoCLI\Command;
 use NanoCLI\IO;
 
-class UpdateCommand extends Command {
-    public function __construct() {
+class UpdateCommand extends Command
+{
+    public function __construct()
+    {
         parent::__construct();
     }
 
-    public function help() {
+    public function help()
+    {
         IO::writeln('    update     - Self-update');
         IO::writeln('    update -d  - Use development version');
         IO::writeln('    update -e  - Use experipment version');
     }
-    
-    public function run() {
-        if(!defined('BUILD_TIMESTAMP')) {
+
+    public function run()
+    {
+        if (!defined('BUILD_TIMESTAMP')) {
             IO::writeln('Development version can not be updated.', 'red');
-            return;
+
+            return false;
         }
 
         $branch = 'master';
 
-        if($this->hasOptions('d')) {
+        if ($this->hasOptions('d')) {
             $branch = 'develop';
         }
 
-        if($this->hasOptions('e')) {
+        if ($this->hasOptions('e')) {
             $branch = 'experipment';
         }
 
         $remote = "https://raw.github.com/scarwu/Pointless/$branch/bin/poi";
-        $path = defined('BIN_LOCATE') ? BIN_LOCATE : '/usr/local/bin';
 
-        if(!is_dir($path)) {
-            IO::writeln("$path is not a directory", 'red');
-            return FALSE;
-        }
+        if (!is_writable(BIN_LOCATE)) {
+            IO::writeln('Permission denied: ' . BIN_LOCATE, 'red');
 
-        if(!is_writable($path)) {
-            IO::writeln("Permission denied: $path", 'red');
-            return FALSE;
+            return false;
         }
 
         system("wget $remote -O /tmp/poi");
         system('chmod +x /tmp/poi');
 
         // Reset Timestamp
-        $handle = fopen(HOME . 'Timestamp', 'w+');
-        fwrite($handle, '0');
-        fclose($handle);
+        file_put_contents(HOME . '/Timestamp', 0);
 
         IO::writeln('Update finish.', 'green');
-        if(isset($_SERVER['SUDO_USER'])) {
-            $user = $_SERVER['SUDO_USER'];
-            system("sudo -u $user /tmp/poi version");
-        }
-        else {
-            system('/tmp/poi version');
-        }
-        
-        system("mv /tmp/poi $path");
+
+        system('/tmp/poi version');
+        system('mv /tmp/poi ' . BIN_LOCATE);
     }
 }

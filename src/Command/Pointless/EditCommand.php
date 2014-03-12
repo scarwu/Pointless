@@ -1,7 +1,7 @@
 <?php
 /**
  * Pointless Edit Command
- * 
+ *
  * @package     Pointless
  * @author      ScarWu
  * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
@@ -14,80 +14,107 @@ use NanoCLI\Command;
 use NanoCLI\IO;
 use Resource;
 
-class EditCommand extends Command {
-    public function __construct() {
+class EditCommand extends Command
+{
+    public function __construct()
+    {
         parent::__construct();
     }
 
-    public function help() {
-        IO::writeln('    edit       - Edit article');
-        IO::writeln('    edit -s    - Edit Static Page');
+    public function help()
+    {
+        IO::writeln('    edit <number or not>');
+        IO::writeln('               - Edit article');
+        IO::writeln('    edit -s <number or not>');
+        IO::writeln('               - Edit Static Page');
     }
-    
-    public function run() {
-        if(!checkDefaultBlog())
-            return;
-        
+
+    public function run()
+    {
+        if (!checkDefaultBlog()) {
+            return false;
+        }
+
         initBlog();
-        
-        $editor = Resource::get('config')['editor'];
-        
-        $data = [];
+
+        $list = [];
         $handle = opendir(MARKDOWN);
-        while($filename = readdir($handle)) {
-            if('.' == $filename || '..' == $filename || !preg_match('/.md$/', $filename))
+        while ($filename = readdir($handle)) {
+            if (!preg_match('/.md$/', $filename)) {
                 continue;
+            }
 
             preg_match(REGEX_RULE, file_get_contents(MARKDOWN . "/$filename"), $match);
-            $temp = json_decode($match[1], TRUE);
+            $post = json_decode($match[1], true);
 
-            if($this->hasOptions('s')) {
-                if('static' != $temp['type'])
+            if ($this->hasOptions('s')) {
+                if ('static' !== $post['type']) {
                     continue;
+                }
 
-                $data[$temp['title']]['title'] = $temp['title'];
-                $data[$temp['title']]['path'] = MARKDOWN . "/$filename";
-            }
-            else {
-                if('article' != $temp['type'])
+                $index = $post['title'];
+
+                $list[$index]['publish'] = $post['publish'];
+                $list[$index]['msg'] = $post['title'];
+                $list[$index]['path'] = MARKDOWN . "/$filename";
+            } else {
+                if ('article' !== $post['type']) {
                     continue;
+                }
 
-                $index = $temp['date'] . $temp['time'];
+                $index = $post['date'] . $post['time'];
 
-                $data[$index]['publish'] = $temp['publish'];
-                $data[$index]['title'] = $temp['title'];
-                $data[$index]['date'] = $temp['date'];
-                $data[$index]['path'] = MARKDOWN . "/$filename";
+                $list[$index]['publish'] = $post['publish'];
+                $list[$index]['msg'] = "{$post['date']} {$post['title']}";
+                $list[$index]['path'] = MARKDOWN . "/$filename";
             }
         }
         closedir($handle);
+        uksort($list, 'strnatcasecmp');
 
-        uksort($data, 'strnatcasecmp');
+        if (0 === count($list)) {
+            IO::writeln('No post(s).', 'red');
 
-        $count = 0;
-        foreach($data as $key => $article) {
-            if($this->hasOptions('s')) {
-                $msg = $article['title'];
-            }
-            else {
-                $msg = "{$article['date']} {$article['title']}";
-            }
-
-            if($article['publish']) {
-                IO::writeln(sprintf("[ %3d] ", $count) . $msg);
-            }
-            else {
-                IO::writeln(sprintf("[*%3d] ", $count) . $msg);
-            }
-            
-            $data[$count++] = $article;
-            unset($data[$key]);
+            return false;
         }
-        
-        $number = IO::question("\nEnter Number:\n-> ", NULL, function($answer) use($data) {
-            return is_numeric($answer) && $answer >= 0 && $answer < count($data);
-        });
 
-        system("$editor {$data[$number]['path']} < `tty` > `tty`");
+        $number = $this->getNumber();
+        if ($number < 0 || $number >= count($list)) {
+            $number = null;
+        }
+
+        if (null === $number) {
+            $count = 0;
+            foreach ($list as $post) {
+                if ($post['publish']) {
+                    IO::writeln(sprintf("[ %3d] ", $count) . $post['msg']);
+                } else {
+                    IO::writeln(sprintf("[*%3d] ", $count) . $post['msg']);
+                }
+
+                $count++;
+            }
+
+            $number = IO::question("\nEnter Number:\n-> ", null, function ($answer) use ($list) {
+                return is_numeric($answer) && $answer >= 0 && $answer < count($list);
+            });
+        }
+
+        $editor = Resource::get('config')['editor'];
+        $path = $list[array_keys($list)[$number]]['path'];
+        system("$editor $path < `tty` > `tty`");
+    }
+
+    private function getNumber()
+    {
+        if ($this->hasOptions('s')) {
+            return $this->getOptions('s');
+        }
+
+        if ($this->hasArguments()) {
+            return $this->getArguments()[0];
+        }
+
+        return null;
     }
 }

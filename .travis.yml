@@ -1,4 +1,5 @@
 script:
+  - composer install
   - php ./script/build.php
   - mkdir test
   - cd test
