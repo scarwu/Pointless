@@ -12,9 +12,11 @@ namespace Pointless;
 
 use NanoCLI\Command;
 use NanoCLI\IO;
+use Pack\CSS;
+use Pack\JS;
 use Michelf\MarkdownExtra;
+
 use Resource;
-use Compress;
 use HTMLGenerator;
 use ExtensionLoader;
 
@@ -41,7 +43,6 @@ class GenCommand extends Command
         initBlog();
 
         require LIBRARY . '/Helper.php';
-        require LIBRARY . '/Compress.php';
         require LIBRARY . '/HTMLGenerator.php';
         require LIBRARY . '/ExtensionLoader.php';
 
@@ -59,9 +60,10 @@ class GenCommand extends Command
                 unlink(TEMP . '/theme/main.css');
             }
 
-            IO::writeln('Compress CSS ...', 'yellow');
-            $Compress = new Compress();
-            $Compress->css();
+            IO::writeln('Compress Assets ...', 'yellow');
+
+            IO::writeln('Compressing CSS');
+            $this->CSSCompress();
 
             $time = sprintf("%.3f", abs(microtime(true) - $start));
             IO::writeln("Generate finish, $time s.", 'green');
@@ -74,9 +76,10 @@ class GenCommand extends Command
                 unlink(TEMP . '/main.js');
             }
 
-            IO::writeln('Compress Javascript ...', 'yellow');
-            $Compress = new Compress();
-            $Compress->js();
+            IO::writeln('Compress Assets ...', 'yellow');
+
+            IO::writeln('Compressing Javascript');
+            $this->JSCompress();
 
             $time = sprintf("%.3f", abs(microtime(true) - $start));
             IO::writeln("Generate finish, $time s.", 'green');
@@ -108,11 +111,14 @@ class GenCommand extends Command
             recursiveCopy(THEME . '/Resource', TEMP . '/theme');
         }
 
-        // Compress CSS and JavaScript
-        IO::writeln('Compress CSS & Javascript ...', 'yellow');
-        $compress = new Compress();
-        $compress->js();
-        $compress->css();
+        // Compress Assets
+        IO::writeln('Compress Assets ...', 'yellow');
+
+        IO::writeln('Compressing CSS');
+        $this->CSSCompress();
+
+        IO::writeln('Compressing Javascript');
+        $this->JSCompress();
 
         // Initialize Resource Pool
         IO::writeln('Initialize Resource Pool ...', 'yellow');
@@ -223,5 +229,47 @@ class GenCommand extends Command
 
         krsort($article);
         Resource::set('article', $article);
+    }
+
+    /**
+     * CSS Compress
+     */
+    private function CSSCompress()
+    {
+        $css_pack = new CSS();
+
+        foreach ((array) Resource::get('theme')['css'] as $filename) {
+            $filename = preg_replace('/.css$/', '', $filename);
+
+            if (!file_exists(THEME . "/Css/$filename.css")) {
+                IO::writeln("CSS file \"$filename.css\" not found.", 'red');
+                continue;
+            }
+
+            $css_pack->append(THEME . "/Css/$filename.css");
+        }
+
+        $css_pack->save(TEMP . '/theme/main.css');
+    }
+
+    /**
+     * Javascript Compress
+     */
+    private function JSCompress()
+    {
+        $js_pack = new CSS();
+
+        foreach ((array) Resource::get('theme')['js'] as $filename) {
+            $filename = preg_replace('/.js$/', '', $filename);
+
+            if (!file_exists(THEME . "/Js/$filename.js")) {
+                IO::writeln("Javascript file \"$filename.js\" not found.", 'red');
+                continue;
+            }
+
+            $js_pack->append(THEME . "/Js/$filename.js");
+        }
+
+        $js_pack->save(TEMP . '/theme/main.js');
     }
 }
