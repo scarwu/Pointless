@@ -3,7 +3,7 @@ $config = [
     'blog' => [
         'name' => 'Pointless',
         'slogan' => 'A Useful Static Blog Generator',
-        'footer' => 'Powerd By Pointless',
+        'footer' => 'Powered By Pointless',
         'description' => '',
         'keywords' => '',
 
