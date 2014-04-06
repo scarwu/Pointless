@@ -57,9 +57,9 @@ if (defined('BUILD_TIMESTAMP')) {
 
         // Change Owner
         if (isset($_SERVER['SUDO_USER'])) {
-            $user = fileowner(HOME);
-            $group = filegroup(HOME);
-            system("chown $user.$group -R " . BLOG);
+            $user = fileowner($_SERVER['HOME']);
+            $group = filegroup($_SERVER['HOME']);
+            system("chown $user.$group -R " . HOME);
         }
     }
 }
