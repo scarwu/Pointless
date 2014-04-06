@@ -185,6 +185,10 @@ function recursiveCopy($src, $dest)
             }
             closedir($handle);
         } else {
+            if (!file_exists(dirname($dest))) {
+                mkdir(dirname($dest), 0755, true);
+            }
+
             copy($src, $dest);
         }
     }

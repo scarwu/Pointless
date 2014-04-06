@@ -15,7 +15,7 @@ $root = realpath(dirname(__FILE__) . '/..');
 system("php $root/script/build.php");
 
 // Clear Phar
-if (file_exists("$root/bin/poi'")) {
+if (file_exists("$root/bin/poi")) {
     unlink("$root/bin/poi");
 }
 
