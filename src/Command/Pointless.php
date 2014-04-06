@@ -59,7 +59,6 @@ class Pointless extends Command
 
                 // Copy Sample Files
                 Utility::copy(ROOT . '/Sample', HOME . '/Sample');
-                copy(LIBRARY . '/Route.php', HOME . '/Sample/Route.php');
 
                 // Create Timestamp File
                 file_put_contents(HOME . '/Timestamp', BUILD_TIMESTAMP);

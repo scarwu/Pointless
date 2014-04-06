@@ -35,7 +35,7 @@ class ServerCommand extends Command
 
         initBlog();
 
-        $route_script = (defined('BUILD_TIMESTAMP') ? HOME . '/Sample' : LIBRARY) . '/Route.php';
+        $route_script = (defined('BUILD_TIMESTAMP') ? HOME : ROOT) . '/Sample/Route.php';
         $port = $this->hasConfigs() ? $this->getConfigs('port') : 3000;
         $root = HOME;
 

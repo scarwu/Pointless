@@ -43,7 +43,7 @@ class Utility
             if (is_dir($path)) {
                 $handle = opendir($path);
                 while ($file = readdir($handle)) {
-                    if (!in_array($file, ['.', '..', '.git'])) {
+                    if (!in_array($file, ['.', '..'])) {
                         self::chown("$path/$file", $user, $group);
                     }
                 }
