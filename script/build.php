@@ -20,12 +20,12 @@ $regex = str_replace('/', '\/', $root);
 $regex = "/^$regex\/(vendor|src)/";
 
 // Clear Phar
-if (file_exists("$root/bin/poi'")) {
-    unlink("$root/bin/poi");
+if (file_exists("$root/poi.phar'")) {
+    unlink("$root/poi.phar");
 }
 
 // Create Phar
-$phar = new Phar("$root/bin/poi.phar");
+$phar = new Phar("$root/poi.phar");
 $phar->setAlias('poi.phar');
 $phar->setStub($stub);
 $phar->buildFromDirectory($root, $regex);
@@ -33,5 +33,4 @@ $phar->compressFiles(Phar::GZ);
 $phar->stopBuffering();
 
 // Setting Phar is Executable
-chmod("$root/bin/poi.phar", 0755);
-rename("$root/bin/poi.phar", "$root/bin/poi");
+chmod("$root/poi.phar", 0755);
