@@ -16,6 +16,7 @@ use Pack\CSS;
 use Pack\JS;
 use Michelf\MarkdownExtra;
 
+use Utility;
 use Resource;
 use HTMLGenerator;
 use ExtensionLoader;
@@ -91,7 +92,7 @@ class GenCommand extends Command
 
         // Clear Public Files
         IO::writeln('Clean Public Files ...', 'yellow');
-        recursiveRemove(TEMP, TEMP);
+        Utility::remove(TEMP, TEMP);
 
         // Create README
         $readme = '[Powered by Pointless](https://github.com/scarwu/Pointless)';
@@ -105,10 +106,10 @@ class GenCommand extends Command
 
         // Copy Resource Files
         IO::writeln('Copy Resource Files ...', 'yellow');
-        recursiveCopy(RESOURCE, TEMP);
+        Utility::copy(RESOURCE, TEMP);
 
         if (file_exists(THEME . '/Resource')) {
-            recursiveCopy(THEME . '/Resource', TEMP . '/theme');
+            Utility::copy(THEME . '/Resource', TEMP . '/theme');
         }
 
         // Compress Assets

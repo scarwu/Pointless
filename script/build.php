@@ -11,7 +11,7 @@
 
 $root = realpath(dirname(__FILE__) . '/..');
 
-include "$root/src/Library/GeneralFunction.php";
+include "$root/src/Library/Utility.php";
 
 $version = trim(file_get_contents("$root/VERSION"));
 
@@ -29,7 +29,7 @@ if (file_exists("$root/vendor")) {
 
 // Copy File to tmp
 if (file_exists("$root/tmp")) {
-    recursiveRemove("$root/tmp");
+    Utility::remove("$root/tmp");
 }
 
 foreach ([
@@ -40,7 +40,7 @@ foreach ([
     'vendor/scarwu/nanocli/src',
     'vendor/michelf/php-markdown/Michelf'
 ] as $path) {
-    recursiveCopy("$root/$path", "$root/tmp/$path");
+    Utility::copy("$root/$path", "$root/tmp/$path");
 }
 
 // Clear Phar

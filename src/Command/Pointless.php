@@ -15,6 +15,64 @@ class Pointless extends Command
     public function __construct()
     {
         parent::__construct();
+
+        // Set default timezone
+        date_default_timezone_set('Etc/UTC');
+
+        /**
+         * Path Define and Copy Files
+         */
+        define('LIBRARY', ROOT . '/Library');
+
+        require LIBRARY . '/Utility.php';
+        require LIBRARY . '/Resource.php';
+        require LIBRARY . '/GeneralFunction.php';
+
+        /**
+         * Define Path and Initialize Blog
+         */
+        define('HOME', $_SERVER['HOME'] . '/.pointless2');
+
+        if (!file_exists(HOME)) {
+            mkdir(HOME, 0755, true);
+        }
+
+        // Define Regular Expression Rule
+        define('REGEX_RULE', '/^({(?:.|\n)*?})\n((?:.|\n)*)/');
+
+        /**
+         * Copy Sample Files
+         */
+        if (defined('BUILD_TIMESTAMP')) {
+            if (!file_exists(HOME . '/Sample')) {
+                mkdir(HOME . '/Sample', 0755, true);
+            }
+
+            $timestamp = 0;
+            if (file_exists(HOME . '/Timestamp')) {
+                $timestamp = file_get_contents(HOME . '/Timestamp');
+            }
+
+            // Check Timestamp and Update Sample Files
+            if (BUILD_TIMESTAMP !== $timestamp) {
+                Utility::remove(HOME . '/Sample');
+
+                // Copy Sample Files
+                Utility::copy(ROOT . '/Sample', HOME . '/Sample');
+                copy(LIBRARY . '/Route.php', HOME . '/Sample/Route.php');
+
+                // Create Timestamp File
+                file_put_contents(HOME . '/Timestamp', BUILD_TIMESTAMP);
+
+                // Change Owner
+                if (isset($_SERVER['SUDO_USER'])) {
+                    $user = fileowner($_SERVER['HOME']);
+                    $group = filegroup($_SERVER['HOME']);
+                    system("chown $user.$group -R " . HOME);
+                }
+            }
+        }
+        
     }
 
     public function run()

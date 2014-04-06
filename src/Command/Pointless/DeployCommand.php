@@ -12,6 +12,8 @@ namespace Pointless;
 
 use NanoCLI\Command;
 use NanoCLI\IO;
+
+use Utility;
 use Resource;
 
 class DeployCommand extends Command
@@ -55,8 +57,8 @@ class DeployCommand extends Command
 
         system("git pull origin $branch");
 
-        recursiveRemove(DEPLOY, DEPLOY);
-        recursiveCopy(TEMP, DEPLOY);
+        Utility::remove(DEPLOY, DEPLOY);
+        Utility::copy(TEMP, DEPLOY);
 
         system('git add --all .');
         system(sprintf('git commit -m "%s"', date(DATE_RSS)));
