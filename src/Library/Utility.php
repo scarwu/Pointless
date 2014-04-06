@@ -11,6 +11,48 @@
 class Utility
 {
     /**
+     * Command Exists
+     *
+     * @param string
+     * @return boolean
+     */
+    static public function commandExists($command)
+    {
+        foreach (explode(':', $_SERVER['PATH']) as $path) {
+            if (file_exists("$path/$command")) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Recursive Change Owner and Group
+     *
+     * @param string
+     * @param string
+     * @param string
+     */
+    static public function chown($path, $user, $group)
+    {
+        if (file_exists($path)) {
+            chown($path, $user);
+            chgrp($path, $group);
+
+            if (is_dir($path)) {
+                $handle = opendir($path);
+                while ($file = readdir($handle)) {
+                    if (!in_array($file, ['.', '..', '.git'])) {
+                        self::chown("$path/$file", $user, $group);
+                    }
+                }
+                closedir($handle);
+            }
+        }
+    }
+
+    /**
      * Recursive Copy
      *
      * @param string

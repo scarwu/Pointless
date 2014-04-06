@@ -63,16 +63,13 @@ class Pointless extends Command
 
                 // Create Timestamp File
                 file_put_contents(HOME . '/Timestamp', BUILD_TIMESTAMP);
-
-                // Change Owner
-                if (isset($_SERVER['SUDO_USER'])) {
-                    $user = fileowner($_SERVER['HOME']);
-                    $group = filegroup($_SERVER['HOME']);
-                    system("chown $user.$group -R " . HOME);
-                }
             }
         }
-        
+
+        // Change Owner
+        if (isset($_SERVER['SUDO_USER'])) {
+            Utility::chown(HOME, fileowner($_SERVER['HOME']), filegroup($_SERVER['HOME']));
+        }
     }
 
     public function run()

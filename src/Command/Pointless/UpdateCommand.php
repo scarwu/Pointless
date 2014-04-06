@@ -35,6 +35,12 @@ class UpdateCommand extends Command
             return false;
         }
 
+        // Check System Command
+        if (!Utility::commandExists('wget')) {
+            IO::writeln("System command \"wget\" is not found.", 'red');
+            return false;
+        }
+
         $branch = 'master';
 
         if ($this->hasOptions('d')) {
@@ -54,7 +60,7 @@ class UpdateCommand extends Command
         }
 
         system("wget $remote -O /tmp/poi");
-        system('chmod +x /tmp/poi');
+        chmod('/tmp/poi', 0755);
 
         // Reset Timestamp
         file_put_contents(HOME . '/Timestamp', 0);
@@ -62,6 +68,6 @@ class UpdateCommand extends Command
         IO::writeln('Update finish.', 'green');
 
         system('/tmp/poi version');
-        system('mv /tmp/poi ' . BIN_LOCATE);
+        rename('/tmp/poi', BIN_LOCATE);
     }
 }

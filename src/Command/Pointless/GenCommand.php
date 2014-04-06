@@ -141,9 +141,7 @@ class GenCommand extends Command
 
         // Change Owner
         if (isset($_SERVER['SUDO_USER'])) {
-            $user = fileowner(HOME);
-            $group = filegroup(HOME);
-            system("chown $user.$group -R " . TEMP);
+            Utility::chown(TEMP, fileowner(HOME), filegroup(HOME));
         }
     }
 

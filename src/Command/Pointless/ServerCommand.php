@@ -37,7 +37,8 @@ class ServerCommand extends Command
 
         $route_script = (defined('BUILD_TIMESTAMP') ? HOME . '/Sample' : LIBRARY) . '/Route.php';
         $port = $this->hasConfigs() ? $this->getConfigs('port') : 3000;
+        $root = HOME;
 
-        system(sprintf("php -S localhost:$port -t %s $route_script < `tty` > `tty`", HOME));
+        system("php -S localhost:$port -t $root $route_script < `tty` > `tty`");
     }
 }

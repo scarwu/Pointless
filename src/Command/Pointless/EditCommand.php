@@ -37,6 +37,13 @@ class EditCommand extends Command
 
         initBlog();
 
+        // Check System Command
+        $editor = Resource::get('config')['editor'];
+        if (!Utility::commandExists($editor)) {
+            IO::writeln("System command \"$editor\" is not found.", 'red');
+            return false;
+        }
+
         $list = [];
         $handle = opendir(MARKDOWN);
         while ($filename = readdir($handle)) {
@@ -100,7 +107,6 @@ class EditCommand extends Command
             });
         }
 
-        $editor = Resource::get('config')['editor'];
         $path = $list[array_keys($list)[$number]]['path'];
         system("$editor $path < `tty` > `tty`");
     }

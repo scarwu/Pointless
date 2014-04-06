@@ -12,6 +12,8 @@ namespace Pointless;
 
 use NanoCLI\Command;
 use NanoCLI\IO;
+
+use Utility;
 use Resource;
 
 class ConfigCommand extends Command
@@ -34,7 +36,13 @@ class ConfigCommand extends Command
 
         initBlog();
 
+        // Check System Command
         $editor = Resource::get('config')['editor'];
+        if (!Utility::commandExists($editor)) {
+            IO::writeln("System command \"$editor\" is not found.", 'red');
+            return false;
+        }
+
         $filepath = BLOG . '/Config.php';
 
         system("$editor $filepath < `tty` > `tty`");

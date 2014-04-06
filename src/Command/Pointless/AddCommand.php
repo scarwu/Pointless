@@ -35,8 +35,12 @@ class AddCommand extends Command
 
         initBlog();
 
-        $encoding = Resource::get('config')['encoding'];
+        // Check System Command
         $editor = Resource::get('config')['editor'];
+        if (!Utility::commandExists($editor)) {
+            IO::writeln("System command \"$editor\" is not found.", 'red');
+            return false;
+        }
 
         $info = [
             'title' => IO::question("Enter Title:\n-> "),
@@ -48,6 +52,8 @@ class AddCommand extends Command
             $info['category'] = IO::question("Enter Category:\n-> ");
         }
 
+        // Convert Encoding
+        $encoding = Resource::get('config')['encoding'];
         if (null !== $encoding) {
             foreach ($info as $key => $value) {
                 $info[$key] = iconv($encoding, 'utf-8', $value);

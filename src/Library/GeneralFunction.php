@@ -107,8 +107,6 @@ function initBlog()
 
     // Change Owner
     if (isset($_SERVER['SUDO_USER'])) {
-        $user = fileowner(HOME);
-        $group = filegroup(HOME);
-        system("chown $user.$group -R " . BLOG);
+        Utility::chown(BLOG, fileowner(HOME), filegroup(HOME));
     }
 }

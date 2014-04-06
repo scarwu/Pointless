@@ -99,7 +99,7 @@ class DeleteCommand extends Command
         $title = $list[array_keys($list)[$number]]['title'];
         IO::write("Are you sure delete post \"$title\"? [n/y]\n-> ", 'red');
         if ("y" === IO::read()) {
-            system("rm $path");
+            unlink($path);
             IO::writeln("Successfully removed post \"$title\".");
         }
     }

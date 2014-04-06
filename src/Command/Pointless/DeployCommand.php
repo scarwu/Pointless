@@ -36,6 +36,12 @@ class DeployCommand extends Command
 
         initBlog();
 
+        // Check System Command
+        if (!Utility::commandExists('git')) {
+            IO::writeln("System command \"git\" is not found.", 'red');
+            return false;
+        }
+
         $github = Resource::get('config')['github'];
 
         $account = $github['account'];
@@ -66,9 +72,7 @@ class DeployCommand extends Command
 
         // Change Owner
         if (isset($_SERVER['SUDO_USER'])) {
-            $user = fileowner(HOME);
-            $group = filegroup(HOME);
-            system("chown $user.$group -R " . DEPLOY);
+            Utility::chown(DEPLOY, fileowner(HOME), filegroup(HOME));
         }
     }
 }
