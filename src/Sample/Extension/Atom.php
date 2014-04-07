@@ -13,7 +13,7 @@ use NanoCLI\IO;
 class Atom extends Extension
 {
     /**
-     * Run Generator
+     * Run Extension
      */
     public function run()
     {

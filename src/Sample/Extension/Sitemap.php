@@ -13,7 +13,7 @@ use NanoCLI\IO;
 class Sitemap extends Extension
 {
     /**
-     * Run Generator
+     * Run Extension
      */
     public function run()
     {

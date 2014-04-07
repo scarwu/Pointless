@@ -39,21 +39,21 @@ trait ThemeTools
      */
     final protected function save($path, $data)
     {
-        $path = TEMP . "/$path";
+        $realpath = TEMP . "/$path";
 
-        if (!preg_match('/\.(html|xml)$/', $path)) {
-            if (!file_exists($path)) {
-                mkdir($path, 0755, true);
+        if (!preg_match('/\.(html|xml)$/', $realpath)) {
+            if (!file_exists($realpath)) {
+                mkdir($realpath, 0755, true);
             }
 
-            $path = "$path/index.html";
+            $realpath = "$realpath/index.html";
         } else {
-            if (!file_exists(dirname($path))) {
-                mkdir(dirname($path), 0755, true);
+            if (!file_exists(dirname($realpath))) {
+                mkdir(dirname($realpath), 0755, true);
             }
         }
 
-        file_put_contents($path, $data);
+        file_put_contents($realpath, $data);
 
         Resource::append('sitemap', $path);
     }
@@ -68,7 +68,10 @@ trait ThemeTools
     {
         if (file_exists(TEMP . "/$src")) {
             copy(TEMP . "/$src", TEMP . "/$dest");
-            Resource::append('sitemap', dirname($dest));
+
+            if ('.' !== ($path = dirname($dest))) {
+                Resource::append('sitemap', $path);
+            }
         }
     }
 }

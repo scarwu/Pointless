@@ -13,7 +13,7 @@ abstract class Extension
     use ThemeTools;
 
     /**
-     * Generate Data
+     * Run Extension
      */
     abstract public function run();
 }
