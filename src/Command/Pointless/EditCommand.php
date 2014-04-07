@@ -12,6 +12,8 @@ namespace Pointless;
 
 use NanoCLI\Command;
 use NanoCLI\IO;
+
+use Utility;
 use Resource;
 
 class EditCommand extends Command
@@ -23,10 +25,7 @@ class EditCommand extends Command
 
     public function help()
     {
-        IO::writeln('    edit <number or not>');
-        IO::writeln('               - Edit article');
-        IO::writeln('    edit -s <number or not>');
-        IO::writeln('               - Edit Static Page');
+        IO::writeln('    edit       - Edit post');
     }
 
     public function run()
@@ -44,6 +43,30 @@ class EditCommand extends Command
             return false;
         }
 
+        // Load Doctype
+        $type = [];
+        $handle = opendir(ROOT . '/Doctype');
+        while ($filename = readdir($handle)) {
+            if (!preg_match('/.php$/', $filename)) {
+                continue;
+            }
+
+            $filename = preg_replace('/.php$/', '', $filename);
+
+            require ROOT . "/Doctype/$filename.php";
+            $type[] = new $filename;
+        }
+        closedir($handle);
+
+        // Select Doctype
+        foreach ($type as $index => $class) {
+            IO::writeln(sprintf("[ %3d] ", $index) . $class->getName());
+        }
+        $select = IO::question("\nSelect Document Type:\n-> ", null, function ($answer) use ($type) {
+            return is_numeric($answer) && $answer >= 0 && $answer < count($type);
+        });
+
+        // Load Markdown
         $list = [];
         $handle = opendir(MARKDOWN);
         while ($filename = readdir($handle)) {
@@ -54,27 +77,15 @@ class EditCommand extends Command
             preg_match(REGEX_RULE, file_get_contents(MARKDOWN . "/$filename"), $match);
             $post = json_decode($match[1], true);
 
-            if ($this->hasOptions('s')) {
-                if ('static' !== $post['type']) {
-                    continue;
-                }
-
-                $index = $post['title'];
-
-                $list[$index]['publish'] = $post['publish'];
-                $list[$index]['msg'] = $post['title'];
-                $list[$index]['path'] = MARKDOWN . "/$filename";
-            } else {
-                if ('article' !== $post['type']) {
-                    continue;
-                }
-
-                $index = $post['date'] . $post['time'];
-
-                $list[$index]['publish'] = $post['publish'];
-                $list[$index]['msg'] = "{$post['date']} {$post['title']}";
-                $list[$index]['path'] = MARKDOWN . "/$filename";
+            if ($type[$select]->getID() !== $post['type']) {
+                continue;
             }
+
+            $index = $post['title'];
+
+            $list[$index]['publish'] = $post['publish'];
+            $list[$index]['title'] = $post['title'];
+            $list[$index]['path'] = MARKDOWN . "/$filename";
         }
         closedir($handle);
         uksort($list, 'strnatcasecmp');
@@ -85,42 +96,23 @@ class EditCommand extends Command
             return false;
         }
 
-        $number = $this->getNumber();
-        if ($number < 0 || $number >= count($list)) {
-            $number = null;
-        }
-
-        if (null === $number) {
-            $count = 0;
-            foreach ($list as $post) {
-                if ($post['publish']) {
-                    IO::writeln(sprintf("[ %3d] ", $count) . $post['msg']);
-                } else {
-                    IO::writeln(sprintf("[*%3d] ", $count) . $post['msg']);
-                }
-
-                $count++;
+        // Get Post Number
+        $count = 0;
+        foreach ($list as $post) {
+            if ($post['publish']) {
+                IO::writeln(sprintf("[ %3d] ", $count) . $post['title']);
+            } else {
+                IO::writeln(sprintf("[*%3d] ", $count) . $post['title']);
             }
 
-            $number = IO::question("\nEnter Number:\n-> ", null, function ($answer) use ($list) {
-                return is_numeric($answer) && $answer >= 0 && $answer < count($list);
-            });
+            $count++;
         }
+
+        $number = IO::question("\nEnter Number:\n-> ", null, function ($answer) use ($list) {
+            return is_numeric($answer) && $answer >= 0 && $answer < count($list);
+        });
 
         $path = $list[array_keys($list)[$number]]['path'];
         system("$editor $path < `tty` > `tty`");
-    }
-
-    private function getNumber()
-    {
-        if ($this->hasOptions('s')) {
-            return $this->getOptions('s');
-        }
-
-        if ($this->hasArguments()) {
-            return $this->getArguments()[0];
-        }
-
-        return null;
     }
 }

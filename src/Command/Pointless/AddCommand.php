@@ -25,7 +25,7 @@ class AddCommand extends Command
 
     public function help()
     {
-        IO::writeln('    add        - Add new page');
+        IO::writeln('    add        - Add new post');
     }
 
     public function run()
@@ -43,9 +43,9 @@ class AddCommand extends Command
             return false;
         }
 
-        // Load Page Type
+        // Load Doctype
         $type = [];
-        $handle = opendir(ROOT . '/Type');
+        $handle = opendir(ROOT . '/Doctype');
         while ($filename = readdir($handle)) {
             if (!preg_match('/.php$/', $filename)) {
                 continue;
@@ -53,41 +53,41 @@ class AddCommand extends Command
 
             $filename = preg_replace('/.php$/', '', $filename);
 
-            require ROOT . "/Type/$filename.php";
+            require ROOT . "/Doctype/$filename.php";
             $type[] = new $filename;
         }
         closedir($handle);
 
+        // Select Doctype
         foreach ($type as $index => $class) {
-            IO::writeln(sprintf("[%3d] ", $index) . $class->getName());
+            IO::writeln(sprintf("[ %3d] ", $index) . $class->getName());
         }
-
-        $number = IO::question("\nEnter Number:\n-> ", null, function ($answer) use ($type) {
+        $select = IO::question("\nSelect Document Type:\n-> ", null, function ($answer) use ($type) {
             return is_numeric($answer) && $answer >= 0 && $answer < count($type);
         });
 
-        // Ask question
-        $info = [];
-        foreach ($type[$number]->getQuestion() as $question) {
-            $info[$question[0]] = IO::question($question[1]);
+        // Ask Question
+        $post = [];
+        foreach ($type[$select]->getQuestion() as $question) {
+            $post[$question[0]] = IO::question($question[1]);
         }
 
         // Convert Encoding
         $encoding = Resource::get('config')['encoding'];
         if (null !== $encoding) {
-            foreach ($info as $key => $value) {
-                $info[$key] = iconv($encoding, 'utf-8', $value);
+            foreach ($post as $key => $value) {
+                $post[$key] = iconv($encoding, 'utf-8', $value);
             }
         }
 
-        $savepath = $type[$number]->save($info);
+        // Save Post
+        $savepath = $type[$select]->save($post);
         if (null === $savepath) {
-            IO::writeln($type[$number]->getName() . " $filename is exsist.");
+            IO::writeln($type[$select]->getName() . " $filename is exsist.");
             return false;
         }
 
-        IO::writeln($type[$number]->getName() . " $filename was created.");
-
+        IO::writeln($type[$select]->getName() . " $filename was created.");
         system("$editor $savepath < `tty` > `tty`");
     }
 }

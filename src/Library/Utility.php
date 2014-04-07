@@ -68,9 +68,9 @@ class Utility
 
             if (is_dir($path)) {
                 $handle = opendir($path);
-                while ($file = readdir($handle)) {
-                    if (!in_array($file, ['.', '..'])) {
-                        self::chown("$path/$file", $user, $group);
+                while ($filename = readdir($handle)) {
+                    if (!in_array($filename, ['.', '..'])) {
+                        self::chown("$path/$filename", $user, $group);
                     }
                 }
                 closedir($handle);
@@ -93,9 +93,9 @@ class Utility
                 }
 
                 $handle = opendir($src);
-                while ($file = readdir($handle)) {
-                    if (!in_array($file, ['.', '..', '.git'])) {
-                        self::copy("$src/$file", "$dest/$file");
+                while ($filename = readdir($handle)) {
+                    if (!in_array($filename, ['.', '..', '.git'])) {
+                        self::copy("$src/$filename", "$dest/$filename");
                     }
                 }
                 closedir($handle);
@@ -121,9 +121,9 @@ class Utility
         if (file_exists($path)) {
             if (is_dir($path)) {
                 $handle = opendir($path);
-                while ($file = readdir($handle)) {
-                    if (!in_array($file, ['.', '..', '.git'])) {
-                        self::remove("$path/$file");
+                while ($filename = readdir($handle)) {
+                    if (!in_array($filename, ['.', '..', '.git'])) {
+                        self::remove("$path/$filename");
                     }
                 }
                 closedir($handle);

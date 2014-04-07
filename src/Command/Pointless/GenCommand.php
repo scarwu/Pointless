@@ -150,18 +150,37 @@ class GenCommand extends Command
      */
     private function initResourcePool()
     {
-        $article = [];
-        $article_url = Resource::get('config')['article_url'];
-        $article_url = trim($article_url, '/');
+        // Load Doctype
+        $type = [];
+        $handle = opendir(ROOT . '/Doctype');
+        while ($filename = readdir($handle)) {
+            if (!preg_match('/.php$/', $filename)) {
+                continue;
+            }
 
-        // Handle Markdown
-        IO::writeln('Load and Initialize Markdown');
+            $filename = preg_replace('/.php$/', '', $filename);
+
+            require ROOT . "/Doctype/$filename.php";
+            $class = new $filename;
+            $type[$class->getID()] = $class;
+        }
+        closedir($handle);
+
+        // Read Directory
+        $filelist = [];
         $handle = opendir(MARKDOWN);
         while ($filename = readdir($handle)) {
             if (!preg_match('/.md$/', $filename)) {
                 continue;
             }
 
+            $filelist[] = $filename;
+        }
+        closedir($handle);
+        rsort($filelist);
+
+        // Load and Handle Markdown File
+        foreach ($filelist as $filename) {
             preg_match(REGEX_RULE, file_get_contents(MARKDOWN . "/$filename"), $match);
             $post = json_decode($match[1], true);
 
@@ -174,60 +193,17 @@ class GenCommand extends Command
                 continue;
             }
 
-            // Append Static Page
-            if ('static' === $post['type']) {
-                Resource::append('static', [
-                    'title' => $post['title'],
-                    'url' => $post['url'],
-                    'content' => MarkdownExtra::defaultTransform($match[2]),
-                    'message' => $post['message']
-                ]);
+            if (!isset($type[$post['type']])) {
+                continue;
             }
 
-            // Create Article
-            if ('article' === $post['type']) {
-                list($year, $month, $day) = explode('-', $post['date']);
-                list($hour, $minute, $second) = explode(':', $post['time']);
-                $timestamp = strtotime("$day-$month-$year {$post['time']}");
+            // Transfer Markdown to HTML
+            $post['content'] = MarkdownExtra::defaultTransform($match[2]);
 
-                // Generate custom url
-                $url = str_replace([
-                    ':year', ':month', ':day',
-                    ':hour', ':minute', ':second', ':timestamp',
-                    ':title', ':url'
-                ], [
-                    $year, $month, $day,
-                    $hour, $minute, $second, $timestamp,
-                    $post['title'], $post['url']
-                ], $article_url);
-
-                $post['tag'] = explode('|', $post['tag']);
-                sort($post['tag']);
-
-                $article[$timestamp] = [
-                    'title' => $post['title'],
-                    'url' => $url,
-                    'content' => MarkdownExtra::defaultTransform($match[2]),
-                    'date' => $post['date'],
-                    'time' => $post['time'],
-                    'category' => $post['category'],
-                    'keywords' => $post['keywords'],
-                    'tag' => $post['tag'],
-                    'year' => $year,
-                    'month' => $month,
-                    'day' => $day,
-                    'hour' => $hour,
-                    'minute' => $minute,
-                    'second' => $second,
-                    'timestamp' => $timestamp,
-                    'message' => $post['message']
-                ];
-            }
+            // Append Post to Resource Pool
+            $result = $type[$post['type']]->postHandle($post);
+            Resource::append($post['type'], $result);
         }
-        closedir($handle);
-
-        krsort($article);
-        Resource::set('article', $article);
     }
 
     /**

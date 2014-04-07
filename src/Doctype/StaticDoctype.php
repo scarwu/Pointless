@@ -1,6 +1,6 @@
 <?php
 /**
- * Static Page Document Type
+ * Static Document Type
  *
  * @package     Pointless
  * @author      ScarWu
@@ -8,7 +8,7 @@
  * @link        http://github.com/scarwu/Pointless
  */
 
-class StaticPage
+class StaticDoctype
 {
     private $id;
     private $name;
@@ -39,9 +39,9 @@ class StaticPage
         return $this->question;
     }
 
-    public function save($info)
+    public function save($post)
     {
-        $filename = Utility::pathReplace($info['url']);
+        $filename = Utility::pathReplace($post['url']);
         $filename = strtolower($filename);
         $filename = "static_$filename.md";
 
@@ -53,8 +53,8 @@ class StaticPage
 
         $json = json_encode([
             'type' => $this->id,
-            'title' => $info['title'],
-            'url' => Utility::pathReplace($info['url'], true),
+            'title' => $post['title'],
+            'url' => Utility::pathReplace($post['url'], true),
             'message' => false,
             'publish' => false
         ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
@@ -63,5 +63,15 @@ class StaticPage
         file_put_contents($savepath, "$json\n\n\n");
 
         return $savepath;
+    }
+
+    public function postHandle($post)
+    {
+        return [
+            'title' => $post['title'],
+            'url' => $post['url'],
+            'content' => $post['content'],
+            'message' => $post['message']
+        ];
     }
 }
