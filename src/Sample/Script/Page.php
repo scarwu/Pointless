@@ -10,15 +10,12 @@
 
 use NanoCLI\IO;
 
-class Page
+class Page extends ThemeScript
 {
-    /**
-     * @var array
-     */
-    private $list;
-
     public function __construct()
     {
+        parent::__construct();
+
         $this->list = Resource::get('article');
     }
 
@@ -57,29 +54,20 @@ class Page
             $ext['title'] = $blog['name'];
             $ext['url'] = $blog['dn'] . $blog['base'];
 
-            $container = bindData([
+            $block = Resource::get('block');
+            $block['container'] = $this->render([
                 'blog' => array_merge($blog, $ext),
                 'post' => $post
-            ], THEME . '/Template/container/page.php');
+            ], 'container/page.php');
 
-            $block = Resource::get('block');
-            $block['container'] = $container;
-
-            // Write HTML to Disk
-            $result = bindData([
+            // Save HTML
+            $this->save($post['url'], $this->render([
                 'blog' => array_merge($blog, $ext),
                 'block' => $block
-            ], THEME . '/Template/index.php');
-            writeTo($result, TEMP . "/{$post['url']}");
-
-            // Sitemap
-            Resource::append('sitemap', $post['url']);
+            ], 'index.php'));
         }
 
-        if (file_exists(TEMP . '/page/1/index.html')) {
-            copy(TEMP . '/page/1/index.html', TEMP . '/page/index.html');
-            copy(TEMP . '/page/1/index.html', TEMP . '/index.html');
-            Resource::append('sitemap', 'page');
-        }
+        $this->createIndex('page/1/index.html', 'page/index.html');
+        $this->createIndex('page/1/index.html', 'index.html');
     }
 }

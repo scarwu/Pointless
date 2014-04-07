@@ -8,14 +8,12 @@
  * @link        http://gTypeithub.com/scarwu/Pointless
  */
 
-class ArticleDoctype
+class ArticleDoctype extends Doctype
 {
-    private $id;
-    private $name;
-    private $question;
-
     public function __construct()
     {
+        parent::__construct();
+
         $this->id = 'article';
         $this->name = 'Blog Article';
         $this->question = [
@@ -26,53 +24,27 @@ class ArticleDoctype
         ];
     }
 
-    public function getID()
-    {
-        return $this->id;
-    }
-
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    public function getQuestion()
-    {
-        return $this->question;
-    }
-
-    public function save($post)
+    public function headerHandleAndSave($header)
     {
         $time = time();
-        $filename = Utility::pathReplace($post['url']);
+        $filename = Utility::pathReplace($header['url']);
         $filename = date("Ymd_", $time) . "$filename.md";
 
-        $savepath = MARKDOWN . "/$filename";
-
-        if (file_exists($savepath)) {
-            return false;
-        }
-
-        $json = json_encode([
+        $this->save($filename, [
             'type' => $this->id,
-            'title' => $post['title'],
-            'url' => Utility::pathReplace($post['url']),
-            'tag' => $post['tag'],
-            'category' => $post['category'],
+            'title' => $header['title'],
+            'url' => Utility::pathReplace($header['url']),
+            'tag' => $header['tag'],
+            'category' => $header['category'],
             'keywords' => null,
             'date' => date("Y-m-d", $time),
             'time' => date("H:i:s", $time),
             'message' => true,
             'publish' => false
-        ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-
-        // Create Markdown
-        file_put_contents($savepath, "$json\n\n\n");
-
-        return $savepath;
+        ]);
     }
 
-    public function postHandle($post)
+    public function postHandleAndGetResult($post)
     {
         $format = Resource::get('config')['article_url'];
         $format = trim($format, '/');

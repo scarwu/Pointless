@@ -67,21 +67,23 @@ class AddCommand extends Command
         });
 
         // Ask Question
-        $post = [];
+        $header = [];
         foreach ($type[$select]->getQuestion() as $question) {
-            $post[$question[0]] = IO::question($question[1]);
+            $header[$question[0]] = IO::question($question[1]);
         }
 
         // Convert Encoding
         $encoding = Resource::get('config')['encoding'];
         if (null !== $encoding) {
-            foreach ($post as $key => $value) {
-                $post[$key] = iconv($encoding, 'utf-8', $value);
+            foreach ($header as $key => $value) {
+                $header[$key] = iconv($encoding, 'utf-8', $value);
             }
         }
 
-        // Save Post
-        $savepath = $type[$select]->save($post);
+        // Save Header
+        $type[$select]->headerHandleAndSave($header);
+        $savepath = $type[$select]->getSavepath();
+        $filename = $type[$select]->getFilename();
         if (null === $savepath) {
             IO::writeln($type[$select]->getName() . " $filename is exsist.");
             return false;

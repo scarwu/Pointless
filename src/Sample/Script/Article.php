@@ -10,15 +10,12 @@
 
 use NanoCLI\IO;
 
-class Article
+class Article extends ThemeScript
 {
-    /**
-     * @var array
-     */
-    private $list;
-
     public function __construct()
     {
+        parent::__construct();
+
         $this->list = Resource::get('article');
     }
 
@@ -67,23 +64,17 @@ class Article
             $ext['keywords'] = "{$blog['keywords']},{$post['keywords']}";
             $ext['url'] = $blog['dn'] . $blog['base'];
 
-            $container = bindData([
+            $block = Resource::get('block');
+            $block['container'] = $this->render([
                 'blog' => array_merge($blog, $ext),
                 'post' => $post
-            ], THEME . '/Template/container/article.php');
+            ], 'container/article.php');
 
-            $block = Resource::get('block');
-            $block['container'] = $container;
-
-            // Write HTML to Disk
-            $result = bindData([
+            // Save HTML
+            $this->save($post['url'], $this->render([
                 'blog' => array_merge($blog, $ext),
                 'block' => $block
-            ], THEME . '/Template/index.php');
-            writeTo($result, TEMP . "/{$post['url']}");
-
-            // Sitemap
-            Resource::append('sitemap', $post['url']);
+            ], 'index.php'));
         }
     }
 }

@@ -10,7 +10,7 @@
 
 use NanoCLI\IO;
 
-class Atom
+class Atom extends Extension
 {
     /**
      * Run Generator
@@ -72,7 +72,7 @@ class Atom
 
         $atom .= "</feed>";
 
-        writeTo($atom, TEMP . '/atom.xml');
+        $this->save('atom.xml', $atom);
     }
 
     /**

@@ -10,16 +10,11 @@
 
 use NanoCLI\IO;
 
-class Tag
+class Tag extends ThemeScript
 {
-    /**
-     * @var array
-     */
-    private $list;
-
     public function __construct()
     {
-        $this->list = [];
+        parent::__construct();
 
         foreach (Resource::get('article') as $value) {
             foreach ($value['tag'] as $tag) {
@@ -100,29 +95,20 @@ class Tag
             $ext['title'] = "{$post['title']} | {$blog['name']}";
             $ext['url'] = $blog['dn'] . $blog['base'];
 
-            $container = bindData([
+            $block = Resource::get('block');
+            $block['container'] = $this->render([
                 'blog' => array_merge($blog, $ext),
                 'post' => $post
-            ], THEME . '/Template/container/tag.php');
+            ], 'container/tag.php');
 
-            $block = Resource::get('block');
-            $block['container'] = $container;
-
-            // Write HTML to Disk
-            $result = bindData([
+            // Save HTML
+            $this->save($post['url'], $this->render([
                 'blog' => array_merge($blog, $ext),
                 'block' => $block
-            ], THEME . '/Template/index.php');
-            writeTo($result, TEMP . "/{$post['url']}");
-
-            // Sitemap
-            Resource::append('sitemap', $post['url']);
+            ], 'index.php'));
         }
 
-        if (file_exists(TEMP . "/tag/$first/index.html")) {
-            copy(TEMP . "/tag/$first/index.html", TEMP . '/tag/index.html');
-            Resource::append('sitemap', 'tag');
-        }
+        $this->createIndex("/tag/$first/index.html", 'tag/index.html');
     }
 
     private function createDateList($list)

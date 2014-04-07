@@ -8,14 +8,12 @@
  * @link        http://github.com/scarwu/Pointless
  */
 
-class StaticDoctype
+class StaticDoctype extends Doctype
 {
-    private $id;
-    private $name;
-    private $question;
-
     public function __construct()
     {
+        parent::__construct();
+
         $this->id = 'static';
         $this->name = 'Static Page';
         $this->question = [
@@ -24,48 +22,22 @@ class StaticDoctype
         ];
     }
 
-    public function getID()
+    public function headerHandleAndSave($header)
     {
-        return $this->id;
-    }
-
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    public function getQuestion()
-    {
-        return $this->question;
-    }
-
-    public function save($post)
-    {
-        $filename = Utility::pathReplace($post['url']);
+        $filename = Utility::pathReplace($header['url']);
         $filename = strtolower($filename);
         $filename = "static_$filename.md";
 
-        $savepath = MARKDOWN . "/$filename";
-
-        if (file_exists($savepath)) {
-            return false;
-        }
-
-        $json = json_encode([
+        $this->save($filename, [
             'type' => $this->id,
-            'title' => $post['title'],
-            'url' => Utility::pathReplace($post['url'], true),
+            'title' => $header['title'],
+            'url' => Utility::pathReplace($header['url'], true),
             'message' => false,
             'publish' => false
-        ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-
-        // Create Markdown
-        file_put_contents($savepath, "$json\n\n\n");
-
-        return $savepath;
+        ]);
     }
 
-    public function postHandle($post)
+    public function postHandleAndGetResult($post)
     {
         return [
             'title' => $post['title'],

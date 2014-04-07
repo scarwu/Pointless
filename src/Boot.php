@@ -69,6 +69,14 @@ require VENDOR . '/autoload.php';
 NanoCLI\Loader::set('Pointless', ROOT . '/Command');
 NanoCLI\Loader::register();
 
+// Require Core Classes
+// require ROOT . '/Class/LimitedCommand.php';
+// require ROOT . '/Class/PostCommand.php';
+require ROOT . '/Class/Doctype.php';
+require ROOT . '/Class/ThemeTools.php';
+require ROOT . '/Class/ThemeScript.php';
+require ROOT . '/Class/Extension.php';
+
 // Run Pointless Command
 $pointless = new Pointless();
 $pointless->init();

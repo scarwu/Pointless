@@ -100,7 +100,6 @@ class GenCommand extends Command
 
         // Create Github CNAME
         if ($github['cname']) {
-            IO::writeln('Create Github CNAME ...', 'yellow');
             file_put_contents(TEMP . '/CNAME', $blog['dn']);
         }
 
@@ -201,7 +200,7 @@ class GenCommand extends Command
             $post['content'] = MarkdownExtra::defaultTransform($match[2]);
 
             // Append Post to Resource Pool
-            $result = $type[$post['type']]->postHandle($post);
+            $result = $type[$post['type']]->postHandleAndGetResult($post);
             Resource::append($post['type'], $result);
         }
     }

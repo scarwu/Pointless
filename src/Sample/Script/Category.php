@@ -10,16 +10,11 @@
 
 use NanoCLI\IO;
 
-class Category
+class Category extends ThemeScript
 {
-    /**
-     * @var array
-     */
-    private $list;
-
     public function __construct()
     {
-        $this->list = [];
+        parent::__construct();
 
         foreach (Resource::get('article') as $value) {
             if (!isset($this->list[$value['category']]))
@@ -97,29 +92,20 @@ class Category
             $ext['title'] = "{$post['title']} | {$blog['name']}";
             $ext['url'] = $blog['dn'] . $blog['base'];
 
-            $container = bindData([
+            $block = Resource::get('block');
+            $block['container'] = $this->render([
                 'blog' => array_merge($blog, $ext),
                 'post' => $post
-            ], THEME . '/Template/container/category.php');
+            ], 'container/category.php');
 
-            $block = Resource::get('block');
-            $block['container'] = $container;
-
-            // Write HTML to Disk
-            $result = bindData([
+            // Save HTML
+            $this->save($post['url'], $this->render([
                 'blog' => array_merge($blog, $ext),
                 'block' => $block
-            ], THEME . '/Template/index.php');
-            writeTo($result, TEMP . "/{$post['url']}");
-
-            // Sitemap
-            Resource::append('sitemap', $post['url']);
+            ], 'index.php'));
         }
 
-        if (file_exists(TEMP . "/category/$first/index.html")) {
-            copy(TEMP . "/category/$first/index.html", TEMP . "/category/index.html");
-            Resource::append('sitemap', 'category');
-        }
+        $this->createIndex("category/$first/index.html", 'category/index.html');
     }
 
     private function createDateList($list)

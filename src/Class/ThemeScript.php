@@ -1,6 +1,6 @@
 <?php
 /**
- * Pointless Command
+ * Data Generator Script for Theme
  *
  * @package     Pointless
  * @author      ScarWu
@@ -8,18 +8,22 @@
  * @link        http://github.com/scarwu/Pointless
  */
 
-use NanoCLI\Command;
-
-class Pointless extends Command
+abstract class ThemeScript
 {
+    use ThemeTools;
+
+    /**
+     * @var array
+     */
+    protected $list;
+
     public function __construct()
     {
-        parent::__construct();
+        $this->list = [];
     }
 
-    public function run()
-    {
-        $help = new Pointless\HelpCommand();
-        $help->run();
-    }
+    /**
+     * Generate Data
+     */
+    abstract public function gen();
 }
