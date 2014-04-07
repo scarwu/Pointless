@@ -44,18 +44,12 @@ function writeTo($data, $path)
 
         $path = "$path/index.html";
     } else {
-        $segments = explode('/', $path);
-        array_pop($segments);
-
-        $dirpath = implode($segments, '/');
-        if (!file_exists($dirpath)) {
-            mkdir($dirpath, 0755, true);
+        if (!file_exists(dirname($path))) {
+            mkdir(dirname($path), 0755, true);
         }
     }
 
-    $handle = fopen($path, 'w+');
-    fwrite($handle, $data);
-    fclose($handle);
+    file_put_contents($path, $data);
 }
 
 /**

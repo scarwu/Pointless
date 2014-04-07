@@ -248,7 +248,7 @@ class GenCommand extends Command
             $css_pack->append(THEME . "/Css/$filename.css");
         }
 
-        $css_pack->save(TEMP . '/theme/main.css');
+        $css_pack->save(TEMP . '/theme/main.css', true);
     }
 
     /**
@@ -269,6 +269,6 @@ class GenCommand extends Command
             $js_pack->append(THEME . "/Js/$filename.js");
         }
 
-        $js_pack->save(TEMP . '/theme/main.js');
+        $js_pack->save(TEMP . '/theme/main.js', false);
     }
 }

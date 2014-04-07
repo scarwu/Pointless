@@ -12,6 +12,8 @@ namespace Pointless;
 
 use NanoCLI\Command;
 use NanoCLI\IO;
+
+use Utility;
 use Resource;
 
 class AddCommand extends Command
@@ -23,8 +25,7 @@ class AddCommand extends Command
 
     public function help()
     {
-        IO::writeln('    add        - Add new article');
-        IO::writeln('    add -s     - Add new Static Page');
+        IO::writeln('    add        - Add new page');
     }
 
     public function run()
@@ -42,14 +43,33 @@ class AddCommand extends Command
             return false;
         }
 
-        $info = [
-            'title' => IO::question("Enter Title:\n-> "),
-            'url' => IO::question("Enter Custom Url:\n-> ")
-        ];
+        // Load Page Type
+        $type = [];
+        $handle = opendir(ROOT . '/Type');
+        while ($filename = readdir($handle)) {
+            if (!preg_match('/.php$/', $filename)) {
+                continue;
+            }
 
-        if (!$this->hasOptions('s')) {
-            $info['tag'] = IO::question("Enter Tag:\n-> ");
-            $info['category'] = IO::question("Enter Category:\n-> ");
+            $filename = preg_replace('/.php$/', '', $filename);
+
+            require ROOT . "/Type/$filename.php";
+            $type[] = new $filename;
+        }
+        closedir($handle);
+
+        foreach ($type as $index => $class) {
+            IO::writeln(sprintf("[%3d] ", $index) . $class->getName());
+        }
+
+        $number = IO::question("\nEnter Number:\n-> ", null, function ($answer) use ($type) {
+            return is_numeric($answer) && $answer >= 0 && $answer < count($type);
+        });
+
+        // Ask question
+        $info = [];
+        foreach ($type[$number]->getQuestion() as $question) {
+            $info[$question[0]] = IO::question($question[1]);
         }
 
         // Convert Encoding
@@ -60,80 +80,14 @@ class AddCommand extends Command
             }
         }
 
-        if ($this->hasOptions('s')) {
-            $filename = $this->replace($info['url']);
-            $filename = strtolower($filename);
-            $filename = "static_$filename.md";
-            $filepath = MARKDOWN . "/$filename";
-
-            if (file_exists($filepath)) {
-                IO::writeln("\nStatic Page $filename is exsist.");
-
-                return false;
-            }
-
-            $json = json_encode([
-                'type' => 'static',
-                'title' => $info['title'],
-                'url' => $this->replace($info['url'], true),
-                'message' => false,
-                'publish' => false
-            ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-
-            // Create Markdown
-            file_put_contents($filepath, "$json\n\n\n");
-
-            IO::writeln("\nStatic Page $filename was created.");
-            system("$editor $filepath < `tty` > `tty`");
-        } else {
-            $time = time();
-            $filename = $this->replace($info['url']);
-            $filename = date("Ymd_", $time) . "$filename.md";
-            $filepath = MARKDOWN . "/$filename";
-
-            if (file_exists($filepath)) {
-                IO::writeln("\nArticle $filename is exsist.");
-
-                return false;
-            }
-
-            $json = json_encode([
-                'type' => 'article',
-                'title' => $info['title'],
-                'url' => $this->replace($info['url']),
-                'tag' => $info['tag'],
-                'category' => $info['category'],
-                'keywords' => null,
-                'date' => date("Y-m-d", $time),
-                'time' => date("H:i:s", $time),
-                'message' => true,
-                'publish' => false
-            ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-
-            // Create Markdown
-            file_put_contents($filepath, "$json\n\n\n");
-
-            IO::writeln("\nArticle $filename is created.");
-            system("$editor $filepath < `tty` > `tty`");
-        }
-    }
-
-    private function replace($filename, $skip = false)
-    {
-        $char = [
-            "'", '"', '&', '$', '=',
-            '!', '?', '<', '>', '|',
-            '(', ')', ':', ';', '@',
-            '#', '%', '^', '*', ',',
-            '~', '`', '\\'
-        ];
-
-        if (!$skip) {
-            $filename = str_replace(['.', '/'], '-', $filename);
+        $savepath = $type[$number]->save($info);
+        if (null === $savepath) {
+            IO::writeln($type[$number]->getName() . " $filename is exsist.");
+            return false;
         }
 
-        $filename = str_replace($char, '', $filename);
+        IO::writeln($type[$number]->getName() . " $filename was created.");
 
-        return stripslashes($filename);
+        system("$editor $savepath < `tty` > `tty`");
     }
 }

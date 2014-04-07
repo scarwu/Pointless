@@ -11,12 +11,38 @@
 class Utility
 {
     /**
+     * Path Replace
+     *
+     * @param string
+     * @param boolean
+     * @return string
+     */
+    public static function pathReplace($filename, $skip = false)
+    {
+        $char = [
+            "'", '"', '&', '$', '=',
+            '!', '?', '<', '>', '|',
+            '(', ')', ':', ';', '@',
+            '#', '%', '^', '*', ',',
+            '~', '`', '\\'
+        ];
+
+        if (!$skip) {
+            $filename = str_replace(['.', '/'], '-', $filename);
+        }
+
+        $filename = str_replace($char, '', $filename);
+
+        return stripslashes($filename);
+    }
+
+    /**
      * Command Exists
      *
      * @param string
      * @return boolean
      */
-    static public function commandExists($command)
+    public static function commandExists($command)
     {
         foreach (explode(':', $_SERVER['PATH']) as $path) {
             if (file_exists("$path/$command")) {
@@ -34,7 +60,7 @@ class Utility
      * @param string
      * @param string
      */
-    static public function chown($path, $user, $group)
+    public static function chown($path, $user, $group)
     {
         if (file_exists($path)) {
             chown($path, $user);
@@ -58,7 +84,7 @@ class Utility
      * @param string
      * @param string
      */
-    static public function copy($src, $dest)
+    public static function copy($src, $dest)
     {
         if (file_exists($src)) {
             if (is_dir($src)) {
@@ -90,7 +116,7 @@ class Utility
      * @param string
      * @return boolean
      */
-    static public function remove($path = null, $self = null)
+    public static function remove($path = null, $self = null)
     {
         if (file_exists($path)) {
             if (is_dir($path)) {
