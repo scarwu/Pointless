@@ -18,14 +18,9 @@ use Resource;
 
 class AddCommand extends Command
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function help()
     {
-        IO::writeln('    add        - Add new post');
+        IO::log('    add        - Add new post');
     }
 
     public function run()
@@ -39,7 +34,7 @@ class AddCommand extends Command
         // Check System Command
         $editor = Resource::get('config')['editor'];
         if (!Utility::commandExists($editor)) {
-            IO::writeln("System command \"$editor\" is not found.", 'red');
+            IO::error("System command \"$editor\" is not found.");
             return false;
         }
 
@@ -60,16 +55,16 @@ class AddCommand extends Command
 
         // Select Doctype
         foreach ($type as $index => $class) {
-            IO::writeln(sprintf("[ %3d] ", $index) . $class->getName());
+            IO::log(sprintf("[ %3d] ", $index) . $class->getName());
         }
-        $select = IO::question("\nSelect Document Type:\n-> ", null, function ($answer) use ($type) {
+        $select = IO::ask("\nSelect Document Type:\n-> ", function ($answer) use ($type) {
             return is_numeric($answer) && $answer >= 0 && $answer < count($type);
         });
 
         // Ask Question
         $header = [];
         foreach ($type[$select]->getQuestion() as $question) {
-            $header[$question[0]] = IO::question($question[1]);
+            $header[$question[0]] = IO::ask($question[1]);
         }
 
         // Convert Encoding
@@ -81,15 +76,13 @@ class AddCommand extends Command
         }
 
         // Save Header
-        $type[$select]->headerHandleAndSave($header);
-        $savepath = $type[$select]->getSavepath();
-        $filename = $type[$select]->getFilename();
+        list($filename, $savepath) = $type[$select]->headerHandleAndSave($header);
         if (null === $savepath) {
-            IO::writeln($type[$select]->getName() . " $filename is exsist.");
+            IO::error($type[$select]->getName() . " $filename is exsist.");
             return false;
         }
 
-        IO::writeln($type[$select]->getName() . " $filename was created.");
+        IO::notice($type[$select]->getName() . " $filename was created.");
         system("$editor $savepath < `tty` > `tty`");
     }
 }

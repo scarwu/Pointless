@@ -33,7 +33,7 @@ class Article extends ThemeScript
         $blog = Resource::get('config')['blog'];
 
         foreach ((array) $this->list as $post) {
-            IO::writeln("Building article/{$post['url']}");
+            IO::log("Building article/{$post['url']}");
 
             $post['url'] = "article/{$post['url']}";
             $post['bar']['index'] = $count + 1;

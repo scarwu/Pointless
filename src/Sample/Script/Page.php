@@ -32,7 +32,7 @@ class Page extends ThemeScript
         $blog = Resource::get('config')['blog'];
 
         for ($index = 1;$index <= $total;$index++) {
-            IO::writeln("Building page/$index");
+            IO::log("Building page/$index");
 
             $post = [];
             $post['url'] = "page/$index";

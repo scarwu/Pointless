@@ -29,7 +29,7 @@ class StaticPage extends ThemeScript
         $blog = Resource::get('config')['blog'];
 
         foreach ((array) $this->list as $post) {
-            IO::writeln("Building {$post['url']}");
+            IO::log("Building {$post['url']}");
 
             $ext = [];
             $ext['title'] = "{$post['title']} | {$blog['name']}";

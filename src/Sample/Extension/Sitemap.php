@@ -17,7 +17,7 @@ class Sitemap extends Extension
      */
     public function run()
     {
-        IO::writeln('Building Sitemap');
+        IO::log('Building Sitemap');
 
         $blog = Resource::get('config')['blog'];
         $blog['url'] = $blog['dn'] . $blog['base'];

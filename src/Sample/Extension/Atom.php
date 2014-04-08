@@ -17,7 +17,7 @@ class Atom extends Extension
      */
     public function run()
     {
-        IO::writeln('Building Atom');
+        IO::log('Building Atom');
 
         $quantity = Resource::get('config')['feed_quantity'];
         $blog = Resource::get('config')['blog'];

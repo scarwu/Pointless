@@ -23,16 +23,11 @@ use ExtensionLoader;
 
 class GenCommand extends Command
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function help()
     {
-        IO::writeln('    gen        - Generate blog');
-        IO::writeln('    gen -css   - Compress CSS');
-        IO::writeln('    gen -js    - Compress JavaScript');
+        IO::log('    gen        - Generate blog');
+        IO::log('    gen -css   - Compress CSS');
+        IO::log('    gen -js    - Compress JavaScript');
     }
 
     public function run()
@@ -61,13 +56,13 @@ class GenCommand extends Command
                 unlink(TEMP . '/theme/main.css');
             }
 
-            IO::writeln('Compress Assets ...', 'yellow');
+            IO::notice('Compress Assets ...', 'yellow');
 
-            IO::writeln('Compressing CSS');
+            IO::log('Compressing CSS');
             $this->CSSCompress();
 
             $time = sprintf("%.3f", abs(microtime(true) - $start));
-            IO::writeln("Generate finish, $time s.", 'green');
+            IO::info("Generate finish, $time s.");
 
             return true;
         }
@@ -77,13 +72,13 @@ class GenCommand extends Command
                 unlink(TEMP . '/main.js');
             }
 
-            IO::writeln('Compress Assets ...', 'yellow');
+            IO::notice('Compress Assets ...');
 
-            IO::writeln('Compressing Javascript');
+            IO::log('Compressing Javascript');
             $this->JSCompress();
 
             $time = sprintf("%.3f", abs(microtime(true) - $start));
-            IO::writeln("Generate finish, $time s.", 'green');
+            IO::info("Generate finish, $time s.");
 
             return true;
         }
@@ -91,7 +86,7 @@ class GenCommand extends Command
         $start_mem = memory_get_usage();
 
         // Clear Public Files
-        IO::writeln('Clean Public Files ...', 'yellow');
+        IO::notice('Clean Public Files ...');
         Utility::remove(TEMP, TEMP);
 
         // Create README
@@ -104,7 +99,7 @@ class GenCommand extends Command
         }
 
         // Copy Resource Files
-        IO::writeln('Copy Resource Files ...', 'yellow');
+        IO::notice('Copy Resource Files ...');
         Utility::copy(RESOURCE, TEMP);
 
         if (file_exists(THEME . '/Resource')) {
@@ -112,31 +107,31 @@ class GenCommand extends Command
         }
 
         // Compress Assets
-        IO::writeln('Compress Assets ...', 'yellow');
+        IO::notice('Compress Assets ...');
 
-        IO::writeln('Compressing CSS');
+        IO::log('Compressing CSS');
         $this->CSSCompress();
 
-        IO::writeln('Compressing Javascript');
+        IO::log('Compressing Javascript');
         $this->JSCompress();
 
         // Initialize Resource Pool
-        IO::writeln('Initialize Resource Pool ...', 'yellow');
+        IO::notice('Initialize Resource Pool ...');
         $this->initResourcePool();
 
         // Generate HTML Pages
-        IO::writeln('Generating HTML ...', 'yellow');
+        IO::notice('Generating HTML ...');
         $html = new HTMLGenerator();
         $html->run();
 
         // Generate Extension
-        IO::writeln('Generating Extensions ...', 'yellow');
+        IO::notice('Generating Extensions ...');
         $extension = new ExtensionLoader();
         $extension->run();
 
         $time = sprintf("%.3f", abs(microtime(true) - $start));
         $mem = sprintf("%.3f", abs(memory_get_usage() - $start_mem) / 1024);
-        IO::writeln("Generate finish, $time s and memory usage $mem kb.", 'green');
+        IO::info("Generate finish, $time s and memory usage $mem kb.");
 
         // Change Owner
         if (isset($_SERVER['SUDO_USER'])) {
@@ -184,7 +179,7 @@ class GenCommand extends Command
             $post = json_decode($match[1], true);
 
             if (null === $post) {
-                IO::writeln("Attribute Error: $filename", 'red');
+                IO::error("Attribute Error: $filename");
                 exit(1);
             }
 
@@ -216,7 +211,7 @@ class GenCommand extends Command
             $filename = preg_replace('/.css$/', '', $filename);
 
             if (!file_exists(THEME . "/Css/$filename.css")) {
-                IO::writeln("CSS file \"$filename.css\" not found.", 'red');
+                IO::warning("CSS file \"$filename.css\" not found.");
                 continue;
             }
 
@@ -237,7 +232,7 @@ class GenCommand extends Command
             $filename = preg_replace('/.js$/', '', $filename);
 
             if (!file_exists(THEME . "/Js/$filename.js")) {
-                IO::writeln("Javascript file \"$filename.js\" not found.", 'red');
+                IO::warning("Javascript file \"$filename.js\" not found.");
                 continue;
             }
 

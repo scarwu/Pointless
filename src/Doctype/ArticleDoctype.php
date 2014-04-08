@@ -30,7 +30,7 @@ class ArticleDoctype extends Doctype
         $filename = Utility::pathReplace($header['url']);
         $filename = date("Ymd_", $time) . "$filename.md";
 
-        $this->save($filename, [
+        return $this->save($filename, [
             'type' => $this->id,
             'title' => $header['title'],
             'url' => Utility::pathReplace($header['url']),

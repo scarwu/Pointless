@@ -60,7 +60,7 @@ class Category extends ThemeScript
         $blog = Resource::get('config')['blog'];
 
         foreach ((array) $this->list as $index => $post_list) {
-            IO::writeln("Building category/$index");
+            IO::log("Building category/$index");
             if (null === $first) {
                 $first = $index;
             }

@@ -13,16 +13,12 @@ abstract class Doctype
     protected $id;
     protected $name;
     protected $question;
-    protected $savepath;
-    protected $filename;
 
     protected function __construct()
     {
         $this->id = null;
         $this->name = null;
         $this->question = [];
-        $this->savepath = null;
-        $this->filename = null;
     }
 
     abstract public function headerHandleAndSave($header);
@@ -44,23 +40,12 @@ abstract class Doctype
         return $this->question;
     }
 
-    final public function getSavepath()
-    {
-        return $this->savepath;
-    }
-
-    final public function getFilename()
-    {
-        return $this->filename;
-    }
-
     final public function save($filename, $post)
     {
-        $this->filename = $filename;
         $savepath = MARKDOWN . "/$filename";
 
         if (file_exists($savepath)) {
-            return false;
+            return [$filename, null];
         }
 
         // Convert to JSON
@@ -72,6 +57,6 @@ abstract class Doctype
 
         $this->savepath = $savepath;
 
-        return true;
+        return [$filename, $savepath];
     }
 }

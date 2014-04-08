@@ -18,24 +18,21 @@ function checkDefaultBlog()
     $msg = 'Default blog is\'t set. Please use command "home -s" or "home -i".';
 
     if (!file_exists(HOME . '/Default')) {
-        IO::writeln($msg, 'red');
-
+        IO::error($msg);
         return false;
     }
 
     $path = file_get_contents(HOME . '/Default');
 
     if ('' === $path) {
-        IO::writeln($msg, 'red');
-
+        IO::error($msg);
         return false;
     }
 
     if (!file_exists($path) || !file_exists("$path/.pointless")) {
         file_put_contents(HOME . '/defualt', '');
 
-        IO::writeln($msg, 'red');
-
+        IO::error($msg);
         return false;
     }
 

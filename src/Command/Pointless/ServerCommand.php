@@ -15,16 +15,11 @@ use NanoCLI\IO;
 
 class ServerCommand extends Command
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function help()
     {
-        IO::writeln('    server     - Start built-in web server');
-        IO::writeln('    --port=<port number>');
-        IO::writeln('               - Set port number');
+        IO::log('    server     - Start built-in web server');
+        IO::log('    --port=<port number>');
+        IO::log('               - Set port number');
     }
 
     public function run()

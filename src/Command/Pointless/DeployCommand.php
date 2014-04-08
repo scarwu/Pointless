@@ -18,14 +18,9 @@ use Resource;
 
 class DeployCommand extends Command
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function help()
     {
-        IO::writeln('    deploy     - Deploy blog to Github');
+        IO::log('    deploy     - Deploy blog to Github');
     }
 
     public function run()
@@ -38,7 +33,7 @@ class DeployCommand extends Command
 
         // Check System Command
         if (!Utility::commandExists('git')) {
-            IO::writeln("System command \"git\" is not found.", 'red');
+            IO::error('System command "git" is not found.');
             return false;
         }
 
@@ -49,8 +44,7 @@ class DeployCommand extends Command
         $branch = $github['branch'];
 
         if (null === $account || null === $repo || null === $branch) {
-            IO::writeln('Please add Github setting in Pointless config.', 'red');
-
+            IO::error('Please add Github setting in Pointless config.');
             return false;
         }
 

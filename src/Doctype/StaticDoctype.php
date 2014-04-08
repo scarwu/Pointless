@@ -28,7 +28,7 @@ class StaticDoctype extends Doctype
         $filename = strtolower($filename);
         $filename = "static_$filename.md";
 
-        $this->save($filename, [
+        return $this->save($filename, [
             'type' => $this->id,
             'title' => $header['title'],
             'url' => Utility::pathReplace($header['url'], true),

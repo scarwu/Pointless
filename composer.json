@@ -1,7 +1,7 @@
 {
     "require": {
         "scarwu/pack": "dev-master",
-        "scarwu/nanocli": "0.5.*",
+        "scarwu/nanocli": "dev-master",
         "michelf/php-markdown": "1.4.*"
     }
 }

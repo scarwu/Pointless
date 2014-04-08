@@ -16,23 +16,18 @@ use Exception;
 
 class HelpCommand extends Command
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function help()
     {
-        IO::writeln('    home       - Init and switch default blog');
-        IO::writeln('    gen        - Generate blog');
-        IO::writeln('    add        - Add new post');
-        IO::writeln('    edit       - Edit post');
-        IO::writeln('    delete     - Delete post');
-        IO::writeln('    server     - Start built-in web server');
-        IO::writeln('    config     - Modify config');
-        IO::writeln('    deploy     - Deploy blog to Github');
-        IO::writeln('    update     - Self-update');
-        IO::writeln('    version    - Show version');
+        IO::log('    home       - Init and switch default blog');
+        IO::log('    gen        - Generate blog');
+        IO::log('    add        - Add new post');
+        IO::log('    edit       - Edit post');
+        IO::log('    delete     - Delete post');
+        IO::log('    server     - Start built-in web server');
+        IO::log('    config     - Modify config');
+        IO::log('    deploy     - Deploy blog to Github');
+        IO::log('    update     - Self-update');
+        IO::log('    version    - Show version');
     }
 
     public function run()
@@ -48,7 +43,7 @@ class HelpCommand extends Command
 
 EOF;
 
-        IO::writeln($pointless, 'green');
+        IO::notice($pointless);
         if ($this->hasArguments()) {
             $command = $this->getArguments(0);
 
@@ -57,7 +52,7 @@ EOF;
                 $class = new $class_name();
                 $class->help();
             } catch (Exception $e) {
-                IO::writeln("    No description for $command.", 'red');
+                IO::error("    No description for $command.");
             }
         } else {
             $this->help();

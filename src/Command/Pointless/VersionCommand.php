@@ -15,14 +15,9 @@ use NanoCLI\IO;
 
 class VersionCommand extends Command
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function help()
     {
-        IO::writeln('    version    - Show version');
+        IO::log('    version    - Show version');
     }
 
     public function run()
@@ -34,6 +29,6 @@ class VersionCommand extends Command
             $version = BUILD_VERSION . " ($date)";
         }
 
-        IO::writeln($version);
+        IO::info($version);
     }
 }

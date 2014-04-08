@@ -53,7 +53,7 @@ class Archive extends ThemeScript
         $blog = Resource::get('config')['blog'];
 
         foreach ((array) $this->list as $index => $post_list) {
-            IO::writeln("Building archive/$index");
+            IO::log("Building archive/$index");
             if (null === $first) {
                 $first = $index;
             }

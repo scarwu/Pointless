@@ -63,7 +63,7 @@ class Tag extends ThemeScript
         $blog = Resource::get('config')['blog'];
 
         foreach ((array) $this->list as $index => $post_list) {
-            IO::writeln("Building tag/$index");
+            IO::log("Building tag/$index");
             if (null === $first) {
                 $first = $index;
             }

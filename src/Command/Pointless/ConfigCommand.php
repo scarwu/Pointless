@@ -18,14 +18,9 @@ use Resource;
 
 class ConfigCommand extends Command
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function help()
     {
-        IO::writeln('    config     - Modify config');
+        IO::log('    config     - Modify config');
     }
 
     public function run()
@@ -39,7 +34,7 @@ class ConfigCommand extends Command
         // Check System Command
         $editor = Resource::get('config')['editor'];
         if (!Utility::commandExists($editor)) {
-            IO::writeln("System command \"$editor\" is not found.", 'red');
+            IO::error("System command \"$editor\" is not found.");
             return false;
         }
 
