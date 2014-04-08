@@ -56,9 +56,7 @@ class GenCommand extends Command
                 unlink(TEMP . '/theme/main.css');
             }
 
-            IO::notice('Compress Assets ...', 'yellow');
-
-            IO::log('Compressing CSS');
+            IO::notice('Compress Assets ...');
             $this->CSSCompress();
 
             $time = sprintf("%.3f", abs(microtime(true) - $start));
@@ -73,8 +71,6 @@ class GenCommand extends Command
             }
 
             IO::notice('Compress Assets ...');
-
-            IO::log('Compressing Javascript');
             $this->JSCompress();
 
             $time = sprintf("%.3f", abs(microtime(true) - $start));
@@ -108,11 +104,7 @@ class GenCommand extends Command
 
         // Compress Assets
         IO::notice('Compress Assets ...');
-
-        IO::log('Compressing CSS');
         $this->CSSCompress();
-
-        IO::log('Compressing Javascript');
         $this->JSCompress();
 
         // Initialize Resource Pool
@@ -179,7 +171,7 @@ class GenCommand extends Command
             $post = json_decode($match[1], true);
 
             if (null === $post) {
-                IO::error("Attribute Error: $filename");
+                IO::error("Post header error: $filename");
                 exit(1);
             }
 
@@ -205,6 +197,8 @@ class GenCommand extends Command
      */
     private function CSSCompress()
     {
+        IO::log('Compressing CSS');
+
         $css_pack = new CSS();
 
         foreach ((array) Resource::get('theme')['css'] as $filename) {
@@ -226,6 +220,8 @@ class GenCommand extends Command
      */
     private function JSCompress()
     {
+        IO::log('Compressing Javascript');
+
         $js_pack = new CSS();
 
         foreach ((array) Resource::get('theme')['js'] as $filename) {

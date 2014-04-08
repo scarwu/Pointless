@@ -1,6 +1,6 @@
 <?php
 /**
- * Pointless Initianlize Home Command
+ * Pointless Initialize Home Command
  *
  * @package     Pointless
  * @author      ScarWu
@@ -42,7 +42,7 @@ class InitCommand extends Command
 
         initBlog();
 
-        IO::notice("Blog is initialized.");
+        IO::notice('Blog is initialized.');
         IO::notice("Default blog is setting to path \"$path\".");
     }
 

@@ -18,14 +18,14 @@ class HelpCommand extends Command
 {
     public function help()
     {
-        IO::log('    home       - Init and switch default blog');
+        IO::log('    home       - Initialize and set default blog');
         IO::log('    gen        - Generate blog');
         IO::log('    add        - Add new post');
         IO::log('    edit       - Edit post');
         IO::log('    delete     - Delete post');
         IO::log('    server     - Start built-in web server');
         IO::log('    config     - Modify config');
-        IO::log('    deploy     - Deploy blog to Github');
+        IO::log('    deploy     - Deploy blog');
         IO::log('    update     - Self-update');
         IO::log('    version    - Show version');
     }
@@ -45,15 +45,35 @@ EOF;
 
         IO::notice($pointless);
         if ($this->hasArguments()) {
-            $command = $this->getArguments(0);
+            $prefix = 'Pointless';
+            $arguments = $this->getArguments();
 
-            try {
-                $class_name = 'Pointless\\' . ucfirst($command) . 'Command';
-                $class = new $class_name();
-                $class->help();
-            } catch (Exception $e) {
-                IO::error("    No description for $command.");
+            $command = [];
+
+            while ($arguments) {
+                if (!preg_match('/^\w+/', $arguments[0])) {
+                    break;
+                }
+
+                $command[] = $arguments[0];
+                $class_name = ucfirst($arguments[0]);
+                $class_name = "$prefix\\$class_name";
+
+                try {
+                    if (class_exists("{$class_name}Command")) {
+                        $prefix = $class_name;
+                        array_shift($arguments);
+                    }
+                } catch (Exception $e) {
+                    $command = implode($command, ' ');
+                    IO::error("    No description for \"$command\".");
+                    return false;
+                }
             }
+
+            $class_name = $prefix . 'Command';
+            $class = new $class_name;
+            $class->help();
         } else {
             $this->help();
         }

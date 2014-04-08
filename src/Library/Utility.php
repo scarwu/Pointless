@@ -10,6 +10,8 @@
 
 class Utility
 {
+    private function __construct() {}
+
     /**
      * Path Replace
      *
