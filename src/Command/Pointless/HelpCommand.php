@@ -12,6 +12,7 @@ namespace Pointless;
 
 use NanoCLI\Command;
 use NanoCLI\IO;
+
 use Exception;
 
 class HelpCommand extends Command
@@ -44,10 +45,11 @@ class HelpCommand extends Command
 EOF;
 
         IO::notice($pointless);
-        if ($this->hasArguments()) {
-            $prefix = 'Pointless';
-            $arguments = $this->getArguments();
 
+        $prefix = 'Pointless';
+
+        if ($this->hasArguments()) {
+            $arguments = $this->getArguments();
             $command = [];
 
             while ($arguments) {
@@ -69,12 +71,14 @@ EOF;
                     IO::error("    No description for \"$command\".");
                     return false;
                 }
-            }
+            }   
+        }
 
+        try {
             $class_name = $prefix . 'Command';
             $class = new $class_name;
             $class->help();
-        } else {
+        } catch (Exception $e) {
             $this->help();
         }
     }
