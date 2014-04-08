@@ -48,7 +48,7 @@ class DeleteCommand extends Command
         foreach ($type as $index => $class) {
             IO::log(sprintf("[ %3d] ", $index) . $class->getName());
         }
-        $select = IO::ask("\nSelect Document Type:\n-> ", null, function ($answer) use ($type) {
+        $select = IO::ask("\nSelect Document Type:\n-> ", function ($answer) use ($type) {
             return is_numeric($answer) && $answer >= 0 && $answer < count($type);
         });
 

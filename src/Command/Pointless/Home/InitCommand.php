@@ -48,12 +48,14 @@ class InitCommand extends Command
 
     private function getPath()
     {
+        $path = '';
+
         if ($this->getArguments(0)) {
             $path = $this->getArguments(0);
         }
 
         if (!preg_match('/^\/(.+)/', $path)) {
-            $path = getcwd() . "/$path";
+            $path = getcwd() . ('' !== $path ? "/$path" : $path);
         }
 
         return $path;
