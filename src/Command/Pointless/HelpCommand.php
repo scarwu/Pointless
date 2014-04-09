@@ -53,7 +53,7 @@ EOF;
             $command = [];
 
             while ($arguments) {
-                if (!preg_match('/^\w+/', $arguments[0])) {
+                if (!preg_match('/^[a-zA-Z]+/', $arguments[0])) {
                     break;
                 }
 
@@ -74,11 +74,11 @@ EOF;
             }   
         }
 
-        try {
+        if (count(explode("\\", $prefix)) > 1) {
             $class_name = $prefix . 'Command';
             $class = new $class_name;
             $class->help();
-        } catch (Exception $e) {
+        } else {
             $this->help();
         }
     }
