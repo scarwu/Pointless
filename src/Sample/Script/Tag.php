@@ -16,7 +16,7 @@ class Tag extends ThemeScript
     {
         parent::__construct();
 
-        foreach (Resource::get('article') as $value) {
+        foreach (Resource::get('post')['article'] as $value) {
             foreach ($value['tag'] as $tag) {
                 if (!isset($this->list[$tag])) {
                     $this->list[$tag] = [];

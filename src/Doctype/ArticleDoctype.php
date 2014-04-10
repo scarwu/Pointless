@@ -46,7 +46,7 @@ class ArticleDoctype extends Doctype
 
     public function postHandleAndGetResult($post)
     {
-        $format = Resource::get('config')['article_url'];
+        $format = Resource::get('config')['post']['article']['format'];
         $format = trim($format, '/');
 
         list($year, $month, $day) = explode('-', $post['date']);

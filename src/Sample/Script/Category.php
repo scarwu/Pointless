@@ -16,7 +16,7 @@ class Category extends ThemeScript
     {
         parent::__construct();
 
-        foreach (Resource::get('article') as $value) {
+        foreach (Resource::get('post')['article'] as $value) {
             if (!isset($this->list[$value['category']]))
                 $this->list[$value['category']] = [];
 

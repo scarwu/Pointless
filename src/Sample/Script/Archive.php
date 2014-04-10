@@ -16,7 +16,7 @@ class Archive extends ThemeScript
     {
         parent::__construct();
 
-        foreach (Resource::get('article') as $index => $value) {
+        foreach ((array) Resource::get('post')['article'] as $index => $value) {
             if (!isset($this->list[$value['year']])) {
                 $this->list[$value['year']] = [];
             }

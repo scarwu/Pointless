@@ -19,7 +19,7 @@ class Atom extends Extension
     {
         IO::log('Building Atom');
 
-        $quantity = Resource::get('config')['feed_quantity'];
+        $quantity = Resource::get('config')['extension']['atom']['quantity'];
         $blog = Resource::get('config')['blog'];
         $blog['url'] = $blog['dn'] . $blog['base'];
 
@@ -50,7 +50,7 @@ class Atom extends Extension
             $atom .= "\t</author>\n";
         }
 
-        foreach ((array) Resource::get('article') as $article) {
+        foreach ((array) Resource::get('post')['article'] as $article) {
             $title = $article['title'];
             $url = "{$blog['url']}article/{$article['url']}";
             $uuid = $this->uuid($url);

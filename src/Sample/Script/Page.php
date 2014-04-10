@@ -16,7 +16,7 @@ class Page extends ThemeScript
     {
         parent::__construct();
 
-        $this->list = Resource::get('article');
+        $this->list = Resource::get('post')['article'];
     }
 
     /**
@@ -26,7 +26,7 @@ class Page extends ThemeScript
      */
     public function gen()
     {
-        $quantity = Resource::get('config')['article_quantity'];
+        $quantity = Resource::get('config')['post']['article']['quantity'];
         $total = ceil(count($this->list) / $quantity);
 
         $blog = Resource::get('config')['blog'];

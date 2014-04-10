@@ -37,7 +37,8 @@ class DeployCommand extends Command
             return false;
         }
 
-        $github = Resource::get('config')['github'];
+        $blog = Resource::get('config')['blog'];
+        $github = Resource::get('config')['deploy']['github'];
 
         $account = $github['account'];
         $repo = $github['repo'];
@@ -59,6 +60,11 @@ class DeployCommand extends Command
 
         Utility::remove(DEPLOY, DEPLOY);
         Utility::copy(TEMP, DEPLOY);
+
+        // Create Github CNAME
+        if ($github['cname']) {
+            file_put_contents(DEPLOY . '/CNAME', $blog['dn']);
+        }
 
         system('git add --all .');
         system(sprintf('git commit -m "%s"', date(DATE_RSS)));

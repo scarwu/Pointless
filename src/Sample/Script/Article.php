@@ -16,7 +16,7 @@ class Article extends ThemeScript
     {
         parent::__construct();
 
-        $this->list = Resource::get('article');
+        $this->list = Resource::get('post')['article'];
     }
 
     /**

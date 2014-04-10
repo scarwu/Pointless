@@ -16,7 +16,7 @@ class StaticPage extends ThemeScript
     {
         parent::__construct();
 
-        $this->list = Resource::get('static');
+        $this->list = Resource::get('post')['static'];
     }
 
     /**

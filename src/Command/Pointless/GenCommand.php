@@ -47,7 +47,6 @@ class GenCommand extends Command
         Resource::set('theme', $theme);
 
         $blog = Resource::get('config')['blog'];
-        $github = Resource::get('config')['github'];
 
         $start = microtime(true);
 
@@ -88,11 +87,6 @@ class GenCommand extends Command
         // Create README
         $readme = '[Powered by Pointless](https://github.com/scarwu/Pointless)';
         file_put_contents(TEMP . '/README.md', $readme);
-
-        // Create Github CNAME
-        if ($github['cname']) {
-            file_put_contents(TEMP . '/CNAME', $blog['dn']);
-        }
 
         // Copy Resource Files
         IO::notice('Copy Resource Files ...');
@@ -166,6 +160,7 @@ class GenCommand extends Command
         rsort($filelist);
 
         // Load and Handle Markdown File
+        $result = [];
         foreach ($filelist as $filename) {
             preg_match(REGEX_RULE, file_get_contents(MARKDOWN . "/$filename"), $match);
             $post = json_decode($match[1], true);
@@ -186,10 +181,14 @@ class GenCommand extends Command
             // Transfer Markdown to HTML
             $post['content'] = MarkdownExtra::defaultTransform($match[2]);
 
-            // Append Post to Resource Pool
-            $result = $type[$post['type']]->postHandleAndGetResult($post);
-            Resource::append($post['type'], $result);
+            // Append Post to Reselt
+            if (!isset($result[$post['type']])) {
+                $result[$post['type']] = [];
+            }
+            $result[$post['type']][] = $type[$post['type']]->postHandleAndGetResult($post);
         }
+
+        Resource::set('post', $result);
     }
 
     /**
