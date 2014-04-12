@@ -1,6 +1,6 @@
 <?php
 /**
- * Pointless Command
+ * Extension
  *
  * @package     Pointless
  * @author      ScarWu
@@ -8,13 +8,12 @@
  * @link        http://github.com/scarwu/Pointless
  */
 
-use NanoCLI\Command;
-
-class Pointless extends Command
+abstract class Extension
 {
-    public function run()
-    {
-        $help = new Pointless\HelpCommand();
-        $help->run();
-    }
+    use ThemeTools;
+
+    /**
+     * Run Extension
+     */
+    abstract public function run();
 }

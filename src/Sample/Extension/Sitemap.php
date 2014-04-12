@@ -10,14 +10,14 @@
 
 use NanoCLI\IO;
 
-class Sitemap
+class Sitemap extends Extension
 {
     /**
-     * Run Generator
+     * Run Extension
      */
     public function run()
     {
-        IO::writeln('Building Sitemap');
+        IO::log('Building Sitemap');
 
         $blog = Resource::get('config')['blog'];
         $blog['url'] = $blog['dn'] . $blog['base'];
@@ -34,6 +34,6 @@ class Sitemap
         $sitemap .= sprintf($format, $blog['url'], '', date(DATE_ATOM));
         $sitemap .= "</urlset>";
 
-        writeTo($sitemap, TEMP . '/sitemap.xml');
+        $this->save('sitemap.xml', $sitemap);
     }
 }

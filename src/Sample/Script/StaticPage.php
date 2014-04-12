@@ -10,16 +10,13 @@
 
 use NanoCLI\IO;
 
-class StaticPage
+class StaticPage extends ThemeScript
 {
-    /**
-     * @var array
-     */
-    private $list;
-
     public function __construct()
     {
-        $this->list = Resource::get('static');
+        parent::__construct();
+
+        $this->list = Resource::get('post')['static'];
     }
 
     /**
@@ -32,29 +29,23 @@ class StaticPage
         $blog = Resource::get('config')['blog'];
 
         foreach ((array) $this->list as $post) {
-            IO::writeln("Building {$post['url']}");
+            IO::log("Building {$post['url']}");
 
             $ext = [];
             $ext['title'] = "{$post['title']} | {$blog['name']}";
             $ext['url'] = $blog['dn'] . $blog['base'];
 
-            $container = bindData([
+            $block = Resource::get('block');
+            $block['container'] = $this->render([
                 'blog' => array_merge($blog, $ext),
                 'post' => $post
-            ], THEME . '/Template/container/static_page.php');
+            ], 'container/static_page.php');
 
-            $block = Resource::get('block');
-            $block['container'] = $container;
-
-            // Write HTML to Disk
-            $result = bindData([
+            // Save HTML
+            $this->save($post['url'], $this->render([
                 'blog' => array_merge($blog, $ext),
                 'block' => $block
-            ], THEME . '/Template/index.php');
-            writeTo($result, TEMP . "/{$post['url']}");
-
-            // Sitemap
-            Resource::append('sitemap', $post['url']);
+            ], 'index.php'));
         }
     }
 }

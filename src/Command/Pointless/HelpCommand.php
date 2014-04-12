@@ -12,27 +12,23 @@ namespace Pointless;
 
 use NanoCLI\Command;
 use NanoCLI\IO;
+
 use Exception;
 
 class HelpCommand extends Command
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function help()
     {
-        IO::writeln('    home       - Init and switch default blog');
-        IO::writeln('    gen        - Generate blog');
-        IO::writeln('    add        - Add new article');
-        IO::writeln('    edit       - Edit article');
-        IO::writeln('    delete     - Delete article');
-        IO::writeln('    server     - Start built-in web server');
-        IO::writeln('    config     - Modify config');
-        IO::writeln('    deploy     - Deploy blog to Github');
-        IO::writeln('    update     - Self-update');
-        IO::writeln('    version    - Show version');
+        IO::log('    home       - Initialize and set default blog');
+        IO::log('    gen        - Generate blog');
+        IO::log('    add        - Add new post');
+        IO::log('    edit       - Edit post');
+        IO::log('    delete     - Delete post');
+        IO::log('    server     - Start built-in web server');
+        IO::log('    config     - Modify config');
+        IO::log('    deploy     - Deploy blog');
+        IO::log('    update     - Self-update');
+        IO::log('    version    - Show version');
     }
 
     public function run()
@@ -48,17 +44,41 @@ class HelpCommand extends Command
 
 EOF;
 
-        IO::writeln($pointless, 'green');
-        if ($this->hasArguments()) {
-            $command = $this->getArguments(0);
+        IO::notice($pointless);
 
-            try {
-                $class_name = 'Pointless\\' . ucfirst($command) . 'Command';
-                $class = new $class_name();
-                $class->help();
-            } catch (Exception $e) {
-                IO::writeln("    No description for $command.", 'red');
+        $prefix = 'Pointless';
+
+        if ($this->hasArguments()) {
+            $arguments = $this->getArguments();
+            $command = [];
+
+            while ($arguments) {
+                if (!preg_match('/^[a-zA-Z]+/', $arguments[0])) {
+                    break;
+                }
+
+                $command[] = $arguments[0];
+                $class_name = ucfirst($arguments[0]);
+                $class_name = "$prefix\\$class_name";
+
+                try {
+                    if (class_exists("{$class_name}Command")) {
+                        $prefix = $class_name;
+                        array_shift($arguments);
+                    }
+                } catch (Exception $e) {
+                    $command = implode($command, ' ');
+                    IO::error("    No description for \"$command\".");
+
+                    return false;
+                }
             }
+        }
+
+        if (count(explode("\\", $prefix)) > 1) {
+            $class_name = $prefix . 'Command';
+            $class = new $class_name;
+            $class->help();
         } else {
             $this->help();
         }

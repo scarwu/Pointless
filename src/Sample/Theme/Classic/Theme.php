@@ -24,5 +24,9 @@ $theme = [
         'Archive',
         'Category',
         'Tag'
+    ],
+    'extension' => [
+        'Atom',
+        'Sitemap'
     ]
 ];

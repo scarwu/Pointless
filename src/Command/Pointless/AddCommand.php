@@ -12,22 +12,20 @@ namespace Pointless;
 
 use NanoCLI\Command;
 use NanoCLI\IO;
+
+use Utility;
 use Resource;
 
 class AddCommand extends Command
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
+    private $editor;
 
     public function help()
     {
-        IO::writeln('    add        - Add new article');
-        IO::writeln('    add -s     - Add new Static Page');
+        IO::log('    add        - Add new post');
     }
 
-    public function run()
+    public function up()
     {
         if (!checkDefaultBlog()) {
             return false;
@@ -35,99 +33,64 @@ class AddCommand extends Command
 
         initBlog();
 
-        $encoding = Resource::get('config')['encoding'];
-        $editor = Resource::get('config')['editor'];
+        $this->editor = Resource::get('config')['editor'];
+        if (!Utility::commandExists($this->editor)) {
+            IO::error("System command \"$this->editor\" is not found.");
 
-        $info = [
-            'title' => IO::question("Enter Title:\n-> "),
-            'url' => IO::question("Enter Custom Url:\n-> ")
-        ];
-
-        if (!$this->hasOptions('s')) {
-            $info['tag'] = IO::question("Enter Tag:\n-> ");
-            $info['category'] = IO::question("Enter Category:\n-> ");
-        }
-
-        if (null !== $encoding) {
-            foreach ($info as $key => $value) {
-                $info[$key] = iconv($encoding, 'utf-8', $value);
-            }
-        }
-
-        if ($this->hasOptions('s')) {
-            $filename = $this->replace($info['url']);
-            $filename = strtolower($filename);
-            $filename = "static_$filename.md";
-            $filepath = MARKDOWN . "/$filename";
-
-            if (file_exists($filepath)) {
-                IO::writeln("\nStatic Page $filename is exsist.");
-
-                return false;
-            }
-
-            $json = json_encode([
-                'type' => 'static',
-                'title' => $info['title'],
-                'url' => $this->replace($info['url'], true),
-                'message' => false,
-                'publish' => false
-            ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-
-            // Create Markdown
-            file_put_contents($filepath, "$json\n\n\n");
-
-            IO::writeln("\nStatic Page $filename was created.");
-            system("$editor $filepath < `tty` > `tty`");
-        } else {
-            $time = time();
-            $filename = $this->replace($info['url']);
-            $filename = date("Ymd_", $time) . "$filename.md";
-            $filepath = MARKDOWN . "/$filename";
-
-            if (file_exists($filepath)) {
-                IO::writeln("\nArticle $filename is exsist.");
-
-                return false;
-            }
-
-            $json = json_encode([
-                'type' => 'article',
-                'title' => $info['title'],
-                'url' => $this->replace($info['url']),
-                'tag' => $info['tag'],
-                'category' => $info['category'],
-                'keywords' => null,
-                'date' => date("Y-m-d", $time),
-                'time' => date("H:i:s", $time),
-                'message' => true,
-                'publish' => false
-            ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-
-            // Create Markdown
-            file_put_contents($filepath, "$json\n\n\n");
-
-            IO::writeln("\nArticle $filename is created.");
-            system("$editor $filepath < `tty` > `tty`");
+            return false;
         }
     }
 
-    private function replace($filename, $skip = false)
+    public function run()
     {
-        $char = [
-            "'", '"', '&', '$', '=',
-            '!', '?', '<', '>', '|',
-            '(', ')', ':', ';', '@',
-            '#', '%', '^', '*', ',',
-            '~', '`', '\\'
-        ];
+        // Load Doctype
+        $type = [];
+        $handle = opendir(ROOT . '/Doctype');
+        while ($filename = readdir($handle)) {
+            if (!preg_match('/.php$/', $filename)) {
+                continue;
+            }
 
-        if (!$skip) {
-            $filename = str_replace(['.', '/'], '-', $filename);
+            $filename = preg_replace('/.php$/', '', $filename);
+
+            require ROOT . "/Doctype/$filename.php";
+            $type[] = new $filename;
+        }
+        closedir($handle);
+
+        // Select Doctype
+        foreach ($type as $index => $class) {
+            IO::log(sprintf("[ %3d] ", $index) . $class->getName());
+        }
+        $select = IO::ask("\nSelect Document Type:\n-> ", function ($answer) use ($type) {
+            return is_numeric($answer) && $answer >= 0 && $answer < count($type);
+        });
+
+        IO::writeln();
+
+        // Ask Question
+        $header = [];
+        foreach ($type[$select]->getQuestion() as $question) {
+            $header[$question[0]] = IO::ask($question[1]);
         }
 
-        $filename = str_replace($char, '', $filename);
+        // Convert Encoding
+        $encoding = Resource::get('config')['encoding'];
+        if (null !== $encoding) {
+            foreach ($header as $key => $value) {
+                $header[$key] = iconv($encoding, 'utf-8', $value);
+            }
+        }
 
-        return stripslashes($filename);
+        // Save Header
+        list($filename, $savepath) = $type[$select]->headerHandleAndSave($header);
+        if (null === $savepath) {
+            IO::error($type[$select]->getName() . " $filename is exsist.");
+
+            return false;
+        }
+
+        IO::notice($type[$select]->getName() . " $filename was created.");
+        system("$this->editor $savepath < `tty` > `tty`");
     }
 }

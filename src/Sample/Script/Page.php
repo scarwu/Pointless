@@ -10,16 +10,13 @@
 
 use NanoCLI\IO;
 
-class Page
+class Page extends ThemeScript
 {
-    /**
-     * @var array
-     */
-    private $list;
-
     public function __construct()
     {
-        $this->list = Resource::get('article');
+        parent::__construct();
+
+        $this->list = Resource::get('post')['article'];
     }
 
     /**
@@ -29,13 +26,13 @@ class Page
      */
     public function gen()
     {
-        $quantity = Resource::get('config')['article_quantity'];
+        $quantity = Resource::get('config')['post']['article']['quantity'];
         $total = ceil(count($this->list) / $quantity);
 
         $blog = Resource::get('config')['blog'];
 
         for ($index = 1;$index <= $total;$index++) {
-            IO::writeln("Building page/$index");
+            IO::log("Building page/$index");
 
             $post = [];
             $post['url'] = "page/$index";
@@ -57,29 +54,20 @@ class Page
             $ext['title'] = $blog['name'];
             $ext['url'] = $blog['dn'] . $blog['base'];
 
-            $container = bindData([
+            $block = Resource::get('block');
+            $block['container'] = $this->render([
                 'blog' => array_merge($blog, $ext),
                 'post' => $post
-            ], THEME . '/Template/container/page.php');
+            ], 'container/page.php');
 
-            $block = Resource::get('block');
-            $block['container'] = $container;
-
-            // Write HTML to Disk
-            $result = bindData([
+            // Save HTML
+            $this->save($post['url'], $this->render([
                 'blog' => array_merge($blog, $ext),
                 'block' => $block
-            ], THEME . '/Template/index.php');
-            writeTo($result, TEMP . "/{$post['url']}");
-
-            // Sitemap
-            Resource::append('sitemap', $post['url']);
+            ], 'index.php'));
         }
 
-        if (file_exists(TEMP . '/page/1/index.html')) {
-            copy(TEMP . '/page/1/index.html', TEMP . '/page/index.html');
-            copy(TEMP . '/page/1/index.html', TEMP . '/index.html');
-            Resource::append('sitemap', 'page');
-        }
+        $this->createIndex('page/1/index.html', 'page/index.html');
+        $this->createIndex('page/1/index.html', 'index.html');
     }
 }

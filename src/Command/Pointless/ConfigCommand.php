@@ -12,21 +12,20 @@ namespace Pointless;
 
 use NanoCLI\Command;
 use NanoCLI\IO;
+
+use Utility;
 use Resource;
 
 class ConfigCommand extends Command
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
+    private $editor;
 
     public function help()
     {
-        IO::writeln('    config     - Modify config');
+        IO::log('    config     - Modify config');
     }
 
-    public function run()
+    public function up()
     {
         if (!checkDefaultBlog()) {
             return false;
@@ -34,9 +33,17 @@ class ConfigCommand extends Command
 
         initBlog();
 
-        $editor = Resource::get('config')['editor'];
-        $filepath = BLOG . '/Config.php';
+        $this->editor = Resource::get('config')['editor'];
+        if (!Utility::commandExists($this->editor)) {
+            IO::error("System command \"$this->editor\" is not found.");
 
-        system("$editor $filepath < `tty` > `tty`");
+            return false;
+        }
+    }
+
+    public function run()
+    {
+        $filepath = BLOG . '/Config.php';
+        system("$this->editor $filepath < `tty` > `tty`");
     }
 }

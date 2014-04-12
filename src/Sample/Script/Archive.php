@@ -10,18 +10,13 @@
 
 use NanoCLI\IO;
 
-class Archive
+class Archive extends ThemeScript
 {
-    /**
-     * @var array
-     */
-    private $list;
-
     public function __construct()
     {
-        $this->list = [];
+        parent::__construct();
 
-        foreach (Resource::get('article') as $index => $value) {
+        foreach ((array) Resource::get('post')['article'] as $index => $value) {
             if (!isset($this->list[$value['year']])) {
                 $this->list[$value['year']] = [];
             }
@@ -58,7 +53,7 @@ class Archive
         $blog = Resource::get('config')['blog'];
 
         foreach ((array) $this->list as $index => $post_list) {
-            IO::writeln("Building archive/$index");
+            IO::log("Building archive/$index");
             if (null === $first) {
                 $first = $index;
             }
@@ -90,33 +85,24 @@ class Archive
             $ext['title'] = "{$post['title']} | {$blog['name']}";
             $ext['url'] = $blog['dn'] . $blog['base'];
 
-            $container = bindData([
+            $block = Resource::get('block');
+            $block['container'] = $this->render([
                 'blog' => array_merge($blog, $ext),
                 'post' => $post
-            ], THEME . '/Template/container/archive.php');
-
-            $block = Resource::get('block');
-            $block['container'] = $container;
+            ], 'container/archive.php');
 
             $data = [];
             $data['blog'] = array_merge($blog, $ext);
             $data['block'] = $block;
 
-            // Write HTML to Disk
-            $result = bindData([
+            // Save HTML
+            $this->save($post['url'], $this->render([
                 'blog' => array_merge($blog, $ext),
                 'block' => $block
-            ], THEME . '/Template/index.php');
-            writeTo($result, TEMP . "/{$post['url']}");
-
-            // Sitemap
-            Resource::append('sitemap', $post['url']);
+            ], 'index.php'));
         }
 
-        if (file_exists(TEMP . "/archive/$first/index.html")) {
-            copy(TEMP . "/archive/$first/index.html", TEMP . '/archive/index.html');
-            Resource::append('sitemap', 'archive');
-        }
+        $this->createIndex("archive/$first/index.html", 'archive/index.html');
     }
 
     private function createDateList($list)

@@ -15,25 +15,20 @@ use NanoCLI\IO;
 
 class VersionCommand extends Command
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function help()
     {
-        IO::writeln('    version    - Show version');
+        IO::log('    version    - Show version');
     }
 
     public function run()
     {
-        $version = 'v0.0.0 dev';
+        $version = 'v0.0.0-dev';
 
         if (defined('BUILD_VERSION')) {
             $date = date(DATE_RSS, BUILD_TIMESTAMP);
             $version = BUILD_VERSION . " ($date)";
         }
 
-        IO::writeln($version);
+        IO::info($version);
     }
 }

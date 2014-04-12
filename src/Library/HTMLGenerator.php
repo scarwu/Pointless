@@ -10,6 +10,8 @@
 
 class HTMLGenerator
 {
+    use ThemeTools;
+
     /**
      * @var array
      */
@@ -87,8 +89,8 @@ class HTMLGenerator
                         $data = $this->script[$script]->$method();
                     }
                 }
-                
-                $result .= bindData($data, THEME . "/Template/$blockname/$filename.php");
+
+                $result .= $this->render($data, "$blockname/$filename.php");
             }
 
             if (null !== $result) {

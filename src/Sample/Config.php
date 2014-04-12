@@ -3,7 +3,7 @@ $config = [
     'blog' => [
         'name' => 'Pointless',
         'slogan' => 'A Useful Static Blog Generator',
-        'footer' => 'Powerd By Pointless',
+        'footer' => 'Powered By Pointless',
         'description' => '',
         'keywords' => '',
 
@@ -22,27 +22,32 @@ $config = [
     'theme' => 'Classic',
 
     'extension' => [
-        'Atom',
-        'Sitemap'
+        'atom' => [
+            'quantity' => 5
+        ]
     ],
 
-    'feed_quantity' => 5,
-    'article_quantity' => 5,
+    'post' => [
+        'article' => [
+            // :year, :month, :day
+            // :hour, :minute, :second, :timestamp
+            // :title, :url
+            'format' => ':year/:month/:day/:url',
+            'quantity' => 5,
+        ]
+    ],
 
-    // :year, :month, :day
-    // :hour, :minute, :second, :timestamp
-    // :title, :url
-    'article_url' => ':year/:month/:day/:url',
+    'deploy' => [
+        'github' => [
+            'account' => null,
+            'repo' => null,
+            'branch' => null,
+            'cname' => false
+        ]
+    ],
 
     // Reference: http://php.net/manual/en/timezones.php
     'timezone' => 'Etc/UTC',
-
-    'github' => [
-        'account' => null,
-        'repo' => null,
-        'branch' => null,
-        'cname' => false
-    ],
 
     // Reference: http://php.net/manual/en/function.iconv.php
     // Big5 | GBK | other => UTF-8

@@ -11,27 +11,50 @@
 
 $root = realpath(dirname(__FILE__) . '/..');
 
+include "$root/src/Library/Utility.php";
+
 $version = trim(file_get_contents("$root/VERSION"));
 
 $stub = file_get_contents("$root/script/stub.php");
 $stub = sprintf($stub, $version, time());
 
-$regex = str_replace('/', '\/', $root);
-$regex = "/^$regex\/(vendor|src)/";
+// Auto update vendor
+chdir($root);
+
+if (file_exists("$root/vendor")) {
+    system('composer update');
+} else {
+    system('composer install');
+}
+
+// Copy File to tmp
+if (file_exists("$root/tmp")) {
+    Utility::remove("$root/tmp");
+}
+
+foreach ([
+    'src',
+    'vendor/autoload.php',
+    'vendor/composer',
+    'vendor/scarwu/pack/src',
+    'vendor/scarwu/nanocli/src',
+    'vendor/michelf/php-markdown/Michelf'
+] as $path) {
+    Utility::copy("$root/$path", "$root/tmp/$path");
+}
 
 // Clear Phar
-if (file_exists("$root/bin/poi'")) {
-    unlink("$root/bin/poi");
+if (file_exists("$root/poi.phar")) {
+    unlink("$root/poi.phar");
 }
 
 // Create Phar
-$phar = new Phar("$root/bin/poi.phar");
+$phar = new Phar("$root/poi.phar");
 $phar->setAlias('poi.phar');
 $phar->setStub($stub);
-$phar->buildFromDirectory($root, $regex);
+$phar->buildFromDirectory("$root/tmp");
 $phar->compressFiles(Phar::GZ);
 $phar->stopBuffering();
 
 // Setting Phar is Executable
-chmod("$root/bin/poi.phar", 0755);
-rename("$root/bin/poi.phar", "$root/bin/poi");
+chmod("$root/poi.phar", 0755);

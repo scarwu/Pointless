@@ -13,28 +13,40 @@ namespace Pointless;
 use NanoCLI\Command;
 use NanoCLI\IO;
 
+use Utility;
+
 class UpdateCommand extends Command
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function help()
     {
-        IO::writeln('    update     - Self-update');
-        IO::writeln('    update -d  - Use development version');
-        IO::writeln('    update -e  - Use experipment version');
+        IO::log('    update     - Self-update');
+        IO::log('    update -d  - Use development version');
+        IO::log('    update -e  - Use experipment version');
     }
 
-    public function run()
+    public function up()
     {
         if (!defined('BUILD_TIMESTAMP')) {
-            IO::writeln('Development version can not be updated.', 'red');
+            IO::error('Development version can not be updated.');
 
             return false;
         }
 
+        if (!Utility::commandExists('wget')) {
+            IO::error('System command "wget" is not found.');
+
+            return false;
+        }
+
+        if (!is_writable(BIN_LOCATE)) {
+            IO::error('Permission denied: ' . BIN_LOCATE);
+
+            return false;
+        }
+    }
+
+    public function run()
+    {
         $branch = 'master';
 
         if ($this->hasOptions('d')) {
@@ -47,21 +59,15 @@ class UpdateCommand extends Command
 
         $remote = "https://raw.github.com/scarwu/Pointless/$branch/bin/poi";
 
-        if (!is_writable(BIN_LOCATE)) {
-            IO::writeln('Permission denied: ' . BIN_LOCATE, 'red');
-
-            return false;
-        }
-
         system("wget $remote -O /tmp/poi");
-        system('chmod +x /tmp/poi');
+        chmod('/tmp/poi', 0755);
 
         // Reset Timestamp
         file_put_contents(HOME . '/Timestamp', 0);
 
-        IO::writeln('Update finish.', 'green');
+        IO::notice('Update finish.');
 
         system('/tmp/poi version');
-        system('mv /tmp/poi ' . BIN_LOCATE);
+        rename('/tmp/poi', BIN_LOCATE . '/poi');
     }
 }

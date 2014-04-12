@@ -16,6 +16,7 @@ date_default_timezone_set('Etc/UTC');
  */
 define('LIBRARY', ROOT . '/Library');
 
+require LIBRARY . '/Utility.php';
 require LIBRARY . '/Resource.php';
 require LIBRARY . '/GeneralFunction.php';
 
@@ -46,22 +47,19 @@ if (defined('BUILD_TIMESTAMP')) {
 
     // Check Timestamp and Update Sample Files
     if (BUILD_TIMESTAMP !== $timestamp) {
-        recursiveRemove(HOME . '/Sample');
+        Utility::remove(HOME . '/Sample');
 
         // Copy Sample Files
-        recursiveCopy(ROOT . '/Sample', HOME . '/Sample');
-        copy(LIBRARY . '/Route.php', HOME . '/Sample/Route.php');
+        Utility::copy(ROOT . '/Sample', HOME . '/Sample');
 
         // Create Timestamp File
         file_put_contents(HOME . '/Timestamp', BUILD_TIMESTAMP);
-
-        // Change Owner
-        if (isset($_SERVER['SUDO_USER'])) {
-            $user = fileowner(HOME);
-            $group = filegroup(HOME);
-            system("chown $user.$group -R " . BLOG);
-        }
     }
+}
+
+// Change Owner
+if (isset($_SERVER['SUDO_USER'])) {
+    Utility::chown(HOME, fileowner($_SERVER['HOME']), filegroup($_SERVER['HOME']));
 }
 
 // Composer Autoloader
@@ -70,6 +68,14 @@ require VENDOR . '/autoload.php';
 // NanoCLI Command Loader
 NanoCLI\Loader::set('Pointless', ROOT . '/Command');
 NanoCLI\Loader::register();
+
+// Require Core Classes
+// require ROOT . '/Class/LimitedCommand.php';
+// require ROOT . '/Class/PostCommand.php';
+require ROOT . '/Class/Doctype.php';
+require ROOT . '/Class/ThemeTools.php';
+require ROOT . '/Class/ThemeScript.php';
+require ROOT . '/Class/Extension.php';
 
 // Run Pointless Command
 $pointless = new Pointless();

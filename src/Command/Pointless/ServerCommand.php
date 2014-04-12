@@ -15,29 +15,28 @@ use NanoCLI\IO;
 
 class ServerCommand extends Command
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function help()
     {
-        IO::writeln('    server     - Start built-in web server');
-        IO::writeln('    --port=<port number>');
-        IO::writeln('               - Set port number');
+        IO::log('    server     - Start built-in web server');
+        IO::log('    --port=<port number>');
+        IO::log('               - Set port number');
     }
 
-    public function run()
+    public function up()
     {
         if (!checkDefaultBlog()) {
             return false;
         }
 
         initBlog();
+    }
 
-        $route_script = (defined('BUILD_TIMESTAMP') ? HOME . '/Sample' : LIBRARY) . '/Route.php';
+    public function run()
+    {
+        $route_script = (defined('BUILD_TIMESTAMP') ? HOME : ROOT) . '/Sample/Route.php';
         $port = $this->hasConfigs() ? $this->getConfigs('port') : 3000;
+        $root = HOME;
 
-        system(sprintf("php -S localhost:$port -t %s $route_script < `tty` > `tty`", HOME));
+        system("php -S localhost:$port -t $root $route_script < `tty` > `tty`");
     }
 }

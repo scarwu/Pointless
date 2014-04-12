@@ -12,21 +12,18 @@ namespace Pointless;
 
 use NanoCLI\Command;
 use NanoCLI\IO;
+
+use Utility;
 use Resource;
 
 class DeployCommand extends Command
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function help()
     {
-        IO::writeln('    deploy     - Deploy blog to Github');
+        IO::log('    deploy     - Deploy blog to Github');
     }
 
-    public function run()
+    public function up()
     {
         if (!checkDefaultBlog()) {
             return false;
@@ -34,19 +31,27 @@ class DeployCommand extends Command
 
         initBlog();
 
-        $github = Resource::get('config')['github'];
+        if (!Utility::commandExists('git')) {
+            IO::error('System command "git" is not found.');
+
+            return false;
+        }
+    }
+
+    public function run()
+    {
+        $blog = Resource::get('config')['blog'];
+        $github = Resource::get('config')['deploy']['github'];
 
         $account = $github['account'];
         $repo = $github['repo'];
         $branch = $github['branch'];
 
         if (null === $account || null === $repo || null === $branch) {
-            IO::writeln('Please add Github setting in Pointless config.', 'red');
+            IO::error('Please add Github setting in Pointless config.');
 
             return false;
         }
-
-        chdir(DEPLOY);
 
         if (!file_exists(DEPLOY . '/.git')) {
             system('git init');
@@ -55,8 +60,13 @@ class DeployCommand extends Command
 
         system("git pull origin $branch");
 
-        recursiveRemove(DEPLOY, DEPLOY);
-        recursiveCopy(TEMP, DEPLOY);
+        Utility::remove(DEPLOY, DEPLOY);
+        Utility::copy(TEMP, DEPLOY);
+
+        // Create Github CNAME
+        if ($github['cname']) {
+            file_put_contents(DEPLOY . '/CNAME', $blog['dn']);
+        }
 
         system('git add --all .');
         system(sprintf('git commit -m "%s"', date(DATE_RSS)));
@@ -64,9 +74,7 @@ class DeployCommand extends Command
 
         // Change Owner
         if (isset($_SERVER['SUDO_USER'])) {
-            $user = fileowner(HOME);
-            $group = filegroup(HOME);
-            system("chown $user.$group -R " . DEPLOY);
+            Utility::chown(DEPLOY, fileowner(HOME), filegroup(HOME));
         }
     }
 }
