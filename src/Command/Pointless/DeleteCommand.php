@@ -21,14 +21,17 @@ class DeleteCommand extends Command
         IO::log('               - Delete post');
     }
 
-    public function run()
+    public function up()
     {
         if (!checkDefaultBlog()) {
             return false;
         }
 
         initBlog();
+    }
 
+    public function run()
+    {
         // Load Doctype
         $type = [];
         $handle = opendir(ROOT . '/Doctype');

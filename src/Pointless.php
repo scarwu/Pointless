@@ -9,9 +9,11 @@
  * @link        http://github.com/scarwu/Pointless
  */
 
+$root = realpath(dirname(__FILE__) . '/..');
+
 // Define Path
-define('ROOT', realpath(dirname(__FILE__)));
-define('VENDOR', ROOT . '/../vendor');
+define('ROOT', "$root/src");
+define('VENDOR', "$root/vendor");
 
 // Load Bootstrap
 require ROOT . '/Boot.php';

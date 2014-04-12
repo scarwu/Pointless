@@ -24,11 +24,17 @@ class HomeCommand extends Command
         IO::log('               - Init a new blog');
     }
 
+    public function up()
+    {
+        if (!checkDefaultBlog()) {
+            return false;
+        }
+
+        initBlog();
+    }
+
     public function run()
     {
-        if (checkDefaultBlog()) {
-            initBlog();
-            IO::info('Default blog path: ' . BLOG);
-        }
+        IO::info('Default blog path: ' . BLOG);
     }
 }

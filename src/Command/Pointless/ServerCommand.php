@@ -22,14 +22,17 @@ class ServerCommand extends Command
         IO::log('               - Set port number');
     }
 
-    public function run()
+    public function up()
     {
         if (!checkDefaultBlog()) {
             return false;
         }
 
         initBlog();
+    }
 
+    public function run()
+    {
         $route_script = (defined('BUILD_TIMESTAMP') ? HOME : ROOT) . '/Sample/Route.php';
         $port = $this->hasConfigs() ? $this->getConfigs('port') : 3000;
         $root = HOME;

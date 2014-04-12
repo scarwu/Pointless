@@ -11,7 +11,7 @@
 class HTMLGenerator
 {
     use ThemeTools;
-    
+
     /**
      * @var array
      */
@@ -89,7 +89,7 @@ class HTMLGenerator
                         $data = $this->script[$script]->$method();
                     }
                 }
-                
+
                 $result .= $this->render($data, "$blockname/$filename.php");
             }
 

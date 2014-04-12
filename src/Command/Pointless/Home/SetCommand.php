@@ -15,30 +15,35 @@ use NanoCLI\IO;
 
 class SetCommand extends Command
 {
+    private $path;
+
     public function help()
     {
         IO::log('    home set <path or not>');
         IO::log('               - Set another blog as default');
     }
 
+    public function up()
+    {
+        $this->path = $this->getPath();
+
+        if (!file_exists($this->path)) {
+            IO::error("Path \"$this->path\" is't exists.");
+
+            return false;
+        }
+
+        if (!file_exists("$this->path/.pointless") || !is_file("$this->path/.pointless")) {
+            IO::error("Path \"$this->path\" is't the Pointless blog folder.");
+
+            return false;
+        }
+    }
+
     public function run()
     {
-        $path = $this->getPath();
-
-        if (!file_exists($path)) {
-            IO::error("Path \"$path\" is't exists.");
-            return false;
-        }
-
-        if (file_exists("$path/.pointless") && is_file("$path/.pointless")) {
-            file_put_contents(HOME . '/Default', $path);
-
-            IO::notice("Default blog is setting to path \"$path\".");
-            return true;
-        } else {
-            IO::error("Path \"$path\" is't the Pointless blog folder.");
-            return false;
-        }
+        file_put_contents(HOME . '/Default', $this->path);
+        IO::notice("Default blog is setting to path \"$this->path\".");
     }
 
     private function getPath()

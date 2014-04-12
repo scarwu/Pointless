@@ -18,12 +18,14 @@ use Resource;
 
 class EditCommand extends Command
 {
+    private $editor;
+
     public function help()
     {
         IO::log('    edit       - Edit post');
     }
 
-    public function run()
+    public function up()
     {
         if (!checkDefaultBlog()) {
             return false;
@@ -31,13 +33,16 @@ class EditCommand extends Command
 
         initBlog();
 
-        // Check System Command
-        $editor = Resource::get('config')['editor'];
-        if (!Utility::commandExists($editor)) {
-            IO::error("System command \"$editor\" is not found.");
+        $this->editor = Resource::get('config')['editor'];
+        if (!Utility::commandExists($this->editor)) {
+            IO::error("System command \"$this->editor\" is not found.");
+
             return false;
         }
+    }
 
+    public function run()
+    {
         // Load Doctype
         $type = [];
         $handle = opendir(ROOT . '/Doctype');
@@ -87,6 +92,7 @@ class EditCommand extends Command
 
         if (0 === count($list)) {
             IO::error('No post(s).');
+
             return false;
         }
 
@@ -107,6 +113,6 @@ class EditCommand extends Command
         });
 
         $path = $list[array_keys($list)[$number]]['path'];
-        system("$editor $path < `tty` > `tty`");
+        system("$this->editor $path < `tty` > `tty`");
     }
 }

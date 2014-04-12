@@ -23,7 +23,7 @@ class DeployCommand extends Command
         IO::log('    deploy     - Deploy blog to Github');
     }
 
-    public function run()
+    public function up()
     {
         if (!checkDefaultBlog()) {
             return false;
@@ -31,12 +31,15 @@ class DeployCommand extends Command
 
         initBlog();
 
-        // Check System Command
         if (!Utility::commandExists('git')) {
             IO::error('System command "git" is not found.');
+
             return false;
         }
+    }
 
+    public function run()
+    {
         $blog = Resource::get('config')['blog'];
         $github = Resource::get('config')['deploy']['github'];
 
@@ -46,10 +49,9 @@ class DeployCommand extends Command
 
         if (null === $account || null === $repo || null === $branch) {
             IO::error('Please add Github setting in Pointless config.');
+
             return false;
         }
-
-        chdir(DEPLOY);
 
         if (!file_exists(DEPLOY . '/.git')) {
             system('git init');

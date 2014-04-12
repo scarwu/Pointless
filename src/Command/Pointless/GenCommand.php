@@ -30,7 +30,7 @@ class GenCommand extends Command
         IO::log('    gen -js    - Compress JavaScript');
     }
 
-    public function run()
+    public function up()
     {
         if (!checkDefaultBlog()) {
             return false;
@@ -45,79 +45,74 @@ class GenCommand extends Command
         // Load Theme Config
         require THEME . '/Theme.php';
         Resource::set('theme', $theme);
+    }
 
+    public function run()
+    {
         $blog = Resource::get('config')['blog'];
-
         $start = microtime(true);
+        $start_mem = memory_get_usage();
 
         if ($this->hasOptions('css')) {
+            IO::notice('Clean Files ...');
             if (file_exists(TEMP . '/theme/main.css')) {
                 unlink(TEMP . '/theme/main.css');
             }
 
             IO::notice('Compress Assets ...');
             $this->CSSCompress();
-
-            $time = sprintf("%.3f", abs(microtime(true) - $start));
-            IO::info("Generate finish, $time s.");
-
-            return true;
         }
 
         if ($this->hasOptions('js')) {
-            if (file_exists(TEMP . '/main.js')) {
-                unlink(TEMP . '/main.js');
+            IO::notice('Clean Files ...');
+            if (file_exists(TEMP . '/theme/main.js')) {
+                unlink(TEMP . '/theme/main.js');
             }
 
             IO::notice('Compress Assets ...');
             $this->JSCompress();
-
-            $time = sprintf("%.3f", abs(microtime(true) - $start));
-            IO::info("Generate finish, $time s.");
-
-            return true;
         }
 
-        $start_mem = memory_get_usage();
+        if (!$this->hasOptions('css') && !$this->hasOptions('js')) {
+            // Clear Files
+            IO::notice('Clean Files ...');
+            Utility::remove(TEMP, TEMP);
 
-        // Clear Public Files
-        IO::notice('Clean Public Files ...');
-        Utility::remove(TEMP, TEMP);
+            // Create README
+            $readme = '[Powered by Pointless](https://github.com/scarwu/Pointless)';
+            file_put_contents(TEMP . '/README.md', $readme);
 
-        // Create README
-        $readme = '[Powered by Pointless](https://github.com/scarwu/Pointless)';
-        file_put_contents(TEMP . '/README.md', $readme);
+            // Copy Resource Files
+            IO::notice('Copy Resource Files ...');
+            Utility::copy(RESOURCE, TEMP);
 
-        // Copy Resource Files
-        IO::notice('Copy Resource Files ...');
-        Utility::copy(RESOURCE, TEMP);
+            if (file_exists(THEME . '/Resource')) {
+                Utility::copy(THEME . '/Resource', TEMP . '/theme');
+            }
 
-        if (file_exists(THEME . '/Resource')) {
-            Utility::copy(THEME . '/Resource', TEMP . '/theme');
+            // Compress Assets
+            IO::notice('Compress Assets ...');
+            $this->CSSCompress();
+            $this->JSCompress();
+
+            // Initialize Resource Pool
+            IO::notice('Load Markdown Files ...');
+            $this->loadMarkdown();
+
+            // Generate HTML Pages
+            IO::notice('Generating HTML ...');
+            $html = new HTMLGenerator();
+            $html->run();
+
+            // Generate Extension
+            IO::notice('Generating Extensions ...');
+            $extension = new ExtensionLoader();
+            $extension->run();
         }
-
-        // Compress Assets
-        IO::notice('Compress Assets ...');
-        $this->CSSCompress();
-        $this->JSCompress();
-
-        // Initialize Resource Pool
-        IO::notice('Initialize Resource Pool ...');
-        $this->initResourcePool();
-
-        // Generate HTML Pages
-        IO::notice('Generating HTML ...');
-        $html = new HTMLGenerator();
-        $html->run();
-
-        // Generate Extension
-        IO::notice('Generating Extensions ...');
-        $extension = new ExtensionLoader();
-        $extension->run();
 
         $time = sprintf("%.3f", abs(microtime(true) - $start));
         $mem = sprintf("%.3f", abs(memory_get_usage() - $start_mem) / 1024);
-        IO::info("Generate finish, $time s and memory usage $mem kb.");
+        IO::info("Generate finish, $time s and memory usage $mem KB.");
 
         // Change Owner
         if (isset($_SERVER['SUDO_USER'])) {
@@ -126,9 +121,9 @@ class GenCommand extends Command
     }
 
     /**
-     * Initialize Resource Pool
+     * Load Markdown
      */
-    private function initResourcePool()
+    private function loadMarkdown()
     {
         // Load Doctype
         $type = [];

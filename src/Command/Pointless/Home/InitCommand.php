@@ -15,35 +15,40 @@ use NanoCLI\IO;
 
 class InitCommand extends Command
 {
+    private $path;
+
     public function help()
     {
         IO::log('    home init <path or not>');
         IO::log('               - Init a new blog');
     }
 
-    public function run()
+    public function up()
     {
-        $path = $this->getPath();
+        $this->path = $this->getPath();
 
-        if (file_exists($path)) {
-            IO::error("Path \"$path\" is exists.");
+        if (file_exists($this->path)) {
+            IO::error("Path \"$this->path\" is exists.");
+
             return false;
-        } else {
-            if (!mkdir($path, 0755, true)) {
-                IO::error("Permission denied: $path");
-                return false;
-            }
-
-            chdir($path);
         }
 
-        define('BLOG', $path);
+        if (!mkdir($this->path, 0755, true)) {
+            IO::error("Permission denied: $this->path");
+
+            return false;
+        }
+    }
+
+    public function run()
+    {
+        define('BLOG', $this->path);
         file_put_contents(HOME . '/Default', BLOG);
 
         initBlog();
 
         IO::notice('Blog is initialized.');
-        IO::notice("Default blog is setting to path \"$path\".");
+        IO::notice("Default blog is setting to path \"$this->path\".");
     }
 
     private function getPath()

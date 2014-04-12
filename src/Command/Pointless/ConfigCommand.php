@@ -18,12 +18,14 @@ use Resource;
 
 class ConfigCommand extends Command
 {
+    private $editor;
+
     public function help()
     {
         IO::log('    config     - Modify config');
     }
 
-    public function run()
+    public function up()
     {
         if (!checkDefaultBlog()) {
             return false;
@@ -31,15 +33,17 @@ class ConfigCommand extends Command
 
         initBlog();
 
-        // Check System Command
-        $editor = Resource::get('config')['editor'];
-        if (!Utility::commandExists($editor)) {
-            IO::error("System command \"$editor\" is not found.");
+        $this->editor = Resource::get('config')['editor'];
+        if (!Utility::commandExists($this->editor)) {
+            IO::error("System command \"$this->editor\" is not found.");
+
             return false;
         }
+    }
 
+    public function run()
+    {
         $filepath = BLOG . '/Config.php';
-
-        system("$editor $filepath < `tty` > `tty`");
+        system("$this->editor $filepath < `tty` > `tty`");
     }
 }

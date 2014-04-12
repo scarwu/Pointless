@@ -69,9 +69,10 @@ EOF;
                 } catch (Exception $e) {
                     $command = implode($command, ' ');
                     IO::error("    No description for \"$command\".");
+
                     return false;
                 }
-            }   
+            }
         }
 
         if (count(explode("\\", $prefix)) > 1) {

@@ -22,7 +22,7 @@ class VersionCommand extends Command
 
     public function run()
     {
-        $version = 'v0.0.0 dev';
+        $version = 'v0.0.0-dev';
 
         if (defined('BUILD_VERSION')) {
             $date = date(DATE_RSS, BUILD_TIMESTAMP);

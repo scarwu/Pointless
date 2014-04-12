@@ -22,19 +22,29 @@ class UpdateCommand extends Command
         IO::log('    update -e  - Use experipment version');
     }
 
-    public function run()
+    public function up()
     {
         if (!defined('BUILD_TIMESTAMP')) {
             IO::error('Development version can not be updated.');
+
             return false;
         }
 
-        // Check System Command
         if (!Utility::commandExists('wget')) {
             IO::error('System command "wget" is not found.');
+
             return false;
         }
 
+        if (!is_writable(BIN_LOCATE)) {
+            IO::error('Permission denied: ' . BIN_LOCATE);
+
+            return false;
+        }
+    }
+
+    public function run()
+    {
         $branch = 'master';
 
         if ($this->hasOptions('d')) {
@@ -46,11 +56,6 @@ class UpdateCommand extends Command
         }
 
         $remote = "https://raw.github.com/scarwu/Pointless/$branch/bin/poi";
-
-        if (!is_writable(BIN_LOCATE)) {
-            IO::error('Permission denied: ' . BIN_LOCATE);
-            return false;
-        }
 
         system("wget $remote -O /tmp/poi");
         chmod('/tmp/poi', 0755);

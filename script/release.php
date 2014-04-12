@@ -13,7 +13,7 @@ $root = realpath(dirname(__FILE__) . '/..');
 
 // Rewrite VERSION
 if (isset($_SERVER['argv'][1])) {
-	file_put_contents("$root/VERSION", $_SERVER['argv'][1]);
+    file_put_contents("$root/VERSION", $_SERVER['argv'][1]);
 }
 
 // Call Builder

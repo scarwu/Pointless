@@ -19,6 +19,7 @@ function checkDefaultBlog()
 
     if (!file_exists(HOME . '/Default')) {
         IO::error($msg);
+
         return false;
     }
 
@@ -26,6 +27,7 @@ function checkDefaultBlog()
 
     if ('' === $path) {
         IO::error($msg);
+
         return false;
     }
 
@@ -33,6 +35,7 @@ function checkDefaultBlog()
         file_put_contents(HOME . '/defualt', '');
 
         IO::error($msg);
+
         return false;
     }
 
