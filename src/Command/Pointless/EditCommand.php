@@ -66,6 +66,8 @@ class EditCommand extends Command
             return is_numeric($answer) && $answer >= 0 && $answer < count($type);
         });
 
+        IO::writeln();
+
         // Load Markdown
         $list = [];
         $handle = opendir(MARKDOWN);

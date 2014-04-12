@@ -55,6 +55,8 @@ class DeleteCommand extends Command
             return is_numeric($answer) && $answer >= 0 && $answer < count($type);
         });
 
+        IO::writeln();
+
         // Load Markdown
         $list = [];
         $handle = opendir(MARKDOWN);
@@ -103,8 +105,8 @@ class DeleteCommand extends Command
 
         $path = $list[array_keys($list)[$number]]['path'];
         $title = $list[array_keys($list)[$number]]['title'];
-        IO::write("Are you sure delete post \"$title\"? (yes)\n-> ", 'red');
-        if ('yes' === IO::read()) {
+
+        if ('yes' === IO::ask("\nAre you sure delete post \"$title\"? (yes)\n-> ", null, 'red')) {
             unlink($path);
             IO::notice("Successfully removed post \"$title\".");
         }

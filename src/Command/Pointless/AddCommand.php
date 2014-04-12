@@ -66,6 +66,8 @@ class AddCommand extends Command
             return is_numeric($answer) && $answer >= 0 && $answer < count($type);
         });
 
+        IO::writeln();
+
         // Ask Question
         $header = [];
         foreach ($type[$select]->getQuestion() as $question) {
