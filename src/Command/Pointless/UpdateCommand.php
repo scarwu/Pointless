@@ -13,6 +13,8 @@ namespace Pointless;
 use NanoCLI\Command;
 use NanoCLI\IO;
 
+use Utility;
+
 class UpdateCommand extends Command
 {
     public function help()
@@ -66,6 +68,6 @@ class UpdateCommand extends Command
         IO::notice('Update finish.');
 
         system('/tmp/poi version');
-        rename('/tmp/poi', BIN_LOCATE);
+        rename('/tmp/poi', BIN_LOCATE . '/poi');
     }
 }
