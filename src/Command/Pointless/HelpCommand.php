@@ -53,7 +53,7 @@ EOF;
             $command = [];
 
             while ($arguments) {
-                if (!preg_match('/^[a-zA-Z]+/', $arguments[0])) {
+                if (!preg_match('/^([a-zA-Z]+)$/', $arguments[0])) {
                     break;
                 }
 
