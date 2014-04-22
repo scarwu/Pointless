@@ -53,6 +53,8 @@ class DeployCommand extends Command
             return false;
         }
 
+        chdir(DEPLOY);
+
         if (!file_exists(DEPLOY . '/.git')) {
             system('git init');
             system("git remote add origin git@github.com:$account/$repo.git");
