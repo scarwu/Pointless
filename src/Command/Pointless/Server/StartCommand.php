@@ -40,18 +40,24 @@ class StartCommand extends Command
         $root = HOME;
         $command = "php -S localhost:$port -t $root $route_script";
 
-        IO::info('Starting Server');
+        IO::notice('Starting Server');
+        $output = [];
         exec("$command > /dev/null 2>&1 & echo $!", $output);
-        sleep(3);
-
         $pid = $output[0];
 
+        sleep(2);
+
+        $output = [];
         exec("ps $pid", $output);
 
-        if (count($output) >= 0) {
+        if (count($output) > 1) {
             $pid_list[$pid] = $command;
-        }
+            file_put_contents(HOME . '/PID', json_encode($pid_list));
 
-        file_put_contents(HOME . '/PID', json_encode($pid_list));
+            IO::info('Starting server is successful.');
+        } else {
+            IO::error('Starting server is fail.');
+        }
+        
     }
 }

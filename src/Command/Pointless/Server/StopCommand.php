@@ -29,8 +29,8 @@ class StopCommand extends Command
 
         initBlog();
 
-        if (file_exists(HOME . '/PID') {
-            IO::error('No servers started.');
+        if (!file_exists(HOME . '/PID')) {
+            IO::error('No server started.');
 
             return false;
         }
@@ -41,7 +41,7 @@ class StopCommand extends Command
         $list = json_decode(file_get_contents(HOME . '/PID'), true);
 
         foreach ($list as $pid => $command) {
-            exec("ps aux | grep $command", $output);
+            exec("ps aux | grep \"$command\"", $output);
 
             if (count($output) >= 2) {
                 system("kill -9 $pid");
