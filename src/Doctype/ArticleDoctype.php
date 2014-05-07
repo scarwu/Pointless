@@ -70,7 +70,6 @@ class ArticleDoctype extends Doctype
         sort($post['tag']);
 
         return [
-            'filename' => $post['filename'],
             'type' => $post['type'],
             'title' => $post['title'],
             'url' => $url,

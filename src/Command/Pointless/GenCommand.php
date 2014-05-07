@@ -164,9 +164,6 @@ class GenCommand extends Command
                 continue;
             }
 
-            // Add filename to post
-            $post['filename'] = $filename;
-
             // Transfer Markdown to HTML
             $post['content'] = MarkdownExtra::defaultTransform($match[2]);
 
