@@ -40,6 +40,8 @@ class StaticDoctype extends Doctype
     public function postHandleAndGetResult($post)
     {
         return [
+            'filename' => $post['filename'],
+            'type' => $post['type'],
             'title' => $post['title'],
             'url' => $post['url'],
             'content' => $post['content'],

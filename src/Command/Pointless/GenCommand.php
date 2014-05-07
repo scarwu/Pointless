@@ -142,21 +142,12 @@ class GenCommand extends Command
         closedir($handle);
 
         // Read Directory
-        $filelist = [];
         $handle = opendir(MARKDOWN);
         while ($filename = readdir($handle)) {
             if (!preg_match('/.md$/', $filename)) {
                 continue;
             }
 
-            $filelist[] = $filename;
-        }
-        closedir($handle);
-        rsort($filelist);
-
-        // Load and Handle Markdown File
-        $result = [];
-        foreach ($filelist as $filename) {
             preg_match(REGEX_RULE, file_get_contents(MARKDOWN . "/$filename"), $match);
             $post = json_decode($match[1], true);
 
@@ -173,14 +164,30 @@ class GenCommand extends Command
                 continue;
             }
 
+            // Add filename to post
+            $post['filename'] = $filename;
+
             // Transfer Markdown to HTML
             $post['content'] = MarkdownExtra::defaultTransform($match[2]);
 
-            // Append Post to Reselt
+            // Append Post to Result
             if (!isset($result[$post['type']])) {
                 $result[$post['type']] = [];
             }
-            $result[$post['type']][] = $type[$post['type']]->postHandleAndGetResult($post);
+
+            $post = $type[$post['type']]->postHandleAndGetResult($post);
+
+            if (isset($post['date']) && isset($post['time'])) {
+                $index = $post['date'] . $post['time'];
+            } else {
+                $index = $post['title'];
+            }
+
+            $result[$post['type']][$index] = $post;
+        }
+
+        foreach (array_keys($result) as $key) {
+            krsort($result[$key]);
         }
 
         Resource::set('post', $result);

@@ -19,7 +19,7 @@ class ArticleDoctype extends Doctype
         $this->question = [
             ['title', "Enter Title:\n-> "],
             ['url', "Enter Custom Url:\n-> "],
-            ['tag', "Enter Tag:\n-> "],
+            ['tag', "Enter Tag: (tag1|tag2|tag3...)\n-> "],
             ['category', "Enter Category:\n-> "]
         ];
     }
@@ -49,6 +49,7 @@ class ArticleDoctype extends Doctype
         $format = Resource::get('config')['post']['article']['format'];
         $format = trim($format, '/');
 
+        // Time information
         list($year, $month, $day) = explode('-', $post['date']);
         list($hour, $minute, $second) = explode(':', $post['time']);
         $timestamp = strtotime("$day-$month-$year {$post['time']}");
@@ -64,18 +65,21 @@ class ArticleDoctype extends Doctype
             $post['title'], $post['url']
         ], $format);
 
+        // Sort tags
         $post['tag'] = explode('|', $post['tag']);
         sort($post['tag']);
 
         return [
+            'filename' => $post['filename'],
+            'type' => $post['type'],
             'title' => $post['title'],
             'url' => $url,
             'content' => $post['content'],
-            'date' => $post['date'],
-            'time' => $post['time'],
             'category' => $post['category'],
             'keywords' => $post['keywords'],
             'tag' => $post['tag'],
+            'date' => $post['date'],
+            'time' => $post['time'],
             'year' => $year,
             'month' => $month,
             'day' => $day,
