@@ -25,6 +25,7 @@ if (preg_match($pattern, $_SERVER['REQUEST_URI'], $match)) {
 }
 
 $path .= is_dir($path) ? '/index.html' : '';
+$path = explode('?', $path)[0];
 
 if (preg_match('/\.css$/', $path)) {
     header('Content-type: text/css');

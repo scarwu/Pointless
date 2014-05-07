@@ -83,7 +83,11 @@ class EditCommand extends Command
                 continue;
             }
 
-            $index = $post['title'];
+            if (isset($post['date']) && isset($post['time'])) {
+                $index = $post['date'] . $post['time'];
+            } else {
+                $index = $post['title'];
+            }
 
             $list[$index]['publish'] = $post['publish'];
             $list[$index]['title'] = $post['title'];
