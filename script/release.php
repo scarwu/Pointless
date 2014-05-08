@@ -26,3 +26,6 @@ if (file_exists("$root/bin/poi")) {
 
 // Copy Phar to Bin
 copy("$root/poi.phar", "$root/bin/poi");
+
+// Setting Phar is Executable
+chmod("$root/bin/poi", 0755);
