@@ -64,6 +64,10 @@ class ArticleDoctype extends Doctype
             $post['title'], $post['url']
         ], $format);
 
+        if (!preg_match('/\.html$/', $url)) {
+            $url .= '/';
+        }
+
         // Sort tags
         $post['tag'] = explode('|', $post['tag']);
         sort($post['tag']);

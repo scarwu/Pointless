@@ -28,10 +28,15 @@ class StaticDoctype extends Doctype
         $filename = strtolower($filename);
         $filename = "static_$filename.md";
 
+        $url = Utility::pathReplace($header['url'], true);
+        if (!preg_match('/\.html$/', $url)) {
+            $url .= '/';
+        }
+
         return $this->save($filename, [
             'type' => $this->id,
             'title' => $header['title'],
-            'url' => Utility::pathReplace($header['url'], true),
+            'url' => $url,
             'message' => false,
             'publish' => false
         ]);
