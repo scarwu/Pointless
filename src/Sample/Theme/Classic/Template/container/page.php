@@ -9,7 +9,7 @@
             <span class="comments">
                 <a href="<?=linkEncode("{$blog['base']}article/{$article['url']}/")?>#disqus_thread">0 Comment</a>
             </span>
-            <br />
+            <br>
             <?php endif; ?>
             <span class="date"><?=$article['date']?></span>
             -

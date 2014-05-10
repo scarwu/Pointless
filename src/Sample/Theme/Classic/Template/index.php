@@ -18,9 +18,9 @@
             </header>
             <div id="nav">
                 <form class="search" action="http://www.google.com/search?q=as" target="_blank" method="get">
-                    <input type="hidden" name="q" value="site:<?=$blog['dn']?>" />
-                    <input type="text" name="q" placeholder="Search" />
-                    <input type="submit" />
+                    <input type="hidden" name="q" value="site:<?=$blog['dn']?>">
+                    <input type="text" name="q" placeholder="Search">
+                    <input type="submit">
                 </form>
                 <a href="<?=$blog['base']?>">Home</a>
                 <a href="<?="{$blog['base']}about"?>">About</a>

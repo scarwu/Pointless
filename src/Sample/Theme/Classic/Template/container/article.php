@@ -8,7 +8,7 @@
                     0 Comment
                 </a>
             </span>
-            <br />
+            <br>
             <?php endif; ?>
             <span class="date"><?=$post['date']?></span>
             -
