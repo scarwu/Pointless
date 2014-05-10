@@ -69,21 +69,23 @@ class Category extends ThemeScript
             $post['title'] ="Category: $index";
             $post['url'] = "category/$index";
             $post['list'] = $this->createDateList($post_list);
-            $post['bar']['index'] = $count + 1;
-            $post['bar']['total'] = $total;
+
+            $paging = [];
+            $paging['index'] = $count + 1;
+            $paging['total'] = $total;
 
             if (isset($keys[$count - 1])) {
                 $category = $keys[$count - 1];
 
-                $post['bar']['p_title'] = $category;
-                $post['bar']['p_url'] = "{$blog['base']}category/$category";
+                $paging['p_title'] = $category;
+                $paging['p_url'] = "{$blog['base']}category/$category";
             }
 
             if (isset($keys[$count + 1])) {
                 $category = $keys[$count + 1];
 
-                $post['bar']['n_title'] = $category;
-                $post['bar']['n_url'] = "{$blog['base']}category/$category";
+                $paging['n_title'] = $category;
+                $paging['n_url'] = "{$blog['base']}category/$category";
             }
 
             $count++;
@@ -95,12 +97,14 @@ class Category extends ThemeScript
             $block = Resource::get('block');
             $block['container'] = $this->render([
                 'blog' => array_merge($blog, $ext),
-                'post' => $post
+                'post' => $post,
+                'paging' => $paging
             ], 'container/category.php');
 
             // Save HTML
             $this->save($post['url'], $this->render([
                 'blog' => array_merge($blog, $ext),
+                'post' => $post,
                 'block' => $block
             ], 'index.php'));
         }

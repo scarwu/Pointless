@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="<?=$blog['lang']?>" class="no-js">
+<html lang="<?=$blog['lang']?>">
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="description" content="<?=$blog['description']?>">
+
     <title><?=$blog['title']?></title>
 
     <link rel="stylesheet" href="<?=$blog['base']?>theme/main.css">
@@ -31,15 +31,29 @@
         </div>
     </div>
 
-    <script src="<?=$blog['base']?>theme/main.js"></script>
-    <?php if (null !== $blog['google_analytics']): ?>
     <script>
-        var _gaq = [['_setAccount', '<?=$blog['google_analytics']?>'], ['_trackPageview']]; (function (d, t) {
-            var g = d.createElement(t), s = d.getElementsByTagName(t)[0];
-            g.src = ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js';
-            s.parentNode.insertBefore(g, s)
-        } (document, 'script'));
+        function asyncLoad(src) {
+            var s = document.createElement('script');
+            s.src = src; s.async = true;
+            var e = document.getElementsByTagName('script')[0];
+            e.parentNode.insertBefore(s, e);
+        }
+        <?php if(null != $blog['google_analytics']): ?>
+        var _gaq = [['_setAccount', '<?=$blog['google_analytics']?>'], ['_trackPageview']];
+        asyncLoad(('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js');
+        <?php endif; ?>
+        <?php if(null != $blog['disqus_shortname']): ?>
+        var disqus_shortname = '<?=$blog['disqus_shortname']?>';
+        if (document.getElementById('disqus_comments')) {
+            asyncLoad('http://' + disqus_shortname + '.disqus.com/count.js');
+        }
+        if (document.getElementById('disqus_thread')) {
+            asyncLoad('http://' + disqus_shortname + '.disqus.com/embed.js');
+        }
+        <?php endif; ?>
     </script>
-    <?php endif; ?>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.1/modernizr.min.js" async></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/highlight.min.js"></script>
+    <script src="<?=$blog['base']?>theme/main.js"></script>
 </body>
 </html>

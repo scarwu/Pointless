@@ -62,21 +62,23 @@ class Archive extends ThemeScript
             $post['title'] = "Archive: $index";
             $post['url'] = "archive/$index";
             $post['list'] = $this->createDateList($post_list);
-            $post['bar']['index'] = $count + 1;
-            $post['bar']['total'] = $total;
+
+            $paging = [];
+            $paging['index'] = $count + 1;
+            $paging['total'] = $total;
 
             if (isset($keys[$count - 1])) {
                 $archive = $keys[$count - 1];
 
-                $post['bar']['p_title'] = $archive;
-                $post['bar']['p_url'] = "{$blog['base']}archive/$archive";
+                $paging['p_title'] = $archive;
+                $paging['p_url'] = "{$blog['base']}archive/$archive";
             }
 
             if (isset($keys[$count + 1])) {
                 $archive = $keys[$count + 1];
 
-                $post['bar']['n_title'] = $archive;
-                $post['bar']['n_url'] = "{$blog['base']}archive/$archive";
+                $paging['n_title'] = $archive;
+                $paging['n_url'] = "{$blog['base']}archive/$archive";
             }
 
             $count++;
@@ -88,12 +90,14 @@ class Archive extends ThemeScript
             $block = Resource::get('block');
             $block['container'] = $this->render([
                 'blog' => array_merge($blog, $ext),
-                'post' => $post
+                'post' => $post,
+                'paging' => $paging
             ], 'container/archive.php');
 
             // Save HTML
             $this->save($post['url'], $this->render([
                 'blog' => array_merge($blog, $ext),
+                'post' => $post,
                 'block' => $block
             ], 'index.php'));
         }

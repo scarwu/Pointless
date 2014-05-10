@@ -36,16 +36,18 @@ class Article extends ThemeScript
             IO::log("Building article/{$post['url']}");
 
             $post['url'] = "article/{$post['url']}";
-            $post['bar']['index'] = $count + 1;
-            $post['bar']['total'] = $total;
+
+            $paging = [];
+            $paging['index'] = $count + 1;
+            $paging['total'] = $total;
 
             if (isset($keys[$count - 1])) {
                 $key = $keys[$count - 1];
                 $title = $this->list[$key]['title'];
                 $url = $this->list[$key]['url'];
 
-                $post['bar']['p_title'] = $title;
-                $post['bar']['p_url'] = "{$blog['base']}article/$url";
+                $paging['p_title'] = $title;
+                $paging['p_url'] = "{$blog['base']}article/$url";
             }
 
             if (isset($keys[$count + 1])) {
@@ -53,26 +55,35 @@ class Article extends ThemeScript
                 $title = $this->list[$key]['title'];
                 $url = $this->list[$key]['url'];
 
-                $post['bar']['n_title'] = $title;
-                $post['bar']['n_url'] = "{$blog['base']}article/$url";
+                $paging['n_title'] = $title;
+                $paging['n_url'] = "{$blog['base']}article/$url";
             }
 
             $count++;
 
             $ext = [];
             $ext['title'] = "{$post['title']} | {$blog['name']}";
-            $ext['keywords'] = "{$blog['keywords']},{$post['keywords']}";
             $ext['url'] = $blog['dn'] . $blog['base'];
+
+            // Capture descrition form content
+            $content = $post['content'];
+            preg_replace('/<!--more-->(.|\n)*/', '', $content);
+            preg_match('/<p>(.*)<\/p>/', $content, $match);
+            if (isset($match[1])) {
+                $ext['description'] = strip_tags($match[1]);
+            }
 
             $block = Resource::get('block');
             $block['container'] = $this->render([
                 'blog' => array_merge($blog, $ext),
-                'post' => $post
+                'post' => $post,
+                'paging' => $paging
             ], 'container/article.php');
 
             // Save HTML
             $this->save($post['url'], $this->render([
                 'blog' => array_merge($blog, $ext),
+                'post' => $post,
                 'block' => $block
             ], 'index.php'));
         }

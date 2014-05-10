@@ -37,17 +37,19 @@ class Page extends ThemeScript
             $post = [];
             $post['url'] = "page/$index";
             $post['list'] = array_slice($this->list, $quantity * ($index - 1), $quantity);
-            $post['bar']['index'] = $index;
-            $post['bar']['total'] = $total;
+
+            $paging = [];
+            $paging['index'] = $index;
+            $paging['total'] = $total;
 
             if ($index - 1 >= 1) {
-                $post['bar']['p_title'] = $index - 1;
-                $post['bar']['p_url'] = "{$blog['base']}page/" . ($index - 1);
+                $paging['p_title'] = $index - 1;
+                $paging['p_url'] = "{$blog['base']}page/" . ($index - 1);
             }
 
             if ($index + 1 <= $total) {
-                $post['bar']['n_title'] = $index + 1;
-                $post['bar']['n_url'] = "{$blog['base']}page/" . ($index + 1);
+                $paging['n_title'] = $index + 1;
+                $paging['n_url'] = "{$blog['base']}page/" . ($index + 1);
             }
 
             $ext = [];
@@ -57,12 +59,14 @@ class Page extends ThemeScript
             $block = Resource::get('block');
             $block['container'] = $this->render([
                 'blog' => array_merge($blog, $ext),
-                'post' => $post
+                'post' => $post,
+                'paging' => $paging
             ], 'container/page.php');
 
             // Save HTML
             $this->save($post['url'], $this->render([
                 'blog' => array_merge($blog, $ext),
+                'post' => $post,
                 'block' => $block
             ], 'index.php'));
         }

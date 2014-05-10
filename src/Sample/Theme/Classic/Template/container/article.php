@@ -32,35 +32,19 @@
     <hr>
     <div class="bar">
         <span class="new">
-            <?=isset($post['bar']['p_url'])
-                ? linkTo($post['bar']['p_url'], "<< {$post['bar']['p_title']}"): ''?>
+            <?=isset($paging['p_url'])
+                ? linkTo($paging['p_url'], "<< {$paging['p_title']}"): ''?>
         </span>
         <span class="old">
-            <?=isset($post['bar']['n_url'])
-                ? linkTo($post['bar']['n_url'], "{$post['bar']['n_title']} >>"): ''?>
+            <?=isset($paging['n_url'])
+                ? linkTo($paging['n_url'], "{$paging['n_title']} >>"): ''?>
         </span>
         <span class="count">
-            <?="{$post['bar']['index']} / {$post['bar']['total']}"?>
+            <?="{$paging['index']} / {$paging['total']}"?>
         </span>
     </div>
     <?php if (null !== $blog['disqus_shortname']): ?>
     <hr>
     <div id="disqus_thread"></div>
-    <script type="text/javascript">
-        var disqus_shortname = '<?=$blog['disqus_shortname']?>';
-        (function () {
-            var embed = document.createElement('script');
-            embed.type = 'text/javascript';
-            embed.async = true;
-            embed.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
-            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(embed);
-
-            var count = document.createElement('script');
-            count.async = true;
-            count.type = 'text/javascript';
-            count.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
-            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(count);
-        }());
-    </script>
     <?php endif; ?>
 </div>

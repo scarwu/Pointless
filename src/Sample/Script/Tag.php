@@ -72,21 +72,23 @@ class Tag extends ThemeScript
             $post['title'] = "Tag: $index";
             $post['url'] = "tag/$index";
             $post['list'] = $this->createDateList($post_list);
-            $post['bar']['index'] = $count + 1;
-            $post['bar']['total'] = $total;
+
+            $paging = [];
+            $paging['index'] = $count + 1;
+            $paging['total'] = $total;
 
             if (isset($keys[$count - 1])) {
                 $tag = $keys[$count - 1];
 
-                $post['bar']['p_title'] = $tag;
-                $post['bar']['p_url'] = "{$blog['base']}tag/$tag";
+                $paging['p_title'] = $tag;
+                $paging['p_url'] = "{$blog['base']}tag/$tag";
             }
 
             if (isset($keys[$count + 1])) {
                 $tag = $keys[$count + 1];
 
-                $post['bar']['n_title'] = $tag;
-                $post['bar']['n_url'] = "{$blog['base']}tag/$tag";
+                $paging['n_title'] = $tag;
+                $paging['n_url'] = "{$blog['base']}tag/$tag";
             }
 
             $count++;
@@ -98,12 +100,14 @@ class Tag extends ThemeScript
             $block = Resource::get('block');
             $block['container'] = $this->render([
                 'blog' => array_merge($blog, $ext),
-                'post' => $post
+                'post' => $post,
+                'paging' => $paging
             ], 'container/tag.php');
 
             // Save HTML
             $this->save($post['url'], $this->render([
                 'blog' => array_merge($blog, $ext),
+                'post' => $post,
                 'block' => $block
             ], 'index.php'));
         }
