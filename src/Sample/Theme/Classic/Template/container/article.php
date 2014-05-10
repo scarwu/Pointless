@@ -1,5 +1,5 @@
-<div id="article">
-    <article>
+<div id="container_article">
+    <article class="post_block">
         <div class="title"><?=$post['title']?></div>
         <div class="info">
             <?php if (null !== $blog['disqus_shortname']): ?>
@@ -30,7 +30,7 @@
         </div>
     </article>
     <hr>
-    <div class="bar">
+    <div id="paging">
         <span class="new">
             <?=isset($paging['p_url'])
                 ? linkTo($paging['p_url'], "<< {$paging['p_title']}"): ''?>

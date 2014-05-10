@@ -42,6 +42,8 @@ video {
 /* custom */
 
 html {
+    font-size: 1em;
+    line-height: 1.4;
     overflow-y: scroll;
 }
 
@@ -54,11 +56,6 @@ body {
 body {
     font-family: '微軟正黑體', '儷黑Pro', 'Ubuntu', Arial;
     background: #DFDFDF;
-    font-size: 14px;
-}
-
-code {
-    font-family: 'monospace', 'Courier';
 }
 
 *:focus {
@@ -81,7 +78,7 @@ a:hover {
     max-width: 1000px;
 }
 
-#main .border {
+#border {
     background: #FFF;
     margin: 30px 20px 50px 20px;
     -moz-box-shadow: 0 0 10px #999;
@@ -89,13 +86,13 @@ a:hover {
     box-shadow: 0 0 10px #999;
 }
 
-header {
+#header {
     height: 110px;
     margin: auto;
     padding: 45px 0 0 50px;
 }
 
-header > h1 {
+#header h1 {
     margin: 0;
     padding: 0;
     vertical-align: bottom;
@@ -104,12 +101,12 @@ header > h1 {
     line-height: 36px;
 }
 
-header > h1 > a:hover {
+#header h1 > a:hover {
     text-decoration: none;
     color: #999;
 }
 
-header > h2 {
+#header h2 {
     font-size: 16px;
     color: #999;
     font-weight: normal;
@@ -142,16 +139,16 @@ header > h2 {
     box-shadow: 0 0 10px #999;
 }
 
-#nav > .search {
+#nav_search {
     float: right;
     line-height: 45px;
 }
 
-#nav > .search form {
+#nav_search form {
     display: inline;
 }
 
-#nav > .search input[type=text] {
+#nav_search input[type=text] {
     padding: 3px 5px;
     margin: 0 0 0 10px;
     border: 1px #333 solid;
@@ -160,7 +157,7 @@ header > h2 {
     border-radius: 5px;
 }
 
-#nav > .search input[type=submit] {
+#nav_search input[type=submit] {
     display: none;
 }
 
@@ -169,33 +166,129 @@ header > h2 {
     padding: 15px 50px;
 }
 
-#container > div > .title,
-#container > div > article > .title {
+#container .title {
     font-size: 28px;
     font-weight: bold;
     margin-bottom: 15px;
 }
 
-#container .bar .new {
+#container .content code {
+    font-family: 'monospace', 'Courier';
+}
+
+#container .content pre {
+    border: 1px #000 solid;
+    padding: 10px 25px 10px 55px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+#container .content img {
+    max-width: 100%;
+    background: #ffffff;
+    padding: 5px;
+    border: 1px solid #CCC;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+}
+
+#container_article .post_block
+#container_page .post_block, {
+    margin-bottom: 50px;
+}
+
+#container_page .content {
+    margin-bottom: 25px;
+}
+
+#container_page .more {
+    display: inline-block;
+    border: 1px #DDD solid;
+    background: #EEE;
+    padding: 5px 20px;
+    text-align: center;
+    text-decoration: none;
+}
+
+#container_page .more:hover {
+    color: #EEE;
+    background: #333333;
+}
+
+#container_tag .year,
+#container_archive .year,
+#container_category .year {
+    font-size: 32px;
+    text-align: center;
+}
+
+#container_tag .month_archive,
+#container_archive .month_archive,
+#container_category .month_archive {
+    position: relative;
+    margin-bottom: 10px;
+    margin-left: 40px;
+}
+
+#container_tag .month,
+#container_archive .month,
+#container_category .month {
+    display: inline-block;
+    font-size: 28px;
+    margin-right: 10px;
+    top: -5px;
+    position: absolute;
+}
+
+#container_tag .post_block,
+#container_archive .post_block,
+#container_category .post_block {
+    margin-bottom: 10px;
+}
+
+#container_tag .list,
+#container_archive .list,
+#container_category .list {
+    display: inline-block;
+    margin-left: 40px;
+}
+
+#container_tag .list .title,
+#container_archive .list .title,
+#container_category .list .title {
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+}
+,
+#container_tag .list span,
+#container_archive .list span,
+#container_category .list span{
+    display: block;
+}
+
+#paging .new {
     text-align: left;
     display: inline-block;
     width: 100%;
     height: 20px;
 }
 
-#container .bar .old {
+#paging .old {
     text-align: right;
     display: inline-block;
     width: 100%;
     height: 20px;
 }
 
-#container .bar .count {
+#paging .count {
     text-align: center;
     display: block;
 }
 
-#container .bar {
+#paging {
     text-align: center;
     font-size: 16px;
     line-height: 16px;
@@ -216,18 +309,16 @@ header > h2 {
     float: left;
 }
 
-#side > div .title {
+#side .title {
     font-size: 24px;
 }
 
-#side > .tag span,
-#side > .archive span,
-#side > .category span {
+#side .content .item {
     display: inline-block;
     padding: 0 5px 5px 0;
 }
 
-footer {
+#footer {
     border-top: solid 1px #DFDFDF;
     background: #EFEFEF;
     text-align: center;
@@ -235,100 +326,6 @@ footer {
     line-height: 50px;
     font-size: 12px;
     color: #666;
-}
-
-article pre {
-    border: 1px #000 solid;
-    padding: 10px 25px 10px 55px;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
-}
-
-article img {
-    max-width: 100%;
-    background: #ffffff;
-    padding: 5px;
-    border: 1px solid #CCC;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
-    border-radius: 3px;
-}
-
-#article article
-#page article, {
-    margin-bottom: 50px;
-}
-
-#page article .content {
-    margin-bottom: 25px;
-}
-
-#page article .more {
-    display: inline-block;
-    border: 1px #DDD solid;
-    background: #EEE;
-    padding: 5px 20px;
-    text-align: center;
-    text-decoration: none;
-}
-
-#page article .more:hover {
-    color: #EEE;
-    background: #333333;
-}
-
-#tag .year,
-#archive .year,
-#category .year {
-    font-size: 32px;
-    text-align: center;
-}
-
-#tag .month_archive,
-#archive .month_archive,
-#category .month_archive {
-    position: relative;
-    margin-bottom: 10px;
-    margin-left: 40px;
-}
-
-#tag .month,
-#archive .month,
-#category .month {
-    display: inline-block;
-    font-size: 28px;
-    margin-right: 10px;
-    top: -5px;
-    position: absolute;
-}
-
-#tag .list,
-#archive .list,
-#category .list {
-    display: inline-block;
-    margin-left: 40px;
-}
-
-#tag .list .title,
-#archive .list .title,
-#category .list .title {
-    display: block;
-    font-size: 18px;
-    font-weight: bold;
-}
-
-#tag .list .archive,
-#tag .list .category,
-#archive .list .category,
-#category .list .archive {
-    display: block;
-}
-
-#tag .list article,
-#archive .list article,
-#category .list article {
-    margin-bottom: 10px;
 }
 
 /*@media (max-width: 480px) {

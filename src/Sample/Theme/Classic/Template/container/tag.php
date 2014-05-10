@@ -1,4 +1,4 @@
-<div id="tag">
+<div id="container_tag">
     <div class="title"><?=$post['title']?></div>
     <?php foreach ((array) $post['list'] as $year => $month_list): ?>
     <div class="year_archive">
@@ -8,7 +8,7 @@
             <div class="month"><?=$month?></div>
             <div class="list">
                 <?php foreach ((array) $article_list as $article): ?>
-                <article>
+                <article class="post_block">
                     <span class="title">
                         <?=linkTo("{$blog['base']}article/{$article['url']}", $article['title'])?>
                     </span>
@@ -35,7 +35,7 @@
         <?php endforeach; ?>
     </div>
     <?php endforeach; ?>
-    <div class="bar">
+    <div id="paging">
         <span class="new">
             <?=isset($paging['p_url'])
                 ? linkTo($paging['p_url'], "<< {$paging['p_title']}") : ''?>

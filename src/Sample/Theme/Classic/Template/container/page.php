@@ -1,6 +1,6 @@
-<div id="page">
+<div id="container_page">
     <?php foreach ((array) $post['list'] as $article): ?>
-    <article>
+    <article class="post_block">
         <div class="title">
             <?=linkTo("{$blog['base']}article/{$article['url']}", $article['title'])?>
         </div>
@@ -34,7 +34,7 @@
     </article>
     <hr>
     <?php endforeach; ?>
-    <div class="bar">
+    <div id="paging">
         <span class="new">
             <?=isset($paging['p_url'])
                 ? linkTo($paging['p_url'], '<< Newer Posts'): ''?>

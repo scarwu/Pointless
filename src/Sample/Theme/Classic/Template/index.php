@@ -11,13 +11,13 @@
 </head>
 <body>
     <div id="main">
-        <div class="border">
-            <header>
+        <div id="border">
+            <header id="header">
                 <h1><?=linkTo($blog['base'], $blog['name'])?></h1>
                 <h2><?=$blog['slogan']?></h2>
             </header>
             <div id="nav">
-                <form class="search" action="http://www.google.com/search?q=as" target="_blank" method="get">
+                <form id="nav_search" action="http://www.google.com/search?q=as" target="_blank" method="get">
                     <input type="hidden" name="q" value="site:<?=$blog['dn']?>">
                     <input type="text" name="q" placeholder="Search">
                     <input type="submit">
@@ -27,7 +27,7 @@
             </div>
             <div id="container"><?=$block['container']?></div>
             <div id="side"><?=$block['side']?></div>
-            <footer><?=$blog['footer']?></footer>
+            <footer id="footer"><?=$blog['footer']?></footer>
         </div>
     </div>
 
