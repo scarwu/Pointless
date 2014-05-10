@@ -91,10 +91,6 @@ class Archive extends ThemeScript
                 'post' => $post
             ], 'container/archive.php');
 
-            $data = [];
-            $data['blog'] = array_merge($blog, $ext);
-            $data['block'] = $block;
-
             // Save HTML
             $this->save($post['url'], $this->render([
                 'blog' => array_merge($blog, $ext),
