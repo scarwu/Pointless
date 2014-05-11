@@ -50,9 +50,6 @@ class HTMLGenerator
             if (file_exists(THEME . "/Script/$filename.php")) {
                 require THEME . "/Script/$filename.php";
                 $this->script[$filename] = new $filename;
-            } elseif (file_exists(ROOT . "/Sample/Script/$filename.php")) {
-                require ROOT . "/Sample/Script/$filename.php";
-                $this->script[$filename] = new $filename;
             }
         }
     }
