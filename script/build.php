@@ -38,7 +38,7 @@ foreach ([
     'vendor/composer',
     'vendor/scarwu/pack/src',
     'vendor/scarwu/nanocli/src',
-    'vendor/michelf/php-markdown/Michelf'
+    'vendor/erusev/parsedown'
 ] as $path) {
     Utility::copy("$root/$path", "$root/tmp/$path");
 }
