@@ -1,6 +1,6 @@
 <?php
 /**
- * Category Data Generator Script for Theme
+ * Tag Data Generator Script for Theme
  *
  * @package     Pointless
  * @author      ScarWu
@@ -10,17 +10,20 @@
 
 use NanoCLI\IO;
 
-class Category extends ThemeScript
+class Tag extends ThemeScript
 {
     public function __construct()
     {
         parent::__construct();
 
         foreach (Resource::get('post')['article'] as $value) {
-            if (!isset($this->list[$value['category']]))
-                $this->list[$value['category']] = [];
+            foreach ($value['tag'] as $tag) {
+                if (!isset($this->list[$tag])) {
+                    $this->list[$tag] = [];
+                }
 
-            $this->list[$value['category']][] = $value;
+                $this->list[$tag][] = $value;
+            }
         }
 
         uasort($this->list, function ($a, $b) {
@@ -60,30 +63,32 @@ class Category extends ThemeScript
         $blog = Resource::get('config')['blog'];
 
         foreach ((array) $this->list as $index => $post_list) {
-            IO::log("Building category/$index");
+            IO::log("Building tag/$index");
             if (null === $first) {
                 $first = $index;
             }
 
             $post = [];
-            $post['title'] ="Category: $index";
-            $post['url'] = "category/$index";
+            $post['title'] = "Tag: $index";
+            $post['url'] = "tag/$index";
             $post['list'] = $this->createDateList($post_list);
-            $post['bar']['index'] = $count + 1;
-            $post['bar']['total'] = $total;
+
+            $paging = [];
+            $paging['index'] = $count + 1;
+            $paging['total'] = $total;
 
             if (isset($keys[$count - 1])) {
-                $category = $keys[$count - 1];
+                $tag = $keys[$count - 1];
 
-                $post['bar']['p_title'] = $category;
-                $post['bar']['p_url'] = "{$blog['base']}category/$category";
+                $paging['p_title'] = $tag;
+                $paging['p_url'] = "{$blog['base']}tag/$tag";
             }
 
             if (isset($keys[$count + 1])) {
-                $category = $keys[$count + 1];
+                $tag = $keys[$count + 1];
 
-                $post['bar']['n_title'] = $category;
-                $post['bar']['n_url'] = "{$blog['base']}category/$category";
+                $paging['n_title'] = $tag;
+                $paging['n_url'] = "{$blog['base']}tag/$tag";
             }
 
             $count++;
@@ -95,17 +100,19 @@ class Category extends ThemeScript
             $block = Resource::get('block');
             $block['container'] = $this->render([
                 'blog' => array_merge($blog, $ext),
-                'post' => $post
-            ], 'container/category.php');
+                'post' => $post,
+                'paging' => $paging
+            ], 'container/tag.php');
 
             // Save HTML
             $this->save($post['url'], $this->render([
                 'blog' => array_merge($blog, $ext),
+                'post' => $post,
                 'block' => $block
             ], 'index.php'));
         }
 
-        $this->createIndex("category/$first/index.html", 'category/index.html');
+        $this->createIndex("/tag/$first/index.html", 'tag/index.html');
     }
 
     private function createDateList($list)

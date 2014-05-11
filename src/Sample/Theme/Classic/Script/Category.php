@@ -1,6 +1,6 @@
 <?php
 /**
- * Archive Data Generator Script for Theme
+ * Category Data Generator Script for Theme
  *
  * @package     Pointless
  * @author      ScarWu
@@ -10,19 +10,26 @@
 
 use NanoCLI\IO;
 
-class Archive extends ThemeScript
+class Category extends ThemeScript
 {
     public function __construct()
     {
         parent::__construct();
 
-        foreach ((array) Resource::get('post')['article'] as $index => $value) {
-            if (!isset($this->list[$value['year']])) {
-                $this->list[$value['year']] = [];
+        foreach (Resource::get('post')['article'] as $value) {
+            if (!isset($this->list[$value['category']]))
+                $this->list[$value['category']] = [];
+
+            $this->list[$value['category']][] = $value;
+        }
+
+        uasort($this->list, function ($a, $b) {
+            if (count($a) === count($b)) {
+                return 0;
             }
 
-            $this->list[$value['year']][] = $value;
-        }
+            return count($a) > count($b) ? -1 : 1;
+        });
     }
 
     /**
@@ -53,30 +60,32 @@ class Archive extends ThemeScript
         $blog = Resource::get('config')['blog'];
 
         foreach ((array) $this->list as $index => $post_list) {
-            IO::log("Building archive/$index");
+            IO::log("Building category/$index");
             if (null === $first) {
                 $first = $index;
             }
 
             $post = [];
-            $post['title'] = "Archive: $index";
-            $post['url'] = "archive/$index";
+            $post['title'] ="Category: $index";
+            $post['url'] = "category/$index";
             $post['list'] = $this->createDateList($post_list);
-            $post['bar']['index'] = $count + 1;
-            $post['bar']['total'] = $total;
+
+            $paging = [];
+            $paging['index'] = $count + 1;
+            $paging['total'] = $total;
 
             if (isset($keys[$count - 1])) {
-                $archive = $keys[$count - 1];
+                $category = $keys[$count - 1];
 
-                $post['bar']['p_title'] = $archive;
-                $post['bar']['p_url'] = "{$blog['base']}archive/$archive";
+                $paging['p_title'] = $category;
+                $paging['p_url'] = "{$blog['base']}category/$category";
             }
 
             if (isset($keys[$count + 1])) {
-                $archive = $keys[$count + 1];
+                $category = $keys[$count + 1];
 
-                $post['bar']['n_title'] = $archive;
-                $post['bar']['n_url'] = "{$blog['base']}archive/$archive";
+                $paging['n_title'] = $category;
+                $paging['n_url'] = "{$blog['base']}category/$category";
             }
 
             $count++;
@@ -88,21 +97,19 @@ class Archive extends ThemeScript
             $block = Resource::get('block');
             $block['container'] = $this->render([
                 'blog' => array_merge($blog, $ext),
-                'post' => $post
-            ], 'container/archive.php');
-
-            $data = [];
-            $data['blog'] = array_merge($blog, $ext);
-            $data['block'] = $block;
+                'post' => $post,
+                'paging' => $paging
+            ], 'container/category.php');
 
             // Save HTML
             $this->save($post['url'], $this->render([
                 'blog' => array_merge($blog, $ext),
+                'post' => $post,
                 'block' => $block
             ], 'index.php'));
         }
 
-        $this->createIndex("archive/$first/index.html", 'archive/index.html');
+        $this->createIndex("category/$first/index.html", 'category/index.html');
     }
 
     private function createDateList($list)
