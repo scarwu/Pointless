@@ -134,9 +134,6 @@ a:hover {
 #nav > a:active {
     background: #EEE;
     color: #222;
-    -moz-box-shadow: 0 0 10px #999;
-    -webkit-box-shadow: 0 0 10px #999;
-    box-shadow: 0 0 10px #999;
 }
 
 #nav_search {
@@ -177,11 +174,16 @@ a:hover {
 }
 
 #container .content pre {
+    background: #222;
     border: 1px #000 solid;
     padding: 10px 25px 10px 55px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     border-radius: 5px;
+}
+
+#container .content pre > code {
+    background: none;
 }
 
 #container .content img {
@@ -194,9 +196,14 @@ a:hover {
     border-radius: 3px;
 }
 
-#container_article .post_block
-#container_page .post_block, {
+#container_article .post_block,
+#container_page .post_block {
     margin-bottom: 50px;
+}
+
+#container_article .info span,
+#container_page .info span {
+    margin-right: 10px;
 }
 
 #container_page .content {
@@ -217,56 +224,39 @@ a:hover {
     background: #333333;
 }
 
-#container_tag .year,
-#container_archive .year,
-#container_category .year {
-    font-size: 32px;
-    text-align: center;
-}
-
 #container_tag .month_archive,
 #container_archive .month_archive,
 #container_category .month_archive {
-    position: relative;
     margin-bottom: 10px;
-    margin-left: 40px;
-}
-
-#container_tag .month,
-#container_archive .month,
-#container_category .month {
-    display: inline-block;
-    font-size: 28px;
-    margin-right: 10px;
-    top: -5px;
-    position: absolute;
 }
 
 #container_tag .post_block,
 #container_archive .post_block,
 #container_category .post_block {
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 #container_tag .list,
 #container_archive .list,
 #container_category .list {
     display: inline-block;
-    margin-left: 40px;
+    margin-left: 50px;
 }
 
 #container_tag .list .title,
 #container_archive .list .title,
 #container_category .list .title {
+    margin: 0;
+    padding: 0;
     display: block;
-    font-size: 18px;
+    font-size: 135%;
     font-weight: bold;
 }
-,
+
 #container_tag .list span,
 #container_archive .list span,
-#container_category .list span{
-    display: block;
+#container_category .list span {
+    margin-right: 10px;
 }
 
 #paging .new {
@@ -326,6 +316,14 @@ a:hover {
     line-height: 50px;
     font-size: 12px;
     color: #666;
+}
+
+#footer a,
+#footer a:hover,
+#footer a:visited,
+#footer a:active {
+    text-decoration: none !important;
+    color: #666 !important;
 }
 
 /*@media (max-width: 480px) {

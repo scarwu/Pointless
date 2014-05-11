@@ -7,6 +7,7 @@
 
     <title><?=$blog['title']?></title>
 
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="<?=$blog['base']?>theme/main.css">
 </head>
 <body>
@@ -27,7 +28,9 @@
             </div>
             <div id="container"><?=$block['container']?></div>
             <div id="side"><?=$block['side']?></div>
-            <footer id="footer"><?=$blog['footer']?></footer>
+            <footer id="footer">
+                <?=$blog['footer']?> - <a href="https://github.com/scarwu/Pointless" target="_blank">Powered by Pointless</a>
+            </footer>
         </div>
     </div>
 
