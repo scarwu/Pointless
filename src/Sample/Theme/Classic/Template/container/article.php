@@ -10,16 +10,16 @@
             <?php endif; ?>
             <span class="date">
                 <i class="fa fa-calendar"></i>
-                <?=linkTo("{$blog['base']}archive/{$post['year']}", $post['date'])?>
+                <?=linkTo("{$blog['base']}archive/{$post['year']}/", $post['date'])?>
             </span>
             <span class="category">
                 <i class="fa fa-folder-open"></i>
-                <?=linkTo("{$blog['base']}category/{$post['category']}", $post['category'])?>
+                <?=linkTo("{$blog['base']}category/{$post['category']}/", $post['category'])?>
             </span>
             <span class="tag">
                 <i class="fa fa-tags"></i>
                 <?php foreach ((array) $post['tag'] as $index => $tag): ?>
-                <?php $post['tag'][$index] = linkTo("{$blog['base']}tag/$tag", $tag); ?>
+                <?php $post['tag'][$index] = linkTo("{$blog['base']}tag/$tag/", $tag); ?>
                 <?php endforeach; ?>
                 <?=join($post['tag'], ', ')?>
             </span>

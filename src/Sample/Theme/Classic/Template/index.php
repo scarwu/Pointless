@@ -24,7 +24,7 @@
                     <input type="submit">
                 </form>
                 <a href="<?=$blog['base']?>">Home</a>
-                <a href="<?="{$blog['base']}about"?>">About</a>
+                <a href="<?="{$blog['base']}about/"?>">About</a>
             </div>
             <div id="container"><?=$block['container']?></div>
             <div id="side"><?=$block['side']?></div>
