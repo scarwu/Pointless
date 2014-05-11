@@ -72,11 +72,22 @@ class ArticleDoctype extends Doctype
         $post['tag'] = explode('|', $post['tag']);
         sort($post['tag']);
 
+        // Summary and Description
+        $summary = preg_replace('/<p>&lt;!--more--><\/p>(.|\n)*/', '', $post['content']);
+
+        $description = '';
+        preg_match('/<p>((:?.|\n)*?)<\/p>/', $summary, $match);
+        if (isset($match[1])) {
+            $description = strip_tags($match[1]);
+        }
+
         return [
             'type' => $post['type'],
             'title' => $post['title'],
             'url' => $url,
-            'content' => $post['content'],
+            'content' => preg_replace('/<p>&lt;!--more--><\/p>*/', '', $post['content']),
+            'summary' => $summary,
+            'description' => $description,
             'category' => $post['category'],
             'tag' => $post['tag'],
             'date' => $post['date'],

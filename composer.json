@@ -2,6 +2,6 @@
     "require": {
         "scarwu/pack": "dev-master",
         "scarwu/nanocli": "dev-master",
-        "michelf/php-markdown": "1.4.*"
+        "erusev/parsedown": "dev-master"
     }
 }

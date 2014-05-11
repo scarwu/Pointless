@@ -14,7 +14,7 @@ use NanoCLI\Command;
 use NanoCLI\IO;
 use Pack\CSS;
 use Pack\JS;
-use Michelf\MarkdownExtra;
+use Parsedown;
 
 use Utility;
 use Resource;
@@ -125,6 +125,8 @@ class GenCommand extends Command
      */
     private function loadMarkdown()
     {
+        $parsedown = new Parsedown();        
+
         // Load Doctype
         $type = [];
         $handle = opendir(ROOT . '/Doctype');
@@ -165,7 +167,7 @@ class GenCommand extends Command
             }
 
             // Transfer Markdown to HTML
-            $post['content'] = MarkdownExtra::defaultTransform($match[2]);
+            $post['content'] = $parsedown->text($match[2]);
 
             // Append Post to Result
             if (!isset($result[$post['type']])) {

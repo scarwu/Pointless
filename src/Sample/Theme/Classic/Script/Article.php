@@ -64,14 +64,9 @@ class Article extends ThemeScript
             $ext = [];
             $ext['title'] = "{$post['title']} | {$blog['name']}";
             $ext['url'] = $blog['dn'] . $blog['base'];
-
-            // Capture descrition form content
-            $content = $post['content'];
-            preg_replace('/<!--more-->(.|\n)*/', '', $content);
-            preg_match('/<p>(.*)<\/p>/', $content, $match);
-            if (isset($match[1])) {
-                $ext['description'] = strip_tags($match[1]);
-            }
+            $ext['description'] = '' !== $post['description']
+                ? $post['description']
+                : $blog['description'];
 
             $block = Resource::get('block');
             $block['container'] = $this->render([

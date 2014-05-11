@@ -25,7 +25,7 @@
                 <?=join($article['tag'], ', ')?>
             </span>
         </div>
-        <div class="content"><?=preg_replace('/<!--more-->(.|\n)*/', '', $article['content'])?></div>
+        <div class="content"><?=$article['summary']?></div>
         <a class="more" href="<?="{$blog['base']}article/{$article['url']}"?>">Read more</a>
     </article>
     <hr>
