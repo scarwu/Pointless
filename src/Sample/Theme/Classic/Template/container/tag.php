@@ -1,5 +1,5 @@
 <div id="container_tag">
-    <div class="title"><?=$post['title']?></div>
+    <h1 class="title"><?=$post['title']?></h1>
     <?php foreach ((array) $post['list'] as $year => $month_list): ?>
     <div class="year_archive">
         <?php foreach ((array) $month_list as $month => $article_list): ?>
