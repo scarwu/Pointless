@@ -54,10 +54,12 @@ class StartCommand extends Command
             $pid_list[$pid] = $command;
             file_put_contents(HOME . '/PID', json_encode($pid_list));
 
-            IO::info('Starting server is successful.');
+            IO::info('Server is start.');
+            IO::log("Doc Root   - $root");
+            IO::log("Server URL - http://localhost:$port");
+            IO::log("Server PID - $pid");
         } else {
-            IO::error('Starting server is fail.');
+            IO::error('Server fails to start.');
         }
-        
     }
 }

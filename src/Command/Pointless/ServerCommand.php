@@ -17,9 +17,13 @@ class ServerCommand extends Command
 {
     public function help()
     {
-        IO::log('    server     - Start built-in web server');
+        IO::log('    server     - Show server status');
+        IO::log('    server start');
+        IO::log('               - Start built-in web server');
         IO::log('    --port=<port number>');
         IO::log('               - Set port number');
+        IO::log('    server stop');
+        IO::log('               - Stop built-in web server');
     }
 
     public function up()
@@ -29,14 +33,26 @@ class ServerCommand extends Command
         }
 
         initBlog();
+
+        if (!file_exists(HOME . '/PID')) {
+            IO::error("Server is not running.\n");
+
+            return false;
+        }
     }
 
     public function run()
     {
-        $route_script = (defined('BUILD_TIMESTAMP') ? HOME : ROOT) . '/Sample/Route.php';
-        $port = $this->hasConfigs() ? $this->getConfigs('port') : 3000;
-        $root = HOME;
+        $list = json_decode(file_get_contents(HOME . '/PID'), true);
 
-        system("php -S localhost:$port -t $root $route_script < `tty` > `tty`");
+        foreach ($list as $pid => $command) {
+            exec("ps aux | grep \"$command\"", $output);
+
+            if (count($output) > 1) {
+                IO::notice('Server is running.');
+
+                break;
+            }
+        }
     }
 }

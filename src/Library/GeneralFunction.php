@@ -15,7 +15,7 @@ use NanoCLI\IO;
  */
 function checkDefaultBlog()
 {
-    $msg = 'Default blog is\'t set. Please use command "home set" or "home init".';
+    $msg = "Default blog is't set.\nPlease use command \"home set\" or \"home init\".";
 
     if (!file_exists(HOME . '/Default')) {
         IO::error($msg);
