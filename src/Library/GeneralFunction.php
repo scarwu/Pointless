@@ -117,7 +117,7 @@ function initBlog()
 function parseMarkdownFile($filename, $skip = false)
 {
     // Define Regular Expression Rule
-    $regex = '/^(?:<--({(?:.|\n)*})-->)\s*(?:#(.*))?((?:.|\n)*)/';
+    $regex = '/^(?:<!--({(?:.|\n)*})-->)\s*(?:#(.*))?((?:.|\n)*)/';
 
     preg_match($regex, file_get_contents(MARKDOWN . "/$filename"), $match);
 

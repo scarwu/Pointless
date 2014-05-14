@@ -1,4 +1,4 @@
-<--{
+<!--{
     "type": "static",
     "url": "about",
     "message": false,

@@ -57,7 +57,7 @@ abstract class Doctype
         $json = json_encode($hedaer, $option);
 
         // Create Markdown
-        file_put_contents($savepath, "<--$json-->\n\n# $title\n\n");
+        file_put_contents($savepath, "<!--$json-->\n\n# $title\n\n");
 
         $this->savepath = $savepath;
 
