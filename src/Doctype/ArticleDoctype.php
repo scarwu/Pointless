@@ -76,7 +76,7 @@ class ArticleDoctype extends Doctype
         sort($post['tag']);
 
         // Summary and Description
-        $summary = preg_replace('/<p>&lt;!--more--><\/p>(.|\n)*/', '', $post['content']);
+        $summary = preg_replace('/<!--more-->(.|\n)*/', '', $post['content']);
 
         $description = '';
         preg_match('/<p>((:?.|\n)*?)<\/p>/', $summary, $match);
@@ -88,7 +88,7 @@ class ArticleDoctype extends Doctype
             'type' => $post['type'],
             'title' => $post['title'],
             'url' => $url,
-            'content' => preg_replace('/<p>&lt;!--more--><\/p>*/', '', $post['content']),
+            'content' => $post['content'],
             'summary' => $summary,
             'description' => $description,
             'category' => $post['category'],
