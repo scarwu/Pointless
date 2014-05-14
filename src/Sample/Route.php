@@ -27,12 +27,27 @@ if (preg_match($pattern, $_SERVER['REQUEST_URI'], $match)) {
 $path .= is_dir($path) ? '/index.html' : '';
 $path = explode('?', $path)[0];
 
-if (preg_match('/\.css$/', $path)) {
-    header('Content-type: text/css');
-}
+$mime = [
+    'html' => 'text/html',
+    'css' => 'text/css',
+    'js' => 'text/javascript',
 
-if (preg_match('/\.js$/', $path)) {
-    header('Content-type: text/javascript');
+    'json' => 'application/json',
+    'xml' => 'application/xml',
+    'woff' => 'application/font-woff',
+
+    'jpg' => 'image/jpeg',
+    'png' => 'image/png',
+    'gif' => 'image/gif',
+
+    'ttf' => 'font/opentype'
+];
+
+$ext_name = explode('.', $path);
+$ext_name = array_pop($ext_name);
+
+if (isset($mime[$ext_name])) {
+    header("Content-type: {$mime[$ext_name]}");
 }
 
 if (file_exists($path)) {
