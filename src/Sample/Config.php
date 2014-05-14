@@ -1,9 +1,9 @@
 <?php
 $config = [
     'blog' => [
-        'name' => 'Pointless',
-        'slogan' => 'A Useful Static Blog Generator',
-        'footer' => 'Powered By Pointless',
+        'name' => 'My Blog',
+        'slogan' => 'Pointless - Static Blog Generator',
+        'footer' => 'My Blog',
         'description' => '',
         'keywords' => '',
 
