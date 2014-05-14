@@ -65,8 +65,10 @@ class DeleteCommand extends Command
                 continue;
             }
 
-            preg_match(REGEX_RULE, file_get_contents(MARKDOWN . "/$filename"), $match);
-            $post = json_decode($match[1], true);
+            if (!($post = parseMarkdownFile($filename, true))) {
+                IO::error("Markdown parse error: $filename");
+                exit(1);
+            }
 
             if ($type[$select]->getID() !== $post['type']) {
                 continue;
@@ -79,8 +81,10 @@ class DeleteCommand extends Command
             }
 
             $list[$index]['publish'] = $post['publish'];
-            $list[$index]['title'] = $post['title'];
             $list[$index]['path'] = MARKDOWN . "/$filename";
+            $list[$index]['title'] = '' !== $post['title']
+                ? $post['title']
+                : $filename;
         }
         closedir($handle);
         uksort($list, 'strnatcasecmp');

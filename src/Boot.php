@@ -29,9 +29,6 @@ if (!file_exists(HOME)) {
     mkdir(HOME, 0755, true);
 }
 
-// Define Regular Expression Rule
-define('REGEX_RULE', '/^({(?:.|\n)*?})\n((?:.|\n)*)/');
-
 /**
  * Copy Sample Files
  */

@@ -110,3 +110,30 @@ function initBlog()
         Utility::chown(BLOG, fileowner(HOME), filegroup(HOME));
     }
 }
+
+/**
+ * Parse Markdown File
+ */
+function parseMarkdownFile($filename, $skip = false)
+{
+    // Define Regular Expression Rule
+    $regex = '/^(?:<--({(?:.|\n)*})-->)\s*(?:#(.*))?((?:.|\n)*)/';
+
+    preg_match($regex, file_get_contents(MARKDOWN . "/$filename"), $match);
+
+    if (4 !== count($match)) {
+        return false;
+    }
+
+    if (null === ($post = json_decode($match[1], true))) {
+        return false;
+    }
+
+    $post['title'] = trim($match[2]);
+
+    if (!$skip) {
+        $post['content'] = $match[3];
+    }
+
+    return $post;
+}

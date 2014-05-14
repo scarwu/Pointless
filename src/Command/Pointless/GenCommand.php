@@ -150,11 +150,8 @@ class GenCommand extends Command
                 continue;
             }
 
-            preg_match(REGEX_RULE, file_get_contents(MARKDOWN . "/$filename"), $match);
-            $post = json_decode($match[1], true);
-
-            if (null === $post) {
-                IO::error("Post header error: $filename");
+            if (!($post = parseMarkdownFile($filename))) {
+                IO::error("Markdown parse error: $filename");
                 exit(1);
             }
 
@@ -167,7 +164,7 @@ class GenCommand extends Command
             }
 
             // Transfer Markdown to HTML
-            $post['content'] = $parsedown->text($match[2]);
+            $post['content'] = $parsedown->text($post['content']);
 
             // Append Post to Result
             if (!isset($result[$post['type']])) {
