@@ -21,7 +21,7 @@ abstract class Doctype
         $this->question = [];
     }
 
-    abstract public function headerHandleAndSave($header);
+    abstract public function inputHandleAndSaveFile($input);
 
     abstract public function postHandleAndGetResult($post);
 
@@ -40,8 +40,12 @@ abstract class Doctype
         return $this->question;
     }
 
-    final public function save($filename, $post)
+    final public function save($info)
     {
+        $filename = $info['filename'];
+        $title = $info['title'];
+        $hedaer = $info['header'];
+
         $savepath = MARKDOWN . "/$filename";
 
         if (file_exists($savepath)) {
@@ -50,10 +54,10 @@ abstract class Doctype
 
         // Convert to JSON
         $option = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE;
-        $json = json_encode($post, $option);
+        $json = json_encode($hedaer, $option);
 
         // Create Markdown
-        file_put_contents($savepath, "$json\n\n\n");
+        file_put_contents($savepath, "<--$json-->\n\n# $title\n\n");
 
         $this->savepath = $savepath;
 
