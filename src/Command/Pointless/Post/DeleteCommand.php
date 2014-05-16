@@ -1,6 +1,6 @@
 <?php
 /**
- * Pointless Delete Command
+ * Pointless Post Delete Command
  *
  * @package     Pointless
  * @author      ScarWu
@@ -8,7 +8,7 @@
  * @link        http://github.com/scarwu/Pointless
  */
 
-namespace Pointless;
+namespace Pointless\Post;
 
 use NanoCLI\Command;
 use NanoCLI\IO;
@@ -17,8 +17,7 @@ class DeleteCommand extends Command
 {
     public function help()
     {
-        IO::log('    delete <number or not>');
-        IO::log('               - Delete post');
+        IO::log('    delete      - Delete post');
     }
 
     public function up()

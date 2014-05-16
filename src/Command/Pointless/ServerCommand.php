@@ -17,13 +17,12 @@ class ServerCommand extends Command
 {
     public function help()
     {
-        IO::log('    server     - Show server status');
+        IO::log('    server      - Show server status');
         IO::log('    server start');
-        IO::log('               - Start built-in web server');
+        IO::log('                - Start built-in web server');
         IO::log('    --port=<port number>');
-        IO::log('               - Set port number');
-        IO::log('    server stop');
-        IO::log('               - Stop built-in web server');
+        IO::log('                - Set port number');
+        IO::log('    server stop - Stop built-in web server');
     }
 
     public function up()

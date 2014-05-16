@@ -1,6 +1,6 @@
 <?php
 /**
- * Pointless Edit Command
+ * Pointless Post Edit Command
  *
  * @package     Pointless
  * @author      ScarWu
@@ -8,7 +8,7 @@
  * @link        http://github.com/scarwu/Pointless
  */
 
-namespace Pointless;
+namespace Pointless\Post;
 
 use NanoCLI\Command;
 use NanoCLI\IO;
@@ -22,7 +22,7 @@ class EditCommand extends Command
 
     public function help()
     {
-        IO::log('    edit       - Edit post');
+        IO::log('    edit        - Edit post');
     }
 
     public function up()

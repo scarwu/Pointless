@@ -1,6 +1,6 @@
 <?php
 /**
- * Pointless Add Command
+ * Pointless Post Add Command
  *
  * @package     Pointless
  * @author      ScarWu
@@ -8,7 +8,7 @@
  * @link        http://github.com/scarwu/Pointless
  */
 
-namespace Pointless;
+namespace Pointless\Post;
 
 use NanoCLI\Command;
 use NanoCLI\IO;
@@ -22,7 +22,7 @@ class AddCommand extends Command
 
     public function help()
     {
-        IO::log('    add        - Add new post');
+        IO::log('    add         - Add new post');
     }
 
     public function up()

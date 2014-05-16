@@ -19,16 +19,14 @@ class HelpCommand extends Command
 {
     public function help()
     {
-        IO::log('    home       - Initialize and set default blog');
-        IO::log('    gen        - Generate blog');
-        IO::log('    add        - Add new post');
-        IO::log('    edit       - Edit post');
-        IO::log('    delete     - Delete post');
-        IO::log('    server     - Start built-in web server');
-        IO::log('    config     - Modify config');
-        IO::log('    deploy     - Deploy blog');
-        IO::log('    update     - Self-update');
-        IO::log('    version    - Show version');
+        IO::log('    home        - Initialize and set default blog');
+        IO::log('    gen         - Generate blog');
+        IO::log('    post        - Add / Edit / Delete post');
+        IO::log('    server      - Start built-in web server');
+        IO::log('    config      - Modify config');
+        IO::log('    deploy      - Deploy blog');
+        IO::log('    update      - Self-update');
+        IO::log('    version     - Show version');
     }
 
     public function run()

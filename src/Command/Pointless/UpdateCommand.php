@@ -19,9 +19,9 @@ class UpdateCommand extends Command
 {
     public function help()
     {
-        IO::log('    update     - Self-update');
-        IO::log('    update -d  - Use development version');
-        IO::log('    update -e  - Use experipment version');
+        IO::log('    update      - Self-update');
+        IO::log('    update -d   - Use development version');
+        IO::log('    update -e   - Use experipment version');
     }
 
     public function up()

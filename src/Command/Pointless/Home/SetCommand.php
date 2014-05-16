@@ -20,7 +20,7 @@ class SetCommand extends Command
     public function help()
     {
         IO::log('    home set <path or not>');
-        IO::log('               - Set another blog as default');
+        IO::log('                - Set another blog as default');
     }
 
     public function up()

@@ -25,9 +25,9 @@ class GenCommand extends Command
 {
     public function help()
     {
-        IO::log('    gen        - Generate blog');
-        IO::log('    gen -css   - Compress CSS');
-        IO::log('    gen -js    - Compress JavaScript');
+        IO::log('    gen         - Generate blog');
+        IO::log('    gen -css    - Compress CSS');
+        IO::log('    gen -js     - Compress JavaScript');
     }
 
     public function up()

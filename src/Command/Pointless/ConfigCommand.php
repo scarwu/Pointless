@@ -22,7 +22,7 @@ class ConfigCommand extends Command
 
     public function help()
     {
-        IO::log('    config     - Modify config');
+        IO::log('    config      - Modify config');
     }
 
     public function up()

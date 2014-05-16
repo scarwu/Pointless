@@ -17,7 +17,7 @@ class VersionCommand extends Command
 {
     public function help()
     {
-        IO::log('    version    - Show version');
+        IO::log('    version     - Show version');
     }
 
     public function run()

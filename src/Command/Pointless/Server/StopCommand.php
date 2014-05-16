@@ -17,8 +17,7 @@ class StopCommand extends Command
 {
     public function help()
     {
-		IO::log('    server stop');
-        IO::log('               - Stop built-in web server');
+		IO::log('    server stop - Stop built-in web server');
     }
 
     public function up()

@@ -1,6 +1,6 @@
 <?php
 /**
- * Pointless Home Command
+ * Pointless Post Command
  *
  * @package     Pointless
  * @author      ScarWu
@@ -13,15 +13,13 @@ namespace Pointless;
 use NanoCLI\Command;
 use NanoCLI\IO;
 
-class HomeCommand extends Command
+class PostCommand extends Command
 {
     public function help()
     {
-        IO::log('    home        - Show default blog path');
-        IO::log('    home set <path or not>');
-        IO::log('                - Set another blog as default');
-        IO::log('    home init <path or not>');
-        IO::log('                - Init a new blog');
+        IO::log('    post add    - Add new post');
+        IO::log('    post edit   - Edit post');
+        IO::log('    post delete - Delete post');
     }
 
     public function up()
@@ -35,6 +33,6 @@ class HomeCommand extends Command
 
     public function run()
     {
-        IO::info('Default blog path: ' . BLOG);
+        $this->help();
     }
 }
