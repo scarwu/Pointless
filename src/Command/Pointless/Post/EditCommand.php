@@ -22,7 +22,7 @@ class EditCommand extends Command
 
     public function help()
     {
-        IO::log('    edit        - Edit post');
+        IO::log('    post edit   - Edit post');
     }
 
     public function up()

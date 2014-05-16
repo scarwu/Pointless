@@ -22,7 +22,7 @@ class AddCommand extends Command
 
     public function help()
     {
-        IO::log('    add         - Add new post');
+        IO::log('    post add    - Add new post');
     }
 
     public function up()

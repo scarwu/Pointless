@@ -17,7 +17,7 @@ class DeleteCommand extends Command
 {
     public function help()
     {
-        IO::log('    delete      - Delete post');
+        IO::log('    post delete - Delete post');
     }
 
     public function up()
