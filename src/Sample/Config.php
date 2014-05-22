@@ -5,7 +5,6 @@ $config = [
         'slogan' => 'Pointless - Static Blog Generator',
         'footer' => 'My Blog',
         'description' => '',
-        'keywords' => '',
 
         'lang' => 'en', // en | zh-tw | zh-cn | other
 

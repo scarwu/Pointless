@@ -34,7 +34,7 @@ class ServerCommand extends Command
         initBlog();
 
         if (!file_exists(HOME . '/PID')) {
-            IO::error("Server is not running.\n");
+            IO::error('Server is not running.');
 
             return false;
         }
@@ -44,11 +44,14 @@ class ServerCommand extends Command
     {
         $list = json_decode(file_get_contents(HOME . '/PID'), true);
 
-        foreach ($list as $pid => $command) {
-            exec("ps aux | grep \"$command\"", $output);
+        foreach ($list as $pid => $info) {
+            exec("ps aux | grep \"{$info['command']}\"", $output);
 
             if (count($output) > 1) {
-                IO::notice('Server is running.');
+                IO::notice('Server Status:');
+                IO::log("Doc Root   - {$info['root']}");
+                IO::log("Server URL - http://localhost:{$info['port']}");
+                IO::log("Server PID - $pid");
 
                 break;
             }

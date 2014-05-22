@@ -13,6 +13,8 @@ namespace Pointless;
 use NanoCLI\Command;
 use NanoCLI\IO;
 
+use Resource;
+
 class HomeCommand extends Command
 {
     public function help()
@@ -35,6 +37,16 @@ class HomeCommand extends Command
 
     public function run()
     {
-        IO::info('Default blog path: ' . BLOG);
+        $config = Resource::get('config');
+
+        IO::notice('Home Path:');
+        IO::log(BLOG . "\n");
+
+        IO::notice('Blog Information:');
+        IO::log('Name     - ' . $config['blog']['name']);
+        IO::log('Theme    - ' . $config['theme']);
+        IO::log('Timezone - ' . $config['timezone']);
+        IO::log('Editor   - ' . $config['editor']);
     }
 }
+    

@@ -41,8 +41,8 @@ class StopCommand extends Command
 
         $list = json_decode(file_get_contents(HOME . '/PID'), true);
 
-        foreach ($list as $pid => $command) {
-            exec("ps aux | grep \"$command\"", $output);
+        foreach ($list as $pid => $info) {
+            exec("ps aux | grep \"{$info['command']}\"", $output);
 
             if (count($output) > 1) {
                 system("kill -9 $pid");

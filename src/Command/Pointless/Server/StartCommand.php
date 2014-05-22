@@ -51,7 +51,11 @@ class StartCommand extends Command
         exec("ps $pid", $output);
 
         if (count($output) > 1) {
-            $pid_list[$pid] = $command;
+            $pid_list[$pid] = [
+                'command' => $command,
+                'root' => $root,
+                'port' => $port
+            ];
             file_put_contents(HOME . '/PID', json_encode($pid_list));
 
             IO::info('Server is start.');
