@@ -30,11 +30,11 @@ class Pointless extends Command
     {
         showBanner();
 
-        if (!$this->hasArguments()) {
-            $this->help();
-        } else {
+        if ($this->hasArguments()) {
             $command = $this->getArguments()[0];
-            IO::error("    No description for \"$command\".");
+            IO::error("    Can't find the command \"$command\".");
+        } else {
+            $this->help();
         }
     }
 }

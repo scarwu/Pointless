@@ -27,11 +27,16 @@ class HelpCommand extends Command
     public function run()
     {
         showBanner();
-        list($class_name) = $this->findCommand('Pointless', $this->getArguments());
+        if ($this->hasArguments()) {
+            list($class_name) = $this->findCommand('Pointless', $this->getArguments());
 
-        if ($class_name) {
-            $class = new $class_name;
-            $class->help();
+            if ($class_name) {
+                $class = new $class_name;
+                $class->help();
+            } else {
+                $command = $this->getArguments()[0];
+                IO::error("    No description for command \"$command\".");
+            }
         } else {
             $this->help();
         }
