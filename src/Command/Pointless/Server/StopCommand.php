@@ -37,7 +37,7 @@ class StopCommand extends Command
 
     public function run()
     {
-        IO::notice('Stoping Server');
+        IO::notice('Stopping Server');
 
         $list = json_decode(file_get_contents(HOME . '/PID'), true);
 
