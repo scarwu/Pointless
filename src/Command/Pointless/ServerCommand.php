@@ -56,5 +56,7 @@ class ServerCommand extends Command
                 break;
             }
         }
+
+        IO::info("\nUsed command \"help server\" for more.");
     }
 }

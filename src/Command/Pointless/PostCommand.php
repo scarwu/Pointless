@@ -81,5 +81,7 @@ class PostCommand extends Command
                 IO::log("$value $name post(s).");
             }
         }
+
+        IO::info("\nUsed command \"help post\" for more.");
     }
 }

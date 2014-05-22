@@ -47,6 +47,8 @@ class HomeCommand extends Command
         IO::log('Theme    - ' . $config['theme']);
         IO::log('Timezone - ' . $config['timezone']);
         IO::log('Editor   - ' . $config['editor']);
+
+        IO::info("\nUsed command \"help home\" for more.");
     }
 }
     
