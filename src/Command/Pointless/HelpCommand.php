@@ -19,62 +19,17 @@ class HelpCommand extends Command
 {
     public function help()
     {
-        IO::log('    home        - Initialize and set default blog');
-        IO::log('    gen         - Generate blog');
-        IO::log('    post        - Add / Edit / Delete post');
-        IO::log('    server      - Start built-in web server');
-        IO::log('    config      - Modify config');
-        IO::log('    deploy      - Deploy blog');
-        IO::log('    update      - Self-update');
-        IO::log('    version     - Show version');
+        IO::log('    help        - Help');
+        IO::log('    help <command>');
+        IO::log('                - Show command help');
     }
 
     public function run()
     {
-        $pointless = <<<EOF
-                                           __
-      ______  ______  __  ______  ______  / /\______  _____  _____
-     / __  /\/ __  /\/ /\/ __  /\/_  __/\/ / /  ___/\/  __/\/  __/\
-    / /_/ / / /_/ / / / / /\/ / /\/ /\_\/ / /  ___/\/\  \_\/\  \_\/
-   / ____/ /_____/ /_/ /_/ /_/ / /_/ / /_/ /_____/\/____/\/____/\
-  /_/\___\/\_____\/\_\/\_\/\_\/  \_\/  \_\/\_____\/\____\/\____\/
-  \_\/
+        showBanner();
+        list($class_name) = $this->findCommand('Pointless', $this->getArguments());
 
-EOF;
-
-        IO::notice($pointless);
-
-        $prefix = 'Pointless';
-
-        if ($this->hasArguments()) {
-            $arguments = $this->getArguments();
-            $command = [];
-
-            while ($arguments) {
-                if (!preg_match('/^([a-zA-Z]+)$/', $arguments[0])) {
-                    break;
-                }
-
-                $command[] = $arguments[0];
-                $class_name = ucfirst($arguments[0]);
-                $class_name = "$prefix\\$class_name";
-
-                try {
-                    if (class_exists("{$class_name}Command")) {
-                        $prefix = $class_name;
-                        array_shift($arguments);
-                    }
-                } catch (Exception $e) {
-                    $command = implode($command, ' ');
-                    IO::error("    No description for \"$command\".");
-
-                    return false;
-                }
-            }
-        }
-
-        if (count(explode("\\", $prefix)) > 1) {
-            $class_name = $prefix . 'Command';
+        if ($class_name) {
             $class = new $class_name;
             $class->help();
         } else {
