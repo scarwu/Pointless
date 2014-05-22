@@ -22,9 +22,15 @@ class VersionCommand extends Command
 
     public function run()
     {
+
+
         $version = 'v0.0.0-dev';
 
         if (defined('BUILD_VERSION')) {
+            if (checkDefaultBlog()) {
+                initBlog();
+            }
+
             $date = date(DATE_RSS, BUILD_TIMESTAMP);
             $version = BUILD_VERSION . " ($date)";
         }
