@@ -1,6 +1,6 @@
 # Pointless
 
-A Lightweight Static Blog Generator with PHP Command Line Mode
+A Lightweight Static Blog Generator with PHP CLI
 
 [![Build Status](https://travis-ci.org/scarwu/Pointless.png?branch=master)](https://travis-ci.org/scarwu/Pointless)
 
