@@ -1,0 +1,149 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "e40a8e661fb512737178123578fd97c3",
+    "content-hash": "a023729a48867faf2511d38247b59052",
+    "packages": [
+        {
+            "name": "erusev/parsedown",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/erusev/parsedown.git",
+                "reference": "94688f21cc5d8bc85f1783b4c8b98b3288d712cb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/erusev/parsedown/zipball/94688f21cc5d8bc85f1783b4c8b98b3288d712cb",
+                "reference": "94688f21cc5d8bc85f1783b4c8b98b3288d712cb",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Parsedown": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Emanuil Rusev",
+                    "email": "hello@erusev.com",
+                    "homepage": "http://erusev.com"
+                }
+            ],
+            "description": "Parser for Markdown.",
+            "homepage": "http://parsedown.org",
+            "keywords": [
+                "markdown",
+                "parser"
+            ],
+            "time": "2016-01-07 17:36:51"
+        },
+        {
+            "name": "scarwu/nanocli",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/scarwu/NanoCLI.git",
+                "reference": "974295b2028a69be65c440919416e963ab9a2884"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/scarwu/NanoCLI/zipball/974295b2028a69be65c440919416e963ab9a2884",
+                "reference": "974295b2028a69be65c440919416e963ab9a2884",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/php-invoker": "1.1.*",
+                "phpunit/phpunit": "4.0.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "NanoCLI": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Scar Wu",
+                    "email": "xneriscool@gmail.com",
+                    "homepage": "http://scar.simcz.tw"
+                }
+            ],
+            "description": "A Simply PHP CLI Development Tools",
+            "homepage": "https://github.com/scarwu/NanoCLI",
+            "time": "2014-05-22 08:03:16"
+        },
+        {
+            "name": "scarwu/pack",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/scarwu/Pack.git",
+                "reference": "284e3273b18ac963f597893059c0b0d34fa15695"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/scarwu/Pack/zipball/284e3273b18ac963f597893059c0b0d34fa15695",
+                "reference": "284e3273b18ac963f597893059c0b0d34fa15695",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/php-invoker": "1.1.*",
+                "phpunit/phpunit": "4.0.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Pack": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Scar Wu",
+                    "email": "xneriscool@gmail.com",
+                    "homepage": "http://scar.simcz.tw"
+                }
+            ],
+            "description": "Pack CSS, JavaScript and HTML File",
+            "homepage": "https://github.com/scarwu/Pack",
+            "time": "2014-05-16 16:46:21"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "scarwu/pack": 20,
+        "scarwu/nanocli": 20,
+        "erusev/parsedown": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}
