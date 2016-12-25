@@ -4,25 +4,22 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e40a8e661fb512737178123578fd97c3",
-    "content-hash": "a023729a48867faf2511d38247b59052",
+    "hash": "c9e3d0e087b2719b3002c807a5e5a053",
+    "content-hash": "5ae320b3737dd2994c770f1c4c56df31",
     "packages": [
         {
             "name": "erusev/parsedown",
-            "version": "dev-master",
+            "version": "1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/erusev/parsedown.git",
-                "reference": "94688f21cc5d8bc85f1783b4c8b98b3288d712cb"
+                "reference": "3ebbd730b5c2cf5ce78bc1bf64071407fc6674b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/erusev/parsedown/zipball/94688f21cc5d8bc85f1783b4c8b98b3288d712cb",
-                "reference": "94688f21cc5d8bc85f1783b4c8b98b3288d712cb",
+                "url": "https://api.github.com/repos/erusev/parsedown/zipball/3ebbd730b5c2cf5ce78bc1bf64071407fc6674b7",
+                "reference": "3ebbd730b5c2cf5ce78bc1bf64071407fc6674b7",
                 "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
             },
             "type": "library",
             "autoload": {
@@ -47,7 +44,7 @@
                 "markdown",
                 "parser"
             ],
-            "time": "2016-01-07 17:36:51"
+            "time": "2015-10-04 16:44:32"
         },
         {
             "name": "scarwu/nanocli",
@@ -139,8 +136,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "scarwu/pack": 20,
-        "scarwu/nanocli": 20,
-        "erusev/parsedown": 20
+        "scarwu/nanocli": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

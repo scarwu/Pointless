@@ -11,25 +11,23 @@
 
 $root = realpath(dirname(__FILE__) . '/..');
 
-include "$root/src/Library/Utility.php";
+include "{$root}/src/libraries/Utility.php";
 
-$version = trim(file_get_contents("$root/VERSION"));
-
-$stub = file_get_contents("$root/script/stub.php");
+$stub = file_get_contents("{$root}/script/stub.php");
 $stub = sprintf($stub, $version, time());
 
 // Auto update vendor
 chdir($root);
 
-if (file_exists("$root/vendor")) {
+if (file_exists("{$root}/vendor")) {
     system('composer update');
 } else {
     system('composer install');
 }
 
 // Copy File to tmp
-if (file_exists("$root/tmp")) {
-    Utility::remove("$root/tmp");
+if (file_exists("{$root}/tmp")) {
+    Utility::remove("{$root}/tmp");
 }
 
 foreach ([
@@ -40,21 +38,21 @@ foreach ([
     'vendor/scarwu/nanocli/src',
     'vendor/erusev/parsedown'
 ] as $path) {
-    Utility::copy("$root/$path", "$root/tmp/$path");
+    Utility::copy("{$root}/$path", "{$root}/tmp/$path");
 }
 
 // Clear Phar
-if (file_exists("$root/poi.phar")) {
-    unlink("$root/poi.phar");
+if (file_exists("{$root}/poi.phar")) {
+    unlink("{$root}/poi.phar");
 }
 
 // Create Phar
-$phar = new Phar("$root/poi.phar");
+$phar = new Phar("{$root}/poi.phar");
 $phar->setAlias('poi.phar');
 $phar->setStub($stub);
-$phar->buildFromDirectory("$root/tmp");
+$phar->buildFromDirectory("{$root}/tmp");
 $phar->compressFiles(Phar::GZ);
 $phar->stopBuffering();
 
 // Setting Phar is Executable
-chmod("$root/poi.phar", 0755);
+chmod("{$root}/poi.phar", 0755);
