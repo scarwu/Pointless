@@ -4,7 +4,7 @@
  *
  * @package     Pointless
  * @author      ScarWu
- * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
+ * @copyright   Copyright (c) 2012-2016, ScarWu (http://scar.simcz.tw/)
  * @link        http://github.com/scarwu/Pointless
  */
 
@@ -33,7 +33,7 @@ class HTMLGenerator
         // Generate Block
         $this->genBlock();
 
-        foreach ((array) $this->script as $class) {
+        foreach ($this->script as $class) {
             $class->gen();
         }
     }
@@ -44,7 +44,7 @@ class HTMLGenerator
     private function loadScript()
     {
         // Load Script
-        foreach ((array) Resource::get('theme')['script'] as $filename) {
+        foreach (Resource::get('theme')['script'] as $filename) {
             $filename = preg_replace('/.php$/', '', $filename);
 
             if (file_exists(THEME . "/Script/$filename.php")) {
@@ -61,7 +61,7 @@ class HTMLGenerator
     {
         $block = [];
 
-        foreach ((array) Resource::get('theme')['template'] as $blockname => $files) {
+        foreach (Resource::get('theme')['template'] as $blockname => $files) {
 
             $result = null;
 

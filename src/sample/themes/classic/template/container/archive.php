@@ -1,11 +1,11 @@
 <div id="container_archive">
     <h1 class="title"><?=$post['title']?></h1>
-    <?php foreach ((array) $post['list'] as $year => $month_list): ?>
+    <?php foreach ($post['list'] as $year => $month_list): ?>
     <div class="year_archive">
-        <?php foreach ((array) $month_list as $month => $article_list): ?>
+        <?php foreach ($month_list as $month => $article_list): ?>
         <div class="month_archive">
             <div class="list">
-                <?php foreach ((array) $article_list as $article): ?>
+                <?php foreach ($article_list as $article): ?>
                 <article class="post_block">
                     <h1 class="title">
                         <?=linkTo("{$blog['base']}article/{$article['url']}", $article['title'])?>
@@ -21,7 +21,7 @@
                         </span>
                         <span class="tag">
                             <i class="fa fa-tags"></i>
-                            <?php foreach ((array) $article['tag'] as $index => $tag): ?>
+                            <?php foreach ($article['tag'] as $index => $tag): ?>
                             <?php $article['tag'][$index] = linkTo("{$blog['base']}tag/$tag/", $tag); ?>
                             <?php endforeach; ?>
                             <?=join($article['tag'], ', ')?>

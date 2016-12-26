@@ -4,7 +4,7 @@
  *
  * @package     Pointless
  * @author      ScarWu
- * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
+ * @copyright   Copyright (c) 2012-2016, ScarWu (http://scar.simcz.tw/)
  * @link        http://github.com/scarwu/Pointless
  */
 
@@ -27,7 +27,7 @@ class Sitemap extends Extension
         $sitemap = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
         $sitemap .= "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";
 
-        foreach ((array) Resource::get('sitemap') as $path) {
+        foreach (Resource::get('sitemap') as $path) {
             $sitemap .= sprintf($format, $blog['url'], $path, date(DATE_ATOM));
         }
 

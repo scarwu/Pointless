@@ -4,7 +4,7 @@
  *
  * @package     Pointless
  * @author      ScarWu
- * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
+ * @copyright   Copyright (c) 2012-2016, ScarWu (http://scar.simcz.tw/)
  * @link        http://github.com/scarwu/Pointless
  */
 
@@ -25,12 +25,13 @@ class DeployCommand extends Command
 
     public function up()
     {
-        if (!checkDefaultBlog()) {
+        if (!Misc::checkDefaultBlog()) {
             return false;
         }
 
-        initBlog();
+        Misc::initBlog();
 
+        // Check Git
         if (!Utility::commandExists('git')) {
             IO::error('System command "git" is not found.');
 
@@ -75,8 +76,8 @@ class DeployCommand extends Command
         system("git push origin $branch");
 
         // Change Owner
-        if (isset($_SERVER['SUDO_USER'])) {
-            Utility::chown(DEPLOY, fileowner(HOME), filegroup(HOME));
+        if (IS_SUPER_USER) {
+            Utility::chown(DEPLOY, fileowner(APP_HOME), filegroup(APP_HOME));
         }
     }
 }

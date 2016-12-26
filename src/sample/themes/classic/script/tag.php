@@ -4,7 +4,7 @@
  *
  * @package     Pointless
  * @author      ScarWu
- * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
+ * @copyright   Copyright (c) 2012-2016, ScarWu (http://scar.simcz.tw/)
  * @link        http://github.com/scarwu/Pointless
  */
 
@@ -62,7 +62,7 @@ class Tag extends ThemeScript
 
         $blog = Resource::get('config')['blog'];
 
-        foreach ((array) $this->list as $index => $post_list) {
+        foreach ($this->list as $index => $post_list) {
             IO::log("Building tag/$index");
             if (null === $first) {
                 $first = $index;
@@ -119,7 +119,7 @@ class Tag extends ThemeScript
     {
         $result = [];
 
-        foreach ((array) $list as $article) {
+        foreach ($list as $article) {
             if (!isset($result[$article['year']])) {
                 $result[$article['year']] = [];
             }

@@ -4,7 +4,7 @@
  *
  * @package     Pointless
  * @author      ScarWu
- * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
+ * @copyright   Copyright (c) 2012-2016, ScarWu (http://scar.simcz.tw/)
  * @link        http://github.com/scarwu/Pointless
  */
 
@@ -28,11 +28,12 @@ class Pointless extends Command
 
     public function run()
     {
-        showBanner();
+        Misc::showBanner();
 
         if ($this->hasArguments()) {
             $command = $this->getArguments()[0];
-            IO::error("    Can't find the command \"$command\".");
+
+            IO::error("    Can't find the command \"{$command}\".");
         } else {
             $this->help();
         }

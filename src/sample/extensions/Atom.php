@@ -4,7 +4,7 @@
  *
  * @package     Pointless
  * @author      ScarWu
- * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
+ * @copyright   Copyright (c) 2012-2016, ScarWu (http://scar.simcz.tw/)
  * @link        http://github.com/scarwu/Pointless
  */
 
@@ -50,7 +50,7 @@ class Atom extends Extension
             $atom .= "\t</author>\n";
         }
 
-        foreach ((array) Resource::get('post')['article'] as $article) {
+        foreach (Resource::get('post')['article'] as $article) {
             $title = $article['title'];
             $url = "{$blog['url']}article/{$article['url']}";
             $uuid = $this->uuid($url);

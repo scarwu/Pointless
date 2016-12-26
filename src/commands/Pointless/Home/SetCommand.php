@@ -4,7 +4,7 @@
  *
  * @package     Pointless
  * @author      ScarWu
- * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
+ * @copyright   Copyright (c) 2012-2016, ScarWu (http://scar.simcz.tw/)
  * @link        http://github.com/scarwu/Pointless
  */
 
@@ -28,13 +28,15 @@ class SetCommand extends Command
         $this->path = $this->getPath();
 
         if (!file_exists($this->path)) {
-            IO::error("Path \"$this->path\" is't exists.");
+            IO::error("Path \"{$this->path}\" is't exists.");
 
             return false;
         }
 
-        if (!file_exists("$this->path/.pointless") || !is_file("$this->path/.pointless")) {
-            IO::error("Path \"$this->path\" is't the Pointless blog folder.");
+        if (!file_exists("{$this->path}/.pointless")
+            || !is_file("{$this->path}/.pointless")) {
+
+            IO::error("Path \"{$this->path}\" is't the Pointless blog folder.");
 
             return false;
         }
@@ -43,7 +45,7 @@ class SetCommand extends Command
     public function run()
     {
         file_put_contents(HOME . '/Default', $this->path);
-        IO::notice("Default blog is setting to path \"$this->path\".");
+        IO::notice("Default blog is setting to path \"{$this->path}\".");
     }
 
     private function getPath()
@@ -55,7 +57,7 @@ class SetCommand extends Command
         }
 
         if (!preg_match('/^\/(.+)/', $path)) {
-            $path = getcwd() . ('' !== $path ? "/$path" : $path);
+            $path = getcwd() . ('' !== $path ? "/{$path}" : $path);
         }
 
         return $path;

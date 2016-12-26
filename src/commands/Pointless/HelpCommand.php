@@ -4,7 +4,7 @@
  *
  * @package     Pointless
  * @author      ScarWu
- * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
+ * @copyright   Copyright (c) 2012-2016, ScarWu (http://scar.simcz.tw/)
  * @link        http://github.com/scarwu/Pointless
  */
 
@@ -26,7 +26,8 @@ class HelpCommand extends Command
 
     public function run()
     {
-        showBanner();
+        Misc::showBanner();
+
         if ($this->hasArguments()) {
             list($class_name) = $this->findCommand('Pointless', $this->getArguments());
 
@@ -35,7 +36,8 @@ class HelpCommand extends Command
                 $class->help();
             } else {
                 $command = $this->getArguments()[0];
-                IO::error("    No description for command \"$command\".");
+
+                IO::error("    No description for command \"{$command}\".");
             }
         } else {
             $this->help();

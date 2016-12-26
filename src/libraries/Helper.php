@@ -4,33 +4,40 @@
  *
  * @package     Pointless
  * @author      ScarWu
- * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
+ * @copyright   Copyright (c) 2012-2016, ScarWu (http://scar.simcz.tw/)
  * @link        http://github.com/scarwu/Pointless
  */
 
-/**
- * Create Link To
- *
- * @param string
- * @param string
- * @return string
- */
-function linkTo($link, $name)
-{
-    return '<a href="' . linkEncode($link) . '">' . $name . '</a>';
-}
+class Helper {
 
-/**
- * Link Encode
- *
- * @param string
- * @return string
- */
-function linkEncode($link)
-{
-    $segments = explode('/', $link);
-    $segments = array_map('rawurlencode', $segments);
-    $link = implode('/', $segments);
+    /**
+     * Create Link To
+     *
+     * @param string
+     * @param string
+     *
+     * @return string
+     */
+    public static function linkTo($link, $name)
+    {
+        $link = self::linkEncode($link);
 
-    return $link;
+        return "<a href=\"{$link}\">{$name}</a>";
+    }
+
+    /**
+     * Link Encode
+     *
+     * @param string
+     *
+     * @return string
+     */
+    public static function linkEncode($link)
+    {
+        $segments = explode('/', $link);
+        $segments = array_map('rawurlencode', $segments);
+        $link = implode('/', $segments);
+
+        return $link;
+    }
 }

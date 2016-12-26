@@ -4,7 +4,7 @@
  *
  * @package     Pointless
  * @author      ScarWu
- * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
+ * @copyright   Copyright (c) 2012-2016, ScarWu (http://scar.simcz.tw/)
  * @link        http://github.com/scarwu/Pointless
  */
 
@@ -27,13 +27,13 @@ class ServerCommand extends Command
 
     public function up()
     {
-        if (!checkDefaultBlog()) {
+        if (!Misc::checkDefaultBlog()) {
             return false;
         }
 
-        initBlog();
+        Misc::initBlog();
 
-        if (!file_exists(HOME . '/PID')) {
+        if (!file_exists(HOME . '/pid')) {
             IO::error('Server is not running.');
 
             return false;
@@ -42,7 +42,7 @@ class ServerCommand extends Command
 
     public function run()
     {
-        $list = json_decode(file_get_contents(HOME . '/PID'), true);
+        $list = json_decode(file_get_contents(HOME . '/pid'), true);
 
         foreach ($list as $pid => $info) {
             exec("ps aux | grep \"{$info['command']}\"", $output);
@@ -51,7 +51,7 @@ class ServerCommand extends Command
                 IO::notice('Server Status:');
                 IO::log("Doc Root   - {$info['root']}");
                 IO::log("Server URL - http://localhost:{$info['port']}");
-                IO::log("Server PID - $pid");
+                IO::log("Server PID - {$pid}");
 
                 break;
             }

@@ -4,7 +4,7 @@
  *
  * @package     Pointless
  * @author      ScarWu
- * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
+ * @copyright   Copyright (c) 2012-2016, ScarWu (http://scar.simcz.tw/)
  * @link        http://github.com/scarwu/Pointless
  */
 
@@ -115,8 +115,8 @@ class GenCommand extends Command
         IO::info("Generate finish, $time s and memory usage $mem KB.");
 
         // Change Owner
-        if (isset($_SERVER['SUDO_USER'])) {
-            Utility::chown(TEMP, fileowner(HOME), filegroup(HOME));
+        if (IS_SUPER_USER) {
+            Utility::chown(TEMP, fileowner(APP_HOME), filegroup(APP_HOME));
         }
     }
 
@@ -125,7 +125,7 @@ class GenCommand extends Command
      */
     private function loadMarkdown()
     {
-        $parsedown = new Parsedown();        
+        $parsedown = new Parsedown();
 
         // Load Doctype
         $type = [];
@@ -198,7 +198,7 @@ class GenCommand extends Command
 
         $css_pack = new CSS();
 
-        foreach ((array) Resource::get('theme')['css'] as $filename) {
+        foreach (Resource::get('theme')['css'] as $filename) {
             $filename = preg_replace('/.css$/', '', $filename);
 
             if (!file_exists(THEME . "/Css/$filename.css")) {
@@ -221,7 +221,7 @@ class GenCommand extends Command
 
         $js_pack = new CSS();
 
-        foreach ((array) Resource::get('theme')['js'] as $filename) {
+        foreach (Resource::get('theme')['js'] as $filename) {
             $filename = preg_replace('/.js$/', '', $filename);
 
             if (!file_exists(THEME . "/Js/$filename.js")) {

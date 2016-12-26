@@ -4,7 +4,7 @@
  *
  * @package     Pointless
  * @author      ScarWu
- * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
+ * @copyright   Copyright (c) 2012-2016, ScarWu (http://scar.simcz.tw/)
  * @link        http://github.com/scarwu/Pointless
  */
 
@@ -26,7 +26,7 @@ class UpdateCommand extends Command
 
     public function up()
     {
-        if (!defined('BUILD_TIMESTAMP')) {
+        if ('production' === APP_ENV) {
             IO::error('Development version can not be updated.');
 
             return false;
@@ -57,13 +57,14 @@ class UpdateCommand extends Command
             $branch = 'experipment';
         }
 
-        $remote = "https://raw.github.com/scarwu/Pointless/$branch/bin/poi";
+        $remote = "https://raw.github.com/scarwu/Pointless/{$branch}/bin/poi";
 
-        system("wget $remote -O /tmp/poi");
+        system("wget {$remote} -O /tmp/poi");
+
         chmod('/tmp/poi', 0755);
 
         // Reset Timestamp
-        file_put_contents(HOME . '/Timestamp', 0);
+        file_put_contents(APP_HOME . '/timestamp', 0);
 
         IO::notice('Update finish.');
 

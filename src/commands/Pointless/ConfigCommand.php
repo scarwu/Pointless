@@ -4,7 +4,7 @@
  *
  * @package     Pointless
  * @author      ScarWu
- * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
+ * @copyright   Copyright (c) 2012-2016, ScarWu (http://scar.simcz.tw/)
  * @link        http://github.com/scarwu/Pointless
  */
 
@@ -27,15 +27,17 @@ class ConfigCommand extends Command
 
     public function up()
     {
-        if (!checkDefaultBlog()) {
+        if (!Misc::checkDefaultBlog()) {
             return false;
         }
 
-        initBlog();
+        Misc::initBlog();
 
+        // Check Editor
         $this->editor = Resource::get('config')['editor'];
+
         if (!Utility::commandExists($this->editor)) {
-            IO::error("System command \"$this->editor\" is not found.");
+            IO::error("System command \"{$this->editor}\" is not found.");
 
             return false;
         }
@@ -43,7 +45,8 @@ class ConfigCommand extends Command
 
     public function run()
     {
-        $filepath = BLOG . '/Config.php';
-        system("$this->editor $filepath < `tty` > `tty`");
+        $filepath = BLOG . '/config.php';
+
+        system("{$this->editor} $filepath < `tty` > `tty`");
     }
 }

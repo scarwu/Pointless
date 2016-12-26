@@ -1,14 +1,14 @@
 <?php
 /**
- * Extension Loader
+ * Extensions Loader
  *
  * @package     Pointless
  * @author      ScarWu
- * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
+ * @copyright   Copyright (c) 2012-2016, ScarWu (http://scar.simcz.tw/)
  * @link        http://github.com/scarwu/Pointless
  */
 
-class ExtensionLoader
+class ExtensionsLoader
 {
     /**
      * @var array
@@ -25,20 +25,20 @@ class ExtensionLoader
      */
     public function run()
     {
-        // Load Extension
-        foreach ((array) Resource::get('theme')['extension'] as $filename) {
+        // Load Extensions
+        foreach (Resource::get('theme')['extension'] as $filename) {
             $filename = preg_replace('/.php$/', '', $filename);
 
             if (file_exists(EXTENSION . "/$filename.php")) {
                 require EXTENSION . "/$filename.php";
                 $this->extension[$filename] = new $filename;
-            } elseif (file_exists(ROOT . "/Sample/Extension/$filename.php")) {
-                require ROOT . "/Sample/Extension/$filename.php";
+            } elseif (file_exists(ROOT . "/sample/extensions/{$filename}.php")) {
+                require ROOT . "/sample/extensions/{$filename}.php";
                 $this->extension[$filename] = new $filename;
             }
         }
 
-        foreach ((array) $this->extension as $class) {
+        foreach ($this->extension as $class) {
             $class->run();
         }
     }

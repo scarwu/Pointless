@@ -4,82 +4,79 @@
  *
  * @package     Pointless
  * @author      ScarWu
- * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
+ * @copyright   Copyright (c) 2012-2016, ScarWu (http://scar.simcz.tw/)
  * @link        http://github.com/scarwu/Pointless
  */
 
 // Set default timezone
 date_default_timezone_set('Etc/UTC');
 
-// Define Core Path
-define('POI_EXT', ROOT . '/extends');
-define('POI_LIB', ROOT . '/libraries');
+// Require Constant
+require APP_ROOT . '/constant.php';
+
+// Define Variables
+define('APP_HOME', $_SERVER['HOME'] . '/.pointless3');
+
+define('BUILD_VERSION', $constant['build']['version']);
+define('BUILD_TIMESTAMP', $constant['build']['timestamp']);
+
+define('CORE_EXT', APP_ROOT . '/extends');
+define('CORE_LIB', APP_ROOT . '/libraries');
+
+define('IS_SUPER_USER', isset($_SERVER['SUDO_USER']));
 
 // Require Extends
-// require POI_EXT . '/LimitedCommand.php';
-// require POI_EXT . '/PostCommand.php';
-require POI_EXT . '/Doctype.php';
-require POI_EXT . '/ThemeTools.php';
-require POI_EXT . '/ThemeScript.php';
-require POI_EXT . '/Extension.php';
+// require CORE_EXT . '/LimitedCommand.php';
+// require CORE_EXT . '/PostCommand.php';
+require CORE_EXT . '/Doctype.php';
+require CORE_EXT . '/ThemeTools.php';
+require CORE_EXT . '/ThemeScript.php';
+require CORE_EXT . '/Extension.php';
 
 // Require Libraries
-require POI_LIB . '/Utility.php';
-require POI_LIB . '/Resource.php';
-require POI_LIB . '/GeneralFunction.php';
+require CORE_LIB . '/Utility.php';
+require CORE_LIB . '/Resource.php';
+require CORE_LIB . '/Misc.php';
 
 // Composer Autoloader
-require ROOT . '/vender/autoload.php';
+require APP_ROOT . '/vendor/autoload.php';
 
 // NanoCLI Command Loader
-NanoCLI\Loader::set('Pointless', ROOT . '/commands');
+NanoCLI\Loader::set('Pointless', APP_ROOT . '/commands');
 NanoCLI\Loader::register();
 
-// Require Constants
-require ROOT . '/constants.php';
-
-define('BUILD_VERSION', $constants['build']['version']);
-define('BUILD_TIMESTAMP', $constants['build']['timestamp']);
-
-/**
- * Define Path and Initialize Blog
- */
-define('HOME', $_SERVER['HOME'] . '/.pointless3');
-
-if (!file_exists(HOME)) {
-    mkdir(HOME, 0755, true);
+// Initialize Folder & Files
+if (!file_exists(APP_HOME)) {
+    mkdir(APP_HOME, 0755, true);
 }
 
-/**
- * Copy Sample Files
- */
-if ('production' === ENV) {
-    if (!file_exists(HOME . '/sample')) {
-        mkdir(HOME . '/sample', 0755, true);
+if ('production' === APP_ENV) {
+    if (!file_exists(APP_HOME . '/sample')) {
+        mkdir(APP_HOME . '/sample', 0755, true);
     }
 
     $timestamp = 0;
-    if (file_exists(HOME . '/Timestamp')) {
-        $timestamp = file_get_contents(HOME . '/Timestamp');
+
+    if (file_exists(APP_HOME . '/.timestamp')) {
+        $timestamp = file_get_contents(APP_HOME . '/.timestamp');
     }
 
     // Check Timestamp and Update Sample Files
     if (BUILD_TIMESTAMP !== $timestamp) {
-        Utility::remove(HOME . '/sample');
+        Utility::remove(APP_HOME . '/sample');
 
         // Copy Sample Files
-        Utility::copy(ROOT . '/sample', HOME . '/sample');
+        Utility::copy(APP_ROOT . '/sample', APP_HOME . '/sample');
 
         // Create Timestamp File
-        file_put_contents(HOME . '/timestamp', BUILD_TIMESTAMP);
+        file_put_contents(APP_HOME . '/timestamp', BUILD_TIMESTAMP);
     }
 }
 
 // Change Owner
-if (isset($_SERVER['SUDO_USER'])) {
-    Utility::chown(HOME, fileowner($_SERVER['HOME']), filegroup($_SERVER['HOME']));
+if (IS_SUPER_USER) {
+    Utility::chown(APP_HOME, fileowner($_SERVER['HOME']), filegroup($_SERVER['HOME']));
 }
 
-// Run Pointless Command
-$pointless = new Pointless();
-$pointless->init();
+// Init Pointless Commnad
+(new Pointless)->init();

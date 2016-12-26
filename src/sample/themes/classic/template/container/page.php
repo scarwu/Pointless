@@ -1,5 +1,5 @@
 <div id="container_page">
-    <?php foreach ((array) $post['list'] as $article): ?>
+    <?php foreach ($post['list'] as $article): ?>
     <article class="post_block">
         <h1 class="title">
             <?=linkTo("{$blog['base']}article/{$article['url']}", $article['title'])?>
@@ -21,7 +21,7 @@
             </span>
             <span class="tag">
                 <i class="fa fa-tags"></i>
-                <?php foreach ((array) $article['tag'] as $index => $tag): ?>
+                <?php foreach ($article['tag'] as $index => $tag): ?>
                 <?php $article['tag'][$index] = linkTo("{$blog['base']}tag/$tag/", $tag); ?>
                 <?php endforeach; ?>
                 <?=join($article['tag'], ', ')?>

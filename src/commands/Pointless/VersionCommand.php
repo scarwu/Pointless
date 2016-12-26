@@ -4,7 +4,7 @@
  *
  * @package     Pointless
  * @author      ScarWu
- * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
+ * @copyright   Copyright (c) 2012-2016, ScarWu (http://scar.simcz.tw/)
  * @link        http://github.com/scarwu/Pointless
  */
 
@@ -25,8 +25,8 @@ class VersionCommand extends Command
         $version = 'v0.0.0-dev';
 
         if (defined('BUILD_VERSION')) {
-            if (checkDefaultBlog()) {
-                initBlog();
+            if (Misc::checkDefaultBlog()) {
+                MIsc::initBlog();
             }
 
             $date = date(DATE_RSS, BUILD_TIMESTAMP);

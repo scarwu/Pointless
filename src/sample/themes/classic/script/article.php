@@ -4,7 +4,7 @@
  *
  * @package     Pointless
  * @author      ScarWu
- * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
+ * @copyright   Copyright (c) 2012-2016, ScarWu (http://scar.simcz.tw/)
  * @link        http://github.com/scarwu/Pointless
  */
 
@@ -32,7 +32,7 @@ class Article extends ThemeScript
 
         $blog = Resource::get('config')['blog'];
 
-        foreach ((array) $this->list as $post) {
+        foreach ($this->list as $post) {
             IO::log("Building article/{$post['url']}");
 
             $post['url'] = "article/{$post['url']}";

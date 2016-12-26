@@ -5,7 +5,7 @@
  *
  * @package     Pointless
  * @author      ScarWu
- * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
+ * @copyright   Copyright (c) 2012-2016, ScarWu (http://scar.simcz.tw/)
  * @link        http://github.com/scarwu/Pointless
  */
 
@@ -19,26 +19,26 @@ $stub = sprintf($stub, $version, time());
 // Auto update vendor
 chdir($root);
 
-if (file_exists("{$root}/vendor")) {
+if (file_exists("{$root}/src/vendor")) {
     system('composer update');
 } else {
     system('composer install');
 }
 
-// Copy File to tmp
-if (file_exists("{$root}/tmp")) {
-    Utility::remove("{$root}/tmp");
+// Copy File to temp
+if (file_exists("{$root}/temp")) {
+    Utility::remove("{$root}/temp");
 }
 
 foreach ([
     'src',
-    'vendor/autoload.php',
-    'vendor/composer',
-    'vendor/scarwu/pack/src',
-    'vendor/scarwu/nanocli/src',
-    'vendor/erusev/parsedown'
+    'src/vendor/autoload.php',
+    'src/vendor/composer',
+    'src/vendor/scarwu/pack/src',
+    'src/vendor/scarwu/nanocli/src',
+    'src/vendor/erusev/parsedown'
 ] as $path) {
-    Utility::copy("{$root}/$path", "{$root}/tmp/$path");
+    Utility::copy("{$root}/{$path}", "{$root}/temp/{$path}");
 }
 
 // Clear Phar
@@ -50,7 +50,7 @@ if (file_exists("{$root}/poi.phar")) {
 $phar = new Phar("{$root}/poi.phar");
 $phar->setAlias('poi.phar');
 $phar->setStub($stub);
-$phar->buildFromDirectory("{$root}/tmp");
+$phar->buildFromDirectory("{$root}/temp");
 $phar->compressFiles(Phar::GZ);
 $phar->stopBuffering();
 

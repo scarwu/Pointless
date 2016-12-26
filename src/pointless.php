@@ -5,15 +5,13 @@
  *
  * @package     Pointless
  * @author      ScarWu
- * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
+ * @copyright   Copyright (c) 2012-2016, ScarWu (http://scar.simcz.tw/)
  * @link        http://github.com/scarwu/Pointless
  */
 
-$root = realpath(dirname(__FILE__));
-
 // Define Variables
-define('ENV', 'development');
-define('ROOT', "{$root}/src");
+define('APP_ENV', 'development');
+define('APP_ROOT', realpath(dirname(__FILE__)));
 
 // Load Bootstrap
-require ROOT . '/boot.php';
+require APP_ROOT . '/boot.php';

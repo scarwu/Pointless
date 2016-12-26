@@ -18,7 +18,7 @@
             </span>
             <span class="tag">
                 <i class="fa fa-tags"></i>
-                <?php foreach ((array) $post['tag'] as $index => $tag): ?>
+                <?php foreach ($post['tag'] as $index => $tag): ?>
                 <?php $post['tag'][$index] = linkTo("{$blog['base']}tag/$tag/", $tag); ?>
                 <?php endforeach; ?>
                 <?=join($post['tag'], ', ')?>

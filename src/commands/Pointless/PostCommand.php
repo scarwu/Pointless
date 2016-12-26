@@ -4,7 +4,7 @@
  *
  * @package     Pointless
  * @author      ScarWu
- * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
+ * @copyright   Copyright (c) 2012-2016, ScarWu (http://scar.simcz.tw/)
  * @link        http://github.com/scarwu/Pointless
  */
 
@@ -25,18 +25,19 @@ class PostCommand extends Command
 
     public function up()
     {
-        if (!checkDefaultBlog()) {
+        if (!Misc::checkDefaultBlog()) {
             return false;
         }
 
-        initBlog();
+        Misc::initBlog();
     }
 
     public function run()
     {
         // Load Doctype
         $type = [];
-        $handle = opendir(ROOT . '/Doctype');
+        $handle = opendir(ROOT . '/doctype');
+
         while ($filename = readdir($handle)) {
             if (!preg_match('/.php$/', $filename)) {
                 continue;
@@ -44,10 +45,12 @@ class PostCommand extends Command
 
             $filename = preg_replace('/.php$/', '', $filename);
 
-            require ROOT . "/Doctype/$filename.php";
+            require ROOT . "/doctype/{$filename}.php";
+
             $temp = new $filename;
             $type[$temp->getID()] = $temp;
         }
+
         closedir($handle);
 
         IO::writeln();
@@ -55,13 +58,17 @@ class PostCommand extends Command
         // Load Markdown
         $list = [];
         $handle = opendir(MARKDOWN);
+
         while ($filename = readdir($handle)) {
             if (!preg_match('/.md$/', $filename)) {
                 continue;
             }
 
-            if (!($post = parseMarkdownFile($filename, true))) {
-                IO::error("Markdown parse error: $filename");
+            $post = parseMarkdownFile($filename, true);
+
+            if (!$post) {
+                IO::error("Markdown parse error: {$filename}");
+
                 exit(1);
             }
 
@@ -71,14 +78,17 @@ class PostCommand extends Command
 
             $list[$post['type']]++;
         }
+
         closedir($handle);
 
         IO::notice('Post Status:');
+
         foreach ($list as $key => $value) {
             if (isset($type[$key])) {
-                $value = sprintf("%3d", $value);
+                $value = sprintf('%3d', $value);
                 $name = $type[$key]->getName();
-                IO::log("$value $name post(s).");
+
+                IO::log("{$value} {$name} post(s).");
             }
         }
 

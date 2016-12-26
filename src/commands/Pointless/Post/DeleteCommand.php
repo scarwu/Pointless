@@ -4,7 +4,7 @@
  *
  * @package     Pointless
  * @author      ScarWu
- * @copyright   Copyright (c) 2012-2014, ScarWu (http://scar.simcz.tw/)
+ * @copyright   Copyright (c) 2012-2016, ScarWu (http://scar.simcz.tw/)
  * @link        http://github.com/scarwu/Pointless
  */
 
@@ -22,18 +22,19 @@ class DeleteCommand extends Command
 
     public function up()
     {
-        if (!checkDefaultBlog()) {
+        if (!Misc::checkDefaultBlog()) {
             return false;
         }
 
-        initBlog();
+        Misc::initBlog();
     }
 
     public function run()
     {
         // Load Doctype
         $type = [];
-        $handle = opendir(ROOT . '/Doctype');
+        $handle = opendir(APP_ROOT . '/doctype');
+
         while ($filename = readdir($handle)) {
             if (!preg_match('/.php$/', $filename)) {
                 continue;
@@ -41,17 +42,22 @@ class DeleteCommand extends Command
 
             $filename = preg_replace('/.php$/', '', $filename);
 
-            require ROOT . "/Doctype/$filename.php";
+            require APP_ROOT . "/doctype/{$filename}.php";
+
             $type[] = new $filename;
         }
+
         closedir($handle);
 
         // Select Doctype
         foreach ($type as $index => $class) {
             IO::log(sprintf("[ %3d] ", $index) . $class->getName());
         }
+
         $select = IO::ask("\nSelect Document Type:\n-> ", function ($answer) use ($type) {
-            return is_numeric($answer) && $answer >= 0 && $answer < count($type);
+            return is_numeric($answer)
+                && $answer >= 0
+                && $answer < count($type);
         });
 
         IO::writeln();
@@ -59,13 +65,14 @@ class DeleteCommand extends Command
         // Load Markdown
         $list = [];
         $handle = opendir(MARKDOWN);
+
         while ($filename = readdir($handle)) {
             if (!preg_match('/.md$/', $filename)) {
                 continue;
             }
 
             if (!($post = parseMarkdownFile($filename, true))) {
-                IO::error("Markdown parse error: $filename");
+                IO::error("Markdown parse error: {$filename}");
                 exit(1);
             }
 
@@ -74,18 +81,20 @@ class DeleteCommand extends Command
             }
 
             if (isset($post['date']) && isset($post['time'])) {
-                $index = $post['date'] . $post['time'];
+                $index = "{$post['date']}{$post['time']}";
             } else {
                 $index = $post['title'];
             }
 
             $list[$index]['publish'] = $post['publish'];
-            $list[$index]['path'] = MARKDOWN . "/$filename";
-            $list[$index]['title'] = '' !== $post['title']
-                ? $post['title']
-                : $filename;
+            $list[$index]['path'] = MARKDOWN . "/{$filename}";
+            $list[$index]['title'] = ('' !== $post['title'])
+                ? $post['title'] : $filename;
         }
+
         closedir($handle);
+
+        // Sort List
         uksort($list, 'strnatcasecmp');
 
         if (0 === count($list)) {
@@ -96,26 +105,31 @@ class DeleteCommand extends Command
 
         // Get Post Number
         $count = 0;
+
         foreach ($list as $post) {
-            if ($post['publish']) {
-                IO::log(sprintf("[ %3d] ", $count) . $post['title']);
-            } else {
-                IO::log(sprintf("[*%3d] ", $count) . $post['title']);
-            }
+            $text = $post['publish']
+                ? sprintf("[ %3d] ", $count) . $post['title']
+                : sprintf("[*%3d] ", $count) . $post['title'];
+
+            IO::log($text);
 
             $count++;
         }
 
         $number = IO::ask("\nEnter Number:\n-> ", function ($answer) use ($list) {
-            return is_numeric($answer) && $answer >= 0 && $answer < count($list);
+            return is_numeric($answer)
+                && $answer >= 0
+                && $answer < count($list);
         });
 
+        // Get Info
         $path = $list[array_keys($list)[$number]]['path'];
         $title = $list[array_keys($list)[$number]]['title'];
 
-        if ('yes' === IO::ask("\nAre you sure delete post \"$title\"? (yes)\n-> ", null, 'red')) {
+        if ('yes' === IO::ask("\nAre you sure delete post \"{$title}\"? (yes)\n-> ", null, 'red')) {
             unlink($path);
-            IO::notice("Successfully removed post \"$title\".");
+
+            IO::notice("Successfully removed post \"{$title}\".");
         }
     }
 }
