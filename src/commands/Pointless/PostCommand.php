@@ -36,7 +36,7 @@ class PostCommand extends Command
     {
         // Load Doctype
         $type = [];
-        $handle = opendir(ROOT . '/doctype');
+        $handle = opendir(APP_ROOT . '/doctype');
 
         while ($filename = readdir($handle)) {
             if (!preg_match('/.php$/', $filename)) {
@@ -45,7 +45,7 @@ class PostCommand extends Command
 
             $filename = preg_replace('/.php$/', '', $filename);
 
-            require ROOT . "/doctype/{$filename}.php";
+            require APP_ROOT . "/doctype/{$filename}.php";
 
             $temp = new $filename;
             $type[$temp->getID()] = $temp;
@@ -57,7 +57,7 @@ class PostCommand extends Command
 
         // Load Markdown
         $list = [];
-        $handle = opendir(MARKDOWN);
+        $handle = opendir(BLOG_MARKDOWN);
 
         while ($filename = readdir($handle)) {
             if (!preg_match('/.md$/', $filename)) {

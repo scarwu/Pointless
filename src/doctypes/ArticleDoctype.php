@@ -54,7 +54,7 @@ class ArticleDoctype extends Doctype
         // Time information
         list($year, $month, $day) = explode('-', $post['date']);
         list($hour, $minute, $second) = explode(':', $post['time']);
-        $timestamp = strtotime("$day-$month-$year {$post['time']}");
+        $timestamp = strtotime("{$day}-{$month}-{$year} {$post['time']}");
 
         // Generate custom url
         $url = str_replace([
@@ -78,11 +78,9 @@ class ArticleDoctype extends Doctype
         // Summary and Description
         $summary = preg_replace('/<!--more-->(.|\n)*/', '', $post['content']);
 
-        $description = '';
         preg_match('/<p>((:?.|\n)*?)<\/p>/', $summary, $match);
-        if (isset($match[1])) {
-            $description = strip_tags($match[1]);
-        }
+
+        $description = isset($match[1]) ? strip_tags($match[1]) : '';
 
         return [
             'type' => $post['type'],

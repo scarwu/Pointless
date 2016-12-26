@@ -38,13 +38,13 @@ EOF;
     {
         $msg = "Default blog is't set.\nPlease use command \"home set\" or \"home init\".";
 
-        if (!file_exists(HOME . '/Default')) {
+        if (!file_exists(APP_HOME . '/default')) {
             IO::error($msg);
 
             return false;
         }
 
-        $path = file_get_contents(HOME . '/Default');
+        $path = file_get_contents(APP_HOME . '/default');
 
         if ('' === $path) {
             IO::error($msg);
@@ -52,8 +52,8 @@ EOF;
             return false;
         }
 
-        if (!file_exists($path) || !file_exists("$path/.pointless")) {
-            file_put_contents(HOME . '/defualt', '');
+        if (!file_exists($path) || !file_exists("{$path}/.pointless")) {
+            file_put_contents(APP_HOME . '/defualt', '');
 
             IO::error($msg);
 
@@ -74,53 +74,54 @@ EOF;
             file_put_contents(BLOG . '/.pointless', '');
         }
 
-        if (!file_exists(BLOG . '/Config.php')) {
-            copy(ROOT . '/Sample/Config.php', BLOG . '/Config.php');
+        if (!file_exists(BLOG . '/config.php')) {
+            copy(APP_ROOT . '/sample/config.php', BLOG . '/config.php');
         }
 
         // Require Config
-        require BLOG . '/Config.php';
+        require BLOG . '/config.php';
+
         Resource::set('config', $config);
 
         // Define Path
-        define('TEMP', BLOG . '/Temp');
-        define('DEPLOY', BLOG . '/Deploy');
-        define('RESOURCE', BLOG . '/Resource');
-        define('EXTENSION', BLOG . '/Extension');
-        define('MARKDOWN', BLOG . '/Markdown');
+        define('BLOG_TEMP', BLOG . '/temp');
+        define('BLOG_DEPLOY', BLOG . '/deploy');
+        define('BLOG_RESOURCE', BLOG . '/resource');
+        define('BLOG_EXTENSION', BLOG . '/extensions');
+        define('BLOG_MARKDOWN', BLOG . '/markdown');
 
-        if (!file_exists(TEMP)) {
-            mkdir(TEMP, 0755);
+        if (!file_exists(BLOG_TEMP)) {
+            mkdir(BLOG_TEMP, 0755);
         }
 
-        if (!file_exists(DEPLOY)) {
-            mkdir(DEPLOY, 0755);
+        if (!file_exists(BLOG_DEPLOY)) {
+            mkdir(BLOG_DEPLOY, 0755);
         }
 
-        if (!file_exists(RESOURCE)) {
-            mkdir(RESOURCE, 0755);
+        if (!file_exists(BLOG_RESOURCE)) {
+            mkdir(BLOG_RESOURCE, 0755);
         }
 
-        if (!file_exists(EXTENSION)) {
-            mkdir(EXTENSION, 0755);
+        if (!file_exists(BLOG_EXTENSION)) {
+            mkdir(BLOG_EXTENSION, 0755);
         }
 
-        if (!file_exists(MARKDOWN)) {
-            Utility::copy(ROOT . '/Sample/Markdown', MARKDOWN);
+        if (!file_exists(BLOG_MARKDOWN)) {
+            Utility::copy(APP_ROOT . '/sample/markdown', BLOG_MARKDOWN);
         }
 
-        if (!file_exists(BLOG . '/Theme')) {
-            Utility::copy(ROOT . '/Sample/Theme', BLOG . '/Theme');
+        if (!file_exists(BLOG . '/theme')) {
+            Utility::copy(APP_ROOT . '/sample/theme', BLOG . '/theme');
         }
 
         if ('' === $config['theme']) {
             $config['theme'] = 'Classic';
         }
 
-        if (file_exists(BLOG . "/Theme/{$config['theme']}")) {
-            define('THEME', BLOG . "/Theme/{$config['theme']}");
+        if (file_exists(BLOG . "/theme/{$config['theme']}")) {
+            define('BLOG_THEME', BLOG . "/theme/{$config['theme']}");
         } else {
-            define('THEME', ROOT . '/Sample/Theme/Classic');
+            define('BLOG_THEME', APP_ROOT . '/sample/theme/Classic');
         }
 
         // Set Timezone
@@ -128,19 +129,24 @@ EOF;
 
         // Change Owner
         if (isset($_SERVER['SUDO_USER'])) {
-            Utility::chown(BLOG, fileowner(HOME), filegroup(HOME));
+            Utility::chown(BLOG, fileowner(APP_HOME), filegroup(APP_HOME));
         }
     }
 
     /**
      * Parse Markdown File
+     *
+     * @param string filename
+     * @param boolean is_skip_content
+     *
+     * @return string
      */
-    public static function parseMarkdownFile($filename, $skip = false)
+    public static function parseMarkdownFile($filename, $is_skip_content = false)
     {
         // Define Regular Expression Rule
         $regex = '/^(?:<!--({(?:.|\n)*})-->)\s*(?:#(.*))?((?:.|\n)*)/';
 
-        preg_match($regex, file_get_contents(MARKDOWN . "/$filename"), $match);
+        preg_match($regex, file_get_contents(BLOG_MARKDOWN . "/$filename"), $match);
 
         if (4 !== count($match)) {
             return false;
@@ -152,7 +158,7 @@ EOF;
 
         $post['title'] = trim($match[2]);
 
-        if (!$skip) {
+        if (!$is_skip_content) {
             $post['content'] = $match[3];
         }
 

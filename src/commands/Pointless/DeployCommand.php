@@ -54,21 +54,21 @@ class DeployCommand extends Command
             return false;
         }
 
-        chdir(DEPLOY);
+        chdir(BLOG_DEPLOY);
 
-        if (!file_exists(DEPLOY . '/.git')) {
+        if (!file_exists(BLOG_DEPLOY . '/.git')) {
             system('git init');
             system("git remote add origin git@github.com:$account/$repo.git");
         }
 
         system("git pull origin $branch");
 
-        Utility::remove(DEPLOY, DEPLOY);
-        Utility::copy(TEMP, DEPLOY);
+        Utility::remove(BLOG_DEPLOY, BLOG_DEPLOY);
+        Utility::copy(BLOG_TEMP, BLOG_DEPLOY);
 
         // Create Github CNAME
         if ($github['cname']) {
-            file_put_contents(DEPLOY . '/CNAME', $blog['dn']);
+            file_put_contents(BLOG_DEPLOY . '/CNAME', $blog['dn']);
         }
 
         system('git add --all .');
@@ -77,7 +77,7 @@ class DeployCommand extends Command
 
         // Change Owner
         if (IS_SUPER_USER) {
-            Utility::chown(DEPLOY, fileowner(APP_HOME), filegroup(APP_HOME));
+            Utility::chown(BLOG_DEPLOY, fileowner(APP_HOME), filegroup(APP_HOME));
         }
     }
 }

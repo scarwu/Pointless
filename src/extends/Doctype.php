@@ -46,18 +46,17 @@ abstract class Doctype
         $title = $info['title'];
         $hedaer = $info['header'];
 
-        $savepath = MARKDOWN . "/$filename";
+        $savepath = BLOG_MARKDOWN . "/$filename";
 
         if (file_exists($savepath)) {
             return [$filename, null];
         }
 
         // Convert to JSON
-        $option = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE;
-        $json = json_encode($hedaer, $option);
+        $json = json_encode($hedaer, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         // Create Markdown
-        file_put_contents($savepath, "<!--$json-->\n\n# $title\n\n");
+        file_put_contents($savepath, "<!--{$json}-->\n\n# {$title}\n\n");
 
         $this->savepath = $savepath;
 

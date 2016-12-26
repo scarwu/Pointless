@@ -64,7 +64,7 @@ class DeleteCommand extends Command
 
         // Load Markdown
         $list = [];
-        $handle = opendir(MARKDOWN);
+        $handle = opendir(BLOG_MARKDOWN);
 
         while ($filename = readdir($handle)) {
             if (!preg_match('/.md$/', $filename)) {
@@ -87,7 +87,7 @@ class DeleteCommand extends Command
             }
 
             $list[$index]['publish'] = $post['publish'];
-            $list[$index]['path'] = MARKDOWN . "/{$filename}";
+            $list[$index]['path'] = BLOG_MARKDOWN . "/{$filename}";
             $list[$index]['title'] = ('' !== $post['title'])
                 ? $post['title'] : $filename;
         }

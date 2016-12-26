@@ -24,7 +24,7 @@ trait ThemeTools
         }
 
         ob_start();
-        include THEME . "/Template/$_path";
+        include THEME . "/template/{$_path}";
         $_result = ob_get_contents();
         ob_end_clean();
 
@@ -39,14 +39,14 @@ trait ThemeTools
      */
     final protected function save($path, $data)
     {
-        $realpath = TEMP . "/$path";
+        $realpath = BLOG_TEMP . "/{$path}";
 
         if (!preg_match('/\.(html|xml)$/', $realpath)) {
             if (!file_exists($realpath)) {
                 mkdir($realpath, 0755, true);
             }
 
-            $realpath = "$realpath/index.html";
+            $realpath = "{$realpath}/index.html";
         } else {
             if (!file_exists(dirname($realpath))) {
                 mkdir(dirname($realpath), 0755, true);
@@ -66,8 +66,8 @@ trait ThemeTools
      */
     final protected function createIndex($src, $dest)
     {
-        if (file_exists(TEMP . "/$src")) {
-            copy(TEMP . "/$src", TEMP . "/$dest");
+        if (file_exists(BLOG_TEMP . "/$src")) {
+            copy(BLOG_TEMP . "/$src", BLOG_TEMP . "/$dest");
 
             if ('.' !== ($path = dirname($dest))) {
                 Resource::append('sitemap', $path);
