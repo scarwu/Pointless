@@ -8,23 +8,27 @@
  * @link        http://github.com/scarwu/Pointless
  */
 
-$blog = file_get_contents("{$_SERVER['DOCUMENT_ROOT']}/Default");
+$blog = file_get_contents("{$_SERVER['DOCUMENT_ROOT']}/default");
+
 define('BLOG', $blog);
 
-require BLOG . '/Config.php';
-$path = BLOG . '/Temp/';
+require BLOG . '/config.php';
+
+$path = BLOG . '/temp/';
 
 $pattern = '/^' . str_replace('/', '\/', $config['blog']['base']) . '/';
+
 if (!preg_match($pattern, $_SERVER['REQUEST_URI'])) {
     header("Location:http://{$_SERVER['HTTP_HOST']}{$config['blog']['base']}");
 }
 
 $pattern = '/^' . str_replace('/', '\/', $config['blog']['base']) . '(.+)/';
+
 if (preg_match($pattern, $_SERVER['REQUEST_URI'], $match)) {
-    $path .= urldecode($match[1]);
+    $path = $path . urldecode($match[1]);
 }
 
-$path .= is_dir($path) ? '/index.html' : '';
+$path = is_dir($path) ? "{$path}/index.html" : $path;
 $path = explode('?', $path)[0];
 
 $mime = [

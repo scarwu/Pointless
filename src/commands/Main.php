@@ -8,10 +8,12 @@
  * @link        http://github.com/scarwu/Pointless
  */
 
+namespace Pointless\Command;
+
 use NanoCLI\Command;
 use NanoCLI\IO;
 
-class Pointless extends Command
+class Main extends Command
 {
     public function help()
     {

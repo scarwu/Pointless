@@ -42,7 +42,7 @@ require CORE_LIB . '/Misc.php';
 require APP_ROOT . '/vendor/autoload.php';
 
 // NanoCLI Command Loader
-NanoCLI\Loader::set('Pointless', APP_ROOT . '/commands');
+NanoCLI\Loader::set('Pointless\Command', APP_ROOT . '/commands');
 NanoCLI\Loader::register();
 
 // Initialize Folder & Files
@@ -79,4 +79,4 @@ if (IS_SUPER_USER) {
 }
 
 // Init Pointless Commnad
-(new Pointless)->init();
+(new Pointless\Command\Main)->init();

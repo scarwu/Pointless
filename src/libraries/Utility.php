@@ -15,8 +15,9 @@ class Utility
     /**
      * Path Replace
      *
-     * @param string
-     * @param boolean
+     * @param string filename
+     * @param boolean skip
+     *
      * @return string
      */
     public static function pathReplace($filename, $skip = false)
@@ -41,13 +42,14 @@ class Utility
     /**
      * Command Exists
      *
-     * @param string
+     * @param string command
+     *
      * @return boolean
      */
     public static function commandExists($command)
     {
         foreach (explode(':', $_SERVER['PATH']) as $path) {
-            if (file_exists("$path/$command")) {
+            if (file_exists("{$path}/{$command}")) {
                 return true;
             }
         }
@@ -58,84 +60,107 @@ class Utility
     /**
      * Recursive Change Owner and Group
      *
-     * @param string
-     * @param string
-     * @param string
+     * @param string path
+     * @param string user
+     * @param string group
+     *
+     * @return boolean
      */
-    public static function chown($path, $user, $group)
+    public static function chown($path = null, $user = null, $group = null)
     {
-        if (file_exists($path)) {
-            chown($path, $user);
-            chgrp($path, $group);
+        if (!file_exists($path)) {
+            return false;
+        }
 
-            if (is_dir($path)) {
-                $handle = opendir($path);
-                while ($filename = readdir($handle)) {
-                    if (!in_array($filename, ['.', '..'])) {
-                        self::chown("$path/$filename", $user, $group);
-                    }
+        chown($path, $user);
+        chgrp($path, $group);
+
+        if (is_dir($path)) {
+            $handle = opendir($path);
+
+            while ($filename = readdir($handle)) {
+                if (in_array($filename, ['.', '..'])) {
+                    continue;
                 }
-                closedir($handle);
+
+                self::chown("{$path}/{$command}", $user, $group);
             }
+
+            closedir($handle);
         }
     }
 
     /**
      * Recursive Copy
      *
-     * @param string
-     * @param string
+     * @param string src
+     * @param string dest
+     *
+     * @return boolean
      */
-    public static function copy($src, $dest)
+    public static function copy($src = null, $dest = null)
     {
-        if (file_exists($src)) {
-            if (is_dir($src)) {
-                if (!file_exists($dest)) {
-                    mkdir($dest, 0755, true);
-                }
+        if (!file_exists($src)) {
+            return false;
+        }
 
-                $handle = opendir($src);
-                while ($filename = readdir($handle)) {
-                    if (!in_array($filename, ['.', '..', '.git'])) {
-                        self::copy("$src/$filename", "$dest/$filename");
-                    }
-                }
-                closedir($handle);
-            } else {
-                if (!file_exists(dirname($dest))) {
-                    mkdir(dirname($dest), 0755, true);
-                }
-
-                copy($src, $dest);
+        if (is_dir($src)) {
+            if (!file_exists($dest)) {
+                mkdir($dest, 0755, true);
             }
+
+            $handle = opendir($src);
+
+            while ($filename = readdir($handle)) {
+                if (in_array($filename, ['.', '..', '.git'])) {
+                    continue;
+                }
+
+                self::copy("{$src}/{$filename}", "{$dest}/{$filename}");
+            }
+
+            closedir($handle);
+        } else {
+            if (!file_exists(dirname($dest))) {
+                mkdir(dirname($dest), 0755, true);
+            }
+
+            copy($src, $dest);
         }
     }
 
     /**
      * Recursive Remove
      *
-     * @param string
-     * @param string
+     * @param string path
+     * @param string self
+     *
      * @return boolean
      */
     public static function remove($path = null, $self = null)
     {
-        if (file_exists($path)) {
-            if (is_dir($path)) {
-                $handle = opendir($path);
-                while ($filename = readdir($handle)) {
-                    if (!in_array($filename, ['.', '..', '.git'])) {
-                        self::remove("$path/$filename");
-                    }
-                }
-                closedir($handle);
+        if (!file_exists($path)) {
+            return false;
+        }
 
-                if ($path !== $self) {
-                    return rmdir($path);
+        if (is_dir($path)) {
+            $handle = opendir($path);
+
+            while ($filename = readdir($handle)) {
+                if (in_array($filename, ['.', '..', '.git'])) {
+                    continue;
                 }
-            } else {
-                return unlink($path);
+
+                self::remove("{$path}/{$filename}");
             }
+
+            closedir($handle);
+
+            if ($path !== $self) {
+                return rmdir($path);
+            }
+        } else {
+            return unlink($path);
         }
     }
 }
