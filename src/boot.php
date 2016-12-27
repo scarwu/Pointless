@@ -28,21 +28,24 @@ define('IS_SUPER_USER', isset($_SERVER['SUDO_USER']));
 // Require Extends
 // require CORE_EXT . '/LimitedCommand.php';
 // require CORE_EXT . '/PostCommand.php';
-require CORE_EXT . '/Doctype.php';
-require CORE_EXT . '/ThemeTools.php';
-require CORE_EXT . '/ThemeScript.php';
-require CORE_EXT . '/Extension.php';
+// require CORE_EXT . '/Doctype.php';
+// require CORE_EXT . '/ThemeTools.php';
+// require CORE_EXT . '/ThemeScript.php';
+// require CORE_EXT . '/Extension.php';
 
 // Require Libraries
-require CORE_LIB . '/Utility.php';
-require CORE_LIB . '/Resource.php';
-require CORE_LIB . '/Misc.php';
+// require CORE_LIB . '/Utility.php';
+// require CORE_LIB . '/Resource.php';
+// require CORE_LIB . '/Misc.php';
 
 // Composer Autoloader
 require APP_ROOT . '/vendor/autoload.php';
 
-// NanoCLI Command Loader
+// NanoCLI Loader
+NanoCLI\Loader::set('Pointless\Extend', APP_ROOT . '/extends');
 NanoCLI\Loader::set('Pointless\Command', APP_ROOT . '/commands');
+NanoCLI\Loader::set('Pointless\Doctype', APP_ROOT . '/doctypes');
+NanoCLI\Loader::set('Pointless\Library', APP_ROOT . '/libraries');
 NanoCLI\Loader::register();
 
 // Initialize Folder & Files
@@ -79,4 +82,4 @@ if (IS_SUPER_USER) {
 }
 
 // Init Pointless Commnad
-(new Pointless\Command\MainCommnad)->init('Pointless\Command');
+(new Pointless\Command\MainCommand)->init();

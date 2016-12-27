@@ -10,11 +10,11 @@
 
 namespace Pointless\Command\Main;
 
-use Misc,
-    Utility,
-    Resource,
-    HTMLGenerator,
-    ExtensionLoader,
+use Pointless\Library\Misc,
+    Pointless\Library\Utility,
+    Pointless\Library\Resource,
+    Pointless\Library\HTMLGenerator,
+    Pointless\Library\ExtensionLoader,
     Parsedown,
     Pack\CSS,
     Pack\JS,

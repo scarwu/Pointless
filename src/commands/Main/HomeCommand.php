@@ -10,8 +10,8 @@
 
 namespace Pointless\Command\Main;
 
-use Misc,
-    Resource,
+use Pointless\Library\Misc,
+    Pointless\Library\Resource,
     NanoCLI\Command,
     NanoCLI\IO;
 

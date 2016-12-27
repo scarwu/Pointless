@@ -11,7 +11,7 @@
 namespace Pointless\Command\Main;
 
 use Exception,
-    Misc,
+    Pointless\Library\Misc,
     NanoCLI\Command,
     NanoCLI\IO;
 
