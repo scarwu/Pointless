@@ -15,28 +15,8 @@ date_default_timezone_set('Etc/UTC');
 require APP_ROOT . '/constant.php';
 
 // Define Variables
-define('APP_HOME', $_SERVER['HOME'] . '/.pointless3');
-
 define('BUILD_VERSION', $constant['build']['version']);
 define('BUILD_TIMESTAMP', $constant['build']['timestamp']);
-
-define('CORE_EXT', APP_ROOT . '/extends');
-define('CORE_LIB', APP_ROOT . '/libraries');
-
-define('IS_SUPER_USER', isset($_SERVER['SUDO_USER']));
-
-// Require Extends
-// require CORE_EXT . '/LimitedCommand.php';
-// require CORE_EXT . '/PostCommand.php';
-// require CORE_EXT . '/Doctype.php';
-// require CORE_EXT . '/ThemeTools.php';
-// require CORE_EXT . '/ThemeScript.php';
-// require CORE_EXT . '/Extension.php';
-
-// Require Libraries
-// require CORE_LIB . '/Utility.php';
-// require CORE_LIB . '/Resource.php';
-// require CORE_LIB . '/Misc.php';
 
 // Composer Autoloader
 require APP_ROOT . '/vendor/autoload.php';
@@ -58,25 +38,25 @@ if ('production' === APP_ENV) {
         mkdir(APP_HOME . '/sample', 0755, true);
     }
 
-    $timestamp = 0;
+    // Get Timestamp
+    $timestamp = file_exists(APP_HOME . '/.timestamp')
+        ? file_get_contents(APP_HOME . '/.timestamp') : 0;
 
-    if (file_exists(APP_HOME . '/.timestamp')) {
-        $timestamp = file_get_contents(APP_HOME . '/.timestamp');
-    }
-
-    // Check Timestamp and Update Sample Files
+    // Check Timestamp
     if (BUILD_TIMESTAMP !== $timestamp) {
+
+        // Remove Old Sample
         Utility::remove(APP_HOME . '/sample');
 
-        // Copy Sample Files
+        // Copy New Sample
         Utility::copy(APP_ROOT . '/sample', APP_HOME . '/sample');
 
-        // Create Timestamp File
+        // Update Timestamp
         file_put_contents(APP_HOME . '/timestamp', BUILD_TIMESTAMP);
     }
 }
 
-// Change Owner
+// Change Owner (Fix Permission)
 if (IS_SUPER_USER) {
     Utility::chown(APP_HOME, fileowner($_SERVER['HOME']), filegroup($_SERVER['HOME']));
 }
