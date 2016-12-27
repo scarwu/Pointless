@@ -8,10 +8,11 @@
  * @link        http://github.com/scarwu/Pointless
  */
 
-namespace Pointless;
+namespace Pointless\Command\Main;
 
-use NanoCLI\Command;
-use NanoCLI\IO;
+use Misc,
+    NanoCLI\Command,
+    NanoCLI\IO;
 
 class PostCommand extends Command
 {

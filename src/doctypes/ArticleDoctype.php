@@ -8,6 +8,10 @@
  * @link        http://gTypeithub.com/scarwu/Pointless
  */
 
+namespace Pointless\Doctype;
+
+use Pointless\Extend\Doctype;
+
 class ArticleDoctype extends Doctype
 {
     public function __construct()

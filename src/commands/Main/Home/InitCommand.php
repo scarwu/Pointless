@@ -8,10 +8,11 @@
  * @link        http://github.com/scarwu/Pointless
  */
 
-namespace Pointless\Home;
+namespace Pointless\Command\Main\Home;
 
-use NanoCLI\Command;
-use NanoCLI\IO;
+use Misc,
+    NanoCLI\Command,
+    NanoCLI\IO;
 
 class InitCommand extends Command
 {

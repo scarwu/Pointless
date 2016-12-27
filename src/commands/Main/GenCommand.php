@@ -8,18 +8,18 @@
  * @link        http://github.com/scarwu/Pointless
  */
 
-namespace Pointless;
+namespace Pointless\Command\Main;
 
-use NanoCLI\Command;
-use NanoCLI\IO;
-use Pack\CSS;
-use Pack\JS;
-use Parsedown;
-
-use Utility;
-use Resource;
-use HTMLGenerator;
-use ExtensionLoader;
+use Misc,
+    Utility,
+    Resource,
+    HTMLGenerator,
+    ExtensionLoader,
+    Parsedown,
+    Pack\CSS,
+    Pack\JS,
+    NanoCLI\Command,
+    NanoCLI\IO;
 
 class GenCommand extends Command
 {

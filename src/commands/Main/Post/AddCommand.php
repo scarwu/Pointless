@@ -8,13 +8,13 @@
  * @link        http://github.com/scarwu/Pointless
  */
 
-namespace Pointless\Post;
+namespace Pointless\Command\Main\Post;
 
-use NanoCLI\Command;
-use NanoCLI\IO;
-
-use Utility;
-use Resource;
+use Misc,
+    Utility,
+    Resource,
+    NanoCLI\Command,
+    NanoCLI\IO;
 
 class AddCommand extends Command
 {

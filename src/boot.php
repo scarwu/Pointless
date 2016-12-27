@@ -79,4 +79,4 @@ if (IS_SUPER_USER) {
 }
 
 // Init Pointless Commnad
-(new Pointless\Command\Main)->init();
+(new Pointless\Command\MainCommnad)->init('Pointless\Command');

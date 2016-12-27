@@ -8,12 +8,12 @@
  * @link        http://github.com/scarwu/Pointless
  */
 
-namespace Pointless;
+namespace Pointless\Command\Main;
 
-use NanoCLI\Command;
-use NanoCLI\IO;
-
-use Utility;
+use Misc,
+    Utility,
+    NanoCLI\Command,
+    NanoCLI\IO;
 
 class UpdateCommand extends Command
 {

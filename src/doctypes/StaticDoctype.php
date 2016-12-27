@@ -8,6 +8,10 @@
  * @link        http://github.com/scarwu/Pointless
  */
 
+namespace Pointless\Doctype;
+
+use Pointless\Extend\Doctype;
+
 class StaticDoctype extends Doctype
 {
     public function __construct()

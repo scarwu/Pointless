@@ -8,10 +8,11 @@
  * @link        http://github.com/scarwu/Pointless
  */
 
-namespace Pointless\Post;
+namespace Pointless\Command\Main\Post;
 
-use NanoCLI\Command;
-use NanoCLI\IO;
+use Misc,
+    NanoCLI\Command,
+    NanoCLI\IO;
 
 class DeleteCommand extends Command
 {

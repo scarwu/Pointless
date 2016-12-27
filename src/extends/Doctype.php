@@ -8,6 +8,8 @@
  * @link        http://github.com/scarwu/Pointless
  */
 
+namespace Pointless\Extend;
+
 abstract class Doctype
 {
     protected $id;

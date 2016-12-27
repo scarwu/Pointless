@@ -8,12 +8,12 @@
  * @link        http://github.com/scarwu/Pointless
  */
 
-namespace Pointless;
+namespace Pointless\Command\Main;
 
-use NanoCLI\Command;
-use NanoCLI\IO;
-
-use Resource;
+use Misc,
+    Resource,
+    NanoCLI\Command,
+    NanoCLI\IO;
 
 class HomeCommand extends Command
 {

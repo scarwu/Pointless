@@ -10,11 +10,17 @@
 
 namespace Pointless\Command;
 
-use NanoCLI\Command;
-use NanoCLI\IO;
+use Misc,
+    NanoCLI\Command,
+    NanoCLI\IO;
 
-class Main extends Command
+class MainCommand extends Command
 {
+    public function __construct()
+    {
+        self::$_namespace = __NAMESPACE__;
+    }
+
     public function help()
     {
         IO::log('    home        - Initialize and set default blog');
