@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9a3ed8a3417abaa1c649c76555012e5d",
-    "content-hash": "e1009158f729663fc1891a45dc30f00c",
+    "hash": "4b4c0ec3740b6798aae747664b3e749d",
+    "content-hash": "6cc4774de0a2e60920cc5e222bd9a230",
     "packages": [
         {
             "name": "erusev/parsedown",
@@ -51,16 +51,16 @@
         },
         {
             "name": "scarwu/nanocli",
-            "version": "dev-master",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/scarwu/NanoCLI.git",
-                "reference": "e9e29c8d1a35b67deeacbf83bfb7189bfa0ba4c8"
+                "reference": "ce0007a467565e0d576c537f9e5cd48f42574b5d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/scarwu/NanoCLI/zipball/e9e29c8d1a35b67deeacbf83bfb7189bfa0ba4c8",
-                "reference": "e9e29c8d1a35b67deeacbf83bfb7189bfa0ba4c8",
+                "url": "https://api.github.com/repos/scarwu/NanoCLI/zipball/ce0007a467565e0d576c537f9e5cd48f42574b5d",
+                "reference": "ce0007a467565e0d576c537f9e5cd48f42574b5d",
                 "shasum": ""
             },
             "require": {
@@ -89,7 +89,7 @@
             ],
             "description": "A Simply PHP CLI Development Tools",
             "homepage": "https://github.com/scarwu/NanoCLI",
-            "time": "2016-12-27 07:54:07"
+            "time": "2016-12-31 08:34:17"
         },
         {
             "name": "scarwu/pack",
@@ -138,8 +138,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "scarwu/pack": 20,
-        "scarwu/nanocli": 20
+        "scarwu/pack": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

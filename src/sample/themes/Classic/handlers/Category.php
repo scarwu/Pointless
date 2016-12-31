@@ -4,13 +4,16 @@
  *
  * @package     Pointless
  * @author      ScarWu
- * @copyright   Copyright (c) 2012-2016, ScarWu (http://scar.simcz.tw/)
+ * @copyright   Copyright (c) 2012-2017, ScarWu (http://scar.simcz.tw/)
  * @link        http://github.com/scarwu/Pointless
  */
 
+namespace Pointless\Handler;
+
+use Pointless\Extend\ThemeHandler;
 use NanoCLI\IO;
 
-class Category extends ThemeScript
+class Category extends ThemeHandler
 {
     public function __construct()
     {

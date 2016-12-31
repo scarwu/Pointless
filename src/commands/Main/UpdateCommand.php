@@ -4,16 +4,16 @@
  *
  * @package     Pointless
  * @author      ScarWu
- * @copyright   Copyright (c) 2012-2016, ScarWu (http://scar.simcz.tw/)
+ * @copyright   Copyright (c) 2012-2017, ScarWu (http://scar.simcz.tw/)
  * @link        http://github.com/scarwu/Pointless
  */
 
 namespace Pointless\Command\Main;
 
-use Pointless\Library\Misc,
-    Pointless\Library\Utility,
-    NanoCLI\Command,
-    NanoCLI\IO;
+use Pointless\Library\Misc;
+use Pointless\Library\Utility;
+use NanoCLI\Command;
+use NanoCLI\IO;
 
 class UpdateCommand extends Command
 {

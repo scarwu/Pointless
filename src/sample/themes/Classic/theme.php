@@ -4,27 +4,29 @@
  *
  * @package     Pointless
  * @author      ScarWu
- * @copyright   Copyright (c) 2012-2016, ScarWu (http://scar.simcz.tw/)
+ * @copyright   Copyright (c) 2012-2017, ScarWu (http://scar.simcz.tw/)
  * @link        http://github.com/scarwu/Pointless
  */
 
 $theme = [
-    'js' => [
-        'main'
+    'assets' => [
+        'scripts' => [
+            'main'
+        ],
+        'styles' => [
+            'normalize',
+            'solarized_dark',
+            'main'
+        ]
     ],
-    'css' => [
-        'normalize',
-        'solarized_dark',
-        'main'
-    ],
-    'template' => [
+    'views' => [
         'side' => [
             'tag',
             'category',
             'archive'
         ]
     ],
-    'script' => [
+    'handlers' => [
         'StaticPage',
         'Article',
         'Page',
@@ -32,7 +34,7 @@ $theme = [
         'Category',
         'Tag'
     ],
-    'extension' => [
+    'extensions' => [
         'Atom',
         'Sitemap'
     ]
