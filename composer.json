@@ -1,7 +1,10 @@
 {
+    "config": {
+        "vendor-dir": "src/vendor"
+    },
     "require": {
         "scarwu/pack": "dev-master",
-        "scarwu/nanocli": "^0.9.0",
+        "scarwu/nanocli": "^1.0.0",
         "erusev/parsedown": "^1.6.1"
     }
 }

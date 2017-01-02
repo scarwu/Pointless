@@ -8,7 +8,7 @@ A Lightweight Static Blog Generator with PHP CLI
 
 ### Requirement
 
-* PHP 5.4+
+* PHP 7.0
 
 ### Install
 
