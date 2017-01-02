@@ -10,6 +10,8 @@
 
 namespace Pointless\Extend;
 
+use Pointless\Library\Helper;
+
 trait ThemeTools
 {
     /**
@@ -68,8 +70,8 @@ trait ThemeTools
      */
     final protected function createIndex($src, $dest)
     {
-        if (file_exists(BLOG_BUILD . "/$src")) {
-            copy(BLOG_BUILD . "/$src", BLOG_BUILD . "/$dest");
+        if (file_exists(BLOG_BUILD . "/{$src}")) {
+            copy(BLOG_BUILD . "/{$src}", BLOG_BUILD . "/{$dest}");
 
             if ('.' !== ($path = dirname($dest))) {
                 Resource::append('sitemap', $path);

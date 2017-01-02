@@ -12,6 +12,7 @@ namespace Pointless\Library;
 
 use Pointless\Library\Utility;
 use Pointless\Library\Resource;
+use Parsedown;
 use NanoCLI\IO;
 
 class Misc {
@@ -95,18 +96,18 @@ EOF;
         }
 
         // Init Theme
-        if (!file_exists(BLOG_ROOT . '/theme')) {
-            Utility::copy(APP_ROOT . '/sample/theme', BLOG_ROOT . '/theme');
+        if (!file_exists(BLOG_ROOT . '/themes')) {
+            Utility::copy(APP_ROOT . '/sample/themes', BLOG_ROOT . '/themes');
         }
 
         if ('' === $config['theme']) {
             $config['theme'] = 'Classic';
         }
 
-        if (file_exists(BLOG_ROOT . "/theme/{$config['theme']}")) {
-            define('BLOG_THEME', BLOG_ROOT . "/theme/{$config['theme']}");
+        if (file_exists(BLOG_ROOT . "/themes/{$config['theme']}")) {
+            define('BLOG_THEME', BLOG_ROOT . "/themes/{$config['theme']}");
         } else {
-            define('BLOG_THEME', APP_ROOT . '/sample/theme/Classic');
+            define('BLOG_THEME', APP_ROOT . '/sample/themes/Classic');
         }
 
         // Set Timezone
@@ -148,12 +149,38 @@ EOF;
         $editor = Resource::get('config')['editor'];
 
         if (!Utility::commandExists($editor)) {
+            IO::error("System command \"{$editor}\" is not found.");
+
             return false;
         }
 
         system("{$editor} {$path} < `tty` > `tty`");
 
         return true;
+    }
+
+    /**
+     * Get Handler List
+     *
+     * @return array
+     */
+    public static function getHandlerList()
+    {
+        $list = [];
+
+        $handle = opendir(BLOG_THEME . '/handlers');
+
+        while ($filename = readdir($handle)) {
+            if (!preg_match('/^(\w+).php$/', $filename, $match)) {
+                continue;
+            }
+
+            $list[] = strtolower($match[1]);
+        }
+
+        closedir($handle);
+
+        return $list;
     }
 
     /**
@@ -164,6 +191,7 @@ EOF;
     public static function getDoctypeList()
     {
         $list = [];
+
         $handle = opendir(APP_ROOT . '/doctypes');
 
         while ($filename = readdir($handle)) {
@@ -182,13 +210,16 @@ EOF;
     /**
      * Get Markdown List
      *
-     * @param string
+     * @param string $doctype
+     * @param boolean $skip_content
      *
      * @return array
      */
-    public static function getMarkdownList($doctype)
+    public static function getMarkdownList($doctype = null, $skip_content = false)
     {
         $list = [];
+
+        $parsedown = new Parsedown();
         $handle = opendir(BLOG_MARKDOWN);
 
         while ($filename = readdir($handle)) {
@@ -196,7 +227,7 @@ EOF;
                 continue;
             }
 
-            $post = self::parseMarkdownFile($filename, true);
+            $post = self::parseMarkdownFile($filename, $skip_content);
 
             if (!$post) {
                 IO::error("Markdown parse error: {$filename}");
@@ -204,20 +235,22 @@ EOF;
                 exit(1);
             }
 
-            if ($doctype !== $post['type']) {
+            if ($doctype !== null
+                && $doctype !== $post['type']) {
+
                 continue;
             }
 
-            if (isset($post['date']) && isset($post['time'])) {
-                $index = "{$post['date']}{$post['time']}";
-            } else {
-                $index = $post['title'];
+            $post['path'] = BLOG_MARKDOWN . "/{$filename}";
+
+            if (!$skip_content) {
+                $post['content'] = $parsedown->text($post['content']);
             }
 
-            $list[$index]['publish'] = $post['publish'];
-            $list[$index]['path'] = BLOG_MARKDOWN . "/{$filename}";
-            $list[$index]['title'] = ('' !== $post['title'])
-                ? $post['title'] : $filename;
+            $index = (isset($post['date']) && isset($post['time']))
+                ? "{$post['date']}{$post['time']}" : $post['title'];
+
+            $list[$index] = $post;
         }
 
         closedir($handle);
@@ -231,12 +264,12 @@ EOF;
     /**
      * Parse Markdown File
      *
-     * @param string filename
-     * @param boolean is_skip_content
+     * @param string $filename
+     * @param boolean $skip_content
      *
      * @return string
      */
-    public static function parseMarkdownFile($filename, $is_skip_content = false)
+    public static function parseMarkdownFile($filename, $skip_content = false)
     {
         // Define Regular Expression Rule
         $regex = '/^(?:<!--({(?:.|\n)*})-->)\s*(?:#(.*))?((?:.|\n)*)/';
@@ -247,13 +280,15 @@ EOF;
             return false;
         }
 
-        if (null === ($post = json_decode($match[1], true))) {
+        $post = json_decode($match[1], true);
+
+        if (null === $post) {
             return false;
         }
 
         $post['title'] = trim($match[2]);
 
-        if (!$is_skip_content) {
+        if (!$skip_content) {
             $post['content'] = $match[3];
         }
 

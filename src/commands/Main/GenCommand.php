@@ -15,11 +15,11 @@ use Pointless\Library\Utility;
 use Pointless\Library\Resource;
 use Pointless\Library\HTMLGenerator;
 use Pointless\Library\ExtensionLoader;
-use Parsedown;
 use Pack\CSS;
 use Pack\JS;
-use NanoCLI\Command;
 use NanoCLI\IO;
+use NanoCLI\Loader;
+use NanoCLI\Command;
 
 class GenCommand extends Command
 {
@@ -43,13 +43,15 @@ class GenCommand extends Command
             return false;
         }
 
-        require LIBRARY . '/Helper.php';
-        require LIBRARY . '/HTMLGenerator.php';
-        require LIBRARY . '/ExtensionLoader.php';
-
         // Load Theme Config
-        require BLOG_THEME . '/Theme.php';
+        require BLOG_THEME . '/theme.php';
+
         Resource::set('theme', $theme);
+
+        // Set Loader
+        Loader::set('Pointless\Handler', BLOG_THEME . '/handlers');
+        Loader::set('Pointless\Extension', BLOG_EXTENSION);
+        Loader::set('Pointless\Extension', APP_ROOT . '/sample/extensions');
     }
 
     /**
@@ -63,31 +65,37 @@ class GenCommand extends Command
 
         if ($this->hasOptions('css')) {
             IO::notice('Clean Files ...');
+
             if (file_exists(BLOG_BUILD . '/theme/main.css')) {
                 unlink(BLOG_BUILD . '/theme/main.css');
             }
 
             IO::notice('Compress Assets ...');
+
             $this->CSSCompress();
         }
 
         if ($this->hasOptions('js')) {
             IO::notice('Clean Files ...');
+
             if (file_exists(BLOG_BUILD . '/theme/main.js')) {
                 unlink(BLOG_BUILD . '/theme/main.js');
             }
 
             IO::notice('Compress Assets ...');
+
             $this->JSCompress();
         }
 
         if (!$this->hasOptions('css') && !$this->hasOptions('js')) {
             // Clear Files
             IO::notice('Clean Files ...');
+
             Utility::remove(BLOG_BUILD, BLOG_BUILD);
 
             // Create README
             $readme = '[Powered by Pointless](https://github.com/scarwu/Pointless)';
+
             file_put_contents(BLOG_BUILD . '/README.md', $readme);
 
             // Copy Resource Files
@@ -100,26 +108,33 @@ class GenCommand extends Command
 
             // Compress Assets
             IO::notice('Compress Assets ...');
+
             $this->CSSCompress();
             $this->JSCompress();
 
             // Initialize Resource Pool
             IO::notice('Load Markdown Files ...');
+
             $this->loadMarkdown();
 
             // Generate HTML Pages
             IO::notice('Generating HTML ...');
+
             $html = new HTMLGenerator();
             $html->run();
 
             // Generate Extension
             IO::notice('Generating Extensions ...');
-            $extension = new ExtensionLoader();
-            $extension->run();
+
+            foreach (Resource::get('theme')['extension'] as $filename) {
+                $class_name = 'Pointless\\Extension\\' . ucfirst($filename);
+                (new $class_name)->run();
+            }
         }
 
-        $time = sprintf("%.3f", abs(microtime(true) - $start));
-        $mem = sprintf("%.3f", abs(memory_get_usage() - $start_mem) / 1024);
+        $time = sprintf('%.3f', abs(microtime(true) - $start));
+        $mem = sprintf('%.3f', abs(memory_get_usage() - $start_mem) / 1024);
+
         IO::info("Generate finish, $time s and memory usage $mem KB.");
 
         // Fix Permission
@@ -131,65 +146,34 @@ class GenCommand extends Command
      */
     private function loadMarkdown()
     {
-        $parsedown = new Parsedown();
+        $result = [];
 
-        // Load Doctype
-        $type = [];
-        $handle = opendir(ROOT . '/Doctype');
-        while ($filename = readdir($handle)) {
-            if (!preg_match('/.php$/', $filename)) {
-                continue;
-            }
+        // Get Doctype List
+        $doctype_list = Misc::getDoctypeList();
+        $doctype_class = [];
 
-            $filename = preg_replace('/.php$/', '', $filename);
-
-            require ROOT . "/Doctype/$filename.php";
-            $class = new $filename;
-            $type[$class->getID()] = $class;
+        foreach ($doctype_list as $index => $doctype) {
+            $class_name = 'Pointless\\Doctype\\' . ucfirst($doctype) . 'Doctype';
+            $doctype_class[$doctype] = new $class_name;
+            $result[$doctype] = [];
         }
-        closedir($handle);
 
-        // Read Directory
-        $handle = opendir(MARKDOWN);
-        while ($filename = readdir($handle)) {
-            if (!preg_match('/.md$/', $filename)) {
-                continue;
-            }
+        // Load Markdown
+        $markdown_list = Misc::getMarkdownList();
 
-            if (!($post = parseMarkdownFile($filename))) {
-                IO::error("Markdown parse error: $filename");
-                exit(1);
-            }
-
+        foreach ($markdown_list as $post) {
             if (!$post['publish']) {
                 continue;
             }
 
-            if (!isset($type[$post['type']])) {
+            $type = $post['type'];
+
+            if (!isset($doctype_class[$type])) {
                 continue;
             }
 
-            // Transfer Markdown to HTML
-            $post['content'] = $parsedown->text($post['content']);
-
             // Append Post to Result
-            if (!isset($result[$post['type']])) {
-                $result[$post['type']] = [];
-            }
-
-            $post = $type[$post['type']]->postHandleAndGetResult($post);
-
-            if (isset($post['date']) && isset($post['time'])) {
-                $index = $post['date'] . $post['time'];
-            } else {
-                $index = $post['title'];
-            }
-
-            $result[$post['type']][$index] = $post;
-        }
-
-        foreach (array_keys($result) as $key) {
-            krsort($result[$key]);
+            $result[$type][] = $doctype_class[$type]->postHandleAndGetResult($post);
         }
 
         Resource::set('post', $result);
@@ -204,15 +188,15 @@ class GenCommand extends Command
 
         $css_pack = new CSS();
 
-        foreach (Resource::get('theme')['css'] as $filename) {
+        foreach (Resource::get('theme')['assets']['css'] as $filename) {
             $filename = preg_replace('/.css$/', '', $filename);
 
-            if (!file_exists(BLOG_THEME . "/Css/$filename.css")) {
-                IO::warning("CSS file \"$filename.css\" not found.");
+            if (!file_exists(BLOG_THEME . "/assets/styles/{$filename}.css")) {
+                IO::warning("CSS file \"{$filename}.css\" not found.");
                 continue;
             }
 
-            $css_pack->append(BLOG_THEME . "/Css/$filename.css");
+            $css_pack->append(BLOG_THEME . "/assets/styles/{$filename}.css");
         }
 
         $css_pack->save(BLOG_BUILD . '/theme/main.css', true);
@@ -225,17 +209,17 @@ class GenCommand extends Command
     {
         IO::log('Compressing Javascript');
 
-        $js_pack = new CSS();
+        $js_pack = new JS();
 
-        foreach (Resource::get('theme')['js'] as $filename) {
+        foreach (Resource::get('theme')['assets']['js'] as $filename) {
             $filename = preg_replace('/.js$/', '', $filename);
 
-            if (!file_exists(BLOG_THEME . "/Js/$filename.js")) {
-                IO::warning("Javascript file \"$filename.js\" not found.");
+            if (!file_exists(BLOG_THEME . "/assets/scripts/{$filename}.js")) {
+                IO::warning("Javascript file \"{$filename}.js\" not found.");
                 continue;
             }
 
-            $js_pack->append(BLOG_THEME . "/Js/$filename.js");
+            $js_pack->append(BLOG_THEME . "/assets/scripts/{$filename}.js");
         }
 
         $js_pack->save(BLOG_BUILD . '/theme/main.js', false);

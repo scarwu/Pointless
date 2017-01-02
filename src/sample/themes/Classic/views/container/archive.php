@@ -8,21 +8,21 @@
                 <?php foreach ($article_list as $article): ?>
                 <article class="post_block">
                     <h1 class="title">
-                        <?=linkTo("{$blog['base']}article/{$article['url']}", $article['title'])?>
+                        <?=Helper::linkTo("{$blog['base']}article/{$article['url']}", $article['title'])?>
                     </h1>
                     <div class="info">
                         <span class="archive">
                             <i class="fa fa-calendar"></i>
-                            <?=linkTo("{$blog['base']}archive/{$article['year']}/", $article['date'])?>
+                            <?=Helper::linkTo("{$blog['base']}archive/{$article['year']}/", $article['date'])?>
                         </span>
                         <span class="category">
                             <i class="fa fa-folder-open"></i>
-                            <?=linkTo("{$blog['base']}category/{$article['category']}/", $article['category'])?>
+                            <?=Helper::linkTo("{$blog['base']}category/{$article['category']}/", $article['category'])?>
                         </span>
                         <span class="tag">
                             <i class="fa fa-tags"></i>
                             <?php foreach ($article['tag'] as $index => $tag): ?>
-                            <?php $article['tag'][$index] = linkTo("{$blog['base']}tag/$tag/", $tag); ?>
+                            <?php $article['tag'][$index] = Helper::linkTo("{$blog['base']}tag/{$tag}/", $tag); ?>
                             <?php endforeach; ?>
                             <?=join($article['tag'], ', ')?>
                         </span>
@@ -37,10 +37,10 @@
     <?php endforeach; ?>
     <div id="paging">
         <span class="new">
-            <?=isset($paging['p_url']) ? linkTo($paging['p_url'], "<< {$paging['p_title']}"): ''?>
+            <?=isset($paging['p_url']) ? Helper::linkTo($paging['p_url'], "<< {$paging['p_title']}"): ''?>
         </span>
         <span class="old">
-            <?=isset($paging['n_url']) ? linkTo($paging['n_url'], "{$paging['n_title']} >>"): ''?>
+            <?=isset($paging['n_url']) ? Helper::linkTo($paging['n_url'], "{$paging['n_title']} >>"): ''?>
         </span>
         <span class="count">
             <?="{$paging['index']} / {$paging['total']}"?>

@@ -76,7 +76,7 @@ class EditCommand extends Command
 
         // Load Markdown
         $doctype = $doctype_list[$index]->getID();
-        $markdown_list = Misc::getMarkdownList($doctype);
+        $markdown_list = Misc::getMarkdownList($doctype, true);
 
         if (0 === count($markdown_list)) {
             IO::error('No post(s).');
@@ -103,8 +103,6 @@ class EditCommand extends Command
         $markdown_path = $markdown_list[array_keys($markdown_list)[$index]]['path'];
 
         // Call CLI Editor to open file
-        if (!Misc::editFile($markdown_path)) {
-            IO::error("CLI editor is not found.");
-        }
+        Misc::editFile($markdown_path);
     }
 }

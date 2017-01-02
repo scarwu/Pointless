@@ -66,6 +66,7 @@ class ServerCommand extends Command
             }
         }
 
-        IO::info("\nUsed command \"help server\" for more.");
+        IO::writeln();
+        IO::info('Used command "help server" for more.');
     }
 }

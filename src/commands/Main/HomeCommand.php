@@ -48,14 +48,16 @@ class HomeCommand extends Command
         $config = Resource::get('config');
 
         IO::notice('Home Path:');
-        IO::log(BLOG_ROOT . "\n");
+        IO::log(BLOG_ROOT);
 
+        IO::writeln();
         IO::notice('Blog Information:');
         IO::log("Name     - {$config['blog']['name']}");
         IO::log("Theme    - {$config['theme']}");
         IO::log("Timezone - {$config['timezone']}");
         IO::log("Editor   - {$config['editor']}");
 
-        IO::info("\nUsed command \"help home\" for more.");
+        IO::writeln();
+        IO::info('Used command "help home" for more.');
     }
 }

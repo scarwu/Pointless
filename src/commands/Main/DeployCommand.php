@@ -66,10 +66,10 @@ class DeployCommand extends Command
 
         if (!file_exists(BLOG_DEPLOY . '/.git')) {
             system('git init');
-            system("git remote add origin git@github.com:$account/$repo.git");
+            system("git remote add origin git@github.com:{$account}/{$repo}.git");
         }
 
-        system("git pull origin $branch");
+        system("git pull origin {$branch}");
 
         Utility::remove(BLOG_DEPLOY, BLOG_DEPLOY);
         Utility::copy(BLOG_BUILD, BLOG_DEPLOY);
@@ -81,7 +81,7 @@ class DeployCommand extends Command
 
         system('git add --all .');
         system(sprintf('git commit -m "%s"', date(DATE_RSS)));
-        system("git push origin $branch");
+        system("git push origin {$branch}");
 
         // Fix Permission
         Misc::fixPermission(BLOG_DEPLOY);

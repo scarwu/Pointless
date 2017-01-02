@@ -57,7 +57,7 @@ class DeleteCommand extends Command
 
         // Load Markdown
         $doctype = $doctype_list[$index]->getID();
-        $markdown_list = Misc::getMarkdownList($doctype);
+        $markdown_list = Misc::getMarkdownList($doctype, true);
 
         if (0 === count($markdown_list)) {
             IO::error('No post(s).');
@@ -87,6 +87,7 @@ class DeleteCommand extends Command
         if ('yes' === IO::ask("\nAre you sure delete post \"{$title}\"? (yes)\n-> ", null, 'red')) {
             unlink($path);
 
+            IO::writeln();
             IO::notice("Successfully removed post \"{$title}\".");
         }
     }

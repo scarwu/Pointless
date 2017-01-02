@@ -45,8 +45,6 @@ class ConfigCommand extends Command
         $config_path = BLOG_ROOT . '/config.php';
 
         // Call CLI Editor to open file
-        if (!Misc::editFile($config_path)) {
-            IO::error("CLI editor is not found.");
-        }
+        Misc::editFile($config_path);
     }
 }

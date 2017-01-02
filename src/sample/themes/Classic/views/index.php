@@ -14,7 +14,7 @@
     <div id="main">
         <div id="border">
             <hgroup id="header">
-                <h1><?=linkTo($blog['base'], $blog['name'])?></h1>
+                <h1><?=Helper::linkTo($blog['base'], $blog['name'])?></h1>
                 <h2><?=$blog['slogan']?></h2>
             </hgroup>
             <nav id="nav">
@@ -41,10 +41,12 @@
             var e = document.getElementsByTagName('script')[0];
             e.parentNode.insertBefore(s, e);
         }
+
         <?php if(null != $blog['google_analytics']): ?>
         var _gaq = [['_setAccount', '<?=$blog['google_analytics']?>'], ['_trackPageview']];
         asyncLoad(('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js');
         <?php endif; ?>
+
         <?php if(null != $blog['disqus_shortname']): ?>
         var disqus_shortname = '<?=$blog['disqus_shortname']?>';
         if (document.getElementById('disqus_comments')) {

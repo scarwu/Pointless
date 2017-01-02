@@ -57,6 +57,7 @@ class PostCommand extends Command
             IO::log("{$count} {$name} post(s).");
         }
 
-        IO::info("\nUsed command \"help post\" for more.");
+        IO::writeln();
+        IO::info('Used command "help post" for more.');
     }
 }

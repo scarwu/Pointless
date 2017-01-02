@@ -10,6 +10,7 @@
 
 namespace Pointless\Library;
 
+use Pointless\Library\Misc;
 use Pointless\Library\Resource;
 
 class HTMLGenerator
@@ -17,62 +18,29 @@ class HTMLGenerator
     use ThemeTools;
 
     /**
-     * @var array
-     */
-    private $script;
-
-    public function __construct()
-    {
-        $this->script = [];
-    }
-
-    /**
      * Run HTML Generator
      */
     public function run()
     {
-        // Load Script
-        $this->loadScript();
+        // Get Handler List
+        $handler_list = Misc::getHandlerList();
+
+        foreach ($handler_list as $index => $handler) {
+            $class_name = 'Pointless\\Handler\\' . ucfirst($handler);
+            $handler_list[$index] = new $class_name;
+        }
 
         // Generate Block
-        $this->genBlock();
-
-        foreach ($this->script as $class) {
-            $class->gen();
-        }
-    }
-
-    /**
-     * Load Theme Script
-     */
-    private function loadScript()
-    {
-        // Load Script
-        foreach (Resource::get('theme')['script'] as $filename) {
-            $filename = preg_replace('/.php$/', '', $filename);
-
-            if (file_exists(THEME . "/Script/$filename.php")) {
-                require THEME . "/Script/$filename.php";
-                $this->script[$filename] = new $filename;
-            }
-        }
-    }
-
-    /**
-     * Generate Block
-     */
-    private function genBlock()
-    {
         $block = [];
 
-        foreach (Resource::get('theme')['template'] as $blockname => $files) {
+        foreach (Resource::get('theme')['views'] as $blockname => $files) {
 
             $result = null;
 
             foreach ($files as $filename) {
                 $filename = preg_replace('/.php$/', '', $filename);
 
-                if (!file_exists(THEME . "/Template/$blockname/$filename.php")) {
+                if (!file_exists(BLOG_THEME . "/views/{$blockname}/{$filename}.php")) {
                     continue;
                 }
 
@@ -83,15 +51,15 @@ class HTMLGenerator
                 $script = join($script);
 
                 $data = [];
-                if (array_key_exists($script, $this->script)) {
+                if (array_key_exists($script, $handler_list)) {
                     $method = 'get' . ucfirst($blockname) . 'Data';
 
-                    if (method_exists($this->script[$script], $method)) {
-                        $data = $this->script[$script]->$method();
+                    if (method_exists($handler_list[$script], $method)) {
+                        $data = $handler_list[$script]->$method();
                     }
                 }
 
-                $result .= $this->render($data, "$blockname/$filename.php");
+                $result .= $this->render($data, "{$blockname}/{$filename}.php");
             }
 
             if (null !== $result) {
@@ -100,5 +68,10 @@ class HTMLGenerator
         }
 
         Resource::set('block', $block);
+
+        // Call Handler Generate
+        foreach ($handler_list as $handler) {
+            $handler->gen();
+        }
     }
 }

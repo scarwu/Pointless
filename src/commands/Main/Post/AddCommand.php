@@ -88,8 +88,6 @@ class AddCommand extends Command
         IO::notice($doctype_list[$index]->getName() . " {$filename} was created.");
 
         // Call CLI Editor to open file
-        if (!Misc::editFile($markdown_path)) {
-            IO::error("CLI editor is not found.");
-        }
+        Misc::editFile($markdown_path);
     }
 }

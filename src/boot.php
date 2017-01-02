@@ -21,11 +21,13 @@ define('BUILD_TIMESTAMP', $constant['build']['timestamp']);
 // Composer Autoloader
 require APP_ROOT . '/vendor/autoload.php';
 
-// NanoCLI Loader
+// Set Loader
 NanoCLI\Loader::set('Pointless\Extend', APP_ROOT . '/extends');
 NanoCLI\Loader::set('Pointless\Command', APP_ROOT . '/commands');
 NanoCLI\Loader::set('Pointless\Doctype', APP_ROOT . '/doctypes');
 NanoCLI\Loader::set('Pointless\Library', APP_ROOT . '/libraries');
+
+// Loader Register
 NanoCLI\Loader::register();
 
 // Define Home Root
