@@ -4,21 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e40a8e661fb512737178123578fd97c3",
-    "content-hash": "a023729a48867faf2511d38247b59052",
+    "content-hash": "2ef042a9f66e542f228d376646061d95",
     "packages": [
         {
             "name": "erusev/parsedown",
-            "version": "dev-master",
+            "version": "1.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/erusev/parsedown.git",
-                "reference": "94688f21cc5d8bc85f1783b4c8b98b3288d712cb"
+                "reference": "20ff8bbb57205368b4b42d094642a3e52dac85fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/erusev/parsedown/zipball/94688f21cc5d8bc85f1783b4c8b98b3288d712cb",
-                "reference": "94688f21cc5d8bc85f1783b4c8b98b3288d712cb",
+                "url": "https://api.github.com/repos/erusev/parsedown/zipball/20ff8bbb57205368b4b42d094642a3e52dac85fb",
+                "reference": "20ff8bbb57205368b4b42d094642a3e52dac85fb",
                 "shasum": ""
             },
             "require": {
@@ -47,11 +46,11 @@
                 "markdown",
                 "parser"
             ],
-            "time": "2016-01-07 17:36:51"
+            "time": "2016-11-02T15:56:58+00:00"
         },
         {
             "name": "scarwu/nanocli",
-            "version": "dev-master",
+            "version": "0.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/scarwu/NanoCLI.git",
@@ -89,7 +88,7 @@
             ],
             "description": "A Simply PHP CLI Development Tools",
             "homepage": "https://github.com/scarwu/NanoCLI",
-            "time": "2014-05-22 08:03:16"
+            "time": "2014-05-22T08:03:16+00:00"
         },
         {
             "name": "scarwu/pack",
@@ -138,9 +137,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "scarwu/pack": 20,
-        "scarwu/nanocli": 20,
-        "erusev/parsedown": 20
+        "scarwu/pack": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
