@@ -17,6 +17,10 @@ use NanoCLI\IO;
 
 class HelpCommand extends Command
 {
+
+    /**
+     * Help
+     */
     public function help()
     {
         IO::log('    help        - Help');
@@ -24,6 +28,9 @@ class HelpCommand extends Command
         IO::log('                - Show command help');
     }
 
+    /**
+     * Run
+     */
     public function run()
     {
         Misc::showBanner();

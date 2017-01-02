@@ -10,13 +10,17 @@
 
 namespace Pointless\Command\Main;
 
-use Pointless\Library\Misc,
-    Pointless\Library\Resource,
-    NanoCLI\Command,
-    NanoCLI\IO;
+use Pointless\Library\Misc;
+use Pointless\Library\Resource;
+use NanoCLI\Command;
+use NanoCLI\IO;
 
 class HomeCommand extends Command
 {
+
+    /**
+     * Help
+     */
     public function help()
     {
         IO::log('    home        - Show default blog path');
@@ -26,6 +30,9 @@ class HomeCommand extends Command
         IO::log('                - Init a new blog');
     }
 
+    /**
+     * Up
+     */
     public function up()
     {
         if (!Misc::checkDefaultBlog()) {
@@ -35,6 +42,9 @@ class HomeCommand extends Command
         Misc::initBlog();
     }
 
+    /**
+     * Run
+     */
     public function run()
     {
         $config = Resource::get('config');

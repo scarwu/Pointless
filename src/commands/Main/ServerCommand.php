@@ -16,6 +16,10 @@ use NanoCLI\IO;
 
 class ServerCommand extends Command
 {
+
+    /**
+     * Help
+     */
     public function help()
     {
         IO::log('    server      - Show server status');
@@ -26,6 +30,9 @@ class ServerCommand extends Command
         IO::log('    server stop - Stop built-in web server');
     }
 
+    /**
+     * Up
+     */
     public function up()
     {
         if (!Misc::checkDefaultBlog()) {
@@ -41,6 +48,9 @@ class ServerCommand extends Command
         }
     }
 
+    /**
+     * Run
+     */
     public function run()
     {
         $list = json_decode(file_get_contents(APP_HOME . '/pid'), true);

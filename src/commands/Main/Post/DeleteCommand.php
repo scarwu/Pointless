@@ -16,11 +16,18 @@ use NanoCLI\IO;
 
 class DeleteCommand extends Command
 {
+
+    /**
+     * Help
+     */
     public function help()
     {
         IO::log('    post delete - Delete post');
     }
 
+    /**
+     * Up
+     */
     public function up()
     {
         if (!Misc::checkDefaultBlog()) {

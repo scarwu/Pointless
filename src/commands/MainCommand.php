@@ -21,6 +21,9 @@ class MainCommand extends Command
         self::$_namespace = __NAMESPACE__;
     }
 
+    /**
+     * Help
+     */
     public function help()
     {
         IO::log('    home        - Initialize and set default blog');
@@ -34,6 +37,9 @@ class MainCommand extends Command
         IO::log('    help        - Help');
     }
 
+    /**
+     * Run
+     */
     public function run()
     {
         Misc::showBanner();

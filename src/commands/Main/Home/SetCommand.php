@@ -16,14 +16,24 @@ use NanoCLI\IO;
 
 class SetCommand extends Command
 {
+
+    /**
+     * @var string
+     */
     private $path;
 
+    /**
+     * Help
+     */
     public function help()
     {
         IO::log('    home set <path or not>');
         IO::log('                - Set another blog as default');
     }
 
+    /**
+     * Up
+     */
     public function up()
     {
         $this->path = $this->getPath();
@@ -43,12 +53,21 @@ class SetCommand extends Command
         }
     }
 
+    /**
+     * Run
+     */
     public function run()
     {
-        file_put_contents(APP_HOME . '/Default', $this->path);
+        file_put_contents(APP_HOME . '/default', $this->path);
+
         IO::notice("Default blog is setting to path \"{$this->path}\".");
     }
 
+    /**
+     * Gte Path
+     *
+     * @return string
+     */
     private function getPath()
     {
         $path = '';

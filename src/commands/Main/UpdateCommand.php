@@ -17,6 +17,10 @@ use NanoCLI\IO;
 
 class UpdateCommand extends Command
 {
+
+    /**
+     * Help
+     */
     public function help()
     {
         IO::log('    update      - Self-update');
@@ -24,6 +28,9 @@ class UpdateCommand extends Command
         IO::log('    update -e   - Use experipment version');
     }
 
+    /**
+     * Up
+     */
     public function up()
     {
         if ('production' === APP_ENV) {
@@ -45,6 +52,9 @@ class UpdateCommand extends Command
         }
     }
 
+    /**
+     * Help
+     */
     public function run()
     {
         $branch = 'master';

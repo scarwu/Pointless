@@ -18,13 +18,23 @@ use NanoCLI\IO;
 
 class EditCommand extends Command
 {
+
+    /**
+     * @var string
+     */
     private $editor;
 
+    /**
+     * Help
+     */
     public function help()
     {
         IO::log('    post edit   - Edit post');
     }
 
+    /**
+     * Up
+     */
     public function up()
     {
         if (!Misc::checkDefaultBlog()) {
@@ -43,6 +53,9 @@ class EditCommand extends Command
         }
     }
 
+    /**
+     * Run
+     */
     public function run()
     {
         // Load Doctype

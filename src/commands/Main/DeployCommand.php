@@ -18,11 +18,18 @@ use NanoCLI\IO;
 
 class DeployCommand extends Command
 {
+
+    /**
+     * Help
+     */
     public function help()
     {
         IO::log('    deploy      - Deploy blog to Github');
     }
 
+    /**
+     * Up
+     */
     public function up()
     {
         if (!Misc::checkDefaultBlog()) {
@@ -39,6 +46,9 @@ class DeployCommand extends Command
         }
     }
 
+    /**
+     * Run
+     */
     public function run()
     {
         $blog = Resource::get('config')['blog'];

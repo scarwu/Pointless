@@ -18,13 +18,23 @@ use NanoCLI\IO;
 
 class ConfigCommand extends Command
 {
+
+    /**
+     * @var string
+     */
     private $editor;
 
+    /**
+     * Help
+     */
     public function help()
     {
         IO::log('    config      - Modify config');
     }
 
+    /**
+     * Up
+     */
     public function up()
     {
         if (!Misc::checkDefaultBlog()) {
@@ -43,6 +53,9 @@ class ConfigCommand extends Command
         }
     }
 
+    /**
+     * Run
+     */
     public function run()
     {
         $filepath = BLOG . '/config.php';

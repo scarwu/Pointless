@@ -16,11 +16,18 @@ use NanoCLI\IO;
 
 class VersionCommand extends Command
 {
+
+    /**
+     * Help
+     */
     public function help()
     {
         IO::log('    version     - Show version');
     }
 
+    /**
+     * Run
+     */
     public function run()
     {
         $version = 'v0.0.0-dev';

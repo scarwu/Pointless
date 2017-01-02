@@ -16,6 +16,10 @@ use NanoCLI\IO;
 
 class PostCommand extends Command
 {
+
+    /**
+     * Help
+     */
     public function help()
     {
         IO::log('    post        - Show post status');
@@ -24,6 +28,9 @@ class PostCommand extends Command
         IO::log('    post delete - Delete post');
     }
 
+    /**
+     * Up
+     */
     public function up()
     {
         if (!Misc::checkDefaultBlog()) {
@@ -33,6 +40,9 @@ class PostCommand extends Command
         Misc::initBlog();
     }
 
+    /**
+     * Run
+     */
     public function run()
     {
         // Load Doctype

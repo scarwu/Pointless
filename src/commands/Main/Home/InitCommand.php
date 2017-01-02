@@ -16,14 +16,24 @@ use NanoCLI\IO;
 
 class InitCommand extends Command
 {
+
+    /**
+     * @var string
+     */
     private $path;
 
+    /**
+     * Help
+     */
     public function help()
     {
         IO::log('    home init <path or not>');
         IO::log('                - Init a new blog');
     }
 
+    /**
+     * Up
+     */
     public function up()
     {
         $this->path = $this->getPath();
@@ -41,6 +51,9 @@ class InitCommand extends Command
         }
     }
 
+    /**
+     * Run
+     */
     public function run()
     {
         define('BLOG', $this->path);
@@ -53,6 +66,11 @@ class InitCommand extends Command
         IO::notice("Default blog is setting to path \"{$this->path}\".");
     }
 
+    /**
+     * Gte Path
+     *
+     * @return string
+     */
     private function getPath()
     {
         $path = '';

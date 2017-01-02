@@ -16,6 +16,10 @@ use NanoCLI\IO;
 
 class StartCommand extends Command
 {
+
+    /**
+     * Help
+     */
     public function help()
     {
 		IO::log('    server start');
@@ -24,6 +28,9 @@ class StartCommand extends Command
         IO::log('                - Set port number');
     }
 
+    /**
+     * Up
+     */
     public function up()
     {
         if (!Misc::checkDefaultBlog()) {
@@ -33,6 +40,9 @@ class StartCommand extends Command
         Misc::initBlog();
     }
 
+    /**
+     * Run
+     */
     public function run()
     {
         $pid_list = [];

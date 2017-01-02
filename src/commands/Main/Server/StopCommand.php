@@ -16,11 +16,18 @@ use NanoCLI\IO;
 
 class StopCommand extends Command
 {
+
+    /**
+     * Help
+     */
     public function help()
     {
 		IO::log('    server stop - Stop built-in web server');
     }
 
+    /**
+     * Up
+     */
     public function up()
     {
         if (!Misc::checkDefaultBlog()) {
@@ -36,6 +43,9 @@ class StopCommand extends Command
         }
     }
 
+    /**
+     * Run
+     */
     public function run()
     {
         IO::notice('Stopping Server');

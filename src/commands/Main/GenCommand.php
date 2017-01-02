@@ -23,6 +23,10 @@ use NanoCLI\IO;
 
 class GenCommand extends Command
 {
+
+    /**
+     * Help
+     */
     public function help()
     {
         IO::log('    gen         - Generate blog');
@@ -30,6 +34,9 @@ class GenCommand extends Command
         IO::log('    gen -js     - Compress JavaScript');
     }
 
+    /**
+     * Up
+     */
     public function up()
     {
         if (!checkDefaultBlog()) {
@@ -47,6 +54,9 @@ class GenCommand extends Command
         Resource::set('theme', $theme);
     }
 
+    /**
+     * Run
+     */
     public function run()
     {
         $blog = Resource::get('config')['blog'];
