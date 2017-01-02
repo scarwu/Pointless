@@ -58,7 +58,7 @@ class InitCommand extends Command
     {
         define('BLOG', $this->path);
 
-        file_put_contents(APP_HOME . '/default', BLOG);
+        file_put_contents(HOME_ROOT . '/default', BLOG);
 
         Misc::initBlog();
 

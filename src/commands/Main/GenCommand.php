@@ -126,7 +126,7 @@ class GenCommand extends Command
 
         // Change Owner
         if (IS_SUPER_USER) {
-            Utility::chown(TEMP, fileowner(APP_HOME), filegroup(APP_HOME));
+            Utility::chown(TEMP, fileowner(HOME_ROOT), filegroup(HOME_ROOT));
         }
     }
 

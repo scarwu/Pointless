@@ -41,7 +41,7 @@ class ServerCommand extends Command
 
         Misc::initBlog();
 
-        if (!file_exists(APP_HOME . '/pid')) {
+        if (!file_exists(HOME_ROOT . '/pid')) {
             IO::error('Server is not running.');
 
             return false;
@@ -53,7 +53,7 @@ class ServerCommand extends Command
      */
     public function run()
     {
-        $list = json_decode(file_get_contents(APP_HOME . '/pid'), true);
+        $list = json_decode(file_get_contents(HOME_ROOT . '/pid'), true);
 
         foreach ($list as $pid => $info) {
             exec("ps aux | grep \"{$info['command']}\"", $output);

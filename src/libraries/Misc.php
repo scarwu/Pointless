@@ -34,94 +34,96 @@ EOF;
     }
 
     /**
-     * Check Default Blog
+     * Check Blog
+     *
+     * @return boolean
      */
-    public static function checkDefaultBlog()
+    public static function checkBlog()
     {
-        $msg = "Default blog is't set.\nPlease use command \"home set\" or \"home init\".";
-
-        if (!file_exists(APP_HOME . '/default')) {
+        if (!file_exists(HOME_ROOT . '/default')) {
             IO::error($msg);
 
             return false;
         }
 
-        $path = file_get_contents(APP_HOME . '/default');
-
-        if ('' === $path) {
-            IO::error($msg);
-
-            return false;
-        }
+        $path = file_get_contents(HOME_ROOT . '/default');
 
         if (!file_exists($path) || !file_exists("{$path}/.pointless")) {
-            file_put_contents(APP_HOME . '/defualt', '');
 
-            IO::error($msg);
+            // Reset Default Path
+            file_put_contents(HOME_ROOT . '/defualt', '');
+
+            IO::error("Default blog is't set.");
+            IO::error("Please use command \"home set\" or \"home init\".");
 
             return false;
         }
 
-        define('BLOG', $path);
+        define('BLOG_ROOT', $path);
 
         return true;
     }
 
     /**
      * Initialize Blog
+     *
+     * @return boolean
      */
     public static function initBlog()
     {
-        if (!file_exists(BLOG . '/.pointless')) {
-            file_put_contents(BLOG . '/.pointless', '');
+        if (!file_exists(BLOG_ROOT . '/.pointless')) {
+            file_put_contents(BLOG_ROOT . '/.pointless', '');
         }
 
-        if (!file_exists(BLOG . '/config.php')) {
-            copy(APP_ROOT . '/sample/config.php', BLOG . '/config.php');
+        if (!file_exists(BLOG_ROOT . '/config.php')) {
+            copy(APP_ROOT . '/sample/config.php', BLOG_ROOT . '/config.php');
         }
 
         // Require Config
-        require BLOG . '/config.php';
+        require BLOG_ROOT . '/config.php';
 
         Resource::set('config', $config);
 
         // Define Path
-        define('BLOG_TEMP', BLOG . '/temp');
-        define('BLOG_DEPLOY', BLOG . '/deploy');
-        define('BLOG_RESOURCE', BLOG . '/resource');
-        define('BLOG_EXTENSION', BLOG . '/extensions');
-        define('BLOG_MARKDOWN', BLOG . '/markdown');
+        define('BLOG_BUILD', BLOG_ROOT . '/build');
+        define('BLOG_DEPLOY', BLOG_ROOT . '/deploy');
+        define('BLOG_STATIC', BLOG_ROOT . '/static');
+        define('BLOG_EXTENSION', BLOG_ROOT . '/extensions');
+        define('BLOG_MARKDOWN', BLOG_ROOT . '/markdown');
 
-        if (!file_exists(BLOG_TEMP)) {
-            mkdir(BLOG_TEMP, 0755);
+        // Create Folders
+        if (!file_exists(BLOG_BUILD)) {
+            mkdir(BLOG_BUILD, 0755);
         }
 
         if (!file_exists(BLOG_DEPLOY)) {
             mkdir(BLOG_DEPLOY, 0755);
         }
 
-        if (!file_exists(BLOG_RESOURCE)) {
-            mkdir(BLOG_RESOURCE, 0755);
+        if (!file_exists(BLOG_STATIC)) {
+            mkdir(BLOG_STATIC, 0755);
         }
 
         if (!file_exists(BLOG_EXTENSION)) {
             mkdir(BLOG_EXTENSION, 0755);
         }
 
+        // Copy Markdown
         if (!file_exists(BLOG_MARKDOWN)) {
             Utility::copy(APP_ROOT . '/sample/markdown', BLOG_MARKDOWN);
         }
 
-        if (!file_exists(BLOG . '/theme')) {
-            Utility::copy(APP_ROOT . '/sample/theme', BLOG . '/theme');
+        // Init Theme
+        if (!file_exists(BLOG_ROOT . '/theme')) {
+            Utility::copy(APP_ROOT . '/sample/theme', BLOG_ROOT . '/theme');
         }
 
         if ('' === $config['theme']) {
             $config['theme'] = 'Classic';
         }
 
-        if (file_exists(BLOG . "/theme/{$config['theme']}")) {
-            define('BLOG_THEME', BLOG . "/theme/{$config['theme']}");
+        if (file_exists(BLOG_ROOT . "/theme/{$config['theme']}")) {
+            define('BLOG_THEME', BLOG_ROOT . "/theme/{$config['theme']}");
         } else {
             define('BLOG_THEME', APP_ROOT . '/sample/theme/Classic');
         }
@@ -130,8 +132,8 @@ EOF;
         date_default_timezone_set($config['timezone']);
 
         // Change Owner
-        if (isset($_SERVER['SUDO_USER'])) {
-            Utility::chown(BLOG, fileowner(APP_HOME), filegroup(APP_HOME));
+        if (IS_SUPER_USER) {
+            Utility::chown(BLOG_ROOT, fileowner(HOME_ROOT), filegroup(HOME_ROOT));
         }
     }
 
@@ -148,7 +150,7 @@ EOF;
         // Define Regular Expression Rule
         $regex = '/^(?:<!--({(?:.|\n)*})-->)\s*(?:#(.*))?((?:.|\n)*)/';
 
-        preg_match($regex, file_get_contents(BLOG_MARKDOWN . "/$filename"), $match);
+        preg_match($regex, file_get_contents(BLOG_MARKDOWN . "/{$filename}"), $match);
 
         if (4 !== count($match)) {
             return false;

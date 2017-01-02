@@ -1,6 +1,6 @@
 <?php
 /**
- * Page Data Generator Script for Theme
+ * Page Handler Script for Theme
  *
  * @package     Pointless
  * @author      ScarWu

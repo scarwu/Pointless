@@ -87,7 +87,7 @@ class DeployCommand extends Command
 
         // Change Owner
         if (IS_SUPER_USER) {
-            Utility::chown(BLOG_DEPLOY, fileowner(APP_HOME), filegroup(APP_HOME));
+            Utility::chown(BLOG_DEPLOY, fileowner(HOME_ROOT), filegroup(HOME_ROOT));
         }
     }
 }

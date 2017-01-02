@@ -29,36 +29,36 @@ NanoCLI\Loader::set('Pointless\Library', APP_ROOT . '/libraries');
 NanoCLI\Loader::register();
 
 // Initialize Folder & Files
-if (!file_exists(APP_HOME)) {
-    mkdir(APP_HOME, 0755, true);
+if (!file_exists(HOME_ROOT)) {
+    mkdir(HOME_ROOT, 0755, true);
 }
 
 if ('production' === APP_ENV) {
-    if (!file_exists(APP_HOME . '/sample')) {
-        mkdir(APP_HOME . '/sample', 0755, true);
+    if (!file_exists(HOME_ROOT . '/sample')) {
+        mkdir(HOME_ROOT . '/sample', 0755, true);
     }
 
     // Get Timestamp
-    $timestamp = file_exists(APP_HOME . '/.timestamp')
-        ? file_get_contents(APP_HOME . '/.timestamp') : 0;
+    $timestamp = file_exists(HOME_ROOT . '/.timestamp')
+        ? file_get_contents(HOME_ROOT . '/.timestamp') : 0;
 
     // Check Timestamp
     if (BUILD_TIMESTAMP !== $timestamp) {
 
         // Remove Old Sample
-        Utility::remove(APP_HOME . '/sample');
+        Utility::remove(HOME_ROOT . '/sample');
 
         // Copy New Sample
-        Utility::copy(APP_ROOT . '/sample', APP_HOME . '/sample');
+        Utility::copy(APP_ROOT . '/sample', HOME_ROOT . '/sample');
 
         // Update Timestamp
-        file_put_contents(APP_HOME . '/timestamp', BUILD_TIMESTAMP);
+        file_put_contents(HOME_ROOT . '/timestamp', BUILD_TIMESTAMP);
     }
 }
 
 // Change Owner (Fix Permission)
 if (IS_SUPER_USER) {
-    Utility::chown(APP_HOME, fileowner($_SERVER['HOME']), filegroup($_SERVER['HOME']));
+    Utility::chown(HOME_ROOT, fileowner($_SERVER['HOME']), filegroup($_SERVER['HOME']));
 }
 
 // Init Pointless Commnad

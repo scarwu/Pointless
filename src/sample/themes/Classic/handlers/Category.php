@@ -1,6 +1,6 @@
 <?php
 /**
- * Category Data Generator Script for Theme
+ * Category Handler Script for Theme
  *
  * @package     Pointless
  * @author      ScarWu

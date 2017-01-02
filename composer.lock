@@ -54,12 +54,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/scarwu/NanoCLI.git",
-                "reference": "ce0007a467565e0d576c537f9e5cd48f42574b5d"
+                "reference": "8969a7ad91bb5a82fbf3153777c1a67fc8f78722"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/scarwu/NanoCLI/zipball/ce0007a467565e0d576c537f9e5cd48f42574b5d",
-                "reference": "ce0007a467565e0d576c537f9e5cd48f42574b5d",
+                "url": "https://api.github.com/repos/scarwu/NanoCLI/zipball/8969a7ad91bb5a82fbf3153777c1a67fc8f78722",
+                "reference": "8969a7ad91bb5a82fbf3153777c1a67fc8f78722",
                 "shasum": ""
             },
             "require": {

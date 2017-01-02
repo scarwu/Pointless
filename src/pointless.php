@@ -12,7 +12,7 @@
 // Define Variables
 define('APP_ENV', 'development');
 define('APP_ROOT', realpath(dirname(__FILE__)));
-define('APP_HOME', $_SERVER['HOME'] . '/.pointless3');
+define('HOME_ROOT', $_SERVER['HOME'] . '/.pointless3');
 
 define('IS_SUPER_USER', isset($_SERVER['SUDO_USER']));
 

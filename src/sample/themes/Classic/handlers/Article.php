@@ -1,6 +1,6 @@
 <?php
 /**
- * Article Data Generator Script for Theme
+ * Article Handler Script for Theme
  *
  * @package     Pointless
  * @author      ScarWu

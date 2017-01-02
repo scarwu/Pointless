@@ -74,7 +74,7 @@ class UpdateCommand extends Command
         chmod('/tmp/poi', 0755);
 
         // Reset Timestamp
-        file_put_contents(APP_HOME . '/timestamp', 0);
+        file_put_contents(HOME_ROOT . '/timestamp', 0);
 
         IO::notice('Update finish.');
 

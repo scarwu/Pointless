@@ -1,6 +1,6 @@
 <?php
 /**
- * Archive Data Generator Script for Theme
+ * Archive Handler Script for Theme
  *
  * @package     Pointless
  * @author      ScarWu

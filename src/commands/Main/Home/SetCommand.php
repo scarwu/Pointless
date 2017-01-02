@@ -58,7 +58,7 @@ class SetCommand extends Command
      */
     public function run()
     {
-        file_put_contents(APP_HOME . '/default', $this->path);
+        file_put_contents(HOME_ROOT . '/default', $this->path);
 
         IO::notice("Default blog is setting to path \"{$this->path}\".");
     }
