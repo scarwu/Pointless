@@ -19,11 +19,6 @@ use NanoCLI\IO;
 class AddCommand extends Command
 {
     /**
-     * @var string
-     */
-    private $editor;
-
-    /**
      * Help
      */
     public function help()
@@ -40,15 +35,6 @@ class AddCommand extends Command
         if (!Misc::initBlog()) {
             return false;
         }
-
-        // Check Editor
-        $this->editor = Resource::get('config')['editor'];
-
-        if (!Utility::commandExists($this->editor)) {
-            IO::error("System command \"{$this->editor}\" is not found.");
-
-            return false;
-        }
     }
 
     /**
@@ -56,33 +42,20 @@ class AddCommand extends Command
      */
     public function run()
     {
-        // Load Doctype
-        $type = [];
-        $handle = opendir(APP_ROOT . '/doctype');
+        // Get Doctype List
+        $doctype_list = Misc::getDoctypeList();
 
-        while ($filename = readdir($handle)) {
-            if (!preg_match('/.php$/', $filename)) {
-                continue;
-            }
+        foreach ($doctype_list as $index => $doctype) {
+            $class_name = 'Pointless\\Doctype\\' . ucfirst($doctype) . 'Doctype';
+            $doctype_list[$index] = new $class_name;
 
-            $filename = preg_replace('/.php$/', '', $filename);
-
-            require APP_ROOT . "/doctype/{$filename}.php";
-
-            $type[] = new $filename;
+            IO::log(sprintf('[ %3d] ', $index) . $doctype_list[$index]->getName());
         }
 
-        closedir($handle);
-
-        // Select Doctype
-        foreach ($type as $index => $class) {
-            IO::log(sprintf('[ %3d] ', $index) . $class->getName());
-        }
-
-        $select = IO::ask("\nSelect Document Type:\n-> ", function ($answer) use ($type) {
+        $index = IO::ask("\nSelect Document Type:\n-> ", function ($answer) use ($doctype_list) {
             return is_numeric($answer)
                 && $answer >= 0
-                && $answer < count($type);
+                && $answer < count($doctype_list);
         });
 
         IO::writeln();
@@ -90,7 +63,7 @@ class AddCommand extends Command
         // Ask Question
         $input = [];
 
-        foreach ($type[$select]->getQuestion() as $question) {
+        foreach ($doctype_list[$index]->getQuestion() as $question) {
             $input[$question[0]] = IO::ask($question[1]);
         }
 
@@ -104,16 +77,19 @@ class AddCommand extends Command
         }
 
         // Save File
-        list($filename, $savepath) = $type[$select]->inputHandleAndSaveFile($input);
+        list($filename, $markdown_path) = $doctype_list[$index]->inputHandleAndSaveFile($input);
 
-        if (null === $savepath) {
-            IO::error($type[$select]->getName() . " {$filename} is exsist.");
+        if (null === $markdown_path) {
+            IO::error($doctype_list[$index]->getName() . " {$filename} is exsist.");
 
             return false;
         }
 
-        IO::notice($type[$select]->getName() . " {$filename} was created.");
+        IO::notice($doctype_list[$index]->getName() . " {$filename} was created.");
 
-        system("{$this->editor} {$savepath} < `tty` > `tty`");
+        // Call CLI Editor to open file
+        if (!Misc::editFile($markdown_path)) {
+            IO::error("CLI editor is not found.");
+        }
     }
 }

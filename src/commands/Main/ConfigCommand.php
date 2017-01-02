@@ -19,11 +19,6 @@ use NanoCLI\IO;
 class ConfigCommand extends Command
 {
     /**
-     * @var string
-     */
-    private $editor;
-
-    /**
      * Help
      */
     public function help()
@@ -40,15 +35,6 @@ class ConfigCommand extends Command
         if (!Misc::initBlog()) {
             return false;
         }
-
-        // Check Editor
-        $this->editor = Resource::get('config')['editor'];
-
-        if (!Utility::commandExists($this->editor)) {
-            IO::error("System command \"{$this->editor}\" is not found.");
-
-            return false;
-        }
     }
 
     /**
@@ -56,8 +42,11 @@ class ConfigCommand extends Command
      */
     public function run()
     {
-        $filepath = BLOG . '/config.php';
+        $config_path = BLOG_ROOT . '/config.php';
 
-        system("{$this->editor} $filepath < `tty` > `tty`");
+        // Call CLI Editor to open file
+        if (!Misc::editFile($config_path)) {
+            IO::error("CLI editor is not found.");
+        }
     }
 }

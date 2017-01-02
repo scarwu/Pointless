@@ -43,62 +43,18 @@ class PostCommand extends Command
      */
     public function run()
     {
-        // Load Doctype
-        $type = [];
-        $handle = opendir(APP_ROOT . '/doctype');
-
-        while ($filename = readdir($handle)) {
-            if (!preg_match('/.php$/', $filename)) {
-                continue;
-            }
-
-            $filename = preg_replace('/.php$/', '', $filename);
-
-            require APP_ROOT . "/doctype/{$filename}.php";
-
-            $temp = new $filename;
-            $type[$temp->getID()] = $temp;
-        }
-
-        closedir($handle);
-
-        IO::writeln();
-
-        // Load Markdown
-        $list = [];
-        $handle = opendir(BLOG_MARKDOWN);
-
-        while ($filename = readdir($handle)) {
-            if (!preg_match('/.md$/', $filename)) {
-                continue;
-            }
-
-            $post = parseMarkdownFile($filename, true);
-
-            if (!$post) {
-                IO::error("Markdown parse error: {$filename}");
-
-                exit(1);
-            }
-
-            if (!isset($list[$post['type']])) {
-                $list[$post['type']] = 0;
-            }
-
-            $list[$post['type']]++;
-        }
-
-        closedir($handle);
+        // Get Doctype List
+        $doctype_list = Misc::getDoctypeList();
 
         IO::notice('Post Status:');
 
-        foreach ($list as $key => $value) {
-            if (isset($type[$key])) {
-                $value = sprintf('%3d', $value);
-                $name = $type[$key]->getName();
+        foreach ($doctype_list as $doctype) {
+            $count = count(Misc::getMarkdownList($doctype));
 
-                IO::log("{$value} {$name} post(s).");
-            }
+            $class_name = 'Pointless\\Doctype\\' . ucfirst($doctype) . 'Doctype';
+            $name = (new $class_name)->getName();
+
+            IO::log("{$count} {$name} post(s).");
         }
 
         IO::info("\nUsed command \"help post\" for more.");

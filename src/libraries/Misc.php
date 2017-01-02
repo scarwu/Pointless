@@ -125,8 +125,9 @@ EOF;
      *
      * @return boolean
      */
-    public static function fixPermission($path) {
-
+    public static function fixPermission($path)
+    {
+        // Check SERVER Variable
         if (!isset($_SERVER['SUDO_USER'])) {
             return false;
         }
@@ -135,6 +136,96 @@ EOF;
         Utility::chown($path, fileowner($_SERVER['HOME']), filegroup($_SERVER['HOME']));
 
         return true;
+    }
+
+    /**
+     * Edit File
+     *
+     * @param string
+     */
+    public static function editFile($path)
+    {
+        $editor = Resource::get('config')['editor'];
+
+        if (!Utility::commandExists($editor)) {
+            return false;
+        }
+
+        system("{$editor} {$path} < `tty` > `tty`");
+
+        return true;
+    }
+
+    /**
+     * Get Doctype List
+     *
+     * @return array
+     */
+    public static function getDoctypeList()
+    {
+        $list = [];
+        $handle = opendir(APP_ROOT . '/doctypes');
+
+        while ($filename = readdir($handle)) {
+            if (!preg_match('/^(\w+)Doctype.php$/', $filename, $match)) {
+                continue;
+            }
+
+            $list[] = strtolower($match[1]);
+        }
+
+        closedir($handle);
+
+        return $list;
+    }
+
+    /**
+     * Get Markdown List
+     *
+     * @param string
+     *
+     * @return array
+     */
+    public static function getMarkdownList($doctype)
+    {
+        $list = [];
+        $handle = opendir(BLOG_MARKDOWN);
+
+        while ($filename = readdir($handle)) {
+            if (!preg_match('/.md$/', $filename)) {
+                continue;
+            }
+
+            $post = self::parseMarkdownFile($filename, true);
+
+            if (!$post) {
+                IO::error("Markdown parse error: {$filename}");
+
+                exit(1);
+            }
+
+            if ($doctype !== $post['type']) {
+                continue;
+            }
+
+            if (isset($post['date']) && isset($post['time'])) {
+                $index = "{$post['date']}{$post['time']}";
+            } else {
+                $index = $post['title'];
+            }
+
+            $list[$index]['publish'] = $post['publish'];
+            $list[$index]['path'] = BLOG_MARKDOWN . "/{$filename}";
+            $list[$index]['title'] = ('' !== $post['title'])
+                ? $post['title'] : $filename;
+        }
+
+        closedir($handle);
+
+        // Sort List
+        uksort($list, 'strnatcasecmp');
+
+        return array_values($list);
     }
 
     /**

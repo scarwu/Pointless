@@ -32,7 +32,7 @@ class UpdateCommand extends Command
      */
     public function up()
     {
-        if ('production' === APP_ENV) {
+        if ('development' === APP_ENV) {
             IO::error('Development version can not be updated.');
 
             return false;

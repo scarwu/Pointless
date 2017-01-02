@@ -56,100 +56,55 @@ class EditCommand extends Command
      */
     public function run()
     {
-        // Load Doctype
-        $type = [];
-        $handle = opendir(APP_ROOT . '/doctype');
+        // Get Doctype List
+        $doctype_list = Misc::getDoctypeList();
 
-        while ($filename = readdir($handle)) {
-            if (!preg_match('/.php$/', $filename)) {
-                continue;
-            }
+        foreach ($doctype_list as $index => $doctype) {
+            $class_name = 'Pointless\\Doctype\\' . ucfirst($doctype) . 'Doctype';
+            $doctype_list[$index] = new $class_name;
 
-            $filename = preg_replace('/.php$/', '', $filename);
-
-            require APP_ROOT . "/doctype/{$filename}.php";
-
-            $type[] = new $filename;
+            IO::log(sprintf('[ %3d] ', $index) . $doctype_list[$index]->getName());
         }
 
-        closedir($handle);
-
-        // Select Doctype
-        foreach ($type as $index => $class) {
-            IO::log(sprintf("[ %3d] ", $index) . $class->getName());
-        }
-
-        $select = IO::ask("\nSelect Document Type:\n-> ", function ($answer) use ($type) {
+        $index = IO::ask("\nSelect Document Type:\n-> ", function ($answer) use ($doctype_list) {
             return is_numeric($answer)
                 && $answer >= 0
-                && $answer < count($type);
+                && $answer < count($doctype_list);
         });
 
         IO::writeln();
 
         // Load Markdown
-        $list = [];
-        $handle = opendir(BLOG_MARKDOWN);
+        $doctype = $doctype_list[$index]->getID();
+        $markdown_list = Misc::getMarkdownList($doctype);
 
-        while ($filename = readdir($handle)) {
-            if (!preg_match('/.md$/', $filename)) {
-                continue;
-            }
-
-            if (!($post = parseMarkdownFile($filename, true))) {
-                IO::error("Markdown parse error: {$filename}");
-                exit(1);
-            }
-
-            if ($type[$select]->getID() !== $post['type']) {
-                continue;
-            }
-
-            if (isset($post['date']) && isset($post['time'])) {
-                $index = "{$post['date']}{$post['time']}";
-            } else {
-                $index = $post['title'];
-            }
-
-            $list[$index]['publish'] = $post['publish'];
-            $list[$index]['path'] = BLOG_MARKDOWN . "/{$filename}";
-            $list[$index]['title'] = ('' !== $post['title'])
-                ? $post['title'] : $filename;
-        }
-
-        closedir($handle);
-
-        // Sort List
-        uksort($list, 'strnatcasecmp');
-
-        if (0 === count($list)) {
+        if (0 === count($markdown_list)) {
             IO::error('No post(s).');
 
             return false;
         }
 
         // Get Post Number
-        $count = 0;
+        foreach ($markdown_list as $index => $post) {
+            $text = $post['publish']
+                ? sprintf("[ %3d] ", $index) . $post['title']
+                : sprintf("[*%3d] ", $index) . $post['title'];
 
-        foreach ($list as $post) {
-            if ($post['publish']) {
-                IO::log(sprintf("[ %3d] ", $count) . $post['title']);
-            } else {
-                IO::log(sprintf("[*%3d] ", $count) . $post['title']);
-            }
-
-            $count++;
+            IO::log($text);
         }
 
-        $number = IO::ask("\nEnter Number:\n-> ", function ($answer) use ($list) {
+        $index = IO::ask("\nEnter Number:\n-> ", function ($answer) use ($markdown_list) {
             return is_numeric($answer)
                 && $answer >= 0
-                && $answer < count($list);
+                && $answer < count($markdown_list);
         });
 
         // Get Info
-        $path = $list[array_keys($list)[$number]]['path'];
+        $markdown_path = $markdown_list[array_keys($markdown_list)[$index]]['path'];
 
-        system("{$this->editor} {$path} < `tty` > `tty`");
+        // Call CLI Editor to open file
+        if (!Misc::editFile($markdown_path)) {
+            IO::error("CLI editor is not found.");
+        }
     }
 }

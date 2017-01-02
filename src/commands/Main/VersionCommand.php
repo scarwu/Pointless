@@ -33,7 +33,7 @@ class VersionCommand extends Command
         $version = BUILD_VERSION . " ($date)";
 
         if ('development' === APP_ENV) {
-            $version = "{$version}-dev";
+            $version = "(Development) {$version}";
         }
 
         IO::info($version);
