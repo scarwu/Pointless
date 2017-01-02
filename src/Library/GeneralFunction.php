@@ -11,11 +11,30 @@
 use NanoCLI\IO;
 
 /**
+ * Show Banner
+ */
+function showBanner()
+{
+    $pointless = <<<EOF
+                                           __
+      ______  ______  __  ______  ______  / /\______  _____  _____
+     / __  /\/ __  /\/ /\/ __  /\/_  __/\/ / /  ___/\/  __/\/  __/\
+    / /_/ / / /_/ / / / / /\/ / /\/ /\_\/ / /  ___/\/\  \_\/\  \_\/
+   / ____/ /_____/ /_/ /_/ /_/ / /_/ / /_/ /_____/\/____/\/____/\
+  /_/\___\/\_____\/\_\/\_\/\_\/  \_\/  \_\/\_____\/\____\/\____\/
+  \_\/
+
+EOF;
+
+    IO::notice($pointless);
+}
+
+/**
  * Check Default Blog
  */
 function checkDefaultBlog()
 {
-    $msg = 'Default blog is\'t set. Please use command "home set" or "home init".';
+    $msg = "Default blog is't set.\nPlease use command \"home set\" or \"home init\".";
 
     if (!file_exists(HOME . '/Default')) {
         IO::error($msg);
@@ -109,4 +128,31 @@ function initBlog()
     if (isset($_SERVER['SUDO_USER'])) {
         Utility::chown(BLOG, fileowner(HOME), filegroup(HOME));
     }
+}
+
+/**
+ * Parse Markdown File
+ */
+function parseMarkdownFile($filename, $skip = false)
+{
+    // Define Regular Expression Rule
+    $regex = '/^(?:<!--({(?:.|\n)*})-->)\s*(?:#(.*))?((?:.|\n)*)/';
+
+    preg_match($regex, file_get_contents(MARKDOWN . "/$filename"), $match);
+
+    if (4 !== count($match)) {
+        return false;
+    }
+
+    if (null === ($post = json_decode($match[1], true))) {
+        return false;
+    }
+
+    $post['title'] = trim($match[2]);
+
+    if (!$skip) {
+        $post['content'] = $match[3];
+    }
+
+    return $post;
 }

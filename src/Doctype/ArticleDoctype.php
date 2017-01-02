@@ -24,22 +24,25 @@ class ArticleDoctype extends Doctype
         ];
     }
 
-    public function headerHandleAndSave($header)
+    public function inputHandleAndSaveFile($input)
     {
         $time = time();
-        $filename = Utility::pathReplace($header['url']);
+        $filename = Utility::pathReplace($input['url']);
         $filename = date("Ymd_", $time) . "$filename.md";
 
-        return $this->save($filename, [
-            'type' => $this->id,
-            'title' => $header['title'],
-            'url' => Utility::pathReplace($header['url']),
-            'tag' => $header['tag'],
-            'category' => $header['category'],
-            'date' => date("Y-m-d", $time),
-            'time' => date("H:i:s", $time),
-            'message' => true,
-            'publish' => false
+        return $this->save([
+            'filename' => $filename,
+            'title' => $input['title'],
+            'header' => [
+                'type' => $this->id,
+                'url' => Utility::pathReplace($input['url']),
+                'tag' => $input['tag'],
+                'category' => $input['category'],
+                'date' => date("Y-m-d", $time),
+                'time' => date("H:i:s", $time),
+                'message' => true,
+                'publish' => false
+            ]
         ]);
     }
 
@@ -72,11 +75,22 @@ class ArticleDoctype extends Doctype
         $post['tag'] = explode('|', $post['tag']);
         sort($post['tag']);
 
+        // Summary and Description
+        $summary = preg_replace('/<!--more-->(.|\n)*/', '', $post['content']);
+
+        $description = '';
+        preg_match('/<p>((:?.|\n)*?)<\/p>/', $summary, $match);
+        if (isset($match[1])) {
+            $description = strip_tags($match[1]);
+        }
+
         return [
             'type' => $post['type'],
             'title' => $post['title'],
             'url' => $url,
             'content' => $post['content'],
+            'summary' => $summary,
+            'description' => $description,
             'category' => $post['category'],
             'tag' => $post['tag'],
             'date' => $post['date'],

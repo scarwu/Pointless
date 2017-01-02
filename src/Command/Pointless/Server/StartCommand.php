@@ -18,9 +18,9 @@ class StartCommand extends Command
     public function help()
     {
 		IO::log('    server start');
-        IO::log('               - Start built-in web server');
+        IO::log('                - Start built-in web server');
         IO::log('    --port=<port number>');
-        IO::log('               - Set port number');
+        IO::log('                - Set port number');
     }
 
     public function up()
@@ -51,13 +51,19 @@ class StartCommand extends Command
         exec("ps $pid", $output);
 
         if (count($output) > 1) {
-            $pid_list[$pid] = $command;
+            $pid_list[$pid] = [
+                'command' => $command,
+                'root' => $root,
+                'port' => $port
+            ];
             file_put_contents(HOME . '/PID', json_encode($pid_list));
 
-            IO::info('Starting server is successful.');
+            IO::info('Server is start.');
+            IO::log("Doc Root   - $root");
+            IO::log("Server URL - http://localhost:$port");
+            IO::log("Server PID - $pid");
         } else {
-            IO::error('Starting server is fail.');
+            IO::error('Server fails to start.');
         }
-        
     }
 }

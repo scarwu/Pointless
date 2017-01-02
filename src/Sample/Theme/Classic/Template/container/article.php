@@ -1,6 +1,6 @@
 <div id="container_article">
     <article class="post_block">
-        <div class="title"><?=$post['title']?></div>
+        <h1 class="title"><?=$post['title']?></h1>
         <div class="info">
             <?php if (null !== $blog['disqus_shortname'] && $post['message']): ?>
             <span class="comment">

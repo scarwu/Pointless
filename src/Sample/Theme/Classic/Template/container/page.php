@@ -1,7 +1,9 @@
 <div id="container_page">
     <?php foreach ((array) $post['list'] as $article): ?>
     <article class="post_block">
-        <div class="title"><?=linkTo("{$blog['base']}article/{$article['url']}", $article['title'])?></div>
+        <h1 class="title">
+            <?=linkTo("{$blog['base']}article/{$article['url']}", $article['title'])?>
+        </h1>
         <div class="info">
             <?php if (null !== $blog['disqus_shortname'] && $article['message']): ?>
             <span class="comments">
@@ -25,7 +27,7 @@
                 <?=join($article['tag'], ', ')?>
             </span>
         </div>
-        <div class="content"><?=preg_replace('/<!--more-->(.|\n)*/', '', $article['content'])?></div>
+        <div class="content"><?=$article['summary']?></div>
         <a class="more" href="<?="{$blog['base']}article/{$article['url']}"?>">Read more</a>
     </article>
     <hr>

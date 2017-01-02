@@ -1,6 +1,6 @@
 <?php
 /**
- * Pointless Add Command
+ * Pointless Post Add Command
  *
  * @package     Pointless
  * @author      ScarWu
@@ -8,7 +8,7 @@
  * @link        http://github.com/scarwu/Pointless
  */
 
-namespace Pointless;
+namespace Pointless\Post;
 
 use NanoCLI\Command;
 use NanoCLI\IO;
@@ -22,7 +22,7 @@ class AddCommand extends Command
 
     public function help()
     {
-        IO::log('    add        - Add new post');
+        IO::log('    post add    - Add new post');
     }
 
     public function up()
@@ -69,21 +69,21 @@ class AddCommand extends Command
         IO::writeln();
 
         // Ask Question
-        $header = [];
+        $input = [];
         foreach ($type[$select]->getQuestion() as $question) {
-            $header[$question[0]] = IO::ask($question[1]);
+            $input[$question[0]] = IO::ask($question[1]);
         }
 
         // Convert Encoding
         $encoding = Resource::get('config')['encoding'];
         if (null !== $encoding) {
-            foreach ($header as $key => $value) {
-                $header[$key] = iconv($encoding, 'utf-8', $value);
+            foreach ($input as $key => $value) {
+                $input[$key] = iconv($encoding, 'utf-8', $value);
             }
         }
 
-        // Save Header
-        list($filename, $savepath) = $type[$select]->headerHandleAndSave($header);
+        // Save File
+        list($filename, $savepath) = $type[$select]->inputHandleAndSaveFile($input);
         if (null === $savepath) {
             IO::error($type[$select]->getName() . " $filename is exsist.");
 

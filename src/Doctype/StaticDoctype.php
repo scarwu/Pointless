@@ -22,18 +22,21 @@ class StaticDoctype extends Doctype
         ];
     }
 
-    public function headerHandleAndSave($header)
+    public function inputHandleAndSaveFile($input)
     {
-        $filename = Utility::pathReplace($header['url']);
+        $filename = Utility::pathReplace($input['url']);
         $filename = strtolower($filename);
         $filename = "static_$filename.md";
 
-        return $this->save($filename, [
-            'type' => $this->id,
-            'title' => $header['title'],
-            'url' => Utility::pathReplace($header['url'], true),
-            'message' => false,
-            'publish' => false
+        return $this->save([
+            'filename' => $filename,
+            'title' => $input['title'],
+            'header' => [
+                'type' => $this->id,
+                'url' => Utility::pathReplace($input['url'], true),
+                'message' => false,
+                'publish' => false
+            ]
         ]);
     }
 

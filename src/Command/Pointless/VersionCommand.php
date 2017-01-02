@@ -17,7 +17,7 @@ class VersionCommand extends Command
 {
     public function help()
     {
-        IO::log('    version    - Show version');
+        IO::log('    version     - Show version');
     }
 
     public function run()
@@ -25,6 +25,10 @@ class VersionCommand extends Command
         $version = 'v0.0.0-dev';
 
         if (defined('BUILD_VERSION')) {
+            if (checkDefaultBlog()) {
+                initBlog();
+            }
+
             $date = date(DATE_RSS, BUILD_TIMESTAMP);
             $version = BUILD_VERSION . " ($date)";
         }

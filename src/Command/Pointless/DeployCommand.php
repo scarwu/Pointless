@@ -20,7 +20,7 @@ class DeployCommand extends Command
 {
     public function help()
     {
-        IO::log('    deploy     - Deploy blog to Github');
+        IO::log('    deploy      - Deploy blog to Github');
     }
 
     public function up()

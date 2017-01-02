@@ -20,7 +20,7 @@ class InitCommand extends Command
     public function help()
     {
         IO::log('    home init <path or not>');
-        IO::log('               - Init a new blog');
+        IO::log('                - Init a new blog');
     }
 
     public function up()

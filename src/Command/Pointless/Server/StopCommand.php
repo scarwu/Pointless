@@ -17,8 +17,7 @@ class StopCommand extends Command
 {
     public function help()
     {
-		IO::log('    server stop');
-        IO::log('               - Stop built-in web server');
+		IO::log('    server stop - Stop built-in web server');
     }
 
     public function up()
@@ -30,7 +29,7 @@ class StopCommand extends Command
         initBlog();
 
         if (!file_exists(HOME . '/PID')) {
-            IO::error('No server started.');
+            IO::error('Server is not running.');
 
             return false;
         }
@@ -38,13 +37,17 @@ class StopCommand extends Command
 
     public function run()
     {
+        IO::notice('Stopping Server');
+
         $list = json_decode(file_get_contents(HOME . '/PID'), true);
 
-        foreach ($list as $pid => $command) {
-            exec("ps aux | grep \"$command\"", $output);
+        foreach ($list as $pid => $info) {
+            exec("ps aux | grep \"{$info['command']}\"", $output);
 
-            if (count($output) >= 2) {
+            if (count($output) > 1) {
                 system("kill -9 $pid");
+
+                IO::info('Server is stop.');
             }
         }
 
