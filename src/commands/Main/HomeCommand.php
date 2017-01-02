@@ -17,7 +17,6 @@ use NanoCLI\IO;
 
 class HomeCommand extends Command
 {
-
     /**
      * Help
      */
@@ -50,7 +49,7 @@ class HomeCommand extends Command
         $config = Resource::get('config');
 
         IO::notice('Home Path:');
-        IO::log(BLOG . "\n");
+        IO::log(BLOG_ROOT . "\n");
 
         IO::notice('Blog Information:');
         IO::log("Name     - {$config['blog']['name']}");
@@ -58,6 +57,7 @@ class HomeCommand extends Command
         IO::log("Timezone - {$config['timezone']}");
         IO::log("Editor   - {$config['editor']}");
 
-        IO::info("\nUsed command \"help home\" for more.");
+        IO::info("\n");
+        IO::info('Used command "help home" for more.');
     }
 }

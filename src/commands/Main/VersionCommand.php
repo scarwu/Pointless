@@ -16,7 +16,6 @@ use NanoCLI\IO;
 
 class VersionCommand extends Command
 {
-
     /**
      * Help
      */

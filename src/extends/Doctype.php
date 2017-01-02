@@ -48,7 +48,7 @@ abstract class Doctype
         $title = $info['title'];
         $hedaer = $info['header'];
 
-        $savepath = BLOG_MARKDOWN . "/$filename";
+        $savepath = BLOG_MARKDOWN . "/{$filename}";
 
         if (file_exists($savepath)) {
             return [$filename, null];

@@ -17,7 +17,6 @@ use NanoCLI\IO;
 
 class UpdateCommand extends Command
 {
-
     /**
      * Help
      */

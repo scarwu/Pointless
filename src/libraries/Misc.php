@@ -10,6 +10,8 @@
 
 namespace Pointless\Library;
 
+use Pointless\Library\Utility;
+use Pointless\Library\Resource;
 use NanoCLI\IO;
 
 class Misc {
@@ -131,10 +133,27 @@ EOF;
         // Set Timezone
         date_default_timezone_set($config['timezone']);
 
-        // Change Owner
-        if (IS_SUPER_USER) {
-            Utility::chown(BLOG_ROOT, fileowner(HOME_ROOT), filegroup(HOME_ROOT));
+        // Fix Folder Permission
+        self::fixFolerPermission(BLOG_ROOT);
+    }
+
+    /**
+     * Fix Folder Permission
+     *
+     * @param string
+     *
+     * @return boolean
+     */
+    public static function fixFolerPermission($path) {
+
+        if (!isset($_SERVER['SUDO_USER'])) {
+            return false;
         }
+
+        // Change Owner (Fix Permission)
+        Utility::chown($path, fileowner($_SERVER['HOME']), filegroup($_SERVER['HOME']));
+
+        return true;
     }
 
     /**

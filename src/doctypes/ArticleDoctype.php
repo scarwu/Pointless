@@ -32,7 +32,7 @@ class ArticleDoctype extends Doctype
     {
         $time = time();
         $filename = Utility::pathReplace($input['url']);
-        $filename = date("Ymd_", $time) . "$filename.md";
+        $filename = date('Ymd_', $time) . "{$filename}.md";
 
         return $this->save([
             'filename' => $filename,
@@ -42,8 +42,8 @@ class ArticleDoctype extends Doctype
                 'url' => Utility::pathReplace($input['url']),
                 'tag' => $input['tag'],
                 'category' => $input['category'],
-                'date' => date("Y-m-d", $time),
-                'time' => date("H:i:s", $time),
+                'date' => date('Y-m-d', $time),
+                'time' => date('H:i:s', $time),
                 'message' => true,
                 'publish' => false
             ]
@@ -58,6 +58,7 @@ class ArticleDoctype extends Doctype
         // Time information
         list($year, $month, $day) = explode('-', $post['date']);
         list($hour, $minute, $second) = explode(':', $post['time']);
+
         $timestamp = strtotime("{$day}-{$month}-{$year} {$post['time']}");
 
         // Generate custom url

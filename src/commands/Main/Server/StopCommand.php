@@ -16,7 +16,6 @@ use NanoCLI\IO;
 
 class StopCommand extends Command
 {
-
     /**
      * Help
      */

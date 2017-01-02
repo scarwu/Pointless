@@ -23,7 +23,6 @@ use NanoCLI\IO;
 
 class GenCommand extends Command
 {
-
     /**
      * Help
      */
@@ -50,7 +49,7 @@ class GenCommand extends Command
         require LIBRARY . '/ExtensionLoader.php';
 
         // Load Theme Config
-        require THEME . '/Theme.php';
+        require BLOG_THEME . '/Theme.php';
         Resource::set('theme', $theme);
     }
 
@@ -65,8 +64,8 @@ class GenCommand extends Command
 
         if ($this->hasOptions('css')) {
             IO::notice('Clean Files ...');
-            if (file_exists(TEMP . '/theme/main.css')) {
-                unlink(TEMP . '/theme/main.css');
+            if (file_exists(BLOG_BUILD . '/theme/main.css')) {
+                unlink(BLOG_BUILD . '/theme/main.css');
             }
 
             IO::notice('Compress Assets ...');
@@ -75,8 +74,8 @@ class GenCommand extends Command
 
         if ($this->hasOptions('js')) {
             IO::notice('Clean Files ...');
-            if (file_exists(TEMP . '/theme/main.js')) {
-                unlink(TEMP . '/theme/main.js');
+            if (file_exists(BLOG_BUILD . '/theme/main.js')) {
+                unlink(BLOG_BUILD . '/theme/main.js');
             }
 
             IO::notice('Compress Assets ...');
@@ -86,18 +85,18 @@ class GenCommand extends Command
         if (!$this->hasOptions('css') && !$this->hasOptions('js')) {
             // Clear Files
             IO::notice('Clean Files ...');
-            Utility::remove(TEMP, TEMP);
+            Utility::remove(BLOG_BUILD, BLOG_BUILD);
 
             // Create README
             $readme = '[Powered by Pointless](https://github.com/scarwu/Pointless)';
-            file_put_contents(TEMP . '/README.md', $readme);
+            file_put_contents(BLOG_BUILD . '/README.md', $readme);
 
             // Copy Resource Files
             IO::notice('Copy Resource Files ...');
-            Utility::copy(RESOURCE, TEMP);
+            Utility::copy(RESOURCE, BLOG_BUILD);
 
-            if (file_exists(THEME . '/Resource')) {
-                Utility::copy(THEME . '/Resource', TEMP . '/theme');
+            if (file_exists(BLOG_THEME . '/Resource')) {
+                Utility::copy(BLOG_THEME . '/Resource', BLOG_BUILD . '/theme');
             }
 
             // Compress Assets
@@ -124,10 +123,8 @@ class GenCommand extends Command
         $mem = sprintf("%.3f", abs(memory_get_usage() - $start_mem) / 1024);
         IO::info("Generate finish, $time s and memory usage $mem KB.");
 
-        // Change Owner
-        if (IS_SUPER_USER) {
-            Utility::chown(TEMP, fileowner(HOME_ROOT), filegroup(HOME_ROOT));
-        }
+        // Fix Folder Permission
+        Misc::fixFolerPermission(BLOG_BUILD);
     }
 
     /**
@@ -211,15 +208,15 @@ class GenCommand extends Command
         foreach (Resource::get('theme')['css'] as $filename) {
             $filename = preg_replace('/.css$/', '', $filename);
 
-            if (!file_exists(THEME . "/Css/$filename.css")) {
+            if (!file_exists(BLOG_THEME . "/Css/$filename.css")) {
                 IO::warning("CSS file \"$filename.css\" not found.");
                 continue;
             }
 
-            $css_pack->append(THEME . "/Css/$filename.css");
+            $css_pack->append(BLOG_THEME . "/Css/$filename.css");
         }
 
-        $css_pack->save(TEMP . '/theme/main.css', true);
+        $css_pack->save(BLOG_BUILD . '/theme/main.css', true);
     }
 
     /**
@@ -234,14 +231,14 @@ class GenCommand extends Command
         foreach (Resource::get('theme')['js'] as $filename) {
             $filename = preg_replace('/.js$/', '', $filename);
 
-            if (!file_exists(THEME . "/Js/$filename.js")) {
+            if (!file_exists(BLOG_THEME . "/Js/$filename.js")) {
                 IO::warning("Javascript file \"$filename.js\" not found.");
                 continue;
             }
 
-            $js_pack->append(THEME . "/Js/$filename.js");
+            $js_pack->append(BLOG_THEME . "/Js/$filename.js");
         }
 
-        $js_pack->save(TEMP . '/theme/main.js', false);
+        $js_pack->save(BLOG_BUILD . '/theme/main.js', false);
     }
 }

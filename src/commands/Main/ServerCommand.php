@@ -16,7 +16,6 @@ use NanoCLI\IO;
 
 class ServerCommand extends Command
 {
-
     /**
      * Help
      */
@@ -68,6 +67,7 @@ class ServerCommand extends Command
             }
         }
 
-        IO::info("\nUsed command \"help server\" for more.");
+        IO::info("\n");
+        IO::info('Used command "help server" for more.');
     }
 }

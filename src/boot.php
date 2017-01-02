@@ -28,6 +28,9 @@ NanoCLI\Loader::set('Pointless\Doctype', APP_ROOT . '/doctypes');
 NanoCLI\Loader::set('Pointless\Library', APP_ROOT . '/libraries');
 NanoCLI\Loader::register();
 
+// Define Home Root
+define('HOME_ROOT', $_SERVER['HOME'] . '/.pointless3');
+
 // Initialize Folder & Files
 if (!file_exists(HOME_ROOT)) {
     mkdir(HOME_ROOT, 0755, true);
@@ -56,10 +59,8 @@ if ('production' === APP_ENV) {
     }
 }
 
-// Change Owner (Fix Permission)
-if (IS_SUPER_USER) {
-    Utility::chown(HOME_ROOT, fileowner($_SERVER['HOME']), filegroup($_SERVER['HOME']));
-}
+// Fix Folder Permission
+Pointless\Library\Misc::fixFolerPermission(HOME_ROOT);
 
 // Init Pointless Commnad
 (new Pointless\Command\MainCommand)->init();

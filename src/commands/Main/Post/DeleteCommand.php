@@ -16,7 +16,6 @@ use NanoCLI\IO;
 
 class DeleteCommand extends Command
 {
-
     /**
      * Help
      */

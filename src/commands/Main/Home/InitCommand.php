@@ -16,7 +16,6 @@ use NanoCLI\IO;
 
 class InitCommand extends Command
 {
-
     /**
      * @var string
      */
@@ -56,10 +55,13 @@ class InitCommand extends Command
      */
     public function run()
     {
-        define('BLOG', $this->path);
+        // Define Blog Root (initBlog need this)
+        define('BLOG_ROOT', $this->path);
 
-        file_put_contents(HOME_ROOT . '/default', BLOG);
+        // Set Path to Defult Blog File
+        file_put_contents(HOME_ROOT . '/default', BLOG_ROOT);
 
+        // Init All Folders & Files
         Misc::initBlog();
 
         IO::notice('Blog is initialized.');

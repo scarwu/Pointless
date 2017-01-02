@@ -16,7 +16,6 @@ use NanoCLI\IO;
 
 class PostCommand extends Command
 {
-
     /**
      * Help
      */
@@ -103,6 +102,7 @@ class PostCommand extends Command
             }
         }
 
-        IO::info("\nUsed command \"help post\" for more.");
+        IO::info("\n");
+        IO::info('Used command "help post" for more.');
     }
 }

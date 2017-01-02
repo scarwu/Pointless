@@ -30,7 +30,7 @@ class StaticDoctype extends Doctype
     {
         $filename = Utility::pathReplace($input['url']);
         $filename = strtolower($filename);
-        $filename = "static_$filename.md";
+        $filename = "static_{$filename}.md";
 
         return $this->save([
             'filename' => $filename,

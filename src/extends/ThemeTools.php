@@ -41,7 +41,7 @@ trait ThemeTools
      */
     final protected function save($path, $data)
     {
-        $realpath = BLOG_TEMP . "/{$path}";
+        $realpath = BLOG_BUILD . "/{$path}";
 
         if (!preg_match('/\.(html|xml)$/', $realpath)) {
             if (!file_exists($realpath)) {
@@ -68,8 +68,8 @@ trait ThemeTools
      */
     final protected function createIndex($src, $dest)
     {
-        if (file_exists(BLOG_TEMP . "/$src")) {
-            copy(BLOG_TEMP . "/$src", BLOG_TEMP . "/$dest");
+        if (file_exists(BLOG_BUILD . "/$src")) {
+            copy(BLOG_BUILD . "/$src", BLOG_BUILD . "/$dest");
 
             if ('.' !== ($path = dirname($dest))) {
                 Resource::append('sitemap', $path);

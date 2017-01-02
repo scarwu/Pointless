@@ -10,6 +10,8 @@
 
 namespace Pointless\Library;
 
+use Pointless\Library\Resource;
+
 class HTMLGenerator
 {
     use ThemeTools;

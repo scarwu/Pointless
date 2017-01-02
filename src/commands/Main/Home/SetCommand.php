@@ -16,7 +16,6 @@ use NanoCLI\IO;
 
 class SetCommand extends Command
 {
-
     /**
      * @var string
      */
@@ -58,6 +57,7 @@ class SetCommand extends Command
      */
     public function run()
     {
+        // Set Path to Defult Blog File
         file_put_contents(HOME_ROOT . '/default', $this->path);
 
         IO::notice("Default blog is setting to path \"{$this->path}\".");

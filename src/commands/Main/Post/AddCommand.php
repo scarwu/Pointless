@@ -18,7 +18,6 @@ use NanoCLI\IO;
 
 class AddCommand extends Command
 {
-
     /**
      * @var string
      */

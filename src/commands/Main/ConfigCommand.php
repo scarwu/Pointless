@@ -18,7 +18,6 @@ use NanoCLI\IO;
 
 class ConfigCommand extends Command
 {
-
     /**
      * @var string
      */

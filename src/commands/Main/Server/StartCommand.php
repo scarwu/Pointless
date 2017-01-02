@@ -16,7 +16,6 @@ use NanoCLI\IO;
 
 class StartCommand extends Command
 {
-
     /**
      * Help
      */

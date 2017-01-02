@@ -18,7 +18,6 @@ use NanoCLI\IO;
 
 class DeployCommand extends Command
 {
-
     /**
      * Help
      */
@@ -74,7 +73,7 @@ class DeployCommand extends Command
         system("git pull origin $branch");
 
         Utility::remove(BLOG_DEPLOY, BLOG_DEPLOY);
-        Utility::copy(BLOG_TEMP, BLOG_DEPLOY);
+        Utility::copy(BLOG_BUILD, BLOG_DEPLOY);
 
         // Create Github CNAME
         if ($github['cname']) {
@@ -85,9 +84,7 @@ class DeployCommand extends Command
         system(sprintf('git commit -m "%s"', date(DATE_RSS)));
         system("git push origin $branch");
 
-        // Change Owner
-        if (IS_SUPER_USER) {
-            Utility::chown(BLOG_DEPLOY, fileowner(HOME_ROOT), filegroup(HOME_ROOT));
-        }
+        // Fix Folder Permission
+        Misc::fixFolerPermission(BLOG_DEPLOY);
     }
 }
