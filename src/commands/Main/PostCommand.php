@@ -32,11 +32,10 @@ class PostCommand extends Command
      */
     public function up()
     {
-        if (!Misc::checkDefaultBlog()) {
+        // Init Blog
+        if (!Misc::initBlog()) {
             return false;
         }
-
-        Misc::initBlog();
     }
 
     /**
@@ -102,7 +101,6 @@ class PostCommand extends Command
             }
         }
 
-        IO::info("\n");
-        IO::info('Used command "help post" for more.');
+        IO::info("\nUsed command \"help post\" for more.");
     }
 }

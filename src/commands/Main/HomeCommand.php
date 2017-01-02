@@ -34,11 +34,10 @@ class HomeCommand extends Command
      */
     public function up()
     {
-        if (!Misc::checkDefaultBlog()) {
+        // Init Blog
+        if (!Misc::initBlog()) {
             return false;
         }
-
-        Misc::initBlog();
     }
 
     /**
@@ -57,7 +56,6 @@ class HomeCommand extends Command
         IO::log("Timezone - {$config['timezone']}");
         IO::log("Editor   - {$config['editor']}");
 
-        IO::info("\n");
-        IO::info('Used command "help home" for more.');
+        IO::info("\nUsed command \"help home\" for more.");
     }
 }

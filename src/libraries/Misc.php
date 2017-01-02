@@ -36,43 +36,33 @@ EOF;
     }
 
     /**
-     * Check Blog
-     *
-     * @return boolean
-     */
-    public static function checkBlog()
-    {
-        if (!file_exists(HOME_ROOT . '/default')) {
-            IO::error($msg);
-
-            return false;
-        }
-
-        $path = file_get_contents(HOME_ROOT . '/default');
-
-        if (!file_exists($path) || !file_exists("{$path}/.pointless")) {
-
-            // Reset Default Path
-            file_put_contents(HOME_ROOT . '/defualt', '');
-
-            IO::error("Default blog is't set.");
-            IO::error("Please use command \"home set\" or \"home init\".");
-
-            return false;
-        }
-
-        define('BLOG_ROOT', $path);
-
-        return true;
-    }
-
-    /**
      * Initialize Blog
      *
      * @return boolean
      */
     public static function initBlog()
     {
+        if (defined('BLOG_ROOT')) {
+            return true;
+        }
+
+        // Define Blog Root
+        if (!file_exists(HOME_ROOT . '/default')) {
+            file_put_contents(HOME_ROOT . '/defualt', '');
+
+            return false;
+        }
+
+        $blog_root = file_get_contents(HOME_ROOT . '/default');
+
+        if (!Utility::mkdir($blog_root)) {
+            file_put_contents(HOME_ROOT . '/defualt', '');
+
+            return false;
+        }
+
+        define('BLOG_ROOT', $blog_root);
+
         if (!file_exists(BLOG_ROOT . '/.pointless')) {
             file_put_contents(BLOG_ROOT . '/.pointless', '');
         }
@@ -94,21 +84,10 @@ EOF;
         define('BLOG_MARKDOWN', BLOG_ROOT . '/markdown');
 
         // Create Folders
-        if (!file_exists(BLOG_BUILD)) {
-            mkdir(BLOG_BUILD, 0755);
-        }
-
-        if (!file_exists(BLOG_DEPLOY)) {
-            mkdir(BLOG_DEPLOY, 0755);
-        }
-
-        if (!file_exists(BLOG_STATIC)) {
-            mkdir(BLOG_STATIC, 0755);
-        }
-
-        if (!file_exists(BLOG_EXTENSION)) {
-            mkdir(BLOG_EXTENSION, 0755);
-        }
+        Utility::mkdir(BLOG_BUILD);
+        Utility::mkdir(BLOG_DEPLOY);
+        Utility::mkdir(BLOG_STATIC);
+        Utility::mkdir(BLOG_EXTENSION);
 
         // Copy Markdown
         if (!file_exists(BLOG_MARKDOWN)) {
@@ -133,18 +112,20 @@ EOF;
         // Set Timezone
         date_default_timezone_set($config['timezone']);
 
-        // Fix Folder Permission
-        self::fixFolerPermission(BLOG_ROOT);
+        // Fix Permission
+        self::fixPermission(BLOG_ROOT);
+
+        return true;
     }
 
     /**
-     * Fix Folder Permission
+     * Fix Permission
      *
      * @param string
      *
      * @return boolean
      */
-    public static function fixFolerPermission($path) {
+    public static function fixPermission($path) {
 
         if (!isset($_SERVER['SUDO_USER'])) {
             return false;

@@ -31,11 +31,10 @@ class DeployCommand extends Command
      */
     public function up()
     {
-        if (!Misc::checkDefaultBlog()) {
+        // Init Blog
+        if (!Misc::initBlog()) {
             return false;
         }
-
-        Misc::initBlog();
 
         // Check Git
         if (!Utility::commandExists('git')) {
@@ -84,7 +83,7 @@ class DeployCommand extends Command
         system(sprintf('git commit -m "%s"', date(DATE_RSS)));
         system("git push origin $branch");
 
-        // Fix Folder Permission
-        Misc::fixFolerPermission(BLOG_DEPLOY);
+        // Fix Permission
+        Misc::fixPermission(BLOG_DEPLOY);
     }
 }

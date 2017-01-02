@@ -34,11 +34,10 @@ class ServerCommand extends Command
      */
     public function up()
     {
-        if (!Misc::checkDefaultBlog()) {
+        // Init Blog
+        if (!Misc::initBlog()) {
             return false;
         }
-
-        Misc::initBlog();
 
         if (!file_exists(HOME_ROOT . '/pid')) {
             IO::error('Server is not running.');
@@ -67,7 +66,6 @@ class ServerCommand extends Command
             }
         }
 
-        IO::info("\n");
-        IO::info('Used command "help server" for more.');
+        IO::info("\nUsed command \"help server\" for more.");
     }
 }

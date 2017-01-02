@@ -31,15 +31,13 @@ NanoCLI\Loader::register();
 // Define Home Root
 define('HOME_ROOT', $_SERVER['HOME'] . '/.pointless3');
 
-// Initialize Folder & Files
-if (!file_exists(HOME_ROOT)) {
-    mkdir(HOME_ROOT, 0755, true);
-}
+// Create Folder
+Pointless\Library\Utility::mkdir(HOME_ROOT);
 
 if ('production' === APP_ENV) {
-    if (!file_exists(HOME_ROOT . '/sample')) {
-        mkdir(HOME_ROOT . '/sample', 0755, true);
-    }
+
+    // Create Folder
+    Pointless\Library\Utility::mkdir(HOME_ROOT . '/sample');
 
     // Get Timestamp
     $timestamp = file_exists(HOME_ROOT . '/.timestamp')
@@ -49,18 +47,18 @@ if ('production' === APP_ENV) {
     if (BUILD_TIMESTAMP !== $timestamp) {
 
         // Remove Old Sample
-        Utility::remove(HOME_ROOT . '/sample');
+        Pointless\Library\Utility::remove(HOME_ROOT . '/sample');
 
         // Copy New Sample
-        Utility::copy(APP_ROOT . '/sample', HOME_ROOT . '/sample');
+        Pointless\Library\Utility::copy(APP_ROOT . '/sample', HOME_ROOT . '/sample');
 
         // Update Timestamp
         file_put_contents(HOME_ROOT . '/timestamp', BUILD_TIMESTAMP);
     }
 }
 
-// Fix Folder Permission
-Pointless\Library\Misc::fixFolerPermission(HOME_ROOT);
+// Fix Permission
+Pointless\Library\Misc::fixPermission(HOME_ROOT);
 
 // Init Pointless Commnad
 (new Pointless\Command\MainCommand)->init();

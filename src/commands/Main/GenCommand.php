@@ -38,11 +38,10 @@ class GenCommand extends Command
      */
     public function up()
     {
-        if (!checkDefaultBlog()) {
+        // Init Blog
+        if (!Misc::initBlog()) {
             return false;
         }
-
-        initBlog();
 
         require LIBRARY . '/Helper.php';
         require LIBRARY . '/HTMLGenerator.php';
@@ -123,8 +122,8 @@ class GenCommand extends Command
         $mem = sprintf("%.3f", abs(memory_get_usage() - $start_mem) / 1024);
         IO::info("Generate finish, $time s and memory usage $mem KB.");
 
-        // Fix Folder Permission
-        Misc::fixFolerPermission(BLOG_BUILD);
+        // Fix Permission
+        Misc::fixPermission(BLOG_BUILD);
     }
 
     /**

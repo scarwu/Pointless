@@ -42,12 +42,6 @@ class InitCommand extends Command
 
             return false;
         }
-
-        if (!mkdir($this->path, 0755, true)) {
-            IO::error("Permission denied: {$this->path}");
-
-            return false;
-        }
     }
 
     /**
@@ -55,16 +49,14 @@ class InitCommand extends Command
      */
     public function run()
     {
-        // Define Blog Root (initBlog need this)
-        define('BLOG_ROOT', $this->path);
-
         // Set Path to Defult Blog File
-        file_put_contents(HOME_ROOT . '/default', BLOG_ROOT);
+        file_put_contents(HOME_ROOT . '/default', $this->path);
 
-        // Init All Folders & Files
-        Misc::initBlog();
+        // Init Blog
+        if (!Misc::initBlog()) {
+            return false;
+        }
 
-        IO::notice('Blog is initialized.');
         IO::notice("Default blog is setting to path \"{$this->path}\".");
     }
 

@@ -8,14 +8,33 @@
  * @link        http://github.com/scarwu/Pointless
  */
 
-$blog = file_get_contents("{$_SERVER['DOCUMENT_ROOT']}/default");
+$root = file_get_contents("{$_SERVER['DOCUMENT_ROOT']}/default");
 
-define('BLOG', $blog);
+// Define Constant
+define('BLOG_ROOT', $root);
+define('BLOG_BUILD', BLOG_ROOT . '/build');
 
-require BLOG . '/config.php';
+// Require Config
+require BLOG_ROOT . '/config.php';
 
-$path = BLOG . '/temp/';
+// Set Variables
+$base = BLOG_BUILD;
+$mime = [
+    'html' => 'text/html',
+    'css' => 'text/css',
+    'js' => 'text/javascript',
+    'json' => 'application/json',
+    'xml' => 'application/xml',
 
+    'jpg' => 'image/jpeg',
+    'png' => 'image/png',
+    'gif' => 'image/gif',
+
+    'woff' => 'application/font-woff',
+    'ttf' => 'font/opentype'
+];
+
+// Built-in Web Server Route
 $pattern = '/^' . str_replace('/', '\/', $config['blog']['base']) . '/';
 
 if (!preg_match($pattern, $_SERVER['REQUEST_URI'])) {
@@ -25,37 +44,23 @@ if (!preg_match($pattern, $_SERVER['REQUEST_URI'])) {
 $pattern = '/^' . str_replace('/', '\/', $config['blog']['base']) . '(.+)/';
 
 if (preg_match($pattern, $_SERVER['REQUEST_URI'], $match)) {
-    $path = $path . urldecode($match[1]);
+    $base = "{$base}/" . urldecode($match[1]);
 }
 
-$path = is_dir($path) ? "{$path}/index.html" : $path;
-$path = explode('?', $path)[0];
+$base = is_dir($base) ? "{$base}/index.html" : $base;
+$base = explode('?', $base)[0];
 
-$mime = [
-    'html' => 'text/html',
-    'css' => 'text/css',
-    'js' => 'text/javascript',
-
-    'json' => 'application/json',
-    'xml' => 'application/xml',
-    'woff' => 'application/font-woff',
-
-    'jpg' => 'image/jpeg',
-    'png' => 'image/png',
-    'gif' => 'image/gif',
-
-    'ttf' => 'font/opentype'
-];
-
-$ext_name = explode('.', $path);
+// Set Constent Type
+$ext_name = explode('.', $base);
 $ext_name = array_pop($ext_name);
 
 if (isset($mime[$ext_name])) {
     header("Content-type: {$mime[$ext_name]}");
 }
 
-if (file_exists($path)) {
-    echo file_get_contents($path);
+// Response Content
+if (file_exists($base)) {
+    echo file_get_contents($base);
 
     return true;
 }

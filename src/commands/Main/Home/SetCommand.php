@@ -42,14 +42,6 @@ class SetCommand extends Command
 
             return false;
         }
-
-        if (!file_exists("{$this->path}/.pointless")
-            || !is_file("{$this->path}/.pointless")) {
-
-            IO::error("Path \"{$this->path}\" is't the Pointless blog folder.");
-
-            return false;
-        }
     }
 
     /**
@@ -59,6 +51,11 @@ class SetCommand extends Command
     {
         // Set Path to Defult Blog File
         file_put_contents(HOME_ROOT . '/default', $this->path);
+
+        // Init Blog
+        if (!Misc::initBlog()) {
+            return false;
+        }
 
         IO::notice("Default blog is setting to path \"{$this->path}\".");
     }

@@ -29,15 +29,11 @@ class VersionCommand extends Command
      */
     public function run()
     {
-        $version = 'v0.0.0-dev';
+        $date = date(DATE_RSS, BUILD_TIMESTAMP);
+        $version = BUILD_VERSION . " ($date)";
 
-        if (defined('BUILD_VERSION')) {
-            if (Misc::checkDefaultBlog()) {
-                MIsc::initBlog();
-            }
-
-            $date = date(DATE_RSS, BUILD_TIMESTAMP);
-            $version = BUILD_VERSION . " ($date)";
+        if ('development' === APP_ENV) {
+            $version = "{$version}-dev";
         }
 
         IO::info($version);

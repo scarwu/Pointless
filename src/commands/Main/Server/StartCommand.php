@@ -32,11 +32,10 @@ class StartCommand extends Command
      */
     public function up()
     {
-        if (!Misc::checkDefaultBlog()) {
+        // Init Blog
+        if (!Misc::initBlog()) {
             return false;
         }
-
-        Misc::initBlog();
     }
 
     /**

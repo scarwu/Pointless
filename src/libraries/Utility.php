@@ -93,6 +93,23 @@ class Utility
     }
 
     /**
+     * Recursive mkdir
+     *
+     * @param string src
+     * @param string dest
+     *
+     * @return boolean
+     */
+    public static function mkdir($path)
+    {
+        if (file_exists($path)) {
+            return true;
+        }
+
+        return mkdir($path, 0755, true);
+    }
+
+    /**
      * Recursive Copy
      *
      * @param string src

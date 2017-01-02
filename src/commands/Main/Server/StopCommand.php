@@ -29,11 +29,10 @@ class StopCommand extends Command
      */
     public function up()
     {
-        if (!Misc::checkDefaultBlog()) {
+        // Init Blog
+        if (!Misc::initBlog()) {
             return false;
         }
-
-        Misc::initBlog();
 
         if (!file_exists(HOME_ROOT . '/pid')) {
             IO::error('Server is not running.');
