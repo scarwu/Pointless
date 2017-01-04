@@ -11,6 +11,7 @@
 namespace Pointless\Doctype;
 
 use Pointless\Library\Utility;
+use Pointless\Library\Resource;
 use Pointless\Extend\Doctype;
 
 class StaticDoctype extends Doctype

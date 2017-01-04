@@ -1,6 +1,6 @@
 <?php
 /**
- * Pointless Gen Command
+ * Pointless Build Command
  *
  * @package     Pointless
  * @author      ScarWu
@@ -21,16 +21,16 @@ use NanoCLI\IO;
 use NanoCLI\Loader;
 use NanoCLI\Command;
 
-class GenCommand extends Command
+class BuildCommand extends Command
 {
     /**
      * Help
      */
     public function help()
     {
-        IO::log('    gen         - Generate blog');
-        IO::log('    gen -css    - Compress CSS');
-        IO::log('    gen -js     - Compress JavaScript');
+        IO::log('    build       - Generate blog');
+        IO::log('    build -css  - Compress CSS');
+        IO::log('    build -js   - Compress JavaScript');
     }
 
     /**
@@ -100,10 +100,14 @@ class GenCommand extends Command
 
             // Copy Resource Files
             IO::notice('Copy Resource Files ...');
-            Utility::copy(RESOURCE, BLOG_BUILD);
+            Utility::copy(BLOG_STATIC, BLOG_BUILD);
 
-            if (file_exists(BLOG_THEME . '/Resource')) {
-                Utility::copy(BLOG_THEME . '/Resource', BLOG_BUILD . '/theme');
+            if (file_exists(BLOG_THEME . '/assets/fonts')) {
+                Utility::copy(BLOG_THEME . '/assets/fonts', BLOG_BUILD . '/assets/fonts');
+            }
+
+            if (file_exists(BLOG_THEME . '/assets/images')) {
+                Utility::copy(BLOG_THEME . '/assets/images', BLOG_BUILD . '/assets/images');
             }
 
             // Compress Assets
@@ -188,7 +192,7 @@ class GenCommand extends Command
 
         $css_pack = new CSS();
 
-        foreach (Resource::get('theme')['assets']['css'] as $filename) {
+        foreach (Resource::get('theme')['assets']['styles'] as $filename) {
             $filename = preg_replace('/.css$/', '', $filename);
 
             if (!file_exists(BLOG_THEME . "/assets/styles/{$filename}.css")) {
@@ -199,7 +203,7 @@ class GenCommand extends Command
             $css_pack->append(BLOG_THEME . "/assets/styles/{$filename}.css");
         }
 
-        $css_pack->save(BLOG_BUILD . '/theme/main.css', true);
+        $css_pack->save(BLOG_BUILD . '/assets/styles.css', true);
     }
 
     /**
@@ -211,7 +215,7 @@ class GenCommand extends Command
 
         $js_pack = new JS();
 
-        foreach (Resource::get('theme')['assets']['js'] as $filename) {
+        foreach (Resource::get('theme')['assets']['scripts'] as $filename) {
             $filename = preg_replace('/.js$/', '', $filename);
 
             if (!file_exists(BLOG_THEME . "/assets/scripts/{$filename}.js")) {
@@ -222,6 +226,6 @@ class GenCommand extends Command
             $js_pack->append(BLOG_THEME . "/assets/scripts/{$filename}.js");
         }
 
-        $js_pack->save(BLOG_BUILD . '/theme/main.js', false);
+        $js_pack->save(BLOG_BUILD . '/assets/scripts.js', false);
     }
 }

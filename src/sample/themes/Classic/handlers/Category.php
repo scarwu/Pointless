@@ -21,8 +21,9 @@ class Category extends ThemeHandler
         parent::__construct();
 
         foreach (Resource::get('post')['article'] as $value) {
-            if (!isset($this->list[$value['category']]))
+            if (!isset($this->list[$value['category']])) {
                 $this->list[$value['category']] = [];
+            }
 
             $this->list[$value['category']][] = $value;
         }

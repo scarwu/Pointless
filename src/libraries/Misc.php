@@ -175,7 +175,7 @@ EOF;
                 continue;
             }
 
-            $list[] = strtolower($match[1]);
+            $list[] = lcfirst($match[1]);
         }
 
         closedir($handle);
@@ -199,7 +199,7 @@ EOF;
                 continue;
             }
 
-            $list[] = strtolower($match[1]);
+            $list[] = lcfirst($match[1]);
         }
 
         closedir($handle);

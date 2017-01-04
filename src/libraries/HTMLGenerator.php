@@ -12,6 +12,7 @@ namespace Pointless\Library;
 
 use Pointless\Library\Misc;
 use Pointless\Library\Resource;
+use Pointless\Extend\ThemeTools;
 
 class HTMLGenerator
 {

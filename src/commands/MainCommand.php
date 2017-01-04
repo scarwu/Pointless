@@ -27,7 +27,7 @@ class MainCommand extends Command
     public function help()
     {
         IO::log('    home        - Initialize and set default blog');
-        IO::log('    gen         - Generate blog');
+        IO::log('    build       - Build blog');
         IO::log('    post        - Add / Edit / Delete post');
         IO::log('    server      - Start built-in web server');
         IO::log('    config      - Modify config');

@@ -28,7 +28,7 @@ trait ThemeTools
         }
 
         ob_start();
-        include THEME . "/template/{$_path}";
+        include BLOG_THEME . "/views/{$_path}";
         $_result = ob_get_contents();
         ob_end_clean();
 
