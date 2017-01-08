@@ -14,7 +14,7 @@ $constant = [
         'timestamp' => time()
     ],
     'doctypes' => [
-        'StaticPage',
+        'Static',
         'Article'
     ]
 ];

@@ -130,8 +130,8 @@ class BuildCommand extends Command
             // Generate Extension
             IO::notice('Generating Extensions ...');
 
-            foreach (Resource::get('theme')['extensions'] as $filename) {
-                $class_name = 'Pointless\\Extension\\' . ucfirst($filename);
+            foreach (Resource::get('theme')['extensions'] as $name) {
+                $class_name = 'Pointless\\Extension\\' . ucfirst($name);
                 (new $class_name)->run();
             }
         }

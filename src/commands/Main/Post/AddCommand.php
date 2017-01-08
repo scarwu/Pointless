@@ -44,8 +44,8 @@ class AddCommand extends Command
     {
         $doctype_list = [];
 
-        foreach (Resource::get('constant')['doctypes'] as $index => $doctype) {
-            $class_name = 'Pointless\\Doctype\\' . ucfirst($doctype) . 'Doctype';
+        foreach (Resource::get('constant')['doctypes'] as $index => $name) {
+            $class_name = 'Pointless\\Doctype\\' . ucfirst($name) . 'Doctype';
             $doctype_list[$index] = new $class_name;
 
             IO::log(sprintf('[ %3d] ', $index) . $doctype_list[$index]->getName());

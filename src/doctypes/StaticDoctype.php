@@ -14,13 +14,13 @@ use Pointless\Library\Utility;
 use Pointless\Library\Resource;
 use Pointless\Extend\Doctype;
 
-class StaticPageDoctype extends Doctype
+class StaticDoctype extends Doctype
 {
     public function __construct()
     {
         parent::__construct();
 
-        $this->type = 'staticPage';
+        $this->type = 'static';
         $this->name = 'Static Page';
         $this->question = [
             ['title', "Enter Title:\n-> "],

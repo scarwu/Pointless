@@ -1,5 +1,5 @@
 <!--{
-    "type": "staticPage",
+    "type": "static",
     "url": "about",
     "message": false,
     "publish": true

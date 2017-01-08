@@ -24,45 +24,34 @@ class HTMLGenerator
     public function run()
     {
         // Get Handler List
-        foreach (Resource::get('theme')['handlers'] as $index => $handler) {
-            $class_name = 'Pointless\\Handler\\' . ucfirst($handler);
-            $handler_list[$index] = new $class_name;
+        foreach (Resource::get('theme')['handlers'] as $name) {
+            $class_name = 'Pointless\\Handler\\' . ucfirst($name);
+            $handler_list[lcfirst($name)] = new $class_name;
         }
 
         // Generate Block
         $block = [];
 
-        foreach (Resource::get('theme')['views'] as $blockname => $files) {
+        foreach (Resource::get('theme')['views'] as $block_name => $name_list) {
 
             $result = null;
 
-            foreach ($files as $filename) {
-                $filename = preg_replace('/.php$/', '', $filename);
-
-                if (!file_exists(BLOG_THEME . "/views/{$blockname}/{$filename}.php")) {
-                    continue;
-                }
-
-                $script = explode('_', $filename);
-                foreach ($script as $key => $value) {
-                    $script[$key] = ucfirst($value);
-                }
-                $script = join($script);
-
+            foreach ($name_list as $name) {
                 $data = [];
-                if (array_key_exists($script, $handler_list)) {
-                    $method = 'get' . ucfirst($blockname) . 'Data';
 
-                    if (method_exists($handler_list[$script], $method)) {
-                        $data = $handler_list[$script]->$method();
+                if (isset($handler_list[lcfirst($name)])) {
+                    $method = 'get' . ucfirst($block_name) . 'Data';
+
+                    if (method_exists($handler_list[lcfirst($name)], $method)) {
+                        $data = $handler_list[lcfirst($name)]->$method();
                     }
                 }
 
-                $result .= $this->render($data, "{$blockname}/{$filename}.php");
+                $result .= $this->render($data, "{$block_name}/{$name}.php");
             }
 
             if (null !== $result) {
-                $block[$blockname] = $result;
+                $block[$block_name] = $result;
             }
         }
 

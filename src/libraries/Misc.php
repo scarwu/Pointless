@@ -187,9 +187,7 @@ EOF;
                 exit(1);
             }
 
-            if ($doctype !== null
-                && lcfirst($doctype) !== $post['type']) {
-
+            if ($doctype !== null && $doctype !== $post['type']) {
                 continue;
             }
 
