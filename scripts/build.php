@@ -13,21 +13,18 @@ $root = realpath(dirname(__FILE__) . '/..');
 
 include "{$root}/src/libraries/Utility.php";
 
-$stub = file_get_contents("{$root}/script/stub.php");
-$stub = sprintf($stub, $version, time());
+$stub = file_get_contents("{$root}/scripts/stub.php");
 
 // Auto update vendor
 chdir($root);
 
-if (file_exists("{$root}/src/vendor")) {
-    system('composer update');
-} else {
+if (!file_exists("{$root}/src/vendor")) {
     system('composer install');
 }
 
 // Copy File to temp
 if (file_exists("{$root}/temp")) {
-    Utility::remove("{$root}/temp");
+    Pointless\Library\Utility::remove("{$root}/temp");
 }
 
 foreach ([
@@ -38,7 +35,7 @@ foreach ([
     'src/vendor/scarwu/nanocli/src',
     'src/vendor/erusev/parsedown'
 ] as $path) {
-    Utility::copy("{$root}/{$path}", "{$root}/temp/{$path}");
+    Pointless\Library\Utility::copy("{$root}/{$path}", "{$root}/temp/{$path}");
 }
 
 // Clear Phar

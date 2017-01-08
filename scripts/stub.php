@@ -1,10 +1,9 @@
 #!/usr/bin/env php
 <?php
 Phar::mapPhar('poi.phar');
-define('BUILD_VERSION', '%s');
-define('BUILD_TIMESTAMP', %d);
+define('APP_ENV', 'development');
+define('APP_ROOT', 'phar://poi.phar');
 define('BIN_LOCATE', realpath(dirname(__FILE__)));
-define('ROOT', 'phar://poi.phar');
-require ROOT . '/boot.php';
+require APP_ROOT . '/boot.php';
 __HALT_COMPILER();
 ?>
