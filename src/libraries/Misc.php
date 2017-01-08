@@ -160,54 +160,6 @@ EOF;
     }
 
     /**
-     * Get Handler List
-     *
-     * @return array
-     */
-    public static function getHandlerList()
-    {
-        $list = [];
-
-        $handle = opendir(BLOG_THEME . '/handlers');
-
-        while ($filename = readdir($handle)) {
-            if (!preg_match('/^(\w+).php$/', $filename, $match)) {
-                continue;
-            }
-
-            $list[] = lcfirst($match[1]);
-        }
-
-        closedir($handle);
-
-        return $list;
-    }
-
-    /**
-     * Get Doctype List
-     *
-     * @return array
-     */
-    public static function getDoctypeList()
-    {
-        $list = [];
-
-        $handle = opendir(APP_ROOT . '/doctypes');
-
-        while ($filename = readdir($handle)) {
-            if (!preg_match('/^(\w+)Doctype.php$/', $filename, $match)) {
-                continue;
-            }
-
-            $list[] = lcfirst($match[1]);
-        }
-
-        closedir($handle);
-
-        return $list;
-    }
-
-    /**
      * Get Markdown List
      *
      * @param string $doctype
@@ -236,7 +188,7 @@ EOF;
             }
 
             if ($doctype !== null
-                && $doctype !== $post['type']) {
+                && lcfirst($doctype) !== $post['type']) {
 
                 continue;
             }

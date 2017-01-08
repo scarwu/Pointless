@@ -1,3 +1,6 @@
+<?php
+use Pointless\Library\Helper;
+?>
 <div id="side_category">
     <div class="title">
         <?=Helper::linkTo("{$blog['base']}category/", 'Category')?>

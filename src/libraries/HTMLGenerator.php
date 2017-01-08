@@ -24,9 +24,7 @@ class HTMLGenerator
     public function run()
     {
         // Get Handler List
-        $handler_list = Misc::getHandlerList();
-
-        foreach ($handler_list as $index => $handler) {
+        foreach (Resource::get('theme')['handlers'] as $index => $handler) {
             $class_name = 'Pointless\\Handler\\' . ucfirst($handler);
             $handler_list[$index] = new $class_name;
         }

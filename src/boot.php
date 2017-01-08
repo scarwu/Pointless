@@ -11,13 +11,6 @@
 // Set default timezone
 date_default_timezone_set('Etc/UTC');
 
-// Require Constant
-require APP_ROOT . '/constant.php';
-
-// Define Variables
-define('BUILD_VERSION', $constant['build']['version']);
-define('BUILD_TIMESTAMP', $constant['build']['timestamp']);
-
 // Composer Autoloader
 require APP_ROOT . '/vendor/autoload.php';
 
@@ -29,6 +22,16 @@ NanoCLI\Loader::set('Pointless\Library', APP_ROOT . '/libraries');
 
 // Loader Register
 NanoCLI\Loader::register();
+
+// Require Constant
+require APP_ROOT . '/constant.php';
+
+// Set Resource Constant
+Pointless\Library\Resource::set('constant', $constant);
+
+// Define Variables
+define('BUILD_VERSION', $constant['build']['version']);
+define('BUILD_TIMESTAMP', $constant['build']['timestamp']);
 
 // Define Home Root
 define('HOME_ROOT', $_SERVER['HOME'] . '/.pointless3');

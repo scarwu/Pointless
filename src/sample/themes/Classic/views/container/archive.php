@@ -1,3 +1,6 @@
+<?php
+use Pointless\Library\Helper;
+?>
 <div id="container_archive">
     <h1 class="title"><?=$post['title']?></h1>
     <?php foreach ($post['list'] as $year => $month_list): ?>

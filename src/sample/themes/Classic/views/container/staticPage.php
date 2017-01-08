@@ -1,3 +1,6 @@
+<?php
+use Pointless\Library\Helper;
+?>
 <div id="container_static">
     <article class="post_block">
         <h1 class="title"><?=$post['title']?></h1>

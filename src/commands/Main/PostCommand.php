@@ -11,6 +11,7 @@
 namespace Pointless\Command\Main;
 
 use Pointless\Library\Misc;
+use Pointless\Library\Resource;
 use NanoCLI\Command;
 use NanoCLI\IO;
 
@@ -43,12 +44,9 @@ class PostCommand extends Command
      */
     public function run()
     {
-        // Get Doctype List
-        $doctype_list = Misc::getDoctypeList();
-
         IO::notice('Post Status:');
 
-        foreach ($doctype_list as $doctype) {
+        foreach (Resource::get('constant')['doctypes'] as $doctype) {
             $count = count(Misc::getMarkdownList($doctype));
 
             $class_name = 'Pointless\\Doctype\\' . ucfirst($doctype) . 'Doctype';

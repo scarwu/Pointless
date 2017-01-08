@@ -1,3 +1,6 @@
+<?php
+use Pointless\Library\Helper;
+?>
 <!doctype html>
 <html lang="<?=$blog['lang']?>">
 <head>

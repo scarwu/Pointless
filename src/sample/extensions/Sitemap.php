@@ -10,6 +10,7 @@
 
 namespace Pointless\Extension;
 
+use Pointless\Library\Resource;
 use Pointless\Extend\Extension;
 use NanoCLI\IO;
 

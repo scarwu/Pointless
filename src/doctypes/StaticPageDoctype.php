@@ -1,6 +1,6 @@
 <?php
 /**
- * Static Document Type
+ * Static Page Document Type
  *
  * @package     Pointless
  * @author      ScarWu
@@ -14,13 +14,13 @@ use Pointless\Library\Utility;
 use Pointless\Library\Resource;
 use Pointless\Extend\Doctype;
 
-class StaticDoctype extends Doctype
+class StaticPageDoctype extends Doctype
 {
     public function __construct()
     {
         parent::__construct();
 
-        $this->id = 'static';
+        $this->type = 'staticPage';
         $this->name = 'Static Page';
         $this->question = [
             ['title', "Enter Title:\n-> "],
@@ -38,7 +38,7 @@ class StaticDoctype extends Doctype
             'filename' => $filename,
             'title' => $input['title'],
             'header' => [
-                'type' => $this->id,
+                'type' => $this->type,
                 'url' => Utility::pathReplace($input['url'], true),
                 'message' => false,
                 'publish' => false

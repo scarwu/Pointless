@@ -1,3 +1,6 @@
+<?php
+use Pointless\Library\Helper;
+?>
 <div id="side_archive">
     <div class="title">
         <?=Helper::linkTo("{$blog['base']}archive/", 'Archive')?>

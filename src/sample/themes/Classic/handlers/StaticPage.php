@@ -43,7 +43,7 @@ class StaticPage extends ThemeHandler
             $block['container'] = $this->render([
                 'blog' => array_merge($blog, $ext),
                 'post' => $post
-            ], 'container/static_page.php');
+            ], 'container/staticPage.php');
 
             // Save HTML
             $this->save($post['url'], $this->render([

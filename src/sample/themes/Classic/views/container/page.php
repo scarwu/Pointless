@@ -1,3 +1,6 @@
+<?php
+use Pointless\Library\Helper;
+?>
 <div id="container_page">
     <?php foreach ($post['list'] as $article): ?>
     <article class="post_block">

@@ -1,3 +1,6 @@
+<?php
+use Pointless\Library\Helper;
+?>
 <div id="side_tag">
     <div class="title">
         <?=Helper::linkTo("{$blog['base']}tag/", 'Tag')?>

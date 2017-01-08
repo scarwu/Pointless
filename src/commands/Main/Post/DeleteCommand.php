@@ -11,6 +11,7 @@
 namespace Pointless\Command\Main\Post;
 
 use Pointless\Library\Misc;
+use Pointless\Library\Resource;
 use NanoCLI\Command;
 use NanoCLI\IO;
 
@@ -37,10 +38,9 @@ class DeleteCommand extends Command
 
     public function run()
     {
-        // Get Doctype List
-        $doctype_list = Misc::getDoctypeList();
+        $doctype_list = [];
 
-        foreach ($doctype_list as $index => $doctype) {
+        foreach (Resource::get('constant')['doctypes'] as $index => $doctype) {
             $class_name = 'Pointless\\Doctype\\' . ucfirst($doctype) . 'Doctype';
             $doctype_list[$index] = new $class_name;
 

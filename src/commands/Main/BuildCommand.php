@@ -130,7 +130,7 @@ class BuildCommand extends Command
             // Generate Extension
             IO::notice('Generating Extensions ...');
 
-            foreach (Resource::get('theme')['extension'] as $filename) {
+            foreach (Resource::get('theme')['extensions'] as $filename) {
                 $class_name = 'Pointless\\Extension\\' . ucfirst($filename);
                 (new $class_name)->run();
             }
@@ -150,16 +150,13 @@ class BuildCommand extends Command
      */
     private function loadMarkdown()
     {
+        $doctype_list = [];
         $result = [];
 
-        // Get Doctype List
-        $doctype_list = Misc::getDoctypeList();
-        $doctype_class = [];
-
-        foreach ($doctype_list as $index => $doctype) {
+        foreach (Resource::get('constant')['doctypes'] as $doctype) {
             $class_name = 'Pointless\\Doctype\\' . ucfirst($doctype) . 'Doctype';
-            $doctype_class[$doctype] = new $class_name;
-            $result[$doctype] = [];
+            $doctype_list[lcfirst($doctype)] = new $class_name;
+            $result[lcfirst($doctype)] = [];
         }
 
         // Load Markdown
@@ -172,12 +169,12 @@ class BuildCommand extends Command
 
             $type = $post['type'];
 
-            if (!isset($doctype_class[$type])) {
+            if (!isset($doctype_list[$type])) {
                 continue;
             }
 
             // Append Post to Result
-            $result[$type][] = $doctype_class[$type]->postHandleAndGetResult($post);
+            $result[$type][] = $doctype_list[$type]->postHandleAndGetResult($post);
         }
 
         Resource::set('post', $result);

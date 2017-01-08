@@ -20,7 +20,7 @@ class ArticleDoctype extends Doctype
     {
         parent::__construct();
 
-        $this->id = 'article';
+        $this->type = 'article';
         $this->name = 'Blog Article';
         $this->question = [
             ['title', "Enter Title:\n-> "],
@@ -40,7 +40,7 @@ class ArticleDoctype extends Doctype
             'filename' => $filename,
             'title' => $input['title'],
             'header' => [
-                'type' => $this->id,
+                'type' => $this->type,
                 'url' => Utility::pathReplace($input['url']),
                 'tag' => $input['tag'],
                 'category' => $input['category'],
