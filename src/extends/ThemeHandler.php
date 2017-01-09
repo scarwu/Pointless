@@ -10,9 +10,11 @@
 
 namespace Pointless\Extend;
 
+use Pointless\Extend\RenderTools;
+
 abstract class ThemeHandler
 {
-    use ThemeTools;
+    use RenderTools;
 
     /**
      * @var array
@@ -25,7 +27,12 @@ abstract class ThemeHandler
     }
 
     /**
-     * Generate Data
+     * Render Block
      */
-    abstract public function gen();
+    abstract public function renderBlock($block_name);
+
+    /**
+     * Render Page
+     */
+    abstract public function renderPage();
 }

@@ -30,24 +30,44 @@ class Archive extends ThemeHandler
     }
 
     /**
-     * Get Side Data
-     *
-     * @return array
-     */
-    public function getSideData()
-    {
-        $data['blog'] = Resource::get('config')['blog'];
-        $data['list'] = $this->list;
-
-        return $data;
-    }
-
-    /**
-     * Generate Data
+     * Render Block
      *
      * @param string
      */
-    public function gen()
+    public function renderBlock($block_name)
+    {
+        $views = Resource::get('theme')['views'];
+
+        if (!isset($views[$block_name])) {
+            return false;
+        }
+
+        if (!in_array('archive', $views[$block_name])) {
+            return false;
+        }
+
+        $block = Resource::get('block');
+
+        if (null === $block) {
+            $block = [];
+        }
+
+        if (!isset($block[$block_name])) {
+            $block[$block_name] = '';
+        }
+
+        $block[$block_name] .= $this->render([
+            'blog' => Resource::get('config')['blog'],
+            'list' => $this->list
+        ], "{$block_name}/archive.php");
+
+        Resource::set('block', $block);
+    }
+
+    /**
+     * Render Page
+     */
+    public function renderPage()
     {
         $first = null;
         $count = 0;
@@ -58,13 +78,14 @@ class Archive extends ThemeHandler
 
         foreach ($this->list as $index => $post_list) {
             IO::log("Building archive/$index");
+
             if (null === $first) {
                 $first = $index;
             }
 
             $post = [];
             $post['title'] = "Archive: $index";
-            $post['url'] = "archive/$index";
+            $post['url'] = "archive/{$index}";
             $post['list'] = $this->createDateList($post_list);
 
             $paging = [];

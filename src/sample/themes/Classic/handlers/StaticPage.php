@@ -24,11 +24,19 @@ class StaticPage extends ThemeHandler
     }
 
     /**
-     * Generate Data
+     * Render Block
      *
      * @param string
      */
-    public function gen()
+    public function renderBlock($block_name)
+    {
+        return false;
+    }
+
+    /**
+     * Render Page
+     */
+    public function renderPage()
     {
         $blog = Resource::get('config')['blog'];
 

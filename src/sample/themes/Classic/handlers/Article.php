@@ -24,11 +24,19 @@ class Article extends ThemeHandler
     }
 
     /**
-     * Generate Data
+     * Render Block
      *
      * @param string
      */
-    public function gen()
+    public function renderBlock($block_name)
+    {
+        return false;
+    }
+
+    /**
+     * Render Page
+     */
+    public function renderPage()
     {
         $count = 0;
         $total = count($this->list);

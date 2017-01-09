@@ -74,7 +74,7 @@ class EditCommand extends Command
         IO::writeln();
 
         // Load Markdown
-        $doctype = $doctype_list[$index]->getID();
+        $doctype = $doctype_list[$index]->getType();
         $markdown_list = Misc::getMarkdownList($doctype, true);
 
         if (0 === count($markdown_list)) {

@@ -122,10 +122,25 @@ class BuildCommand extends Command
 
             $this->loadMarkdown();
 
-            // Generate HTML Pages
-            IO::notice('Generating HTML ...');
+            // Rendering HTML Pages
+            IO::notice('Rendering HTML ...');
 
-            (new HTMLGenerator)->run();
+            foreach (Resource::get('theme')['handlers'] as $name) {
+                $class_name = 'Pointless\\Handler\\' . ucfirst($name);
+                $handler_list[lcfirst($name)] = new $class_name;
+            }
+
+            // Render Block
+            foreach (Resource::get('theme')['views'] as $block_name => $name_list) {
+                foreach ($name_list as $name) {
+                    $handler_list[$name]->renderBlock($block_name);
+                }
+            }
+
+            // Render Page
+            foreach ($handler_list as $handler) {
+                $handler->renderPage();
+            }
 
             // Generate Extension
             IO::notice('Generating Extensions ...');

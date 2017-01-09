@@ -1,6 +1,6 @@
 <?php
 /**
- * Tools for Theme
+ * Tools for Render
  *
  * @package     Pointless
  * @author      ScarWu
@@ -13,7 +13,7 @@ namespace Pointless\Extend;
 use Pointless\Library\Resource;
 use Pointless\Library\Helper;
 
-trait ThemeTools
+trait RenderTools
 {
     /**
      * Render HTML

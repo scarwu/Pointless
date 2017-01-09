@@ -10,9 +10,11 @@
 
 namespace Pointless\Extend;
 
+use Pointless\Extend\RenderTools;
+
 abstract class Extension
 {
-    use ThemeTools;
+    use RenderTools;
 
     /**
      * Run Extension

@@ -24,11 +24,19 @@ class Page extends ThemeHandler
     }
 
     /**
-     * Generate Data
+     * Render Block
      *
      * @param string
      */
-    public function gen()
+    public function renderBlock($block_name)
+    {
+        return false;
+    }
+
+    /**
+     * Render Page
+     */
+    public function renderPage()
     {
         $quantity = Resource::get('config')['post']['article']['quantity'];
         $total = ceil(count($this->list) / $quantity);

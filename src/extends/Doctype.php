@@ -12,13 +12,13 @@ namespace Pointless\Extend;
 
 abstract class Doctype
 {
-    protected $id;
+    protected $type;
     protected $name;
     protected $question;
 
     protected function __construct()
     {
-        $this->id = null;
+        $this->type = null;
         $this->name = null;
         $this->question = [];
     }
@@ -27,9 +27,9 @@ abstract class Doctype
 
     abstract public function postHandleAndGetResult($post);
 
-    final public function getID()
+    final public function getType()
     {
-        return $this->id;
+        return $this->type;
     }
 
     final public function getName()

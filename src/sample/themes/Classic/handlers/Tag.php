@@ -40,24 +40,44 @@ class Tag extends ThemeHandler
     }
 
     /**
-     * Get Side Data
-     *
-     * @return array
-     */
-    public function getSideData()
-    {
-        $data['blog'] = Resource::get('config')['blog'];
-        $data['list'] = $this->list;
-
-        return $data;
-    }
-
-    /**
-     * Generate Data
+     * Render Block
      *
      * @param string
      */
-    public function gen()
+    public function renderBlock($block_name)
+    {
+        $views = Resource::get('theme')['views'];
+
+        if (!isset($views[$block_name])) {
+            return false;
+        }
+
+        if (!in_array('tag', $views[$block_name])) {
+            return false;
+        }
+
+        $block = Resource::get('block');
+
+        if (null === $block) {
+            $block = [];
+        }
+
+        if (!isset($block[$block_name])) {
+            $block[$block_name] = '';
+        }
+
+        $block[$block_name] .= $this->render([
+            'blog' => Resource::get('config')['blog'],
+            'list' => $this->list
+        ], "{$block_name}/tag.php");
+
+        Resource::set('block', $block);
+    }
+
+    /**
+     * Render Page
+     */
+    public function renderPage()
     {
         $first = null;
         $count = 0;
