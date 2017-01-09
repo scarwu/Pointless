@@ -20,13 +20,13 @@ class Tag extends ThemeHandler
     {
         $this->type = 'tag';
 
-        foreach (Resource::get('post')['article'] as $value) {
-            foreach ($value['tag'] as $tag) {
+        foreach (Resource::get('post:article') as $post) {
+            foreach ($post['tag'] as $tag) {
                 if (!isset($this->list[$tag])) {
                     $this->list[$tag] = [];
                 }
 
-                $this->list[$tag][] = $value;
+                $this->list[$tag][] = $post;
             }
         }
 
@@ -46,7 +46,7 @@ class Tag extends ThemeHandler
      */
     public function renderBlock($blockName)
     {
-        $views = Resource::get('theme')['views'];
+        $views = Resource::get('attr:theme')['views'];
 
         if (!isset($views[$blockName])) {
             return false;
@@ -67,7 +67,7 @@ class Tag extends ThemeHandler
         }
 
         $block[$blockName] .= $this->render([
-            'blog' => Resource::get('config')['blog'],
+            'blog' => Resource::get('attr:config')['blog'],
             'list' => $this->list
         ], "{$blockName}/tag.php");
 
@@ -84,7 +84,7 @@ class Tag extends ThemeHandler
         $total = count($this->list);
         $keys = array_keys($this->list);
 
-        $blog = Resource::get('config')['blog'];
+        $blog = Resource::get('attr:config')['blog'];
 
         foreach ($this->list as $index => $postList) {
             IO::log("Building tag/{$index}");
@@ -139,13 +139,13 @@ class Tag extends ThemeHandler
         $this->createIndex("/tag/{$first}/index.html", 'tag/index.html');
     }
 
-    private function createDateList($list)
+    private function createDateList($postList)
     {
         $result = [];
 
-        foreach ($list as $article) {
-            $year = $article['year'];
-            $month = $article['month'];
+        foreach ($postList as $post) {
+            $year = $post['year'];
+            $month = $post['month'];
 
             if (!isset($result[$year])) {
                 $result[$year] = [];
@@ -155,7 +155,7 @@ class Tag extends ThemeHandler
                 $result[$year][$month] = [];
             }
 
-            $result[$year][$month][] = $article;
+            $result[$year][$month][] = $post;
         }
 
         return $result;

@@ -19,7 +19,7 @@ class Article extends ThemeHandler
     public function __construct()
     {
         $this->type = 'article';
-        $this->list = Resource::get('post')['article'];
+        $this->list = Resource::get('post:article');
     }
 
     /**
@@ -41,7 +41,7 @@ class Article extends ThemeHandler
         $total = count($this->list);
         $keys = array_keys($this->list);
 
-        $blog = Resource::get('config')['blog'];
+        $blog = Resource::get('attr:config')['blog'];
 
         foreach ($this->list as $post) {
             IO::log("Building article/{$post['url']}");

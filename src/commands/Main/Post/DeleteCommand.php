@@ -40,7 +40,7 @@ class DeleteCommand extends Command
     {
         $formatList = [];
 
-        foreach (Resource::get('constant')['formats'] as $index => $subClassName) {
+        foreach (Resource::get('attr:constant')['formats'] as $index => $subClassName) {
             $className = 'Pointless\\Format\\' . ucfirst($subClassName);
             $formatList[$index] = new $className;
 

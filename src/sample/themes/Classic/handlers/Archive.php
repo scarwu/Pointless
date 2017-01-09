@@ -20,12 +20,14 @@ class Archive extends ThemeHandler
     {
         $this->type = 'archive';
 
-        foreach (Resource::get('post')['article'] as $index => $value) {
-            if (!isset($this->list[$value['year']])) {
-                $this->list[$value['year']] = [];
+        foreach (Resource::get('post:article') as $post) {
+            $year = $post['year'];
+
+            if (!isset($this->list[$year])) {
+                $this->list[$year] = [];
             }
 
-            $this->list[$value['year']][] = $value;
+            $this->list[$year][] = $post;
         }
     }
 
@@ -36,7 +38,7 @@ class Archive extends ThemeHandler
      */
     public function renderBlock($blockName)
     {
-        $views = Resource::get('theme')['views'];
+        $views = Resource::get('attr:theme')['views'];
 
         if (!isset($views[$blockName])) {
             return false;
@@ -57,7 +59,7 @@ class Archive extends ThemeHandler
         }
 
         $block[$blockName] .= $this->render([
-            'blog' => Resource::get('config')['blog'],
+            'blog' => Resource::get('attr:config')['blog'],
             'list' => $this->list
         ], "{$blockName}/archive.php");
 
@@ -74,7 +76,7 @@ class Archive extends ThemeHandler
         $total = count($this->list);
         $keys = array_keys($this->list);
 
-        $blog = Resource::get('config')['blog'];
+        $blog = Resource::get('attr:config')['blog'];
 
         foreach ($this->list as $index => $postList) {
             IO::log("Building archive/{$index}");

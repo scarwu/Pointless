@@ -19,7 +19,7 @@ class Page extends ThemeHandler
     public function __construct()
     {
         $this->type = 'page';
-        $this->list = Resource::get('post')['article'];
+        $this->list = Resource::get('post:article');
     }
 
     /**
@@ -37,10 +37,10 @@ class Page extends ThemeHandler
      */
     public function renderPage()
     {
-        $quantity = Resource::get('config')['post']['article']['quantity'];
+        $quantity = Resource::get('attr:config')['post']['article']['quantity'];
         $total = ceil(count($this->list) / $quantity);
 
-        $blog = Resource::get('config')['blog'];
+        $blog = Resource::get('attr:config')['blog'];
 
         for ($index = 1; $index <= $total; $index++) {
             IO::log("Building page/{$index}");

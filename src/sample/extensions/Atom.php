@@ -23,8 +23,8 @@ class Atom extends Extension
     {
         IO::log('Building Atom');
 
-        $quantity = Resource::get('config')['extension']['atom']['quantity'];
-        $blog = Resource::get('config')['blog'];
+        $quantity = Resource::get('attr:config')['extension']['atom']['quantity'];
+        $blog = Resource::get('attr:config')['blog'];
         $blog['url'] = $blog['dn'] . $blog['base'];
 
         $count = 0;
@@ -54,12 +54,12 @@ class Atom extends Extension
             $atom .= "\t</author>\n";
         }
 
-        foreach (Resource::get('post')['article'] as $article) {
-            $title = $article['title'];
-            $url = "{$blog['url']}article/{$article['url']}";
+        foreach (Resource::get('post:article') as $post) {
+            $title = $post['title'];
+            $url = "{$blog['url']}article/{$post['url']}";
             $uuid = $this->uuid($url);
-            $date = date(DATE_ATOM, $article['timestamp']);
-            $summary = $article['content'];
+            $date = date(DATE_ATOM, $post['timestamp']);
+            $summary = $post['content'];
 
             $atom .= "\t<entry>\n";
             $atom .= "\t\t<title type=\"html\"><![CDATA[{$title}]]></title>\n";

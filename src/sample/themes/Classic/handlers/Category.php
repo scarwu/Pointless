@@ -20,12 +20,14 @@ class Category extends ThemeHandler
     {
         $this->type = 'category';
 
-        foreach (Resource::get('post')['article'] as $value) {
-            if (!isset($this->list[$value['category']])) {
-                $this->list[$value['category']] = [];
+        foreach (Resource::get('post:article') as $post) {
+            $category = $post['category'];
+
+            if (!isset($this->list[$category])) {
+                $this->list[$category] = [];
             }
 
-            $this->list[$value['category']][] = $value;
+            $this->list[$category][] = $post;
         }
 
         uasort($this->list, function ($a, $b) {
@@ -44,7 +46,7 @@ class Category extends ThemeHandler
      */
     public function renderBlock($blockName)
     {
-        $views = Resource::get('theme')['views'];
+        $views = Resource::get('attr:theme')['views'];
 
         if (!isset($views[$blockName])) {
             return false;
@@ -65,7 +67,7 @@ class Category extends ThemeHandler
         }
 
         $block[$blockName] .= $this->render([
-            'blog' => Resource::get('config')['blog'],
+            'blog' => Resource::get('attr:config')['blog'],
             'list' => $this->list
         ], "{$blockName}/category.php");
 
@@ -82,7 +84,7 @@ class Category extends ThemeHandler
         $total = count($this->list);
         $keys = array_keys($this->list);
 
-        $blog = Resource::get('config')['blog'];
+        $blog = Resource::get('attr:config')['blog'];
 
         foreach ($this->list as $index => $postList) {
             IO::log("Building category/{$index}");

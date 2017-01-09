@@ -44,7 +44,7 @@ class AddCommand extends Command
     {
         $formatList = [];
 
-        foreach (Resource::get('constant')['formats'] as $index => $subClassName) {
+        foreach (Resource::get('attr:constant')['formats'] as $index => $subClassName) {
             $className = 'Pointless\\Format\\' . ucfirst($subClassName);
             $formatList[$index] = new $className;
 
@@ -67,7 +67,7 @@ class AddCommand extends Command
         }
 
         // Convert Encoding
-        $encoding = Resource::get('config')['encoding'];
+        $encoding = Resource::get('attr:config')['encoding'];
 
         if (null !== $encoding) {
             foreach ($input as $key => $value) {

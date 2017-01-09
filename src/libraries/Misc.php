@@ -72,10 +72,10 @@ EOF;
             copy(APP_ROOT . '/sample/config.php', BLOG_ROOT . '/config.php');
         }
 
-        // Require Config
+        // Require Config Attr
         require BLOG_ROOT . '/config.php';
 
-        Resource::set('config', $config);
+        Resource::set('attr:config', $config);
 
         // Define Path
         define('BLOG_BUILD', BLOG_ROOT . '/build');
@@ -146,7 +146,7 @@ EOF;
      */
     public static function editFile($path)
     {
-        $editor = Resource::get('config')['editor'];
+        $editor = Resource::get('attr:config')['editor'];
 
         if (!Utility::commandExists($editor)) {
             IO::error("System command \"{$editor}\" is not found.");

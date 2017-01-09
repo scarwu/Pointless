@@ -43,10 +43,10 @@ class BuildCommand extends Command
             return false;
         }
 
-        // Load Theme Config
+        // Require Theme Attr
         require BLOG_THEME . '/theme.php';
 
-        Resource::set('theme', $theme);
+        Resource::set('attr:theme', $theme);
 
         // Set Loader
         Loader::set('Pointless\Handler', BLOG_THEME . '/handlers');
@@ -59,7 +59,7 @@ class BuildCommand extends Command
      */
     public function run()
     {
-        $blog = Resource::get('config')['blog'];
+        $blog = Resource::get('attr:config')['blog'];
         $startTime = microtime(true);
         $startMemory = memory_get_usage();
 
@@ -123,7 +123,7 @@ class BuildCommand extends Command
             $formatList = [];
             $result = [];
 
-            foreach (Resource::get('constant')['formats'] as $subClassName) {
+            foreach (Resource::get('attr:constant')['formats'] as $subClassName) {
                 $className = 'Pointless\\Format\\' . ucfirst($subClassName);
 
                 $format = new $className;
@@ -140,7 +140,6 @@ class BuildCommand extends Command
                 if (!$post['publish']) {
                     continue;
                 }
-
                 if (!isset($formatList[$post['type']])) {
                     continue;
                 }
@@ -149,22 +148,24 @@ class BuildCommand extends Command
                 $result[$post['type']][] = $formatList[$post['type']]->postHandleAndGetResult($post);
             }
 
-            Resource::set('post', $result);
+            foreach ($result as $type => $post) {
+                Resource::set("post:{$type}", $post);
+            }
 
             // Rendering HTML Pages
             IO::notice('Rendering HTML ...');
 
-            foreach (Resource::get('theme')['handlers'] as $subClassName) {
+            foreach (Resource::get('attr:theme')['handlers'] as $subClassName) {
                 $className = 'Pointless\\Handler\\' . ucfirst($subClassName);
 
                 $handler = new $className;
-                $type = $className->getType();
+                $type = $handler->getType();
 
                 $handlerList[$type] = new $handler;
             }
 
             // Render Block
-            foreach (Resource::get('theme')['views'] as $blockName => $typeList) {
+            foreach (Resource::get('attr:theme')['views'] as $blockName => $typeList) {
                 foreach ($typeList as $type) {
                     $handlerList[$type]->renderBlock($blockName);
                 }
@@ -178,7 +179,7 @@ class BuildCommand extends Command
             // Generate Extension
             IO::notice('Generating Extensions ...');
 
-            foreach (Resource::get('theme')['extensions'] as $subClassName) {
+            foreach (Resource::get('attr:theme')['extensions'] as $subClassName) {
                 $className = 'Pointless\\Extension\\' . ucfirst($subClassName);
                 (new $className)->run();
             }
@@ -202,7 +203,7 @@ class BuildCommand extends Command
 
         $cssPack = new CSS();
 
-        foreach (Resource::get('theme')['assets']['styles'] as $filename) {
+        foreach (Resource::get('attr:theme')['assets']['styles'] as $filename) {
             $filename = preg_replace('/.css$/', '', $filename);
 
             if (!file_exists(BLOG_THEME . "/assets/styles/{$filename}.css")) {
@@ -226,7 +227,7 @@ class BuildCommand extends Command
 
         $jsPack = new JS();
 
-        foreach (Resource::get('theme')['assets']['scripts'] as $filename) {
+        foreach (Resource::get('attr:theme')['assets']['scripts'] as $filename) {
             $filename = preg_replace('/.js$/', '', $filename);
 
             if (!file_exists(BLOG_THEME . "/assets/scripts/{$filename}.js")) {

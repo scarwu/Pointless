@@ -52,7 +52,7 @@ class Article extends Format
 
     public function postHandleAndGetResult($post)
     {
-        $format = Resource::get('config')['post']['article']['format'];
+        $format = Resource::get('attr:config')['post']['article']['format'];
         $format = trim($format, '/');
 
         // Time information

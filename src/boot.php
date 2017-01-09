@@ -23,11 +23,10 @@ NanoCLI\Loader::set('Pointless\Format', APP_ROOT . '/formats');
 // Loader Register
 NanoCLI\Loader::register();
 
-// Require Constant
+// Require Constant Attr
 require APP_ROOT . '/constant.php';
 
-// Set Resource Constant
-Pointless\Library\Resource::set('constant', $constant);
+Pointless\Library\Resource::set('attr:constant', $constant);
 
 // Define Variables
 define('BUILD_VERSION', $constant['build']['version']);

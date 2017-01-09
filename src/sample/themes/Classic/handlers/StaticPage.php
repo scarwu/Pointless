@@ -19,7 +19,7 @@ class StaticPage extends ThemeHandler
     public function __construct()
     {
         $this->type = 'staticPage';
-        $this->list = Resource::get('post')['staticPage'];
+        $this->list = Resource::get('post:staticPage');
     }
 
     /**
@@ -27,7 +27,7 @@ class StaticPage extends ThemeHandler
      *
      * @param string
      */
-    public function renderBlock($block_name)
+    public function renderBlock($blockName)
     {
         return false;
     }
@@ -37,7 +37,7 @@ class StaticPage extends ThemeHandler
      */
     public function renderPage()
     {
-        $blog = Resource::get('config')['blog'];
+        $blog = Resource::get('attr:config')['blog'];
 
         foreach ($this->list as $post) {
             IO::log("Building {$post['url']}");
