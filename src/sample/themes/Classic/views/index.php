@@ -11,7 +11,7 @@ use Pointless\Library\Helper;
     <title><?=$blog['title']?></title>
 
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css">
-    <link rel="stylesheet" href="<?=$blog['base']?>theme/main.css">
+    <link rel="stylesheet" href="<?=$blog['base']?>assets/styles.css">
 </head>
 <body>
     <div id="main">
@@ -62,6 +62,6 @@ use Pointless\Library\Helper;
     </script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.1/modernizr.min.js" async></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/highlight.min.js"></script>
-    <script src="<?=$blog['base']?>theme/main.js"></script>
+    <script src="<?=$blog['base']?>assets/scripts.js"></script>
 </body>
 </html>

@@ -66,8 +66,8 @@ class BuildCommand extends Command
         if ($this->hasOptions('css')) {
             IO::notice('Clean Files ...');
 
-            if (file_exists(BLOG_BUILD . '/theme/main.css')) {
-                unlink(BLOG_BUILD . '/theme/main.css');
+            if (file_exists(BLOG_BUILD . '/assets/styles.css')) {
+                unlink(BLOG_BUILD . '/assets/styles.css');
             }
 
             IO::notice('Compress Assets ...');
@@ -78,8 +78,8 @@ class BuildCommand extends Command
         if ($this->hasOptions('js')) {
             IO::notice('Clean Files ...');
 
-            if (file_exists(BLOG_BUILD . '/theme/main.js')) {
-                unlink(BLOG_BUILD . '/theme/main.js');
+            if (file_exists(BLOG_BUILD . '/assets/scripts.js')) {
+                unlink(BLOG_BUILD . '/assets/scripts.js');
             }
 
             IO::notice('Compress Assets ...');
@@ -100,6 +100,7 @@ class BuildCommand extends Command
 
             // Copy Resource Files
             IO::notice('Copy Resource Files ...');
+
             Utility::copy(BLOG_STATIC, BLOG_BUILD);
 
             if (file_exists(BLOG_THEME . '/assets/fonts')) {
@@ -124,8 +125,7 @@ class BuildCommand extends Command
             // Generate HTML Pages
             IO::notice('Generating HTML ...');
 
-            $html = new HTMLGenerator();
-            $html->run();
+            (new HTMLGenerator)->run();
 
             // Generate Extension
             IO::notice('Generating Extensions ...');
@@ -194,6 +194,7 @@ class BuildCommand extends Command
 
             if (!file_exists(BLOG_THEME . "/assets/styles/{$filename}.css")) {
                 IO::warning("CSS file \"{$filename}.css\" not found.");
+
                 continue;
             }
 
@@ -217,6 +218,7 @@ class BuildCommand extends Command
 
             if (!file_exists(BLOG_THEME . "/assets/scripts/{$filename}.js")) {
                 IO::warning("Javascript file \"{$filename}.js\" not found.");
+
                 continue;
             }
 
