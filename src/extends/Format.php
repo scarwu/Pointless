@@ -1,6 +1,6 @@
 <?php
 /**
- * Document Type
+ * Document Format
  *
  * @package     Pointless
  * @author      ScarWu
@@ -10,18 +10,22 @@
 
 namespace Pointless\Extend;
 
-abstract class Doctype
+abstract class Format
 {
-    protected $type;
-    protected $name;
-    protected $question;
+    /**
+     * @var string $type
+     */
+    protected $type = null;
 
-    protected function __construct()
-    {
-        $this->type = null;
-        $this->name = null;
-        $this->question = [];
-    }
+    /**
+     * @var string $name
+     */
+    protected $name = null;
+
+    /**
+     * @var mixed $question
+     */
+    protected $question = [];
 
     abstract public function inputHandleAndSaveFile($input);
 
@@ -48,20 +52,21 @@ abstract class Doctype
         $title = $info['title'];
         $hedaer = $info['header'];
 
-        $savepath = BLOG_MARKDOWN . "/{$filename}";
+        $filepath = BLOG_POST . "/{$filename}";
 
-        if (file_exists($savepath)) {
+        if (file_exists($filepath)) {
             return [$filename, null];
         }
 
         // Convert to JSON
         $json = json_encode($hedaer, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
-        // Create Markdown
-        file_put_contents($savepath, "<!--{$json}-->\n\n# {$title}\n\n");
+        // Create Post
+        file_put_contents($filepath, "<!--{$json}-->\n\n# {$title}\n\n");
 
-        $this->savepath = $savepath;
-
-        return [$filename, $savepath];
+        return [
+            $filename,
+            $filepath
+        ];
     }
 }

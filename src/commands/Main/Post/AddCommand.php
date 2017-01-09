@@ -42,19 +42,19 @@ class AddCommand extends Command
      */
     public function run()
     {
-        $doctype_list = [];
+        $formatList = [];
 
-        foreach (Resource::get('constant')['doctypes'] as $index => $name) {
-            $class_name = 'Pointless\\Doctype\\' . ucfirst($name) . 'Doctype';
-            $doctype_list[$index] = new $class_name;
+        foreach (Resource::get('constant')['formats'] as $index => $subClassName) {
+            $className = 'Pointless\\Format\\' . ucfirst($subClassName);
+            $formatList[$index] = new $className;
 
-            IO::log(sprintf('[ %3d] ', $index) . $doctype_list[$index]->getName());
+            IO::log(sprintf('[ %3d] ', $index) . $formatList[$index]->getName());
         }
 
-        $index = IO::ask("\nSelect Document Type:\n-> ", function ($answer) use ($doctype_list) {
+        $index = IO::ask("\nSelect Document Format:\n-> ", function ($answer) use ($formatList) {
             return is_numeric($answer)
                 && $answer >= 0
-                && $answer < count($doctype_list);
+                && $answer < count($formatList);
         });
 
         IO::writeln();
@@ -62,7 +62,7 @@ class AddCommand extends Command
         // Ask Question
         $input = [];
 
-        foreach ($doctype_list[$index]->getQuestion() as $question) {
+        foreach ($formatList[$index]->getQuestion() as $question) {
             $input[$question[0]] = IO::ask($question[1]);
         }
 
@@ -76,17 +76,17 @@ class AddCommand extends Command
         }
 
         // Save File
-        list($filename, $markdown_path) = $doctype_list[$index]->inputHandleAndSaveFile($input);
+        list($filename, $filepath) = $formatList[$index]->inputHandleAndSaveFile($input);
 
-        if (null === $markdown_path) {
-            IO::error($doctype_list[$index]->getName() . " {$filename} is exsist.");
+        if (null === $filepath) {
+            IO::error($formatList[$index]->getName() . " {$filename} is exsist.");
 
             return false;
         }
 
-        IO::notice($doctype_list[$index]->getName() . " {$filename} was created.");
+        IO::notice($formatList[$index]->getName() . " {$filename} was created.");
 
         // Call CLI Editor to open file
-        Misc::editFile($markdown_path);
+        Misc::editFile($filepath);
     }
 }

@@ -38,35 +38,35 @@ class DeleteCommand extends Command
 
     public function run()
     {
-        $doctype_list = [];
+        $formatList = [];
 
-        foreach (Resource::get('constant')['doctypes'] as $index => $name) {
-            $class_name = 'Pointless\\Doctype\\' . ucfirst($name) . 'Doctype';
-            $doctype_list[$index] = new $class_name;
+        foreach (Resource::get('constant')['formats'] as $index => $subClassName) {
+            $className = 'Pointless\\Format\\' . ucfirst($subClassName);
+            $formatList[$index] = new $className;
 
-            IO::log(sprintf('[ %3d] ', $index) . $doctype_list[$index]->getName());
+            IO::log(sprintf('[ %3d] ', $index) . $formatList[$index]->getName());
         }
 
-        $index = IO::ask("\nSelect Document Type:\n-> ", function ($answer) use ($doctype_list) {
+        $index = IO::ask("\nSelect Document Format:\n-> ", function ($answer) use ($formatList) {
             return is_numeric($answer)
                 && $answer >= 0
-                && $answer < count($doctype_list);
+                && $answer < count($formatList);
         });
 
         IO::writeln();
 
         // Load Markdown
-        $doctype = $doctype_list[$index]->getType();
-        $markdown_list = Misc::getMarkdownList($doctype, true);
+        $type = $formatList[$index]->getType();
+        $postList = Misc::getPostList($type, true);
 
-        if (0 === count($markdown_list)) {
+        if (0 === count($postList)) {
             IO::error('No post(s).');
 
             return false;
         }
 
         // Get Post Number
-        foreach ($markdown_list as $index => $post) {
+        foreach ($postList as $index => $post) {
             $text = $post['publish']
                 ? sprintf("[ %3d] ", $index) . $post['title']
                 : sprintf("[*%3d] ", $index) . $post['title'];
@@ -74,15 +74,15 @@ class DeleteCommand extends Command
             IO::log($text);
         }
 
-        $index = IO::ask("\nEnter Number:\n-> ", function ($answer) use ($markdown_list) {
+        $index = IO::ask("\nEnter Number:\n-> ", function ($answer) use ($postList) {
             return is_numeric($answer)
                 && $answer >= 0
-                && $answer < count($markdown_list);
+                && $answer < count($postList);
         });
 
         // Get Info
-        $path = $markdown_list[array_keys($markdown_list)[$index]]['path'];
-        $title = $markdown_list[array_keys($markdown_list)[$index]]['title'];
+        $path = $postList[array_keys($postList)[$index]]['path'];
+        $title = $postList[array_keys($postList)[$index]]['title'];
 
         if ('yes' === IO::ask("\nAre you sure delete post \"{$title}\"? (yes)\n-> ", null, 'red')) {
             unlink($path);

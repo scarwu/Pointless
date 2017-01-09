@@ -29,7 +29,7 @@ if (file_exists("{$root}/temp")) {
 
 foreach ([
     'commands',
-    'doctypes',
+    'formats',
     'extends',
     'libraries',
     'sample',

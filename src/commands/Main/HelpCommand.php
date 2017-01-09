@@ -35,10 +35,10 @@ class HelpCommand extends Command
         Misc::showBanner();
 
         if ($this->hasArguments()) {
-            list($class_name) = $this->findCommand('Pointless\Command\MainCommand', $this->getArguments());
+            list($className) = $this->findCommand('Pointless\Command\MainCommand', $this->getArguments());
 
-            if ($class_name) {
-                $class = new $class_name;
+            if ($className) {
+                $class = new $className;
                 $class->help();
             } else {
                 $command = $this->getArguments()[0];

@@ -42,9 +42,9 @@ class ConfigCommand extends Command
      */
     public function run()
     {
-        $config_path = BLOG_ROOT . '/config.php';
+        $configPath = BLOG_ROOT . '/config.php';
 
         // Call CLI Editor to open file
-        Misc::editFile($config_path);
+        Misc::editFile($configPath);
     }
 }

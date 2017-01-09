@@ -1,6 +1,6 @@
 <?php
 /**
- * Article Document Type
+ * Article Document Format
  *
  * @package     Pointless
  * @author      ScarWu
@@ -8,18 +8,16 @@
  * @link        http://gTypeithub.com/scarwu/Pointless
  */
 
-namespace Pointless\Doctype;
+namespace Pointless\Format;
 
 use Pointless\Library\Utility;
 use Pointless\Library\Resource;
-use Pointless\Extend\Doctype;
+use Pointless\Extend\Format;
 
-class ArticleDoctype extends Doctype
+class Article extends Format
 {
     public function __construct()
     {
-        parent::__construct();
-
         $this->type = 'article';
         $this->name = 'Blog Article';
         $this->question = [

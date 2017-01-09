@@ -46,13 +46,15 @@ class PostCommand extends Command
     {
         IO::notice('Post Status:');
 
-        foreach (Resource::get('constant')['doctypes'] as $name) {
-            $class_name = 'Pointless\\Doctype\\' . ucfirst($name) . 'Doctype';
-            $doctype_name = (new $class_name)->getName();
+        foreach (Resource::get('constant')['formats'] as $subClassName) {
+            $className = 'Pointless\\Format\\' . ucfirst($subClassName);
+            $format = new $className;
 
-            $count = count(Misc::getMarkdownList(lcfirst($name)));
+            $name = $format->getName();
+            $type = $format->getType();
+            $count = count(Misc::getPostList($type));
 
-            IO::log("{$count} {$doctype_name} post(s).");
+            IO::log("{$count} {$name} post(s).");
         }
 
         IO::writeln();

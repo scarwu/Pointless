@@ -43,11 +43,11 @@ class StartCommand extends Command
      */
     public function run()
     {
-        $pid_list = [];
-        $route_script = ('production' === APP_ENV ? HOME_ROOT : APP_ROOT) . '/sample/route.php';
+        $pidList = [];
+        $routeScript = ('production' === APP_ENV ? HOME_ROOT : APP_ROOT) . '/sample/route.php';
         $port = $this->hasConfigs() ? $this->getConfigs('port') : 3000;
         $root = HOME_ROOT;
-        $command = "php -S localhost:{$port} -t {$root} {$route_script}";
+        $command = "php -S localhost:{$port} -t {$root} {$routeScript}";
 
         // Startgin Server
         IO::notice('Starting Server');
@@ -68,13 +68,13 @@ class StartCommand extends Command
         exec("ps {$pid}", $output);
 
         if (count($output) > 1) {
-            $pid_list[$pid] = [
+            $pidList[$pid] = [
                 'command' => $command,
                 'root' => $root,
                 'port' => $port
             ];
 
-            file_put_contents(HOME_ROOT . '/pid', json_encode($pid_list));
+            file_put_contents(HOME_ROOT . '/pid', json_encode($pidList));
 
             IO::info('Server is start.');
             IO::log("Doc Root   - {$root}");

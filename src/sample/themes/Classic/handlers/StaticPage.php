@@ -18,9 +18,8 @@ class StaticPage extends ThemeHandler
 {
     public function __construct()
     {
-        parent::__construct();
-
-        $this->list = Resource::get('post')['static'];
+        $this->type = 'staticPage';
+        $this->list = Resource::get('post')['staticPage'];
     }
 
     /**

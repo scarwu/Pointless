@@ -18,8 +18,7 @@ class Article extends ThemeHandler
 {
     public function __construct()
     {
-        parent::__construct();
-
+        $this->type = 'article';
         $this->list = Resource::get('post')['article'];
     }
 
@@ -28,7 +27,7 @@ class Article extends ThemeHandler
      *
      * @param string
      */
-    public function renderBlock($block_name)
+    public function renderBlock($blockName)
     {
         return false;
     }
@@ -59,7 +58,7 @@ class Article extends ThemeHandler
                 $url = $this->list[$key]['url'];
 
                 $paging['p_title'] = $title;
-                $paging['p_url'] = "{$blog['base']}article/$url";
+                $paging['p_url'] = "{$blog['base']}article/{$url}";
             }
 
             if (isset($keys[$count + 1])) {
@@ -68,28 +67,28 @@ class Article extends ThemeHandler
                 $url = $this->list[$key]['url'];
 
                 $paging['n_title'] = $title;
-                $paging['n_url'] = "{$blog['base']}article/$url";
+                $paging['n_url'] = "{$blog['base']}article/{$url}";
             }
 
             $count++;
 
-            $ext = [];
-            $ext['title'] = "{$post['title']} | {$blog['name']}";
-            $ext['url'] = $blog['dn'] . $blog['base'];
-            $ext['description'] = '' !== $post['description']
+            $extBlog = [];
+            $extBlog['title'] = "{$post['title']} | {$blog['name']}";
+            $extBlog['url'] = $blog['dn'] . $blog['base'];
+            $extBlog['description'] = ('' !== $post['description'])
                 ? $post['description']
                 : $blog['description'];
 
             $block = Resource::get('block');
             $block['container'] = $this->render([
-                'blog' => array_merge($blog, $ext),
+                'blog' => array_merge($blog, $extBlog),
                 'post' => $post,
                 'paging' => $paging
             ], 'container/article.php');
 
             // Save HTML
             $this->save($post['url'], $this->render([
-                'blog' => array_merge($blog, $ext),
+                'blog' => array_merge($blog, $extBlog),
                 'post' => $post,
                 'block' => $block
             ], 'index.php'));

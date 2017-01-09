@@ -18,8 +18,7 @@ class Page extends ThemeHandler
 {
     public function __construct()
     {
-        parent::__construct();
-
+        $this->type = 'page';
         $this->list = Resource::get('post')['article'];
     }
 
@@ -43,11 +42,11 @@ class Page extends ThemeHandler
 
         $blog = Resource::get('config')['blog'];
 
-        for ($index = 1;$index <= $total;$index++) {
-            IO::log("Building page/$index");
+        for ($index = 1; $index <= $total; $index++) {
+            IO::log("Building page/{$index}");
 
             $post = [];
-            $post['url'] = "page/$index";
+            $post['url'] = "page/{$index}";
             $post['list'] = array_slice($this->list, $quantity * ($index - 1), $quantity);
 
             $paging = [];
@@ -64,20 +63,20 @@ class Page extends ThemeHandler
                 $paging['n_url'] = "{$blog['base']}page/" . ($index + 1);
             }
 
-            $ext = [];
-            $ext['title'] = $blog['name'];
-            $ext['url'] = $blog['dn'] . $blog['base'];
+            $extBlog = [];
+            $extBlog['title'] = $blog['name'];
+            $extBlog['url'] = $blog['dn'] . $blog['base'];
 
             $block = Resource::get('block');
             $block['container'] = $this->render([
-                'blog' => array_merge($blog, $ext),
+                'blog' => array_merge($blog, $extBlog),
                 'post' => $post,
                 'paging' => $paging
             ], 'container/page.php');
 
             // Save HTML
             $this->save($post['url'], $this->render([
-                'blog' => array_merge($blog, $ext),
+                'blog' => array_merge($blog, $extBlog),
                 'post' => $post,
                 'block' => $block
             ], 'index.php'));

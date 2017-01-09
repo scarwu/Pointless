@@ -60,8 +60,8 @@ class BuildCommand extends Command
     public function run()
     {
         $blog = Resource::get('config')['blog'];
-        $start = microtime(true);
-        $start_mem = memory_get_usage();
+        $startTime = microtime(true);
+        $startMemory = memory_get_usage();
 
         if ($this->hasOptions('css')) {
             IO::notice('Clean Files ...');
@@ -118,81 +118,79 @@ class BuildCommand extends Command
             $this->JSCompress();
 
             // Initialize Resource Pool
-            IO::notice('Load Markdown Files ...');
+            IO::notice('Load Post Files ...');
 
-            $this->loadMarkdown();
+            $formatList = [];
+            $result = [];
+
+            foreach (Resource::get('constant')['formats'] as $subClassName) {
+                $className = 'Pointless\\Format\\' . ucfirst($subClassName);
+
+                $format = new $className;
+                $type = $format->getType();
+
+                $formatList[$type] = $format;
+                $result[$type] = [];
+            }
+
+            // Load Post
+            $postList = Misc::getPostList();
+
+            foreach ($postList as $post) {
+                if (!$post['publish']) {
+                    continue;
+                }
+
+                if (!isset($formatList[$post['type']])) {
+                    continue;
+                }
+
+                // Append Post to Result
+                $result[$post['type']][] = $formatList[$post['type']]->postHandleAndGetResult($post);
+            }
+
+            Resource::set('post', $result);
 
             // Rendering HTML Pages
             IO::notice('Rendering HTML ...');
 
-            foreach (Resource::get('theme')['handlers'] as $name) {
-                $class_name = 'Pointless\\Handler\\' . ucfirst($name);
-                $handler_list[lcfirst($name)] = new $class_name;
+            foreach (Resource::get('theme')['handlers'] as $subClassName) {
+                $className = 'Pointless\\Handler\\' . ucfirst($subClassName);
+
+                $handler = new $className;
+                $type = $className->getType();
+
+                $handlerList[$type] = new $handler;
             }
 
             // Render Block
-            foreach (Resource::get('theme')['views'] as $block_name => $name_list) {
-                foreach ($name_list as $name) {
-                    $handler_list[$name]->renderBlock($block_name);
+            foreach (Resource::get('theme')['views'] as $blockName => $typeList) {
+                foreach ($typeList as $type) {
+                    $handlerList[$type]->renderBlock($blockName);
                 }
             }
 
             // Render Page
-            foreach ($handler_list as $handler) {
+            foreach ($handlerList as $handler) {
                 $handler->renderPage();
             }
 
             // Generate Extension
             IO::notice('Generating Extensions ...');
 
-            foreach (Resource::get('theme')['extensions'] as $name) {
-                $class_name = 'Pointless\\Extension\\' . ucfirst($name);
-                (new $class_name)->run();
+            foreach (Resource::get('theme')['extensions'] as $subClassName) {
+                $className = 'Pointless\\Extension\\' . ucfirst($subClassName);
+                (new $className)->run();
             }
         }
 
-        $time = sprintf('%.3f', abs(microtime(true) - $start));
-        $mem = sprintf('%.3f', abs(memory_get_usage() - $start_mem) / 1024);
+        $time = sprintf('%.3f', abs(microtime(true) - $startTime));
+        $memory = sprintf('%.3f', abs(memory_get_usage() - $startMemory) / 1024);
 
-        IO::info("Generate finish, $time s and memory usage $mem KB.");
+        IO::info("Generate finish, {$time}s and memory usage {$memory}KB.");
 
         // Fix Permission
         Misc::fixPermission(BLOG_BUILD);
-    }
-
-    /**
-     * Load Markdown
-     */
-    private function loadMarkdown()
-    {
-        $doctype_list = [];
-        $result = [];
-
-        foreach (Resource::get('constant')['doctypes'] as $doctype) {
-            $class_name = 'Pointless\\Doctype\\' . ucfirst($doctype) . 'Doctype';
-            $doctype_list[lcfirst($doctype)] = new $class_name;
-            $result[lcfirst($doctype)] = [];
-        }
-
-        // Load Markdown
-        $markdown_list = Misc::getMarkdownList();
-
-        foreach ($markdown_list as $post) {
-            if (!$post['publish']) {
-                continue;
-            }
-
-            $type = $post['type'];
-
-            if (!isset($doctype_list[$type])) {
-                continue;
-            }
-
-            // Append Post to Result
-            $result[$type][] = $doctype_list[$type]->postHandleAndGetResult($post);
-        }
-
-        Resource::set('post', $result);
     }
 
     /**
@@ -202,7 +200,7 @@ class BuildCommand extends Command
     {
         IO::log('Compressing CSS');
 
-        $css_pack = new CSS();
+        $cssPack = new CSS();
 
         foreach (Resource::get('theme')['assets']['styles'] as $filename) {
             $filename = preg_replace('/.css$/', '', $filename);
@@ -213,10 +211,10 @@ class BuildCommand extends Command
                 continue;
             }
 
-            $css_pack->append(BLOG_THEME . "/assets/styles/{$filename}.css");
+            $cssPack->append(BLOG_THEME . "/assets/styles/{$filename}.css");
         }
 
-        $css_pack->save(BLOG_BUILD . '/assets/styles.css', true);
+        $cssPack->save(BLOG_BUILD . '/assets/styles.css', true);
     }
 
     /**
@@ -226,7 +224,7 @@ class BuildCommand extends Command
     {
         IO::log('Compressing Javascript');
 
-        $js_pack = new JS();
+        $jsPack = new JS();
 
         foreach (Resource::get('theme')['assets']['scripts'] as $filename) {
             $filename = preg_replace('/.js$/', '', $filename);
@@ -237,9 +235,9 @@ class BuildCommand extends Command
                 continue;
             }
 
-            $js_pack->append(BLOG_THEME . "/assets/scripts/{$filename}.js");
+            $jsPack->append(BLOG_THEME . "/assets/scripts/{$filename}.js");
         }
 
-        $js_pack->save(BLOG_BUILD . '/assets/scripts.js', false);
+        $jsPack->save(BLOG_BUILD . '/assets/scripts.js', false);
     }
 }

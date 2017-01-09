@@ -17,19 +17,24 @@ abstract class ThemeHandler
     use RenderTools;
 
     /**
-     * @var array
+     * @var string $type
      */
-    protected $list;
+    protected $type = null;
 
-    public function __construct()
+    /**
+     * @var mixed $list
+     */
+    protected $list = [];
+
+    final public function getType()
     {
-        $this->list = [];
+        return $this->type;
     }
 
     /**
      * Render Block
      */
-    abstract public function renderBlock($block_name);
+    abstract public function renderBlock($blockName);
 
     /**
      * Render Page

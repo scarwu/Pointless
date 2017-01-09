@@ -82,7 +82,7 @@ EOF;
         define('BLOG_DEPLOY', BLOG_ROOT . '/deploy');
         define('BLOG_STATIC', BLOG_ROOT . '/static');
         define('BLOG_EXTENSION', BLOG_ROOT . '/extensions');
-        define('BLOG_MARKDOWN', BLOG_ROOT . '/markdown');
+        define('BLOG_POST', BLOG_ROOT . '/posts');
 
         // Create Folders
         Utility::mkdir(BLOG_BUILD);
@@ -90,9 +90,9 @@ EOF;
         Utility::mkdir(BLOG_STATIC);
         Utility::mkdir(BLOG_EXTENSION);
 
-        // Copy Markdown
-        if (!file_exists(BLOG_MARKDOWN)) {
-            Utility::copy(APP_ROOT . '/sample/markdown', BLOG_MARKDOWN);
+        // Copy Post
+        if (!file_exists(BLOG_POST)) {
+            Utility::copy(APP_ROOT . '/sample/posts', BLOG_POST);
         }
 
         // Init Theme
@@ -160,26 +160,26 @@ EOF;
     }
 
     /**
-     * Get Markdown List
+     * Get Post List
      *
-     * @param string $doctype
-     * @param boolean $skip_content
+     * @param string $type
+     * @param boolean $skipContent
      *
      * @return array
      */
-    public static function getMarkdownList($doctype = null, $skip_content = false)
+    public static function getPostList($type = null, $skipContent = false)
     {
         $list = [];
 
         $parsedown = new Parsedown();
-        $handle = opendir(BLOG_MARKDOWN);
+        $handle = opendir(BLOG_POST);
 
         while ($filename = readdir($handle)) {
             if (!preg_match('/.md$/', $filename)) {
                 continue;
             }
 
-            $post = self::parseMarkdownFile($filename, $skip_content);
+            $post = self::parseMarkdownFile($filename, $skipContent);
 
             if (!$post) {
                 IO::error("Markdown parse error: {$filename}");
@@ -187,13 +187,13 @@ EOF;
                 exit(1);
             }
 
-            if ($doctype !== null && $doctype !== $post['type']) {
+            if ($type !== null && $type !== $post['type']) {
                 continue;
             }
 
-            $post['path'] = BLOG_MARKDOWN . "/{$filename}";
+            $post['path'] = BLOG_POST . "/{$filename}";
 
-            if (!$skip_content) {
+            if (!$skipContent) {
                 $post['content'] = $parsedown->text($post['content']);
             }
 
@@ -215,16 +215,16 @@ EOF;
      * Parse Markdown File
      *
      * @param string $filename
-     * @param boolean $skip_content
+     * @param boolean $skipContent
      *
      * @return string
      */
-    public static function parseMarkdownFile($filename, $skip_content = false)
+    public static function parseMarkdownFile($filename, $skipContent = false)
     {
         // Define Regular Expression Rule
         $regex = '/^(?:<!--({(?:.|\n)*})-->)\s*(?:#(.*))?((?:.|\n)*)/';
 
-        preg_match($regex, file_get_contents(BLOG_MARKDOWN . "/{$filename}"), $match);
+        preg_match($regex, file_get_contents(BLOG_POST . "/{$filename}"), $match);
 
         if (4 !== count($match)) {
             return false;
@@ -238,7 +238,7 @@ EOF;
 
         $post['title'] = trim($match[2]);
 
-        if (!$skip_content) {
+        if (!$skipContent) {
             $post['content'] = $match[3];
         }
 

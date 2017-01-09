@@ -15,10 +15,10 @@ date_default_timezone_set('Etc/UTC');
 require APP_ROOT . '/vendor/autoload.php';
 
 // Set Loader
-NanoCLI\Loader::set('Pointless\Extend', APP_ROOT . '/extends');
 NanoCLI\Loader::set('Pointless\Command', APP_ROOT . '/commands');
-NanoCLI\Loader::set('Pointless\Doctype', APP_ROOT . '/doctypes');
 NanoCLI\Loader::set('Pointless\Library', APP_ROOT . '/libraries');
+NanoCLI\Loader::set('Pointless\Extend', APP_ROOT . '/extends');
+NanoCLI\Loader::set('Pointless\Format', APP_ROOT . '/formats');
 
 // Loader Register
 NanoCLI\Loader::register();

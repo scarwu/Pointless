@@ -13,8 +13,8 @@ $constant = [
         'version' => '3.0.0',
         'timestamp' => time()
     ],
-    'doctypes' => [
-        'Static',
+    'formats' => [
+        'StaticPage',
         'Article'
     ]
 ];

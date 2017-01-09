@@ -18,7 +18,7 @@ class Category extends ThemeHandler
 {
     public function __construct()
     {
-        parent::__construct();
+        $this->type = 'category';
 
         foreach (Resource::get('post')['article'] as $value) {
             if (!isset($this->list[$value['category']])) {
@@ -42,15 +42,15 @@ class Category extends ThemeHandler
      *
      * @param string
      */
-    public function renderBlock($block_name)
+    public function renderBlock($blockName)
     {
         $views = Resource::get('theme')['views'];
 
-        if (!isset($views[$block_name])) {
+        if (!isset($views[$blockName])) {
             return false;
         }
 
-        if (!in_array('category', $views[$block_name])) {
+        if (!in_array('category', $views[$blockName])) {
             return false;
         }
 
@@ -60,14 +60,14 @@ class Category extends ThemeHandler
             $block = [];
         }
 
-        if (!isset($block[$block_name])) {
-            $block[$block_name] = '';
+        if (!isset($block[$blockName])) {
+            $block[$blockName] = '';
         }
 
-        $block[$block_name] .= $this->render([
+        $block[$blockName] .= $this->render([
             'blog' => Resource::get('config')['blog'],
             'list' => $this->list
-        ], "{$block_name}/category.php");
+        ], "{$blockName}/category.php");
 
         Resource::set('block', $block);
     }
@@ -84,16 +84,16 @@ class Category extends ThemeHandler
 
         $blog = Resource::get('config')['blog'];
 
-        foreach ($this->list as $index => $post_list) {
-            IO::log("Building category/$index");
+        foreach ($this->list as $index => $postList) {
+            IO::log("Building category/{$index}");
             if (null === $first) {
                 $first = $index;
             }
 
             $post = [];
-            $post['title'] ="Category: $index";
-            $post['url'] = "category/$index";
-            $post['list'] = $this->createDateList($post_list);
+            $post['title'] ="Category: {$index}";
+            $post['url'] = "category/{$index}";
+            $post['list'] = $this->createDateList($postList);
 
             $paging = [];
             $paging['index'] = $count + 1;
@@ -103,38 +103,38 @@ class Category extends ThemeHandler
                 $category = $keys[$count - 1];
 
                 $paging['p_title'] = $category;
-                $paging['p_url'] = "{$blog['base']}category/$category";
+                $paging['p_url'] = "{$blog['base']}category/{$category}";
             }
 
             if (isset($keys[$count + 1])) {
                 $category = $keys[$count + 1];
 
                 $paging['n_title'] = $category;
-                $paging['n_url'] = "{$blog['base']}category/$category";
+                $paging['n_url'] = "{$blog['base']}category/{$category}";
             }
 
             $count++;
 
-            $ext = [];
-            $ext['title'] = "{$post['title']} | {$blog['name']}";
-            $ext['url'] = $blog['dn'] . $blog['base'];
+            $extBlog = [];
+            $extBlog['title'] = "{$post['title']} | {$blog['name']}";
+            $extBlog['url'] = $blog['dn'] . $blog['base'];
 
             $block = Resource::get('block');
             $block['container'] = $this->render([
-                'blog' => array_merge($blog, $ext),
+                'blog' => array_merge($blog, $extBlog),
                 'post' => $post,
                 'paging' => $paging
             ], 'container/category.php');
 
             // Save HTML
             $this->save($post['url'], $this->render([
-                'blog' => array_merge($blog, $ext),
+                'blog' => array_merge($blog, $extBlog),
                 'post' => $post,
                 'block' => $block
             ], 'index.php'));
         }
 
-        $this->createIndex("category/$first/index.html", 'category/index.html');
+        $this->createIndex("category/{$first}/index.html", 'category/index.html');
     }
 
     private function createDateList($list)
@@ -142,15 +142,18 @@ class Category extends ThemeHandler
         $result = [];
 
         foreach ($list as $article) {
-            if (!isset($result[$article['year']])) {
-                $result[$article['year']] = [];
+            $year = $article['year'];
+            $month = $article['month'];
+
+            if (!isset($result[$year])) {
+                $result[$year] = [];
             }
 
-            if (!isset($result[$article['year']][$article['month']])) {
-                $result[$article['year']][$article['month']] = [];
+            if (!isset($result[$year][$month])) {
+                $result[$year][$month] = [];
             }
 
-            $result[$article['year']][$article['month']][] = $article;
+            $result[$year][$month][] = $article;
         }
 
         return $result;

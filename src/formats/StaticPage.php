@@ -1,6 +1,6 @@
 <?php
 /**
- * Static Page Document Type
+ * Static Page Document Format
  *
  * @package     Pointless
  * @author      ScarWu
@@ -8,19 +8,17 @@
  * @link        http://github.com/scarwu/Pointless
  */
 
-namespace Pointless\Doctype;
+namespace Pointless\Format;
 
 use Pointless\Library\Utility;
 use Pointless\Library\Resource;
-use Pointless\Extend\Doctype;
+use Pointless\Extend\Format;
 
-class StaticDoctype extends Doctype
+class StaticPage extends Format
 {
     public function __construct()
     {
-        parent::__construct();
-
-        $this->type = 'static';
+        $this->type = 'staticPage';
         $this->name = 'Static Page';
         $this->question = [
             ['title', "Enter Title:\n-> "],
