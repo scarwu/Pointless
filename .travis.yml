@@ -4,12 +4,16 @@ script:
   - mkdir test
   - cd test
   - php ../bin/poi
-  - php ../bin/poi home -i
-  - php ../bin/poi gen
+  - php ../bin/poi help
+  - php ../bin/poi home init ./blog
+  - php ../bin/poi home init ./blog2
+  - php ../bin/poi home set ./blog
+  - php ../bin/poi post
+  - php ../bin/poi build
+  - php ../bin/poi version
   - php ../bin/poi version
   - php ../bin/poi update
-  - php ../bin/poi update -u
+  - php ../bin/poi update -d
 language: php
 php:
-  - 5.4
-  - 5.5
+  - 7.0
