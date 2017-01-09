@@ -28,14 +28,20 @@ if (file_exists("{$root}/temp")) {
 }
 
 foreach ([
-    'src',
-    'src/vendor/autoload.php',
-    'src/vendor/composer',
-    'src/vendor/scarwu/pack/src',
-    'src/vendor/scarwu/nanocli/src',
-    'src/vendor/erusev/parsedown'
+    'commands',
+    'doctypes',
+    'extends',
+    'libraries',
+    'sample',
+    'boot.php',
+    'constant.php',
+    'vendor/autoload.php',
+    'vendor/composer',
+    'vendor/scarwu/pack/src',
+    'vendor/scarwu/nanocli/src',
+    'vendor/erusev/parsedown'
 ] as $path) {
-    Pointless\Library\Utility::copy("{$root}/{$path}", "{$root}/temp/{$path}");
+    Pointless\Library\Utility::copy("{$root}/src/{$path}", "{$root}/temp/{$path}");
 }
 
 // Clear Phar
