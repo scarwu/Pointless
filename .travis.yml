@@ -1,19 +1,19 @@
 script:
   - composer install
-  - php ./script/build.php
+  - php ./scripts/build.php
   - mkdir test
   - cd test
-  - php ../bin/poi
-  - php ../bin/poi help
-  - php ../bin/poi home init ./blog
-  - php ../bin/poi home init ./blog2
-  - php ../bin/poi home set ./blog
-  - php ../bin/poi post
-  - php ../bin/poi build
-  - php ../bin/poi version
-  - php ../bin/poi version
-  - php ../bin/poi update
-  - php ../bin/poi update -d
+  - php ../poi.phar
+  - php ../poi.phar help
+  - php ../poi.phar home init ./blog
+  - php ../poi.phar home init ./blog2
+  - php ../poi.phar home set ./blog
+  - php ../poi.phar post
+  - php ../poi.phar build
+  - php ../poi.phar version
+  - php ../poi.phar version
+  - php ../poi.phar update
+  - php ../poi.phar update -d
 language: php
 php:
   - 7.0
