@@ -13,12 +13,9 @@ $root = realpath(dirname(__FILE__) . '/..');
 
 include "{$root}/src/libraries/Utility.php";
 
-$stub = file_get_contents("{$root}/src/stub.php");
-
 // Auto update vendor
-chdir($root);
-
 if (!file_exists("{$root}/src/vendor")) {
+    chdir($root);
     system('composer install');
 }
 
@@ -57,7 +54,7 @@ if (file_exists("{$root}/poi.phar")) {
 // Create Phar
 $phar = new Phar("{$root}/poi.phar");
 $phar->setAlias('poi.phar');
-$phar->setStub($stub);
+$phar->setStub(file_get_contents("{$root}/src/stub.php"));
 $phar->buildFromDirectory("{$root}/temp");
 $phar->compressFiles(Phar::GZ);
 $phar->stopBuffering();
