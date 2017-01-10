@@ -61,3 +61,16 @@ $phar->stopBuffering();
 
 // Setting Phar is Executable
 chmod("{$root}/poi.phar", 0755);
+
+// Release Phar
+if (isset($_SERVER['argv'][1])
+    && '-r' === $_SERVER['argv'][1]) {
+
+    // Clear Phar
+    if (file_exists("{$root}/bin/poi")) {
+        unlink("{$root}/bin/poi");
+    }
+
+    // Move Phar to Bin
+    rename("{$root}/poi.phar", "{$root}/bin/poi");
+}
