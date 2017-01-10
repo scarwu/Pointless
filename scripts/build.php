@@ -13,7 +13,7 @@ $root = realpath(dirname(__FILE__) . '/..');
 
 include "{$root}/src/libraries/Utility.php";
 
-$stub = file_get_contents("{$root}/scripts/stub.php");
+$stub = file_get_contents("{$root}/src/stub.php");
 
 // Auto update vendor
 chdir($root);
@@ -36,10 +36,15 @@ foreach ([
     'boot.php',
     'constant.php',
     'vendor/autoload.php',
-    'vendor/composer',
+    'vendor/composer/ClassLoader.php',
+    'vendor/composer/autoload_classmap.php',
+    'vendor/composer/autoload_namespaces.php',
+    'vendor/composer/autoload_psr4.php',
+    'vendor/composer/autoload_real.php',
+    'vendor/composer/autoload_static.php',
     'vendor/scarwu/pack/src',
     'vendor/scarwu/nanocli/src',
-    'vendor/erusev/parsedown'
+    'vendor/erusev/parsedown/Parsedown.php'
 ] as $path) {
     Pointless\Library\Utility::copy("{$root}/src/{$path}", "{$root}/temp/{$path}");
 }
