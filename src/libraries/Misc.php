@@ -224,6 +224,9 @@ EOF;
         // Define Regular Expression Rule
         $regex = '/^(?:<!--({(?:.|\n)*})-->)\s*(?:#(.*))?((?:.|\n)*)/';
 
+        // Fix: PREG_JIT_STACKLIMIT_ERROR (PHP 7)
+        ini_set('pcre.jit', false);
+
         preg_match($regex, file_get_contents(BLOG_POST . "/{$filename}"), $match);
 
         if (4 !== count($match)) {

@@ -1,6 +1,6 @@
 <?php
 /**
- * Tag Handler for Theme
+ * Tag Data Handler for Theme
  *
  * @package     Pointless
  * @author      ScarWu

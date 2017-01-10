@@ -149,7 +149,7 @@ class BuildCommand extends Command
             }
 
             foreach ($result as $type => $post) {
-                Resource::set("post:{$type}", $post);
+                Resource::set("post:{$type}", array_reverse($post));
             }
 
             // Rendering HTML Pages

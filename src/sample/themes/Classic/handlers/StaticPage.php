@@ -1,6 +1,6 @@
 <?php
 /**
- * Static Page Handler Script for Theme
+ * Static Page Data Handler for Theme
  *
  * @package     Pointless
  * @author      ScarWu
@@ -42,19 +42,19 @@ class StaticPage extends ThemeHandler
         foreach ($this->list as $post) {
             IO::log("Building {$post['url']}");
 
-            $ext = [];
-            $ext['title'] = "{$post['title']} | {$blog['name']}";
-            $ext['url'] = $blog['dn'] . $blog['base'];
+            $extBlog = [];
+            $extBlog['title'] = "{$post['title']} | {$blog['name']}";
+            $extBlog['url'] = $blog['dn'] . $blog['base'];
 
             $block = Resource::get('block');
             $block['container'] = $this->render([
-                'blog' => array_merge($blog, $ext),
+                'blog' => array_merge($blog, $extBlog),
                 'post' => $post
             ], 'container/staticPage.php');
 
             // Save HTML
             $this->save($post['url'], $this->render([
-                'blog' => array_merge($blog, $ext),
+                'blog' => array_merge($blog, $extBlog),
                 'post' => $post,
                 'block' => $block
             ], 'index.php'));
