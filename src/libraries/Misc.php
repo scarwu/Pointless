@@ -229,6 +229,8 @@ EOF;
 
         preg_match($regex, file_get_contents(BLOG_POST . "/{$filename}"), $match);
 
+        ini_set('pcre.jit', true);
+
         if (4 !== count($match)) {
             return false;
         }
