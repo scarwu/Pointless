@@ -11,6 +11,9 @@
 // Set default timezone
 date_default_timezone_set('Etc/UTC');
 
+// Fix: PREG_JIT_STACKLIMIT_ERROR (PHP 7)
+ini_set('pcre.jit', false);
+
 // Composer Autoloader
 require APP_ROOT . '/vendor/autoload.php';
 

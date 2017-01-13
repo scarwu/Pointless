@@ -81,7 +81,7 @@ class Article extends Format
         sort($post['tag']);
 
         // Summary and Description
-        $summary = preg_replace('/<!--more-->(.|\n)*/', '', $post['content']);
+        $summary = preg_replace('/<!--more-->(.|\s)*/', '', $post['content']);
 
         preg_match('/<p>((:?.|\n)*?)<\/p>/', $summary, $match);
 
