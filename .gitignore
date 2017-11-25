@@ -1,6 +1,8 @@
 temp
 node_modules
 src/vendor
-src/editor/boot/script.min.js
-src/editor/boot/style.min.js
+src/editor/boot/styles/main.min.js
+src/editor/boot/scripts/main.min.js
+src/editor/boot/scripts/vendor
+src/editor/boot/fonts/vendor
 poi.phar
