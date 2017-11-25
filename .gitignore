@@ -1,7 +1,7 @@
 temp
 node_modules
 src/vendor
-src/editor/boot/styles/main.min.js
+src/editor/boot/styles/main.min.css
 src/editor/boot/scripts/main.min.js
 src/editor/boot/scripts/vendor
 src/editor/boot/fonts/vendor
