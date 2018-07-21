@@ -1,20 +1,20 @@
 #!/usr/bin/env bash
 
-export IMAGE_NAME="scarwu/pointless"
+cd `dirname $0`
 
-cd `dirname $0`/../src/docker
+IMAGE_VERSION=`php -r 'include "../src/constant.php"; echo $constant["build"]["version"];'`
+IMAGE_NAME="scarwu/pointless:latest"
 
-case $1 in
-    "build")
+case "$1" in
+    build)
+        cp ../bin/poi .
         docker build -t $IMAGE_NAME .
-    ;;
-    "push")
+        ;;
+
+    push)
         docker push $IMAGE_NAME
-    ;;
+        ;;
     *)
-        echo "command:"
-        echo "    build"
-        echo "    push"
+        echo $"Usage: $0 {build|push}"
         exit 1
-    ;;
 esac

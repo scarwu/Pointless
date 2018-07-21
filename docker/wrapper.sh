@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 export USER_ID=`id -u`
 export GROUP_ID=`id -g`
@@ -8,4 +8,4 @@ docker run \
     --tty \
     --user "$USER_ID:$GROUP_ID" \
     --volume "$HOME:/home" \
-    scarwu/pointless-docker poi $1
+    scarwu/pointless poi $1

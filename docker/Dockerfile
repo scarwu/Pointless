@@ -1,17 +1,15 @@
-FROM php:7.0-cli
+FROM alpine:3.8
 MAINTAINER Scar Wu <xneriscool@gmail.com>
-
 WORKDIR /home
+
+ENV COMMAND /usr/local/bin/poi
 ENV HOME /home
-VOLUME ["/home"]
 
-RUN REMOTE="https://raw.github.com/scarwu/Pointless/master/bin/poi" \
-    && TARGET="/usr/local/bin/poi" \
-    && rm -rf /var/lib/apt/lists/* \
-    && curl -fSL $REMOTE -o $TARGET \
-    && chmod +x $TARGET
+RUN apk --update add php7
 
+COPY poi $COMMAND
 COPY entrypoint.sh /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
 
-CMD ["poi"]
+VOLUME ["/home"]
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["$COMMAND"]
