@@ -61,5 +61,17 @@ $config = [
     // Big5 | GBK | other => UTF-8
     'encoding' => null,
 
-    'editor' => 'vi'
+    'editor' => 'vi',
+
+    // PHP Built-in Server for Blog preview & Markdown Editor
+    'server' => [
+        'blog' => [
+            'host' => 'localhost',
+            'port' => 3000
+        ],
+        'editor' => [
+            'host' => 'localhost',
+            'port' => 3001
+        ]
+    ]
 ];

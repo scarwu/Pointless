@@ -12,7 +12,7 @@ A Lightweight Static Blog Generator with PHP CLI
 
 ### Install
 
-    sudo curl https://raw.github.com/scarwu/Pointless/master/script/install.sh | sh
+    sudo curl https://raw.github.com/scarwu/Pointless/master/scripts/install.sh | sh
 
 ### Update
 
@@ -20,7 +20,7 @@ A Lightweight Static Blog Generator with PHP CLI
 
 ## Demo
 
-[ScarShow](http://scar.simcz.tw)
+[ScarShow](http://scar.tw)
 
 ## For More
 

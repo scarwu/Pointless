@@ -1,0 +1,204 @@
+@import "../../../../node_modules/bootstrap/less/bootstrap";
+@import "../../../../node_modules/font-awesome/less/font-awesome";
+
+/**
+ * Font Face
+ */
+// Noto Sans TC (Chinese_traditional)
+@font-face {
+    font-family: 'Noto Sans TC';
+    font-style: normal;
+    font-weight: 100;
+    src: url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Thin.woff2) format('woff2'),
+         url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Thin.woff) format('woff'),
+         url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Thin.otf) format('opentype');
+}
+
+@font-face {
+    font-family: 'Noto Sans TC';
+    font-style: normal;
+    font-weight: 300;
+    src: url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Light.woff2) format('woff2'),
+         url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Light.woff) format('woff'),
+         url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Light.otf) format('opentype');
+}
+
+@font-face {
+    font-family: 'Noto Sans TC';
+    font-style: normal;
+    font-weight: 400;
+    src: url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Regular.woff2) format('woff2'),
+         url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Regular.woff) format('woff'),
+         url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Regular.otf) format('opentype');
+}
+
+@font-face {
+    font-family: 'Noto Sans TC';
+    font-style: normal;
+    font-weight: 500;
+    src: url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Medium.woff2) format('woff2'),
+         url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Medium.woff) format('woff'),
+         url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Medium.otf) format('opentype');
+}
+
+@font-face {
+    font-family: 'Noto Sans TC';
+    font-style: normal;
+    font-weight: 700;
+    src: url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Bold.woff2) format('woff2'),
+         url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Bold.woff) format('woff'),
+         url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Bold.otf) format('opentype');
+}
+
+@font-face {
+    font-family: 'Noto Sans TC';
+    font-style: normal;
+    font-weight: 900;
+    src: url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Black.woff2) format('woff2'),
+         url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Black.woff) format('woff'),
+         url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Black.otf) format('opentype');
+}
+
+/**
+ * Overwrite Bootstrap
+ */
+.col-lg-1,  .col-lg-2,  .col-lg-3,
+.col-lg-4,  .col-lg-5,  .col-lg-6,
+.col-lg-7,  .col-lg-8,  .col-lg-9,
+.col-lg-10, .col-lg-11, .col-lg-12,
+.col-md-1,  .col-md-2,  .col-md-3,
+.col-md-4,  .col-md-5,  .col-md-6,
+.col-md-7,  .col-md-8,  .col-md-9,
+.col-md-10, .col-md-11, .col-md-12,
+.col-xs-1,  .col-xs-2,  .col-xs-3,
+.col-xs-4,  .col-xs-5,  .col-xs-6,
+.col-xs-7,  .col-xs-8,  .col-xs-9,
+.col-xs-10, .col-xs-11, .col-xs-12 {
+    padding: 0;
+}
+
+/**
+ * Default Desktop and Mobile Show
+ */
+.ot-lg-off,
+.ot-md-off,
+.ot-sm-off,
+.ot-xs-off {
+    display: block;
+}
+
+/**
+ * Custom Grid
+ */
+.ot-xs-hide,
+.ot-sm-hide,
+.ot-md-hide,
+.ot-lg-hide {
+    display: block;
+}
+
+.ot-xs-show,
+.ot-sm-show,
+.ot-md-show,
+.ot-lg-show {
+    display: none;
+}
+
+.ot-xs-td-hide,
+.ot-sm-td-hide,
+.ot-md-td-hide,
+.ot-lg-td-hide {
+    display: table-cell;
+}
+
+.ot-xs-td-show,
+.ot-sm-td-show,
+.ot-md-td-show,
+.ot-lg-td-show {
+    display: none;
+}
+
+@media (max-width: @screen-xs-max) {
+    .ot-xs-hide {
+        display: none !important;
+    }
+
+    .ot-xs-show {
+        display: block !important;
+    }
+}
+
+@media (max-width: @screen-sm-max) and (min-width: @screen-sm-min) {
+    .ot-sm-hide {
+        display: none !important;
+    }
+
+    .ot-sm-show {
+        display: block !important;
+    }
+}
+
+@media (max-width: @screen-md-max) and (min-width: @screen-md-min) {
+    .ot-md-hide {
+        display: none !important;
+    }
+
+    .ot-md-show {
+        display: block !important;
+    }
+}
+
+@media (min-width: @screen-lg-min) {
+    .ot-lg-hide {
+        display: none !important;
+    }
+
+    .ot-lg-show {
+        display: block !important;
+    }
+}
+
+/**
+ * Mixins
+ */
+.font-size(@remSize) {
+    @pxSize: (@remSize * 10);
+
+    font-size: ~"@{pxSize}px";
+    font-size: ~"@{remSize}rem";
+}
+
+.border-radius(@radius) {
+    // @radius: 4px
+    -webkit-border-radius: @radius;
+       -moz-border-radius: @radius;
+        -ms-border-radius: @radius;
+            border-radius: @radius;
+}
+
+.box-shadow(@shadow) {
+    // @shadow: 0 1px 3px rgba(0,0,0,.25)
+    -webkit-box-shadow: @shadow; // iOS <4.3 & Android <4.1
+            box-shadow: @shadow;
+}
+
+.opacity(@setting) {
+    opacity: @setting / 100;
+    -moz-opacity: @setting / 100;
+    filter: alpha(opacity=@setting);
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFangTC-Regular", "LiHei Pro", Arial, sans-serif;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    overflow-y: scroll;
+}
