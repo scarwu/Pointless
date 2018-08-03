@@ -44,9 +44,9 @@ class BuildCommand extends Command
         }
 
         // Require Theme Attr
-        require BLOG_THEME . '/theme.php';
+        require BLOG_THEME . '/config.php';
 
-        Resource::set('attr:theme', $theme);
+        Resource::set('theme:config', $config);
 
         // Set Loader
         Loader::set('Pointless\Handler', BLOG_THEME . '/handlers');
@@ -59,7 +59,7 @@ class BuildCommand extends Command
      */
     public function run()
     {
-        $blog = Resource::get('attr:config')['blog'];
+        $blog = Resource::get('system:config')['blog'];
         $startTime = microtime(true);
         $startMemory = memory_get_usage();
 
@@ -123,7 +123,7 @@ class BuildCommand extends Command
             $formatList = [];
             $result = [];
 
-            foreach (Resource::get('attr:constant')['formats'] as $subClassName) {
+            foreach (Resource::get('system:constant')['formats'] as $subClassName) {
                 $className = 'Pointless\\Format\\' . ucfirst($subClassName);
 
                 $format = new $className;
@@ -155,7 +155,7 @@ class BuildCommand extends Command
             // Rendering HTML Pages
             IO::notice('Rendering HTML ...');
 
-            foreach (Resource::get('attr:theme')['handlers'] as $subClassName) {
+            foreach (Resource::get('theme:config')['handlers'] as $subClassName) {
                 $className = 'Pointless\\Handler\\' . ucfirst($subClassName);
 
                 $handler = new $className;
@@ -165,7 +165,7 @@ class BuildCommand extends Command
             }
 
             // Render Block
-            foreach (Resource::get('attr:theme')['views'] as $blockName => $typeList) {
+            foreach (Resource::get('theme:config')['views'] as $blockName => $typeList) {
                 foreach ($typeList as $type) {
                     $handlerList[$type]->renderBlock($blockName);
                 }
@@ -179,7 +179,7 @@ class BuildCommand extends Command
             // Generate Extension
             IO::notice('Generating Extensions ...');
 
-            foreach (Resource::get('attr:theme')['extensions'] as $subClassName) {
+            foreach (Resource::get('theme:config')['extensions'] as $subClassName) {
                 $className = 'Pointless\\Extension\\' . ucfirst($subClassName);
                 (new $className)->run();
             }
@@ -203,7 +203,7 @@ class BuildCommand extends Command
 
         $cssPack = new CSS();
 
-        foreach (Resource::get('attr:theme')['assets']['styles'] as $filename) {
+        foreach (Resource::get('theme:config')['assets']['styles'] as $filename) {
             $filename = preg_replace('/.css$/', '', $filename);
 
             if (!file_exists(BLOG_THEME . "/assets/styles/{$filename}.css")) {
@@ -227,7 +227,7 @@ class BuildCommand extends Command
 
         $jsPack = new JS();
 
-        foreach (Resource::get('attr:theme')['assets']['scripts'] as $filename) {
+        foreach (Resource::get('theme:config')['assets']['scripts'] as $filename) {
             $filename = preg_replace('/.js$/', '', $filename);
 
             if (!file_exists(BLOG_THEME . "/assets/scripts/{$filename}.js")) {

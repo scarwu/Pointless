@@ -42,7 +42,7 @@ class EditCommand extends Command
         }
 
         // Check Editor
-        $this->editor = Resource::get('attr:config')['editor'];
+        $this->editor = Resource::get('system:config')['editor'];
 
         if (!Utility::commandExists($this->editor)) {
             IO::error("System command \"{$this->editor}\" is not found.");
@@ -58,7 +58,7 @@ class EditCommand extends Command
     {
         $formatList = [];
 
-        foreach (Resource::get('attr:constant')['formats'] as $index => $sublClassName) {
+        foreach (Resource::get('system:constant')['formats'] as $index => $sublClassName) {
             $className = 'Pointless\\Format\\' . ucfirst($sublClassName);
             $formatList[$index] = new $className;
 

@@ -23,8 +23,8 @@ class Atom extends Extension
     {
         IO::log('Building Atom');
 
-        $quantity = Resource::get('attr:config')['extension']['atom']['quantity'];
-        $blog = Resource::get('attr:config')['blog'];
+        $quantity = Resource::get('system:config')['extension']['atom']['quantity'];
+        $blog = Resource::get('system:config')['blog'];
         $blog['url'] = $blog['dn'] . $blog['base'];
 
         $count = 0;

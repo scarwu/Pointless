@@ -46,7 +46,7 @@ class Category extends ThemeHandler
      */
     public function renderBlock($blockName)
     {
-        $views = Resource::get('attr:theme')['views'];
+        $views = Resource::get('theme:config')['views'];
 
         if (!isset($views[$blockName])) {
             return false;
@@ -67,7 +67,7 @@ class Category extends ThemeHandler
         }
 
         $block[$blockName] .= $this->render([
-            'blog' => Resource::get('attr:config')['blog'],
+            'blog' => Resource::get('system:config')['blog'],
             'list' => $this->list
         ], "{$blockName}/category.php");
 
@@ -84,7 +84,7 @@ class Category extends ThemeHandler
         $total = count($this->list);
         $keys = array_keys($this->list);
 
-        $blog = Resource::get('attr:config')['blog'];
+        $blog = Resource::get('system:config')['blog'];
 
         foreach ($this->list as $index => $postList) {
             IO::log("Building category/{$index}");

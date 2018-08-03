@@ -26,7 +26,7 @@ class About extends ThemeHandler
      */
     public function renderBlock($blockName)
     {
-        $views = Resource::get('attr:theme')['views'];
+        $views = Resource::get('theme:config')['views'];
 
         if (!isset($views[$blockName])) {
             return false;
@@ -47,7 +47,7 @@ class About extends ThemeHandler
         }
 
         $block[$blockName] .= $this->render([
-            'blog' => Resource::get('attr:config')['blog']
+            'blog' => Resource::get('system:config')['blog']
         ], "{$blockName}/about.php");
 
         Resource::set('block', $block);

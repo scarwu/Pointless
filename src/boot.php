@@ -29,7 +29,7 @@ Oni\CLI\Loader::register();
 // Require Constant Attr
 require APP_ROOT . '/constant.php';
 
-Pointless\Library\Resource::set('attr:constant', $constant);
+Pointless\Library\Resource::set('system:constant', $constant);
 
 // Define Variables
 define('BUILD_VERSION', $constant['build']['version']);

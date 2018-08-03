@@ -8,7 +8,7 @@
  * @link        https://github.com/scarwu/PointlessTheme-Unique
  */
 
-$theme = [
+$config = [
     'assets' => [
         'scripts' => [
             'theme'

@@ -49,8 +49,8 @@ class DeployCommand extends Command
      */
     public function run()
     {
-        $blog = Resource::get('attr:config')['blog'];
-        $github = Resource::get('attr:config')['deploy']['github'];
+        $blog = Resource::get('system:config')['blog'];
+        $github = Resource::get('system:config')['deploy']['github'];
 
         $account = $github['account'];
         $repo = $github['repo'];

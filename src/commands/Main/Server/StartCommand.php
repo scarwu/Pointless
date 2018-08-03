@@ -60,8 +60,8 @@ class StartCommand extends Command
         // Prepare Variables
         $pidList = [];
         $routeScript = ('production' === APP_ENV ? HOME_ROOT : APP_ROOT) . '/sample/route.php';
-        $host = Resource::get('attr:config')['server']['blog']['host'];
-        $port = Resource::get('attr:config')['server']['blog']['port'];
+        $host = Resource::get('system:config')['server']['blog']['host'];
+        $port = Resource::get('system:config')['server']['blog']['port'];
         $root = HOME_ROOT;
         $command = "php -S localhost:{$port} -t {$root} {$routeScript}";
 
@@ -106,8 +106,8 @@ class StartCommand extends Command
         // Prepare Variables
         $pidList = [];
         $routeScript = ('production' === APP_ENV ? HOME_ROOT : APP_ROOT) . '/sample/route.php';
-        $host = Resource::get('attr:config')['server']['editor']['host'];
-        $port = Resource::get('attr:config')['server']['editor']['port'];
+        $host = Resource::get('system:config')['server']['editor']['host'];
+        $port = Resource::get('system:config')['server']['editor']['port'];
         $root = HOME_ROOT;
         $command = "php -S localhost:{$port} -t {$root} {$routeScript}";
 

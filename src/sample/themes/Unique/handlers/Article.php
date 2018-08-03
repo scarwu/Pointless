@@ -41,7 +41,7 @@ class Article extends ThemeHandler
         $total = count($this->list);
         $keys = array_keys($this->list);
 
-        $blog = Resource::get('attr:config')['blog'];
+        $blog = Resource::get('system:config')['blog'];
 
         foreach ($this->list as $post) {
             IO::log("Building article/{$post['url']}");

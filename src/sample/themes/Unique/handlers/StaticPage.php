@@ -37,7 +37,7 @@ class StaticPage extends ThemeHandler
      */
     public function renderPage()
     {
-        $blog = Resource::get('attr:config')['blog'];
+        $blog = Resource::get('system:config')['blog'];
 
         foreach ($this->list as $post) {
             IO::log("Building {$post['url']}");

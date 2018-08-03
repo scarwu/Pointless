@@ -23,7 +23,7 @@ class Sitemap extends Extension
     {
         IO::log('Building Sitemap');
 
-        $blog = Resource::get('attr:config')['blog'];
+        $blog = Resource::get('system:config')['blog'];
         $blog['url'] = $blog['dn'] . $blog['base'];
 
         $format = "\t<url>\n\t\t<loc>http://%s%s</loc>\n\t\t<lastmod>%s</lastmod>\n\t</url>\n";

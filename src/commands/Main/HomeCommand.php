@@ -45,7 +45,7 @@ class HomeCommand extends Command
      */
     public function run()
     {
-        $config = Resource::get('attr:config');
+        $config = Resource::get('system:config');
 
         IO::notice('Home Path:');
         IO::log(BLOG_ROOT);

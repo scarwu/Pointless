@@ -37,10 +37,10 @@ class Page extends ThemeHandler
      */
     public function renderPage()
     {
-        $quantity = Resource::get('attr:config')['post']['article']['quantity'];
+        $quantity = Resource::get('system:config')['post']['article']['quantity'];
         $total = ceil(count($this->list) / $quantity);
 
-        $blog = Resource::get('attr:config')['blog'];
+        $blog = Resource::get('system:config')['blog'];
 
         for ($index = 1; $index <= $total; $index++) {
             IO::log("Building page/{$index}");

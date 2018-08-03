@@ -46,7 +46,7 @@ class PostCommand extends Command
     {
         IO::notice('Post Status:');
 
-        foreach (Resource::get('attr:constant')['formats'] as $subClassName) {
+        foreach (Resource::get('system:constant')['formats'] as $subClassName) {
             $className = 'Pointless\\Format\\' . ucfirst($subClassName);
             $format = new $className;
 
