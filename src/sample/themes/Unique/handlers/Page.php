@@ -2,10 +2,10 @@
 /**
  * Page Data Handler for Theme
  *
- * @package     Pointless Theme - Classic
+ * @package     Pointless Theme - Unique
  * @author      Scar Wu
  * @copyright   Copyright (c) Scar Wu (http://scar.tw)
- * @link        https://github.com/scarwu/PointlessTheme-Classic
+ * @link        https://github.com/scarwu/PointlessTheme-Unique
  */
 
 namespace Pointless\Handler;
@@ -42,11 +42,11 @@ class Page extends ThemeHandler
 
         $blog = Resource::get('attr:config')['blog'];
 
-        for ($index = 1; $index <= $total; $index++) {
-            IO::log("Building page/{$index}");
+        for ($index = 1;$index <= $total;$index++) {
+            IO::log("Building page/{$index}/");
 
             $post = [];
-            $post['url'] = "page/{$index}";
+            $post['url'] = "page/{$index}/";
             $post['list'] = array_slice($this->list, $quantity * ($index - 1), $quantity);
 
             $paging = [];
@@ -55,12 +55,12 @@ class Page extends ThemeHandler
 
             if ($index - 1 >= 1) {
                 $paging['p_title'] = $index - 1;
-                $paging['p_url'] = "{$blog['base']}page/" . ($index - 1);
+                $paging['p_url'] = "{$blog['base']}page/" . ($index - 1) . '/';
             }
 
             if ($index + 1 <= $total) {
                 $paging['n_title'] = $index + 1;
-                $paging['n_url'] = "{$blog['base']}page/" . ($index + 1);
+                $paging['n_url'] = "{$blog['base']}page/" . ($index + 1) . '/';
             }
 
             $extBlog = [];

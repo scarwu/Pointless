@@ -2,36 +2,34 @@
 /**
  * Theme Config
  *
- * @package     Pointless
- * @author      ScarWu
- * @copyright   Copyright (c) 2012-2017, ScarWu (http://scar.simcz.tw/)
- * @link        http://github.com/scarwu/Pointless
+ * @package     Pointless Theme - Unique
+ * @author      Scar Wu
+ * @copyright   Copyright (c) Scar Wu (http://scar.tw)
+ * @link        https://github.com/scarwu/PointlessTheme-Unique
  */
 
 $theme = [
     'assets' => [
         'scripts' => [
-            'main'
+            'theme'
         ],
         'styles' => [
-            'normalize',
-            'solarized_dark',
-            'main'
+            'theme'
         ]
     ],
     'views' => [
         'side' => [
-            'tag',
-            'category',
-            'archive'
+            'about',
+            'archive',
+            'tag'
         ]
     ],
     'handlers' => [
+        'About',
         'StaticPage',
         'Article',
         'Page',
         'Archive',
-        'Category',
         'Tag'
     ],
     'extensions' => [

@@ -2,10 +2,10 @@
 /**
  * Static Page Data Handler for Theme
  *
- * @package     Pointless Theme - Classic
+ * @package     Pointless Theme - Unique
  * @author      Scar Wu
  * @copyright   Copyright (c) Scar Wu (http://scar.tw)
- * @link        https://github.com/scarwu/PointlessTheme-Classic
+ * @link        https://github.com/scarwu/PointlessTheme-Unique
  */
 
 namespace Pointless\Handler;

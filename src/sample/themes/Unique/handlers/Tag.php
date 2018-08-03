@@ -1,11 +1,11 @@
 <?php
 /**
- * Category Data Handler for Theme
+ * Tag Data Handler for Theme
  *
- * @package     Pointless Theme - Classic
+ * @package     Pointless Theme - Unique
  * @author      Scar Wu
  * @copyright   Copyright (c) Scar Wu (http://scar.tw)
- * @link        https://github.com/scarwu/PointlessTheme-Classic
+ * @link        https://github.com/scarwu/PointlessTheme-Unique
  */
 
 namespace Pointless\Handler;
@@ -14,29 +14,23 @@ use Pointless\Library\Resource;
 use Pointless\Extend\ThemeHandler;
 use NanoCLI\IO;
 
-class Category extends ThemeHandler
+class Tag extends ThemeHandler
 {
     public function __construct()
     {
-        $this->type = 'category';
+        $this->type = 'tag';
 
         foreach (Resource::get('post:article') as $post) {
-            $category = $post['category'];
+            foreach ($post['tag'] as $tag) {
+                if (!isset($this->list[$tag])) {
+                    $this->list[$tag] = [];
+                }
 
-            if (!isset($this->list[$category])) {
-                $this->list[$category] = [];
+                $this->list[$tag][] = $post;
             }
-
-            $this->list[$category][] = $post;
         }
 
-        uasort($this->list, function ($a, $b) {
-            if (count($a) === count($b)) {
-                return 0;
-            }
-
-            return count($a) > count($b) ? -1 : 1;
-        });
+        ksort($this->list);
     }
 
     /**
@@ -52,7 +46,7 @@ class Category extends ThemeHandler
             return false;
         }
 
-        if (!in_array('category', $views[$blockName])) {
+        if (!in_array('tag', $views[$blockName])) {
             return false;
         }
 
@@ -69,7 +63,7 @@ class Category extends ThemeHandler
         $block[$blockName] .= $this->render([
             'blog' => Resource::get('attr:config')['blog'],
             'list' => $this->list
-        ], "{$blockName}/category.php");
+        ], "{$blockName}/tag.php");
 
         Resource::set('block', $block);
     }
@@ -87,32 +81,32 @@ class Category extends ThemeHandler
         $blog = Resource::get('attr:config')['blog'];
 
         foreach ($this->list as $index => $postList) {
-            IO::log("Building category/{$index}");
+            IO::log("Building tag/{$index}/");
             if (null === $first) {
                 $first = $index;
             }
 
             $post = [];
-            $post['title'] ="Category: {$index}";
-            $post['url'] = "category/{$index}";
-            $post['list'] = $this->createDateList($postList);
+            $post['title'] = "Tag: {$index}";
+            $post['url'] = "tag/{$index}/";
+            $post['list'] = $postList;
 
             $paging = [];
             $paging['index'] = $count + 1;
             $paging['total'] = $total;
 
             if (isset($keys[$count - 1])) {
-                $category = $keys[$count - 1];
+                $tag = $keys[$count - 1];
 
-                $paging['p_title'] = $category;
-                $paging['p_url'] = "{$blog['base']}category/{$category}";
+                $paging['p_title'] = $tag;
+                $paging['p_url'] = "{$blog['base']}tag/{$tag}/";
             }
 
             if (isset($keys[$count + 1])) {
-                $category = $keys[$count + 1];
+                $tag = $keys[$count + 1];
 
-                $paging['n_title'] = $category;
-                $paging['n_url'] = "{$blog['base']}category/{$category}";
+                $paging['n_title'] = $tag;
+                $paging['n_url'] = "{$blog['base']}tag/{$tag}/";
             }
 
             $count++;
@@ -126,7 +120,7 @@ class Category extends ThemeHandler
                 'blog' => array_merge($blog, $extBlog),
                 'post' => $post,
                 'paging' => $paging
-            ], 'container/category.php');
+            ], 'container/tag.php');
 
             // Save HTML
             $this->save($post['url'], $this->render([
@@ -136,28 +130,6 @@ class Category extends ThemeHandler
             ], 'index.php'));
         }
 
-        $this->createIndex("category/{$first}/index.html", 'category/index.html');
-    }
-
-    private function createDateList($list)
-    {
-        $result = [];
-
-        foreach ($list as $article) {
-            $year = $article['year'];
-            $month = $article['month'];
-
-            if (!isset($result[$year])) {
-                $result[$year] = [];
-            }
-
-            if (!isset($result[$year][$month])) {
-                $result[$year][$month] = [];
-            }
-
-            $result[$year][$month][] = $article;
-        }
-
-        return $result;
+        $this->createIndex("/tag/{$first}/index.html", 'tag/index.html');
     }
 }

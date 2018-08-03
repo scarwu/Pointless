@@ -2,13 +2,15 @@
 
 cd `dirname $0`/../
 
-export ROOT=`pwd`
-
+# Init & Update Git Sub-modules
 git submodule init
 git submodule update
 
+# Install Composer Packages
 composer install
-npm install
+
+# Install Node Packages
+yarn install
 
 # Build Modernizor
 cd ./node_modules/modernizr

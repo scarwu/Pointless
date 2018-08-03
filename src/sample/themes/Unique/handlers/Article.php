@@ -2,10 +2,10 @@
 /**
  * Article Data Handler for Theme
  *
- * @package     Pointless Theme - Classic
+ * @package     Pointless Theme - Unique
  * @author      Scar Wu
  * @copyright   Copyright (c) Scar Wu (http://scar.tw)
- * @link        https://github.com/scarwu/PointlessTheme-Classic
+ * @link        https://github.com/scarwu/PointlessTheme-Unique
  */
 
 namespace Pointless\Handler;
@@ -75,7 +75,7 @@ class Article extends ThemeHandler
             $extBlog = [];
             $extBlog['title'] = "{$post['title']} | {$blog['name']}";
             $extBlog['url'] = $blog['dn'] . $blog['base'];
-            $extBlog['description'] = ('' !== $post['description'])
+            $extBlog['description'] = '' !== $post['description']
                 ? $post['description']
                 : $blog['description'];
 

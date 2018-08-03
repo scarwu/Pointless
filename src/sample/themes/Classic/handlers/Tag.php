@@ -2,17 +2,17 @@
 /**
  * Tag Data Handler for Theme
  *
- * @package     Pointless
- * @author      ScarWu
- * @copyright   Copyright (c) 2012-2017, ScarWu (http://scar.simcz.tw/)
- * @link        http://github.com/scarwu/Pointless
+ * @package     Pointless Theme - Classic
+ * @author      Scar Wu
+ * @copyright   Copyright (c) Scar Wu (http://scar.tw)
+ * @link        https://github.com/scarwu/PointlessTheme-Classic
  */
 
 namespace Pointless\Handler;
 
 use Pointless\Library\Resource;
 use Pointless\Extend\ThemeHandler;
-use Oni\CLI\IO;
+use NanoCLI\IO;
 
 class Tag extends ThemeHandler
 {
