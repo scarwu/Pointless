@@ -18,13 +18,13 @@ ini_set('pcre.jit', false);
 require APP_ROOT . '/vendor/autoload.php';
 
 // Set Loader
-NanoCLI\Loader::set('Pointless\Command', APP_ROOT . '/commands');
-NanoCLI\Loader::set('Pointless\Library', APP_ROOT . '/libraries');
-NanoCLI\Loader::set('Pointless\Extend', APP_ROOT . '/extends');
-NanoCLI\Loader::set('Pointless\Format', APP_ROOT . '/formats');
+Oni\CLI\Loader::set('Pointless\Command', APP_ROOT . '/commands');
+Oni\CLI\Loader::set('Pointless\Library', APP_ROOT . '/libraries');
+Oni\CLI\Loader::set('Pointless\Extend', APP_ROOT . '/extends');
+Oni\CLI\Loader::set('Pointless\Format', APP_ROOT . '/formats');
 
 // Loader Register
-NanoCLI\Loader::register();
+Oni\CLI\Loader::register();
 
 // Require Constant Attr
 require APP_ROOT . '/constant.php';

@@ -1,5 +1,5 @@
 script:
-  - composer install
+  - ./setup.sh
   - php ./scripts/build.php
   - mkdir test
   - cd test
@@ -11,9 +11,10 @@ script:
   - php ../poi.phar post
   - php ../poi.phar build
   - php ../poi.phar version
-  - php ../poi.phar version
   - php ../poi.phar update
   - php ../poi.phar update -d
 language: php
 php:
   - 7.0
+  - 7.1
+  - 7.2

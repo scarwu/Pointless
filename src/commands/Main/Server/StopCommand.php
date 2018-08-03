@@ -11,8 +11,8 @@
 namespace Pointless\Command\Main\Server;
 
 use Pointless\Library\Misc;
-use NanoCLI\Command;
-use NanoCLI\IO;
+use Oni\CLI\Command;
+use Oni\CLI\IO;
 
 class StopCommand extends Command
 {

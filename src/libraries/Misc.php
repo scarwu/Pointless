@@ -13,7 +13,7 @@ namespace Pointless\Library;
 use Pointless\Library\Utility;
 use Pointless\Library\Resource;
 use Parsedown;
-use NanoCLI\IO;
+use Oni\CLI\IO;
 
 class Misc {
 

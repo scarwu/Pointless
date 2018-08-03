@@ -12,8 +12,8 @@ namespace Pointless\Command\Main;
 
 use Pointless\Library\Misc;
 use Pointless\Library\Utility;
-use NanoCLI\Command;
-use NanoCLI\IO;
+use Oni\CLI\Command;
+use Oni\CLI\IO;
 
 class UpdateCommand extends Command
 {

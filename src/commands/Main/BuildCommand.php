@@ -17,9 +17,9 @@ use Pointless\Library\HTMLGenerator;
 use Pointless\Library\ExtensionLoader;
 use Pack\CSS;
 use Pack\JS;
-use NanoCLI\IO;
-use NanoCLI\Loader;
-use NanoCLI\Command;
+use Oni\CLI\IO;
+use Oni\CLI\Loader;
+use Oni\CLI\Command;
 
 class BuildCommand extends Command
 {

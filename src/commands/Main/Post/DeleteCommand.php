@@ -12,8 +12,8 @@ namespace Pointless\Command\Main\Post;
 
 use Pointless\Library\Misc;
 use Pointless\Library\Resource;
-use NanoCLI\Command;
-use NanoCLI\IO;
+use Oni\CLI\Command;
+use Oni\CLI\IO;
 
 class DeleteCommand extends Command
 {

@@ -11,8 +11,8 @@
 namespace Pointless\Command;
 
 use Pointless\Library\Misc;
-use NanoCLI\Command;
-use NanoCLI\IO;
+use Oni\CLI\Command;
+use Oni\CLI\IO;
 
 class MainCommand extends Command
 {
