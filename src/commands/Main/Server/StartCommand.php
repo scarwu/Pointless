@@ -3,9 +3,9 @@
  * Pointless Start Server Command
  *
  * @package     Pointless
- * @author      ScarWu
- * @copyright   Copyright (c) 2012-2017, ScarWu (http://scar.simcz.tw/)
- * @link        http://github.com/scarwu/Pointless
+ * @author      Scar Wu
+ * @copyright   Copyright (c) Scar Wu (https://scar.tw)
+ * @link        https://github.com/scarwu/Pointless
  */
 
 namespace Pointless\Command\Main\Server;
