@@ -1,12 +1,22 @@
+'use strict';
+/**
+ * Webpack Config
+ *
+ * @package     Pointless
+ * @author      Scar Wu
+ * @copyright   Copyright (c) Scar Wu (http://scar.tw)
+ * @link        https://github.com/scarwu/Pointless
+ */
+
 var path = require('path');
 
 module.exports = {
-    entry: [
-        'babel-polyfill',
-        './src/editor/boot/scripts/main.jsx'
-    ],
+    mode: 'development',
+    entry: {
+        main: './src/editor/boot/scripts/main.jsx'
+    },
     output: {
-        filename: 'main.min.js'
+        filename: '[name].min.js'
     },
     resolve: {
         modules: [
@@ -18,10 +28,13 @@ module.exports = {
             '.jsx'
         ]
     },
+    externals: {
+
+    },
     module: {
         rules: [
             {
-                test: /.jsx?$/,
+                test: /.jsx$/,
                 exclude: /node_modules/,
                 use: [
                     {
@@ -29,11 +42,13 @@ module.exports = {
                         query: {
                             cacheDirectory: true,
                             plugins: [
-                                'transform-class-properties',
-                                'transform-async-to-module-method',
-                                'transform-async-generator-functions'
+                                'transform-class-properties'
                             ],
                             presets: [
+                                'stage-3',
+                                'stage-2',
+                                'stage-1',
+                                'stage-0',
                                 'es2017',
                                 'es2016',
                                 'es2015',

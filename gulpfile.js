@@ -1,12 +1,11 @@
 'use strict';
-
 /**
  * Gulpfile
  *
  * @package     Pointless
- * @author      ScarWu
- * @copyright   Copyright (c) 2012-2017, ScarWu (http://scar.simcz.tw/)
- * @link        http://github.com/scarwu/Pointless
+ * @author      Scar Wu
+ * @copyright   Copyright (c) Scar Wu (http://scar.tw)
+ * @link        https://github.com/scarwu/Pointless
  */
 
 var ENVIRONMENT = 'development';    // production | development | testing
@@ -25,7 +24,7 @@ var postfix = (new Date()).getTime().toString();
 
 function createSrcAndDest(path) {
     var src = path.replace(process.env.PWD + '/', '');
-    var dest = src.replace('src/assets', 'src/boot/assets').split('/');
+    var dest = src.replace('src/editor/assets', 'src/editor/boot/assets').split('/');
 
     dest.pop();
 
@@ -41,12 +40,10 @@ function handleCompileError(event) {
 
 // Assets Compile Task
 var compileTask = {
-    less: function (src, dest) {
+    sass: function (src, dest) {
         return gulp.src(src)
-            .pipe($.less({
-                paths: dest
-            }).on('error', handleCompileError))
-            .pipe($.replace('../fonts/', '/assets/fonts/vendor/'))
+            .pipe($.sass().on('error', handleCompileError))
+            .pipe($.replace('../fonts/', '../../assets/fonts/vendor/'))
             .pipe($.autoprefixer())
             .pipe($.rename(function (path) {
                 path.basename = path.basename.split('.')[0];
@@ -79,6 +76,16 @@ var compileTask = {
 /**
  * Copy Files & Folders
  */
+gulp.task('copy:assets:fonts', function () {
+    return gulp.src('src/editor/assets/fonts/*')
+        .pipe(gulp.dest('src/editor/boot/assets/fonts'));
+});
+
+gulp.task('copy:assets:images', function () {
+    return gulp.src('src/editor/assets/images/**/*')
+        .pipe(gulp.dest('src/editor/boot/assets/images'));
+});
+
 gulp.task('copy:vendor:fonts', function () {
     return gulp.src([
             'node_modules/font-awesome/fonts/*.{otf,eot,svg,ttf,woff,woff2}'
@@ -100,9 +107,9 @@ gulp.task('copy:vendor:scripts', function () {
 /**
  * Styles
  */
-gulp.task('style:less', function() {
+gulp.task('style:sass', function() {
     return compileTask.less([
-        'src/editor/boot/styles/main.less'
+        'src/editor/boot/styles/main.{sass,scss}'
     ], 'src/editor/boot/styles');
 });
 
@@ -111,8 +118,8 @@ gulp.task('style:less', function() {
  */
 gulp.task('complex:webpack', function () {
     var result = compileTask.webpack(
-        'src/editor/boot/scripts/main.jsx',
-        'src/editor/boot/scripts'
+        'src/editor/assets/scripts/main.jsx',
+        'src/editor/boot/assets/scripts'
     );
 
     return WEBPACK_NEED_WATCH ? true : result;
@@ -128,13 +135,13 @@ gulp.task('watch', function () {
 
     gulp.watch([
         'src/editor/boot/**/*',
-        '!src/editor/boot/styles/**/*.less',
+        '!src/editor/boot/styles/**/*.{sass,scss}',
         '!src/editor/boot/scripts/**/*.jsx'
     ]).on('change', $.livereload.changed);
 
     // Pre Compile Files
-    gulp.watch('src/editor/boot/styles/**/*.less', [
-        'style:less'
+    gulp.watch('src/editor/assets/styles/**/*.{sass,scss}', [
+        'style:sass'
     ]);
 });
 
@@ -180,6 +187,7 @@ gulp.task('clean:all', function (callback) {
         'src/editor/boot/scripts/vendor',
         'src/editor/boot/fonts/vendor',
         'node_modules',
+        'yarn.lock',
         'composer.lock'
     ], callback);
 });
@@ -189,6 +197,8 @@ gulp.task('clean:all', function (callback) {
  */
 gulp.task('prepare', function (callback) {
     run('clean', [
+        'copy:assets:fonts',
+        'copy:assets:images',
         'copy:vendor:fonts',
         'copy:vendor:scripts'
     ], [
@@ -203,9 +213,9 @@ gulp.task('release', function (callback) {
     ENVIRONMENT = 'production';
 
     run('prepare', [
-        // 'release:optimize:images',
-        // 'release:optimize:scripts',
-        // 'release:optimize:styles'
+        'release:optimize:images',
+        'release:optimize:scripts',
+        'release:optimize:styles'
     ], callback);
 });
 

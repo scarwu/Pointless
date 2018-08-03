@@ -53,74 +53,25 @@
             "time": "2018-03-08T01:11:30+00:00"
         },
         {
-            "name": "phpunit/php-invoker",
-            "version": "2.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/sebastianbergmann/php-invoker.git",
-                "reference": "4a01883f660b10d4a19a14de5efd19b22eac2d93"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-invoker/zipball/4a01883f660b10d4a19a14de5efd19b22eac2d93",
-                "reference": "4a01883f660b10d4a19a14de5efd19b22eac2d93",
-                "shasum": ""
-            },
-            "require": {
-                "ext-pcntl": "*",
-                "php": "^7.1"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^6.5"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0-dev"
-                }
-            },
-            "autoload": {
-                "classmap": [
-                    "src/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Sebastian Bergmann",
-                    "email": "sebastian@phpunit.de",
-                    "role": "lead"
-                }
-            ],
-            "description": "Invoke callables with a timeout",
-            "homepage": "https://github.com/sebastianbergmann/php-invoker/",
-            "keywords": [
-                "process"
-            ],
-            "time": "2018-01-27T06:52:17+00:00"
-        },
-        {
             "name": "scarwu/oni",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/scarwu/Oni.git",
-                "reference": "65943bc4a5105096f7d57d016f744d305a948596"
+                "reference": "7d93c179dad71feb539f90a5ca14440463c063b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/scarwu/Oni/zipball/65943bc4a5105096f7d57d016f744d305a948596",
-                "reference": "65943bc4a5105096f7d57d016f744d305a948596",
+                "url": "https://api.github.com/repos/scarwu/Oni/zipball/7d93c179dad71feb539f90a5ca14440463c063b0",
+                "reference": "7d93c179dad71feb539f90a5ca14440463c063b0",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.0.0",
-                "phpunit/php-invoker": "^2.0"
+                "php": ">=7.0.0"
             },
             "require-dev": {
+                "phpunit/php-code-coverage": "^6.0",
+                "phpunit/php-invoker": "^2.0",
                 "phpunit/phpunit": "^7"
             },
             "type": "library",
@@ -140,8 +91,9 @@
                     "homepage": "https://scar.tw"
                 }
             ],
+            "description": "A lightweight PHP framework for Web & CLI",
             "homepage": "https://github.com/scarwu/Oni",
-            "time": "2018-08-03T05:35:47+00:00"
+            "time": "2018-08-03T05:48:07+00:00"
         },
         {
             "name": "scarwu/pack",
@@ -717,6 +669,56 @@
             "time": "2018-06-11T11:44:00+00:00"
         },
         {
+            "name": "phpunit/php-invoker",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sebastianbergmann/php-invoker.git",
+                "reference": "4a01883f660b10d4a19a14de5efd19b22eac2d93"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-invoker/zipball/4a01883f660b10d4a19a14de5efd19b22eac2d93",
+                "reference": "4a01883f660b10d4a19a14de5efd19b22eac2d93",
+                "shasum": ""
+            },
+            "require": {
+                "ext-pcntl": "*",
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.5"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Sebastian Bergmann",
+                    "email": "sebastian@phpunit.de",
+                    "role": "lead"
+                }
+            ],
+            "description": "Invoke callables with a timeout",
+            "homepage": "https://github.com/sebastianbergmann/php-invoker/",
+            "keywords": [
+                "process"
+            ],
+            "time": "2018-01-27T06:52:17+00:00"
+        },
+        {
             "name": "phpunit/php-text-template",
             "version": "1.2.1",
             "source": {
@@ -857,16 +859,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "7.2.7",
+            "version": "7.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "8e878aff7917ef66e702e03d1359b16eee254e2c"
+                "reference": "0b6b29faf95c03fd7867e866438b78d5692b6f03"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/8e878aff7917ef66e702e03d1359b16eee254e2c",
-                "reference": "8e878aff7917ef66e702e03d1359b16eee254e2c",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/0b6b29faf95c03fd7867e866438b78d5692b6f03",
+                "reference": "0b6b29faf95c03fd7867e866438b78d5692b6f03",
                 "shasum": ""
             },
             "require": {
@@ -911,7 +913,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "7.2-dev"
+                    "dev-master": "7.3-dev"
                 }
             },
             "autoload": {
@@ -937,7 +939,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2018-07-15T05:20:50+00:00"
+            "time": "2018-08-03T06:02:45+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
