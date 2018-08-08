@@ -21,7 +21,7 @@ class UpdateTask extends Task
      */
     public function helpInfo()
     {
-        $this->io->log('    update      - System self-update');
+        $this->io->log('    update          - System self-update');
     }
 
     /**

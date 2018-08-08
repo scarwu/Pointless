@@ -22,7 +22,7 @@ class DeployTask extends Task
      */
     public function helpInfo()
     {
-        $this->io->log('    blog deploy - Deploy blog to Github');
+        $this->io->log('    blog deploy     - Deploy blog to Github');
     }
 
     /**

@@ -21,8 +21,7 @@ class StartTask extends Task
      */
     public function helpInfo()
     {
-		$this->io->log('    server start');
-        $this->io->log('                - Start built-in web server');
+		$this->io->log('    server start    - Start server');
     }
 
     /**

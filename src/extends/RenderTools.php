@@ -47,7 +47,7 @@ trait RenderTools
     {
         $realpath = BLOG_BUILD . "/{$path}";
 
-        if (false === preg_match('/\.(html|xml)$/', $realpath)) {
+        if (!preg_match('/\.(html|xml)$/', $realpath)) {
             if (false === file_exists($realpath)) {
                 mkdir($realpath, 0755, true);
             }

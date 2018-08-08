@@ -37,7 +37,7 @@ $mime = [
 // Built-in Web Server Route
 $pattern = '/^' . str_replace('/', '\/', $config['blog']['base']) . '/';
 
-if (false === preg_match($pattern, $_SERVER['REQUEST_URI'])) {
+if (!preg_match($pattern, $_SERVER['REQUEST_URI'])) {
     header("Location:http://{$_SERVER['HTTP_HOST']}{$config['blog']['base']}");
 }
 

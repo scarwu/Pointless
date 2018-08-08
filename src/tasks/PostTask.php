@@ -22,14 +22,14 @@ class PostTask extends Task
     public function helpInfo($is_show_detail = false)
     {
         if ($is_show_detail) {
-            $this->io->log('    post        - Show post status');
+            $this->io->log('    post            - Show posts status');
 
             // Sub Help Info
             (new \Pointless\Task\Post\AddTask)->helpInfo();
             (new \Pointless\Task\Post\EditTask)->helpInfo();
             (new \Pointless\Task\Post\DeleteTask)->helpInfo();
         } else {
-            $this->io->log('    post        - Posts manage');
+            $this->io->log('    post            - Posts manage');
         }
     }
 
@@ -38,6 +38,14 @@ class PostTask extends Task
      */
     public function up()
     {
+        if ($this->io->hasOptions('h')) {
+            Misc::showBanner();
+
+            $this->helpInfo(true);
+
+            return false;
+        }
+
         // Init Blog
         if (false === Misc::initBlog()) {
             return false;
@@ -51,9 +59,9 @@ class PostTask extends Task
     {
         $this->io->notice('Post Status:');
 
-        foreach (Resource::get('system:constant')['formats'] as $subClassName) {
-            $className = 'Pointless\\Format\\' . ucfirst($subClassName);
-            $format = new $className;
+        foreach (Resource::get('system:constant')['formats'] as $sub_class_name) {
+            $class_name = 'Pointless\\Format\\' . ucfirst($sub_class_name);
+            $format = new $class_name;
 
             $name = $format->getName();
             $type = $format->getType();

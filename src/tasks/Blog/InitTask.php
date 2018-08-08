@@ -25,8 +25,8 @@ class InitTask extends Task
      */
     public function helpInfo()
     {
-        $this->io->log('    home init <path or not>');
-        $this->io->log('                - Init a new blog');
+        $this->io->log('    blog init <path or not>');
+        $this->io->log('                    - Init a new blog');
     }
 
     /**
@@ -72,7 +72,7 @@ class InitTask extends Task
             $path = $this->io->getArguments(0);
         }
 
-        if (false === preg_match('/^\/(.+)/', $path)) {
+        if (!preg_match('/^\/(.+)/', $path)) {
             $path = getcwd() . ('' !== $path ? "/{$path}" : $path);
         }
 

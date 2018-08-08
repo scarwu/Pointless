@@ -21,13 +21,13 @@ class ServerTask extends Task
     public function helpInfo($is_show_detail = false)
     {
         if ($is_show_detail) {
-            $this->io->log('    server      - Show server status');
+            $this->io->log('    server          - Show server status');
 
             // Sub Help Info
             (new \Pointless\Task\Server\StartTask)->helpInfo();
             (new \Pointless\Task\Server\StopTask)->helpInfo();
         } else {
-            $this->io->log('    server      - Built-in web server');
+            $this->io->log('    server          - Built-in web server');
         }
     }
 
@@ -36,6 +36,14 @@ class ServerTask extends Task
      */
     public function up()
     {
+        if ($this->io->hasOptions('h')) {
+            Misc::showBanner();
+
+            $this->helpInfo(true);
+
+            return false;
+        }
+
         // Init Blog
         if (false === Misc::initBlog()) {
             return false;

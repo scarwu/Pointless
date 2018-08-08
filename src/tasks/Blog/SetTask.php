@@ -25,8 +25,8 @@ class SetTask extends Task
      */
     public function helpInfo()
     {
-        $this->io->log('    home set <path or not>');
-        $this->io->log('                - Set another blog as default');
+        $this->io->log('    blog set <path or not>');
+        $this->io->log('                    - Set another blog as default');
     }
 
     /**
@@ -72,7 +72,7 @@ class SetTask extends Task
             $path = $this->io->getArguments(0);
         }
 
-        if (false === preg_match('/^\/(.+)/', $path)) {
+        if (!preg_match('/^\/(.+)/', $path)) {
             $path = getcwd() . ('' !== $path ? "/{$path}" : $path);
         }
 

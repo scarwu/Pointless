@@ -27,7 +27,7 @@ class EditTask extends Task
      */
     public function helpInfo()
     {
-        $this->io->log('    post edit   - Edit post');
+        $this->io->log('    post edit       - Edit post');
     }
 
     /**
@@ -57,8 +57,8 @@ class EditTask extends Task
     {
         $format_list = [];
 
-        foreach (Resource::get('system:constant')['formats'] as $index => $subl_class_name) {
-            $class_name = 'Pointless\\Format\\' . ucfirst($subl_class_name);
+        foreach (Resource::get('system:constant')['formats'] as $index => $sub_class_name) {
+            $class_name = 'Pointless\\Format\\' . ucfirst($sub_class_name);
             $format_list[$index] = new $class_name;
 
             $this->io->log(sprintf('[ %3d] ', $index) . $format_list[$index]->getName());

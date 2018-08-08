@@ -177,7 +177,7 @@ EOF;
         $handle = opendir(BLOG_POST);
 
         while ($filename = readdir($handle)) {
-            if (false === preg_match('/.md$/', $filename)) {
+            if (!preg_match('/.md$/', $filename)) {
                 continue;
             }
 
