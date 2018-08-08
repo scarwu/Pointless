@@ -21,7 +21,7 @@ class UpdateTask extends Task
      */
     public function helpInfo()
     {
-        $this->io->log('    update      - Self-update');
+        $this->io->log('    update      - System self-update');
     }
 
     /**
@@ -60,7 +60,6 @@ class UpdateTask extends Task
             $remote = "https://raw.github.com/scarwu/Pointless/master/bin/poi";
 
             system("wget {$remote} -O /tmp/poi");
-
             chmod('/tmp/poi', 0755);
 
             // Reset Timestamp

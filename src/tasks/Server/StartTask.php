@@ -48,7 +48,7 @@ class StartTask extends Task
         $this->startBlog();
 
         // Start Editor Server
-        $this->startEditor();
+        // $this->startEditor();
     }
 
     /**
@@ -100,46 +100,46 @@ class StartTask extends Task
     /**
      * Start Editor
      */
-    private function startEditor()
-    {
-        // Prepare Variables
-        $pid_list = [];
-        $route_script = ('production' === APP_ENV ? HOME_ROOT : APP_ROOT) . '/sample/route.php';
-        $host = Resource::get('system:config')['server']['editor']['host'];
-        $port = Resource::get('system:config')['server']['editor']['port'];
-        $root = HOME_ROOT;
-        $command = "php -S localhost:{$port} -t {$root} {$route_script}";
+    // private function startEditor()
+    // {
+    //     // Prepare Variables
+    //     $pid_list = [];
+    //     $route_script = ('production' === APP_ENV ? HOME_ROOT : APP_ROOT) . '/sample/route.php';
+    //     $host = Resource::get('system:config')['server']['editor']['host'];
+    //     $port = Resource::get('system:config')['server']['editor']['port'];
+    //     $root = HOME_ROOT;
+    //     $command = "php -S localhost:{$port} -t {$root} {$route_script}";
 
-        // Get PID
-        $output = [];
+    //     // Get PID
+    //     $output = [];
 
-        exec("{$command} > /dev/null 2>&1 & echo $!", $output);
+    //     exec("{$command} > /dev/null 2>&1 & echo $!", $output);
 
-        $pid = $output[0];
+    //     $pid = $output[0];
 
-        // Wait Process Start
-        sleep(2);
+    //     // Wait Process Start
+    //     sleep(2);
 
-        // Dubble Check PID
-        $output = [];
+    //     // Dubble Check PID
+    //     $output = [];
 
-        exec("ps {$pid}", $output);
+    //     exec("ps {$pid}", $output);
 
-        if (count($output) > 1) {
-            $pid_list[$pid] = [
-                'command' => $command,
-                'root' => $root,
-                'port' => $port
-            ];
+    //     if (count($output) > 1) {
+    //         $pid_list[$pid] = [
+    //             'command' => $command,
+    //             'root' => $root,
+    //             'port' => $port
+    //         ];
 
-            file_put_contents(HOME_ROOT . '/pid', json_encode($pid_list));
+    //         file_put_contents(HOME_ROOT . '/pid', json_encode($pid_list));
 
-            $this->io->info('Server is start.');
-            $this->io->log("Doc Root   - {$root}");
-            $this->io->log("Server URL - http://localhost:{$port}");
-            $this->io->log("Server PID - {$pid}");
-        } else {
-            $this->io->error('Server fails to start.');
-        }
-    }
+    //         $this->io->info('Server is start.');
+    //         $this->io->log("Doc Root   - {$root}");
+    //         $this->io->log("Server URL - http://localhost:{$port}");
+    //         $this->io->log("Server PID - {$pid}");
+    //     } else {
+    //         $this->io->error('Server fails to start.');
+    //     }
+    // }
 }

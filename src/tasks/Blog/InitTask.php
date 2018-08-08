@@ -1,6 +1,6 @@
 <?php
 /**
- * Initialize Home Task
+ * Blog Init Task
  *
  * @package     Pointless
  * @author      Scar Wu
@@ -8,7 +8,7 @@
  * @link        https://github.com/scarwu/Pointless
  */
 
-namespace Pointless\Task\Home;
+namespace Pointless\Task\Blog;
 
 use Pointless\Library\Misc;
 use Oni\CLI\Task;
