@@ -41,7 +41,7 @@ class BlogTask extends Task
     public function up()
     {
         // Init Blog
-        if (!Misc::initBlog()) {
+        if (false === Misc::initBlog()) {
             return false;
         }
     }
@@ -64,6 +64,6 @@ class BlogTask extends Task
         $this->io->log("Editor   - {$config['editor']}");
 
         $this->io->writeln();
-        $this->io->info('Used command "help blog" for more.');
+        $this->io->info('Used command "blog -h" for more.');
     }
 }

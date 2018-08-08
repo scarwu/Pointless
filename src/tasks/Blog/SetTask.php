@@ -36,7 +36,7 @@ class SetTask extends Task
     {
         $this->path = $this->getPath();
 
-        if (!file_exists($this->path)) {
+        if (false === file_exists($this->path)) {
             $this->io->error("Path \"{$this->path}\" is't exists.");
 
             return false;
@@ -52,7 +52,7 @@ class SetTask extends Task
         file_put_contents(HOME_ROOT . '/default', $this->path);
 
         // Init Blog
-        if (!Misc::initBlog()) {
+        if (false === Misc::initBlog()) {
             return false;
         }
 
@@ -72,7 +72,7 @@ class SetTask extends Task
             $path = $this->io->getArguments(0);
         }
 
-        if (!preg_match('/^\/(.+)/', $path)) {
+        if (false === preg_match('/^\/(.+)/', $path)) {
             $path = getcwd() . ('' !== $path ? "/{$path}" : $path);
         }
 

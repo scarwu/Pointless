@@ -17,12 +17,12 @@ abstract class ThemeHandler
     use RenderTools;
 
     /**
-     * @var string $type
+     * @var string
      */
     protected $type = null;
 
     /**
-     * @var mixed $list
+     * @var array
      */
     protected $list = [];
 

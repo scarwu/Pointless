@@ -72,7 +72,7 @@ class Article extends Format
             $post['title'], $post['url']
         ], $format);
 
-        if (!preg_match('/\.html$/', $url)) {
+        if (false === preg_match('/\.html$/', $url)) {
             $url .= '/';
         }
 

@@ -15,8 +15,8 @@ class Helper {
     /**
      * Create Link To
      *
-     * @param string
-     * @param string
+     * @param string $link
+     * @param string $name
      *
      * @return string
      */
@@ -30,7 +30,7 @@ class Helper {
     /**
      * Link Encode
      *
-     * @param string
+     * @param string $link
      *
      * @return string
      */

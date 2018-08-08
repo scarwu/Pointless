@@ -18,8 +18,9 @@ trait RenderTools
     /**
      * Render HTML
      *
-     * @param string
-     * @param string
+     * @param string $_data
+     * @param string $_path
+     *
      * @return string
      */
     final protected function render($_data, $_path)
@@ -39,21 +40,21 @@ trait RenderTools
     /**
      * Save HTML
      *
-     * @param string
-     * @param string
+     * @param string $path
+     * @param string $data
      */
     final protected function save($path, $data)
     {
         $realpath = BLOG_BUILD . "/{$path}";
 
-        if (!preg_match('/\.(html|xml)$/', $realpath)) {
-            if (!file_exists($realpath)) {
+        if (false === preg_match('/\.(html|xml)$/', $realpath)) {
+            if (false === file_exists($realpath)) {
                 mkdir($realpath, 0755, true);
             }
 
             $realpath = "{$realpath}/index.html";
         } else {
-            if (!file_exists(dirname($realpath))) {
+            if (false === file_exists(dirname($realpath))) {
                 mkdir(dirname($realpath), 0755, true);
             }
         }
@@ -66,8 +67,8 @@ trait RenderTools
     /**
      * Save HTML
      *
-     * @param string
-     * @param string
+     * @param string $src
+     * @param string $dest
      */
     final protected function createIndex($src, $dest)
     {

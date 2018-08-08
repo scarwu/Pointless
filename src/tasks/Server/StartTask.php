@@ -31,7 +31,7 @@ class StartTask extends Task
     public function up()
     {
         // Init Blog
-        if (!Misc::initBlog()) {
+        if (false === Misc::initBlog()) {
             return false;
         }
     }

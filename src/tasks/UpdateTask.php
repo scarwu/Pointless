@@ -19,14 +19,9 @@ class UpdateTask extends Task
     /**
      * Help Info
      */
-    public function helpInfo($is_show_detail = false)
+    public function helpInfo()
     {
         $this->io->log('    update      - Self-update');
-
-        if ($is_show_detail) {
-            $this->io->log('    update -d   - Use development version');
-            $this->io->log('    update -e   - Use experipment version');
-        }
     }
 
     /**
@@ -35,7 +30,7 @@ class UpdateTask extends Task
     public function up()
     {
         if ('development' === APP_ENV) {
-            $this->io->error('Development version can not be updated.');
+            $this->io->error('Development version can not be update.');
 
             return false;
         }
@@ -58,28 +53,25 @@ class UpdateTask extends Task
      */
     public function run()
     {
-        $branch = 'master';
+        $anwser = $this->io->ask('Are you sure to update system? [y/N]');
+        $anwser = strtolower($anwser);
 
-        if ($this->io->hasOptions('d')) {
-            $branch = 'develop';
+        if ('y' === $anwser) {
+            $remote = "https://raw.github.com/scarwu/Pointless/master/bin/poi";
+
+            system("wget {$remote} -O /tmp/poi");
+
+            chmod('/tmp/poi', 0755);
+
+            // Reset Timestamp
+            file_put_contents(HOME_ROOT . '/timestamp', 0);
+
+            $this->io->notice('Update system finished.');
+
+            system('/tmp/poi version');
+            rename('/tmp/poi', BIN_LOCATE . '/poi');
+        } else {
+            $this->io->warning('Update system skipped.');
         }
-
-        if ($this->io->hasOptions('e')) {
-            $branch = 'experipment';
-        }
-
-        $remote = "https://raw.github.com/scarwu/Pointless/{$branch}/bin/poi";
-
-        system("wget {$remote} -O /tmp/poi");
-
-        chmod('/tmp/poi', 0755);
-
-        // Reset Timestamp
-        file_put_contents(HOME_ROOT . '/timestamp', 0);
-
-        $this->io->notice('Update finish.');
-
-        system('/tmp/poi version');
-        rename('/tmp/poi', BIN_LOCATE . '/poi');
     }
 }

@@ -17,8 +17,8 @@ class Utility
     /**
      * Path Replace
      *
-     * @param string filename
-     * @param boolean skip
+     * @param string $filename
+     * @param bool $skip
      *
      * @return string
      */
@@ -32,7 +32,7 @@ class Utility
             '~', '`', '\\'
         ];
 
-        if (!$skip) {
+        if (false === $skip) {
             $filename = str_replace(['.', '/'], '-', $filename);
         }
 
@@ -44,9 +44,9 @@ class Utility
     /**
      * Command Exists
      *
-     * @param string command
+     * @param string $command
      *
-     * @return boolean
+     * @return bool
      */
     public static function commandExists($command)
     {
@@ -62,15 +62,15 @@ class Utility
     /**
      * Recursive Change Owner and Group
      *
-     * @param string path
-     * @param string user
-     * @param string group
+     * @param string $path
+     * @param string $user
+     * @param string $group
      *
-     * @return boolean
+     * @return bool
      */
     public static function chown($path = null, $user = null, $group = null)
     {
-        if (!file_exists($path)) {
+        if (false === file_exists($path)) {
             return false;
         }
 
@@ -95,10 +95,9 @@ class Utility
     /**
      * Recursive mkdir
      *
-     * @param string src
-     * @param string dest
+     * @param string $src
      *
-     * @return boolean
+     * @return bool
      */
     public static function mkdir($path)
     {
@@ -112,19 +111,19 @@ class Utility
     /**
      * Recursive Copy
      *
-     * @param string src
-     * @param string dest
+     * @param string $src
+     * @param string $dest
      *
-     * @return boolean
+     * @return bool
      */
     public static function copy($src = null, $dest = null)
     {
-        if (!file_exists($src)) {
+        if (false === file_exists($src)) {
             return false;
         }
 
         if (is_dir($src)) {
-            if (!file_exists($dest)) {
+            if (false === file_exists($dest)) {
                 mkdir($dest, 0755, true);
             }
 
@@ -140,7 +139,7 @@ class Utility
 
             closedir($handle);
         } else {
-            if (!file_exists(dirname($dest))) {
+            if (false === file_exists(dirname($dest))) {
                 mkdir(dirname($dest), 0755, true);
             }
 
@@ -151,14 +150,14 @@ class Utility
     /**
      * Recursive Remove
      *
-     * @param string path
-     * @param string self
+     * @param string $path
+     * @param string $self
      *
-     * @return boolean
+     * @return bool
      */
     public static function remove($path = null, $self = null)
     {
-        if (!file_exists($path)) {
+        if (false === file_exists($path)) {
             return false;
         }
 

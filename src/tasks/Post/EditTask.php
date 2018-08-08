@@ -36,14 +36,14 @@ class EditTask extends Task
     public function up()
     {
         // Init Blog
-        if (!Misc::initBlog()) {
+        if (false === Misc::initBlog()) {
             return false;
         }
 
         // Check Editor
         $this->editor = Resource::get('system:config')['editor'];
 
-        if (!Utility::commandExists($this->editor)) {
+        if (false === Utility::commandExists($this->editor)) {
             $this->io->error("System command \"{$this->editor}\" is not found.");
 
             return false;

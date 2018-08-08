@@ -22,7 +22,8 @@ class Resource
     /**
      * Get Resource
      *
-     * @param string
+     * @param string $index
+     *
      * @return array
      */
     public static function get($index)
@@ -37,8 +38,8 @@ class Resource
     /**
      * Set Resource
      *
-     * @param string
-     * @param array
+     * @param string $index
+     * @param array $data
      */
     public static function set($index, $data)
     {
@@ -48,12 +49,12 @@ class Resource
     /**
      * Append Resource
      *
-     * @param string
-     * @param array
+     * @param string $index
+     * @param array $data
      */
     public static function append($index, $data)
     {
-        if (!array_key_exists($index, self::$resource)) {
+        if (false === array_key_exists($index, self::$resource)) {
             self::$resource[$index] = [];
         }
 

@@ -37,11 +37,11 @@ class ServerTask extends Task
     public function up()
     {
         // Init Blog
-        if (!Misc::initBlog()) {
+        if (false === Misc::initBlog()) {
             return false;
         }
 
-        if (!file_exists(HOME_ROOT . '/pid')) {
+        if (false === file_exists(HOME_ROOT . '/pid')) {
             $this->io->error('Server is not running.');
 
             return false;

@@ -48,7 +48,7 @@ EOF;
         }
 
         // Define Blog Root
-        if (!file_exists(HOME_ROOT . '/default')) {
+        if (false === file_exists(HOME_ROOT . '/default')) {
             file_put_contents(HOME_ROOT . '/defualt', '');
 
             return false;
@@ -56,7 +56,7 @@ EOF;
 
         $blog_root = file_get_contents(HOME_ROOT . '/default');
 
-        if (!Utility::mkdir($blog_root)) {
+        if (false === Utility::mkdir($blog_root)) {
             file_put_contents(HOME_ROOT . '/defualt', '');
 
             return false;
@@ -64,11 +64,11 @@ EOF;
 
         define('BLOG_ROOT', $blog_root);
 
-        if (!file_exists(BLOG_ROOT . '/.pointless')) {
+        if (false === file_exists(BLOG_ROOT . '/.pointless')) {
             file_put_contents(BLOG_ROOT . '/.pointless', '');
         }
 
-        if (!file_exists(BLOG_ROOT . '/config.php')) {
+        if (false === file_exists(BLOG_ROOT . '/config.php')) {
             copy(APP_ROOT . '/sample/config.php', BLOG_ROOT . '/config.php');
         }
 
@@ -91,12 +91,12 @@ EOF;
         Utility::mkdir(BLOG_EXTENSION);
 
         // Copy Post
-        if (!file_exists(BLOG_POST)) {
+        if (false === file_exists(BLOG_POST)) {
             Utility::copy(APP_ROOT . '/sample/posts', BLOG_POST);
         }
 
         // Init Theme
-        if (!file_exists(BLOG_ROOT . '/themes')) {
+        if (false === file_exists(BLOG_ROOT . '/themes')) {
             Utility::copy(APP_ROOT . '/sample/themes', BLOG_ROOT . '/themes');
         }
 
@@ -122,14 +122,14 @@ EOF;
     /**
      * Fix Permission
      *
-     * @param string
+     * @param string $path
      *
      * @return boolean
      */
     public static function fixPermission($path)
     {
         // Check SERVER Variable
-        if (!isset($_SERVER['SUDO_USER'])) {
+        if (false === isset($_SERVER['SUDO_USER'])) {
             return false;
         }
 
@@ -142,13 +142,15 @@ EOF;
     /**
      * Edit File
      *
-     * @param string
+     * @param string $path
+     *
+     * @return boolean
      */
     public static function editFile($path)
     {
         $editor = Resource::get('system:config')['editor'];
 
-        if (!Utility::commandExists($editor)) {
+        if (false === Utility::commandExists($editor)) {
             IO::init()->error("System command \"{$editor}\" is not found.");
 
             return false;
@@ -175,13 +177,13 @@ EOF;
         $handle = opendir(BLOG_POST);
 
         while ($filename = readdir($handle)) {
-            if (!preg_match('/.md$/', $filename)) {
+            if (false === preg_match('/.md$/', $filename)) {
                 continue;
             }
 
             $post = self::parseMarkdownFile($filename, $skipContent);
 
-            if (!$post) {
+            if (false === $post) {
                 IO::init()->error("Markdown parse error: {$filename}");
 
                 exit(1);
@@ -193,7 +195,7 @@ EOF;
 
             $post['path'] = BLOG_POST . "/{$filename}";
 
-            if (!$skipContent) {
+            if (false === $skipContent) {
                 $post['content'] = $parsedown->text($post['content']);
             }
 
@@ -238,7 +240,7 @@ EOF;
 
         $post['title'] = trim($match[2]);
 
-        if (!$skipContent) {
+        if (false === $skipContent) {
             $post['content'] = $match[3];
         }
 

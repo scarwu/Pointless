@@ -36,7 +36,7 @@ class BuildTask extends Task
     public function up()
     {
         // Init Blog
-        if (!Misc::initBlog()) {
+        if (false === Misc::initBlog()) {
             return false;
         }
 
@@ -109,10 +109,10 @@ class BuildTask extends Task
         $postList = Misc::getPostList();
 
         foreach ($postList as $post) {
-            if (!$post['publish']) {
+            if (false === $post['publish']) {
                 continue;
             }
-            if (!isset($formatList[$post['type']])) {
+            if (false === isset($formatList[$post['type']])) {
                 continue;
             }
 
@@ -177,7 +177,7 @@ class BuildTask extends Task
         foreach (Resource::get('theme:config')['assets']['styles'] as $filename) {
             $filename = preg_replace('/.css$/', '', $filename);
 
-            if (!file_exists(BLOG_THEME . "/assets/styles/{$filename}.css")) {
+            if (false === file_exists(BLOG_THEME . "/assets/styles/{$filename}.css")) {
                 $this->io->warning("CSS file \"{$filename}.css\" not found.");
 
                 continue;
@@ -201,7 +201,7 @@ class BuildTask extends Task
         foreach (Resource::get('theme:config')['assets']['scripts'] as $filename) {
             $filename = preg_replace('/.js$/', '', $filename);
 
-            if (!file_exists(BLOG_THEME . "/assets/scripts/{$filename}.js")) {
+            if (false === file_exists(BLOG_THEME . "/assets/scripts/{$filename}.js")) {
                 $this->io->warning("Javascript file \"{$filename}.js\" not found.");
 
                 continue;

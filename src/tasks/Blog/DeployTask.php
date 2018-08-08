@@ -31,12 +31,12 @@ class DeployTask extends Task
     public function up()
     {
         // Init Blog
-        if (!Misc::initBlog()) {
+        if (false === Misc::initBlog()) {
             return false;
         }
 
         // Check Git
-        if (!Utility::commandExists('git')) {
+        if (false === Utility::commandExists('git')) {
             $this->io->error('System command "git" is not found.');
 
             return false;
@@ -63,7 +63,7 @@ class DeployTask extends Task
 
         chdir(BLOG_DEPLOY);
 
-        if (!file_exists(BLOG_DEPLOY . '/.git')) {
+        if (false === file_exists(BLOG_DEPLOY . '/.git')) {
             system('git init');
             system("git remote add origin git@github.com:{$account}/{$repo}.git");
         }

@@ -46,7 +46,7 @@ class StaticPage extends Format
 
     public function postHandleAndGetResult($post)
     {
-        if (!preg_match('/\.html$/', $post['url'])) {
+        if (false === preg_match('/\.html$/', $post['url'])) {
             $post['url'] .= '/';
         }
 
