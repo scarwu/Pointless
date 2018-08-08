@@ -1,6 +1,6 @@
 <?php
 /**
- * Pointless Version Command
+ * Intro Task
  *
  * @package     Pointless
  * @author      Scar Wu
@@ -8,27 +8,28 @@
  * @link        https://github.com/scarwu/Pointless
  */
 
-namespace Pointless\Command\Main;
+namespace Pointless\Task;
 
+use Exception;
 use Pointless\Library\Misc;
-use Oni\CLI\Command;
-use Oni\CLI\IO;
+use Oni\CLI\Task;
 
-class VersionCommand extends Command
+class IntroTask extends Task
 {
-    /**
-     * Help
-     */
-    public function help()
-    {
-        IO::log('    version     - Show version');
-    }
-
     /**
      * Run
      */
     public function run()
     {
+        Misc::showBanner();
+
+        // Sub Help Info
+        (new \Pointless\Task\BlogTask)->helpInfo();
+        (new \Pointless\Task\PostTask)->helpInfo();
+        (new \Pointless\Task\ServerTask)->helpInfo();
+        (new \Pointless\Task\UpdateTask)->helpInfo();
+
+        // Show Version
         $date = date(DATE_RSS, BUILD_TIMESTAMP);
         $version = BUILD_VERSION . " ($date)";
 
@@ -36,6 +37,7 @@ class VersionCommand extends Command
             $version = "(Development) {$version}";
         }
 
-        IO::info($version);
+        $this->io->writeln();
+        $this->io->info($version);
     }
 }

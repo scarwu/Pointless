@@ -1,6 +1,6 @@
 <?php
 /**
- * Pointless Deploy Command
+ * Blog Deploy Task
  *
  * @package     Pointless
  * @author      Scar Wu
@@ -8,22 +8,21 @@
  * @link        https://github.com/scarwu/Pointless
  */
 
-namespace Pointless\Command\Main;
+namespace Pointless\Task\Blog;
 
 use Pointless\Library\Misc;
 use Pointless\Library\Utility;
 use Pointless\Library\Resource;
-use Oni\CLI\Command;
-use Oni\CLI\IO;
+use Oni\CLI\Task;
 
-class DeployCommand extends Command
+class DeployTask extends Task
 {
     /**
-     * Help
+     * Help Info
      */
-    public function help()
+    public function helpInfo()
     {
-        IO::log('    deploy      - Deploy blog to Github');
+        $this->io->log('    blog deploy - Deploy blog to Github');
     }
 
     /**
@@ -38,7 +37,7 @@ class DeployCommand extends Command
 
         // Check Git
         if (!Utility::commandExists('git')) {
-            IO::error('System command "git" is not found.');
+            $this->io->error('System command "git" is not found.');
 
             return false;
         }
@@ -57,7 +56,7 @@ class DeployCommand extends Command
         $branch = $github['branch'];
 
         if (null === $account || null === $repo || null === $branch) {
-            IO::error('Please add Github setting in Pointless config.');
+            $this->io->error('Please add Github setting in Pointless config.');
 
             return false;
         }

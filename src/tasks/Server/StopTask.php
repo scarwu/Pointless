@@ -1,6 +1,6 @@
 <?php
 /**
- * Pointless Stop Server Command
+ * Stop Server Task
  *
  * @package     Pointless
  * @author      Scar Wu
@@ -8,20 +8,19 @@
  * @link        https://github.com/scarwu/Pointless
  */
 
-namespace Pointless\Command\Main\Server;
+namespace Pointless\Task\Server;
 
 use Pointless\Library\Misc;
-use Oni\CLI\Command;
-use Oni\CLI\IO;
+use Oni\CLI\Task;
 
-class StopCommand extends Command
+class StopTask extends Task
 {
     /**
-     * Help
+     * Help Info
      */
-    public function help()
+    public function helpInfo()
     {
-		IO::log('    server stop - Stop built-in web server');
+		$this->io->log('    server stop - Stop built-in web server');
     }
 
     /**
@@ -35,7 +34,7 @@ class StopCommand extends Command
         }
 
         if (!file_exists(HOME_ROOT . '/pid')) {
-            IO::error('Server is not running.');
+            $this->io->error('Server is not running.');
 
             return false;
         }
@@ -46,7 +45,7 @@ class StopCommand extends Command
      */
     public function run()
     {
-        IO::notice('Stopping Server');
+        $this->io->notice('Stopping Server');
 
         $list = json_decode(file_get_contents(HOME_ROOT . '/pid'), true);
 
@@ -56,7 +55,7 @@ class StopCommand extends Command
             if (count($output) > 1) {
                 system("kill -9 {$pid}");
 
-                IO::info('Server is stop.');
+                $this->io->info('Server is stop.');
             }
         }
 

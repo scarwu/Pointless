@@ -1,6 +1,6 @@
 <?php
 /**
- * Pointless Post Delete Command
+ * Post Delete Task
  *
  * @package     Pointless
  * @author      Scar Wu
@@ -8,21 +8,20 @@
  * @link        https://github.com/scarwu/Pointless
  */
 
-namespace Pointless\Command\Main\Post;
+namespace Pointless\Task\Post;
 
 use Pointless\Library\Misc;
 use Pointless\Library\Resource;
-use Oni\CLI\Command;
-use Oni\CLI\IO;
+use Oni\CLI\Task;
 
-class DeleteCommand extends Command
+class DeleteTask extends Task
 {
     /**
-     * Help
+     * Help Info
      */
-    public function help()
+    public function helpInfo()
     {
-        IO::log('    post delete - Delete post');
+        $this->io->log('    post delete - Delete post');
     }
 
     /**
@@ -38,29 +37,29 @@ class DeleteCommand extends Command
 
     public function run()
     {
-        $formatList = [];
+        $format_list = [];
 
-        foreach (Resource::get('system:constant')['formats'] as $index => $subClassName) {
-            $className = 'Pointless\\Format\\' . ucfirst($subClassName);
-            $formatList[$index] = new $className;
+        foreach (Resource::get('system:constant')['formats'] as $index => $sub_class_name) {
+            $class_name = 'Pointless\\Format\\' . ucfirst($sub_class_name);
+            $format_list[$index] = new $class_name;
 
-            IO::log(sprintf('[ %3d] ', $index) . $formatList[$index]->getName());
+            $this->io->log(sprintf('[ %3d] ', $index) . $format_list[$index]->getName());
         }
 
-        $index = IO::ask("\nSelect Document Format:\n-> ", function ($answer) use ($formatList) {
+        $index = $this->io->ask("\nSelect Document Format:\n-> ", function ($answer) use ($format_list) {
             return is_numeric($answer)
                 && $answer >= 0
-                && $answer < count($formatList);
+                && $answer < count($format_list);
         });
 
-        IO::writeln();
+        $this->io->writeln();
 
         // Load Markdown
-        $type = $formatList[$index]->getType();
+        $type = $format_list[$index]->getType();
         $postList = Misc::getPostList($type, true);
 
         if (0 === count($postList)) {
-            IO::error('No post(s).');
+            $this->io->error('No post(s).');
 
             return false;
         }
@@ -71,10 +70,10 @@ class DeleteCommand extends Command
                 ? sprintf("[ %3d] ", $index) . $post['title']
                 : sprintf("[*%3d] ", $index) . $post['title'];
 
-            IO::log($text);
+            $this->io->log($text);
         }
 
-        $index = IO::ask("\nEnter Number:\n-> ", function ($answer) use ($postList) {
+        $index = $this->io->ask("\nEnter Number:\n-> ", function ($answer) use ($postList) {
             return is_numeric($answer)
                 && $answer >= 0
                 && $answer < count($postList);
@@ -84,11 +83,11 @@ class DeleteCommand extends Command
         $path = $postList[array_keys($postList)[$index]]['path'];
         $title = $postList[array_keys($postList)[$index]]['title'];
 
-        if ('yes' === IO::ask("\nAre you sure delete post \"{$title}\"? (yes)\n-> ", null, 'red')) {
+        if ('yes' === $this->io->ask("\nAre you sure delete post \"{$title}\"? (yes)\n-> ", null, 'red')) {
             unlink($path);
 
-            IO::writeln();
-            IO::notice("Successfully removed post \"{$title}\".");
+            $this->io->writeln();
+            $this->io->notice("Successfully removed post \"{$title}\".");
         }
     }
 }

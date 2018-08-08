@@ -33,7 +33,7 @@ class Misc {
 
 EOF;
 
-        IO::notice($banner);
+        IO::init()->notice($banner);
     }
 
     /**
@@ -149,7 +149,7 @@ EOF;
         $editor = Resource::get('system:config')['editor'];
 
         if (!Utility::commandExists($editor)) {
-            IO::error("System command \"{$editor}\" is not found.");
+            IO::init()->error("System command \"{$editor}\" is not found.");
 
             return false;
         }
@@ -182,7 +182,7 @@ EOF;
             $post = self::parseMarkdownFile($filename, $skipContent);
 
             if (!$post) {
-                IO::error("Markdown parse error: {$filename}");
+                IO::init()->error("Markdown parse error: {$filename}");
 
                 exit(1);
             }

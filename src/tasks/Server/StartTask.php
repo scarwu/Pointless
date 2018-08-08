@@ -1,6 +1,6 @@
 <?php
 /**
- * Pointless Start Server Command
+ * Start Server Task
  *
  * @package     Pointless
  * @author      Scar Wu
@@ -8,22 +8,21 @@
  * @link        https://github.com/scarwu/Pointless
  */
 
-namespace Pointless\Command\Main\Server;
+namespace Pointless\Task\Server;
 
 use Pointless\Library\Misc;
 use Pointless\Library\Resource;
-use Oni\CLI\Command;
-use Oni\CLI\IO;
+use Oni\CLI\Task;
 
-class StartCommand extends Command
+class StartTask extends Task
 {
     /**
-     * Help
+     * Help Info
      */
-    public function help()
+    public function helpInfo()
     {
-		IO::log('    server start');
-        IO::log('                - Start built-in web server');
+		$this->io->log('    server start');
+        $this->io->log('                - Start built-in web server');
     }
 
     /**
@@ -43,7 +42,7 @@ class StartCommand extends Command
     public function run()
     {
         // Startgin Server
-        IO::notice('Starting Server');
+        $this->io->notice('Starting Server');
 
         // Start Blog Server
         $this->startBlog();
@@ -55,15 +54,15 @@ class StartCommand extends Command
     /**
      * Start Blog
      */
-    private function startBlog() {
-
+    private function startBlog()
+    {
         // Prepare Variables
-        $pidList = [];
-        $routeScript = ('production' === APP_ENV ? HOME_ROOT : APP_ROOT) . '/sample/route.php';
+        $pid_list = [];
+        $route_script = ('production' === APP_ENV ? HOME_ROOT : APP_ROOT) . '/sample/route.php';
         $host = Resource::get('system:config')['server']['blog']['host'];
         $port = Resource::get('system:config')['server']['blog']['port'];
         $root = HOME_ROOT;
-        $command = "php -S localhost:{$port} -t {$root} {$routeScript}";
+        $command = "php -S localhost:{$port} -t {$root} {$route_script}";
 
         // Get PID
         $output = [];
@@ -81,35 +80,35 @@ class StartCommand extends Command
         exec("ps {$pid}", $output);
 
         if (count($output) > 1) {
-            $pidList[$pid] = [
+            $pid_list[$pid] = [
                 'command' => $command,
                 'root' => $root,
                 'port' => $port
             ];
 
-            file_put_contents(HOME_ROOT . '/pid', json_encode($pidList));
+            file_put_contents(HOME_ROOT . '/pid', json_encode($pid_list));
 
-            IO::info('Server is start.');
-            IO::log("Doc Root   - {$root}");
-            IO::log("Server URL - http://localhost:{$port}");
-            IO::log("Server PID - {$pid}");
+            $this->io->info('Server is start.');
+            $this->io->log("Doc Root   - {$root}");
+            $this->io->log("Server URL - http://localhost:{$port}");
+            $this->io->log("Server PID - {$pid}");
         } else {
-            IO::error('Server fails to start.');
+            $this->io->error('Server fails to start.');
         }
     }
 
     /**
      * Start Editor
      */
-    private function startEditor() {
-
+    private function startEditor()
+    {
         // Prepare Variables
-        $pidList = [];
-        $routeScript = ('production' === APP_ENV ? HOME_ROOT : APP_ROOT) . '/sample/route.php';
+        $pid_list = [];
+        $route_script = ('production' === APP_ENV ? HOME_ROOT : APP_ROOT) . '/sample/route.php';
         $host = Resource::get('system:config')['server']['editor']['host'];
         $port = Resource::get('system:config')['server']['editor']['port'];
         $root = HOME_ROOT;
-        $command = "php -S localhost:{$port} -t {$root} {$routeScript}";
+        $command = "php -S localhost:{$port} -t {$root} {$route_script}";
 
         // Get PID
         $output = [];
@@ -127,20 +126,20 @@ class StartCommand extends Command
         exec("ps {$pid}", $output);
 
         if (count($output) > 1) {
-            $pidList[$pid] = [
+            $pid_list[$pid] = [
                 'command' => $command,
                 'root' => $root,
                 'port' => $port
             ];
 
-            file_put_contents(HOME_ROOT . '/pid', json_encode($pidList));
+            file_put_contents(HOME_ROOT . '/pid', json_encode($pid_list));
 
-            IO::info('Server is start.');
-            IO::log("Doc Root   - {$root}");
-            IO::log("Server URL - http://localhost:{$port}");
-            IO::log("Server PID - {$pid}");
+            $this->io->info('Server is start.');
+            $this->io->log("Doc Root   - {$root}");
+            $this->io->log("Server URL - http://localhost:{$port}");
+            $this->io->log("Server PID - {$pid}");
         } else {
-            IO::error('Server fails to start.');
+            $this->io->error('Server fails to start.');
         }
     }
 }

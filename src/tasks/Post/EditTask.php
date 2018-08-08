@@ -1,6 +1,6 @@
 <?php
 /**
- * Pointless Post Edit Command
+ * Post Edit Task
  *
  * @package     Pointless
  * @author      Scar Wu
@@ -8,15 +8,14 @@
  * @link        https://github.com/scarwu/Pointless
  */
 
-namespace Pointless\Command\Main\Post;
+namespace Pointless\Task\Post;
 
 use Pointless\Library\Misc;
 use Pointless\Library\Utility;
 use Pointless\Library\Resource;
-use Oni\CLI\Command;
-use Oni\CLI\IO;
+use Oni\CLI\Task;
 
-class EditCommand extends Command
+class EditTask extends Task
 {
     /**
      * @var string
@@ -24,11 +23,11 @@ class EditCommand extends Command
     private $editor;
 
     /**
-     * Help
+     * Help Info
      */
-    public function help()
+    public function helpInfo()
     {
-        IO::log('    post edit   - Edit post');
+        $this->io->log('    post edit   - Edit post');
     }
 
     /**
@@ -45,7 +44,7 @@ class EditCommand extends Command
         $this->editor = Resource::get('system:config')['editor'];
 
         if (!Utility::commandExists($this->editor)) {
-            IO::error("System command \"{$this->editor}\" is not found.");
+            $this->io->error("System command \"{$this->editor}\" is not found.");
 
             return false;
         }
@@ -56,29 +55,29 @@ class EditCommand extends Command
      */
     public function run()
     {
-        $formatList = [];
+        $format_list = [];
 
-        foreach (Resource::get('system:constant')['formats'] as $index => $sublClassName) {
-            $className = 'Pointless\\Format\\' . ucfirst($sublClassName);
-            $formatList[$index] = new $className;
+        foreach (Resource::get('system:constant')['formats'] as $index => $subl_class_name) {
+            $class_name = 'Pointless\\Format\\' . ucfirst($subl_class_name);
+            $format_list[$index] = new $class_name;
 
-            IO::log(sprintf('[ %3d] ', $index) . $formatList[$index]->getName());
+            $this->io->log(sprintf('[ %3d] ', $index) . $format_list[$index]->getName());
         }
 
-        $index = IO::ask("\nSelect Document Format:\n-> ", function ($answer) use ($formatList) {
+        $index = $this->io->ask("\nSelect Document Format:\n-> ", function ($answer) use ($format_list) {
             return is_numeric($answer)
                 && $answer >= 0
-                && $answer < count($formatList);
+                && $answer < count($format_list);
         });
 
-        IO::writeln();
+        $this->io->writeln();
 
         // Load Post
-        $type = $formatList[$index]->getType();
+        $type = $format_list[$index]->getType();
         $postList = Misc::getPostList($type, true);
 
         if (0 === count($postList)) {
-            IO::error('No post(s).');
+            $this->io->error('No post(s).');
 
             return false;
         }
@@ -89,10 +88,10 @@ class EditCommand extends Command
                 ? sprintf("[ %3d] ", $index) . $post['title']
                 : sprintf("[*%3d] ", $index) . $post['title'];
 
-            IO::log($text);
+            $this->io->log($text);
         }
 
-        $index = IO::ask("\nEnter Number:\n-> ", function ($answer) use ($postList) {
+        $index = $this->io->ask("\nEnter Number:\n-> ", function ($answer) use ($postList) {
             return is_numeric($answer)
                 && $answer >= 0
                 && $answer < count($postList);

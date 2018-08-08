@@ -1,6 +1,6 @@
 <?php
 /**
- * Pointless Initialize Home Command
+ * Set Home Task
  *
  * @package     Pointless
  * @author      Scar Wu
@@ -8,13 +8,12 @@
  * @link        https://github.com/scarwu/Pointless
  */
 
-namespace Pointless\Command\Main\Home;
+namespace Pointless\Task\Home;
 
 use Pointless\Library\Misc;
-use Oni\CLI\Command;
-use Oni\CLI\IO;
+use Oni\CLI\Task;
 
-class InitCommand extends Command
+class SetTask extends Task
 {
     /**
      * @var string
@@ -22,12 +21,12 @@ class InitCommand extends Command
     private $path;
 
     /**
-     * Help
+     * Help Info
      */
-    public function help()
+    public function helpInfo()
     {
-        IO::log('    home init <path or not>');
-        IO::log('                - Init a new blog');
+        $this->io->log('    home set <path or not>');
+        $this->io->log('                - Set another blog as default');
     }
 
     /**
@@ -37,8 +36,8 @@ class InitCommand extends Command
     {
         $this->path = $this->getPath();
 
-        if (file_exists($this->path)) {
-            IO::error("Path \"{$this->path}\" is exists.");
+        if (!file_exists($this->path)) {
+            $this->io->error("Path \"{$this->path}\" is't exists.");
 
             return false;
         }
@@ -57,7 +56,7 @@ class InitCommand extends Command
             return false;
         }
 
-        IO::notice("Default blog is setting to path \"{$this->path}\".");
+        $this->io->notice("Default blog is setting to path \"{$this->path}\".");
     }
 
     /**
@@ -69,8 +68,8 @@ class InitCommand extends Command
     {
         $path = '';
 
-        if ($this->getArguments(0)) {
-            $path = $this->getArguments(0);
+        if ($this->io->getArguments(0)) {
+            $path = $this->io->getArguments(0);
         }
 
         if (!preg_match('/^\/(.+)/', $path)) {

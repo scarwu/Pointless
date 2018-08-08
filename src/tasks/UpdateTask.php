@@ -1,6 +1,6 @@
 <?php
 /**
- * Pointless Update Command
+ * Update Task
  *
  * @package     Pointless
  * @author      Scar Wu
@@ -8,23 +8,25 @@
  * @link        https://github.com/scarwu/Pointless
  */
 
-namespace Pointless\Command\Main;
+namespace Pointless\Task;
 
 use Pointless\Library\Misc;
 use Pointless\Library\Utility;
-use Oni\CLI\Command;
-use Oni\CLI\IO;
+use Oni\CLI\Task;
 
-class UpdateCommand extends Command
+class UpdateTask extends Task
 {
     /**
-     * Help
+     * Help Info
      */
-    public function help()
+    public function helpInfo($is_show_detail = false)
     {
-        IO::log('    update      - Self-update');
-        IO::log('    update -d   - Use development version');
-        IO::log('    update -e   - Use experipment version');
+        $this->io->log('    update      - Self-update');
+
+        if ($is_show_detail) {
+            $this->io->log('    update -d   - Use development version');
+            $this->io->log('    update -e   - Use experipment version');
+        }
     }
 
     /**
@@ -33,19 +35,19 @@ class UpdateCommand extends Command
     public function up()
     {
         if ('development' === APP_ENV) {
-            IO::error('Development version can not be updated.');
+            $this->io->error('Development version can not be updated.');
 
             return false;
         }
 
-        if (!Utility::commandExists('wget')) {
-            IO::error('System command "wget" is not found.');
+        if (false === Utility::commandExists('wget')) {
+            $this->io->error('System command "wget" is not found.');
 
             return false;
         }
 
-        if (!is_writable(BIN_LOCATE)) {
-            IO::error('Permission denied: ' . BIN_LOCATE);
+        if (false === is_writable(BIN_LOCATE)) {
+            $this->io->error('Permission denied: ' . BIN_LOCATE);
 
             return false;
         }
@@ -58,11 +60,11 @@ class UpdateCommand extends Command
     {
         $branch = 'master';
 
-        if ($this->hasOptions('d')) {
+        if ($this->io->hasOptions('d')) {
             $branch = 'develop';
         }
 
-        if ($this->hasOptions('e')) {
+        if ($this->io->hasOptions('e')) {
             $branch = 'experipment';
         }
 
@@ -75,7 +77,7 @@ class UpdateCommand extends Command
         // Reset Timestamp
         file_put_contents(HOME_ROOT . '/timestamp', 0);
 
-        IO::notice('Update finish.');
+        $this->io->notice('Update finish.');
 
         system('/tmp/poi version');
         rename('/tmp/poi', BIN_LOCATE . '/poi');

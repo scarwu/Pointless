@@ -1,6 +1,6 @@
 <?php
 /**
- * Pointless Config Command
+ * Blog Config Task
  *
  * @package     Pointless
  * @author      Scar Wu
@@ -8,22 +8,21 @@
  * @link        https://github.com/scarwu/Pointless
  */
 
-namespace Pointless\Command\Main;
+namespace Pointless\Task\Blog;
 
 use Pointless\Library\Misc;
 use Pointless\Library\Utility;
 use Pointless\Library\Resource;
-use Oni\CLI\Command;
-use Oni\CLI\IO;
+use Oni\CLI\Task;
 
-class ConfigCommand extends Command
+class ConfigTask extends Task
 {
     /**
-     * Help
+     * Help Info
      */
-    public function help()
+    public function helpInfo()
     {
-        IO::log('    config      - Modify config');
+        $this->io->log('    blog config - Modify config');
     }
 
     /**

@@ -17,19 +17,31 @@ ini_set('pcre.jit', false);
 // Composer Autoloader
 require APP_ROOT . '/vendor/autoload.php';
 
-// Set Loader
-Oni\CLI\Loader::set('Pointless\Command', APP_ROOT . '/commands');
-Oni\CLI\Loader::set('Pointless\Library', APP_ROOT . '/libraries');
-Oni\CLI\Loader::set('Pointless\Extend', APP_ROOT . '/extends');
-Oni\CLI\Loader::set('Pointless\Format', APP_ROOT . '/formats');
+use Oni\Loader;
+use Oni\CLI\App;
 
-// Loader Register
-Oni\CLI\Loader::register();
+// New Oni CLI Application Instance
+$app = new App();
+
+// Set Attr
+$app->setAttr('namespace', 'Pointless');
+$app->setAttr('task/namespace', 'Pointless\Task');
+$app->setAttr('task/path', APP_ROOT . '/tasks');
+$app->setAttr('task/default', 'Intro');
+
+// Loader Append
+Loader::append('Pointless\Library', APP_ROOT . '/libraries');
+Loader::append('Pointless\Extend', APP_ROOT . '/extends');
+Loader::append('Pointless\Format', APP_ROOT . '/formats');
+
+use Pointless\Library\Resource;
+use Pointless\Library\Utility;
+use Pointless\Library\Misc;
 
 // Require Constant Attr
 require APP_ROOT . '/constant.php';
 
-Pointless\Library\Resource::set('system:constant', $constant);
+Resource::set('system:constant', $constant);
 
 // Define Variables
 define('BUILD_VERSION', $constant['build']['version']);
@@ -39,12 +51,12 @@ define('BUILD_TIMESTAMP', $constant['build']['timestamp']);
 define('HOME_ROOT', $_SERVER['HOME'] . '/.pointless3');
 
 // Create Folder
-Pointless\Library\Utility::mkdir(HOME_ROOT);
+Utility::mkdir(HOME_ROOT);
 
 if ('production' === APP_ENV) {
 
     // Create Folder
-    Pointless\Library\Utility::mkdir(HOME_ROOT . '/sample');
+    Utility::mkdir(HOME_ROOT . '/sample');
 
     // Get Timestamp
     $timestamp = file_exists(HOME_ROOT . '/.timestamp')
@@ -54,10 +66,10 @@ if ('production' === APP_ENV) {
     if (BUILD_TIMESTAMP !== $timestamp) {
 
         // Remove Old Sample
-        Pointless\Library\Utility::remove(HOME_ROOT . '/sample');
+        Utility::remove(HOME_ROOT . '/sample');
 
         // Copy New Sample
-        Pointless\Library\Utility::copy(APP_ROOT . '/sample', HOME_ROOT . '/sample');
+        Utility::copy(APP_ROOT . '/sample', HOME_ROOT . '/sample');
 
         // Update Timestamp
         file_put_contents(HOME_ROOT . '/timestamp', BUILD_TIMESTAMP);
@@ -65,7 +77,7 @@ if ('production' === APP_ENV) {
 }
 
 // Fix Permission
-Pointless\Library\Misc::fixPermission(HOME_ROOT);
+Misc::fixPermission(HOME_ROOT);
 
-// Init Pointless Commnad
-(new Pointless\Command\MainCommand)->init();
+// Run Application
+$app->run();
