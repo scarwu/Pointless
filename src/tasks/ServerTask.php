@@ -18,9 +18,9 @@ class ServerTask extends Task
     /**
      * Help Info
      */
-    public function helpInfo($is_show_detail = false)
+    public function helpInfo($isShowDetail = false)
     {
-        if ($is_show_detail) {
+        if ($isShowDetail) {
             $this->io->log('    server          - Show server status');
 
             // Sub Help Info

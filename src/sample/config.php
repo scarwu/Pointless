@@ -17,14 +17,14 @@ $config = [
 
         'lang' => 'en', // en | zh-tw | zh-cn | other
 
-        'dn' => 'localhost',
-        'base' => '/',
+        'domainName' => 'localhost',
+        'baseUrl' => '/',
 
         'author' => null,
         'email' => null,
 
-        'disqus_shortname' => null, // Disqus Shortname
-        'google_analytics' => null, // Google Analytics - UA-xxxxxxxx-x
+        'disqusShortname' => null, // Disqus Shortname
+        'googleAnalytics' => null, // Google Analytics - UA-xxxxxxxx-x
     ],
 
     'theme' => 'Classic',

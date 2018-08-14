@@ -19,9 +19,9 @@ class BlogTask extends Task
     /**
      * Help Info
      */
-    public function helpInfo($is_show_detail = false)
+    public function helpInfo($isShowDetail = false)
     {
-        if ($is_show_detail) {
+        if ($isShowDetail) {
             $this->io->log('    blog            - Show blog status');
 
             // Sub Help Info

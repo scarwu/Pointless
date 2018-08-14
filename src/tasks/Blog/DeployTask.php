@@ -72,7 +72,7 @@ class DeployTask extends Task
 
         // Create Github CNAME
         if ($github['cname']) {
-            file_put_contents(BLOG_DEPLOY . '/CNAME', $blog['dn']);
+            file_put_contents(BLOG_DEPLOY . '/CNAME', $blog['domainName']);
         }
 
         system('git add --all .');

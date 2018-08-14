@@ -35,13 +35,13 @@ $mime = [
 ];
 
 // Built-in Web Server Route
-$pattern = '/^' . str_replace('/', '\/', $config['blog']['base']) . '/';
+$pattern = '/^' . str_replace('/', '\/', $config['blog']['baseUrl']) . '/';
 
 if (!preg_match($pattern, $_SERVER['REQUEST_URI'])) {
-    header("Location:http://{$_SERVER['HTTP_HOST']}{$config['blog']['base']}");
+    header("Location:http://{$_SERVER['HTTP_HOST']}{$config['blog']['baseUrl']}");
 }
 
-$pattern = '/^' . str_replace('/', '\/', $config['blog']['base']) . '(.+)/';
+$pattern = '/^' . str_replace('/', '\/', $config['blog']['baseUrl']) . '(.+)/';
 
 if (preg_match($pattern, $_SERVER['REQUEST_URI'], $match)) {
     $base = "{$base}/" . urldecode($match[1]);
@@ -51,11 +51,11 @@ $base = is_dir($base) ? "{$base}/index.html" : $base;
 $base = explode('?', $base)[0];
 
 // Set Constent Type
-$ext_name = explode('.', $base);
-$ext_name = array_pop($ext_name);
+$extName = explode('.', $base);
+$extName = array_pop($extName);
 
-if (isset($mime[$ext_name])) {
-    header("Content-type: {$mime[$ext_name]}");
+if (isset($mime[$extName])) {
+    header("Content-type: {$mime[$extName]}");
 }
 
 // Response Content

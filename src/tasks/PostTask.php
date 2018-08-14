@@ -19,9 +19,9 @@ class PostTask extends Task
     /**
      * Help Info
      */
-    public function helpInfo($is_show_detail = false)
+    public function helpInfo($isShowDetail = false)
     {
-        if ($is_show_detail) {
+        if ($isShowDetail) {
             $this->io->log('    post            - Show posts status');
 
             // Sub Help Info

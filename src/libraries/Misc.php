@@ -54,15 +54,15 @@ EOF;
             return false;
         }
 
-        $blog_root = file_get_contents(HOME_ROOT . '/default');
+        $blogRoot = file_get_contents(HOME_ROOT . '/default');
 
-        if (false === Utility::mkdir($blog_root)) {
+        if (false === Utility::mkdir($blogRoot)) {
             file_put_contents(HOME_ROOT . '/defualt', '');
 
             return false;
         }
 
-        define('BLOG_ROOT', $blog_root);
+        define('BLOG_ROOT', $blogRoot);
 
         if (false === file_exists(BLOG_ROOT . '/.pointless')) {
             file_put_contents(BLOG_ROOT . '/.pointless', '');

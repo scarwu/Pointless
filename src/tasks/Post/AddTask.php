@@ -38,19 +38,19 @@ class AddTask extends Task
 
     public function run()
     {
-        $format_list = [];
+        $formatList = [];
 
-        foreach (Resource::get('system:constant')['formats'] as $index => $sub_class_name) {
-            $class_name = 'Pointless\\Format\\' . ucfirst($sub_class_name);
-            $format_list[$index] = new $class_name;
+        foreach (Resource::get('system:constant')['formats'] as $index => $subClassName) {
+            $className = 'Pointless\\Format\\' . ucfirst($subClassName);
+            $formatList[$index] = new $className;
 
-            $this->io->log(sprintf('[ %3d] ', $index) . $format_list[$index]->getName());
+            $this->io->log(sprintf('[ %3d] ', $index) . $formatList[$index]->getName());
         }
 
-        $index = $this->io->ask("\nSelect Document Format:\n-> ", function ($answer) use ($format_list) {
+        $index = $this->io->ask("\nSelect Document Format:\n-> ", function ($answer) use ($formatList) {
             return is_numeric($answer)
                 && $answer >= 0
-                && $answer < count($format_list);
+                && $answer < count($formatList);
         });
 
         $this->io->writeln();
@@ -58,7 +58,7 @@ class AddTask extends Task
         // Ask Question
         $input = [];
 
-        foreach ($format_list[$index]->getQuestion() as $question) {
+        foreach ($formatList[$index]->getQuestion() as $question) {
             $input[$question[0]] = $this->io->ask($question[1]);
         }
 
@@ -72,15 +72,15 @@ class AddTask extends Task
         }
 
         // Save File
-        list($filename, $filepath) = $format_list[$index]->inputHandleAndSaveFile($input);
+        list($filename, $filepath) = $formatList[$index]->inputHandleAndSaveFile($input);
 
         if (null === $filepath) {
-            $this->io->error($format_list[$index]->getName() . " {$filename} is exsist.");
+            $this->io->error($formatList[$index]->getName() . " {$filename} is exsist.");
 
             return false;
         }
 
-        $this->io->notice($format_list[$index]->getName() . " {$filename} was created.");
+        $this->io->notice($formatList[$index]->getName() . " {$filename} was created.");
 
         // Call CLI Editor to open file
         Misc::editFile($filepath);

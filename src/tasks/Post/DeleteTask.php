@@ -37,25 +37,25 @@ class DeleteTask extends Task
 
     public function run()
     {
-        $format_list = [];
+        $formatList = [];
 
-        foreach (Resource::get('system:constant')['formats'] as $index => $sub_class_name) {
-            $class_name = 'Pointless\\Format\\' . ucfirst($sub_class_name);
-            $format_list[$index] = new $class_name;
+        foreach (Resource::get('system:constant')['formats'] as $index => $subClassName) {
+            $className = 'Pointless\\Format\\' . ucfirst($subClassName);
+            $formatList[$index] = new $className;
 
-            $this->io->log(sprintf('[ %3d] ', $index) . $format_list[$index]->getName());
+            $this->io->log(sprintf('[ %3d] ', $index) . $formatList[$index]->getName());
         }
 
-        $index = $this->io->ask("\nSelect Document Format:\n-> ", function ($answer) use ($format_list) {
+        $index = $this->io->ask("\nSelect Document Format:\n-> ", function ($answer) use ($formatList) {
             return is_numeric($answer)
                 && $answer >= 0
-                && $answer < count($format_list);
+                && $answer < count($formatList);
         });
 
         $this->io->writeln();
 
         // Load Markdown
-        $type = $format_list[$index]->getType();
+        $type = $formatList[$index]->getType();
         $postList = Misc::getPostList($type, true);
 
         if (0 === count($postList)) {

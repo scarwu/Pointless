@@ -65,8 +65,8 @@ class BuildTask extends Task
 
         file_put_contents(BLOG_BUILD . '/README.md', $readme);
 
-        // Copy Resource Files
-        $this->io->notice('Copy Resource Files ...');
+        // Copy Assets Files
+        $this->io->notice('Copy Assets Files ...');
 
         Utility::copy(BLOG_STATIC, BLOG_BUILD);
 
@@ -74,7 +74,7 @@ class BuildTask extends Task
             Utility::copy(BLOG_THEME . '/assets', BLOG_BUILD . '/assets');
         }
 
-        // Initialize Resource Pool
+        // Load Post Files
         $this->io->notice('Load Post Files ...');
 
         $formatList = [];
@@ -97,6 +97,7 @@ class BuildTask extends Task
             if (false === $post['publish']) {
                 continue;
             }
+
             if (false === isset($formatList[$post['type']])) {
                 continue;
             }

@@ -25,7 +25,7 @@ class Atom extends Extension
 
         $quantity = Resource::get('system:config')['extension']['atom']['quantity'];
         $blog = Resource::get('system:config')['blog'];
-        $blog['url'] = $blog['dn'] . $blog['base'];
+        $blog['url'] = $blog['domainName'] . $blog['baseUrl'];
 
         $count = 0;
 
