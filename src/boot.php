@@ -24,10 +24,9 @@ use Oni\CLI\App;
 $app = new App();
 
 // Set Attr
-$app->setAttr('namespace', 'Pointless');
 $app->setAttr('task/namespace', 'Pointless\Task');
 $app->setAttr('task/path', APP_ROOT . '/tasks');
-$app->setAttr('task/default', 'Intro');
+$app->setAttr('task/default/handler', 'Intro');
 
 // Loader Append
 Loader::append('Pointless\Library', APP_ROOT . '/libraries');

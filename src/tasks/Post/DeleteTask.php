@@ -25,7 +25,7 @@ class DeleteTask extends Task
     }
 
     /**
-     * Up
+     * Lifecycle Funtions
      */
     public function up()
     {

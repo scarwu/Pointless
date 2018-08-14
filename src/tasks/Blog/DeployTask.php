@@ -22,11 +22,11 @@ class DeployTask extends Task
      */
     public function helpInfo()
     {
-        $this->io->log('    blog deploy     - Deploy blog to Github');
+        $this->io->log('    blog deploy     - Deploy blog to Github Pages');
     }
 
     /**
-     * Up
+     * Lifecycle Funtions
      */
     public function up()
     {
@@ -43,9 +43,6 @@ class DeployTask extends Task
         }
     }
 
-    /**
-     * Run
-     */
     public function run()
     {
         $blog = Resource::get('system:config')['blog'];

@@ -34,7 +34,7 @@ class PostTask extends Task
     }
 
     /**
-     * Up
+     * Lifecycle Funtions
      */
     public function up()
     {
@@ -52,9 +52,12 @@ class PostTask extends Task
         }
     }
 
-    /**
-     * Run
-     */
+    public function down()
+    {
+        $this->io->writeln();
+        $this->io->info('Used command "post -h" for more.');
+    }
+
     public function run()
     {
         $this->io->notice('Post Status:');
@@ -69,8 +72,5 @@ class PostTask extends Task
 
             $this->io->log("{$count} {$name} post(s).");
         }
-
-        $this->io->writeln();
-        $this->io->info('Used command "post -h" for more.');
     }
 }

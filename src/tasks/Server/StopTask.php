@@ -24,7 +24,7 @@ class StopTask extends Task
     }
 
     /**
-     * Up
+     * Lifecycle Funtions
      */
     public function up()
     {
@@ -40,9 +40,6 @@ class StopTask extends Task
         }
     }
 
-    /**
-     * Run
-     */
     public function run()
     {
         $this->io->notice('Stopping Server');

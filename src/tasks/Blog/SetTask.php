@@ -30,7 +30,7 @@ class SetTask extends Task
     }
 
     /**
-     * Up
+     * Lifecycle Funtions
      */
     public function up()
     {
@@ -43,9 +43,6 @@ class SetTask extends Task
         }
     }
 
-    /**
-     * Run
-     */
     public function run()
     {
         // Set Path to Defult Blog File

@@ -3,7 +3,7 @@
         "vendor-dir": "src/vendor"
     },
     "require": {
-        "php": ">=7.0.0",
+        "php": ">=7.1.0",
         "scarwu/oni": "dev-master",
         "scarwu/pack": "dev-master",
         "erusev/parsedown": "^1.6.1"

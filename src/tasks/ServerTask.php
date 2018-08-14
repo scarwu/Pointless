@@ -32,7 +32,7 @@ class ServerTask extends Task
     }
 
     /**
-     * Up
+     * Lifecycle Funtions
      */
     public function up()
     {
@@ -56,9 +56,12 @@ class ServerTask extends Task
         }
     }
 
-    /**
-     * Run
-     */
+    public function down()
+    {
+        $this->io->writeln();
+        $this->io->info('Used command "server -h" for more.');
+    }
+
     public function run()
     {
         $list = json_decode(file_get_contents(HOME_ROOT . '/pid'), true);
@@ -75,8 +78,5 @@ class ServerTask extends Task
                 break;
             }
         }
-
-        $this->io->writeln();
-        $this->io->info('Used command "server -h" for more.');
     }
 }

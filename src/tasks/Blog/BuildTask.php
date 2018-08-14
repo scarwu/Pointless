@@ -15,8 +15,6 @@ use Pointless\Library\Utility;
 use Pointless\Library\Resource;
 use Pointless\Library\HTMLGenerator;
 use Pointless\Library\ExtensionLoader;
-use Pack\CSS;
-use Pack\JS;
 use Oni\Loader;
 use Oni\CLI\Task;
 
@@ -31,7 +29,7 @@ class BuildTask extends Task
     }
 
     /**
-     * Up
+     * Lifecycle Funtions
      */
     public function up()
     {
@@ -51,9 +49,6 @@ class BuildTask extends Task
         Loader::append('Pointless\Extension', APP_ROOT . '/sample/extensions');
     }
 
-    /**
-     * Run
-     */
     public function run()
     {
         $blog = Resource::get('system:config')['blog'];
@@ -75,19 +70,9 @@ class BuildTask extends Task
 
         Utility::copy(BLOG_STATIC, BLOG_BUILD);
 
-        if (file_exists(BLOG_THEME . '/assets/fonts')) {
-            Utility::copy(BLOG_THEME . '/assets/fonts', BLOG_BUILD . '/assets/fonts');
+        if (file_exists(BLOG_THEME . '/assets')) {
+            Utility::copy(BLOG_THEME . '/assets', BLOG_BUILD . '/assets');
         }
-
-        if (file_exists(BLOG_THEME . '/assets/images')) {
-            Utility::copy(BLOG_THEME . '/assets/images', BLOG_BUILD . '/assets/images');
-        }
-
-        // Compress Assets
-        $this->io->notice('Compress Assets ...');
-
-        $this->CSSCompress();
-        $this->JSCompress();
 
         // Initialize Resource Pool
         $this->io->notice('Load Post Files ...');
@@ -163,53 +148,5 @@ class BuildTask extends Task
 
         // Fix Permission
         Misc::fixPermission(BLOG_BUILD);
-    }
-
-    /**
-     * CSS Compress
-     */
-    private function CSSCompress()
-    {
-        $this->io->log('Compressing CSS');
-
-        $cssPack = new CSS();
-
-        foreach (Resource::get('theme:config')['assets']['styles'] as $filename) {
-            $filename = preg_replace('/.css$/', '', $filename);
-
-            if (false === file_exists(BLOG_THEME . "/assets/styles/{$filename}.css")) {
-                $this->io->warning("CSS file \"{$filename}.css\" not found.");
-
-                continue;
-            }
-
-            $cssPack->append(BLOG_THEME . "/assets/styles/{$filename}.css");
-        }
-
-        $cssPack->save(BLOG_BUILD . '/assets/styles.css', true);
-    }
-
-    /**
-     * Javascript Compress
-     */
-    private function JSCompress()
-    {
-        $this->io->log('Compressing Javascript');
-
-        $jsPack = new JS();
-
-        foreach (Resource::get('theme:config')['assets']['scripts'] as $filename) {
-            $filename = preg_replace('/.js$/', '', $filename);
-
-            if (false === file_exists(BLOG_THEME . "/assets/scripts/{$filename}.js")) {
-                $this->io->warning("Javascript file \"{$filename}.js\" not found.");
-
-                continue;
-            }
-
-            $jsPack->append(BLOG_THEME . "/assets/scripts/{$filename}.js");
-        }
-
-        $jsPack->save(BLOG_BUILD . '/assets/scripts.js', false);
     }
 }

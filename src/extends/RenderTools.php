@@ -11,7 +11,6 @@
 namespace Pointless\Extend;
 
 use Pointless\Library\Resource;
-use Pointless\Library\Helper;
 
 trait RenderTools
 {

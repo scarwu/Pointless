@@ -26,7 +26,7 @@ class AddTask extends Task
     }
 
     /**
-     * Up
+     * Lifecycle Funtions
      */
     public function up()
     {
@@ -36,9 +36,6 @@ class AddTask extends Task
         }
     }
 
-    /**
-     * Run
-     */
     public function run()
     {
         $format_list = [];

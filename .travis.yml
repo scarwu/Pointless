@@ -15,6 +15,5 @@ script:
   - php ../poi.phar update -d
 language: php
 php:
-  - 7.0
   - 7.1
   - 7.2

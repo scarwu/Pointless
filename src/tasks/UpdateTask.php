@@ -25,7 +25,7 @@ class UpdateTask extends Task
     }
 
     /**
-     * Up
+     * Lifecycle Funtions
      */
     public function up()
     {
@@ -48,9 +48,12 @@ class UpdateTask extends Task
         }
     }
 
-    /**
-     * Help
-     */
+    public function down()
+    {
+        $this->io->writeln();
+        $this->io->info('Used command "update -h" for more.');
+    }
+
     public function run()
     {
         $anwser = $this->io->ask('Are you sure to update system? [y/N]');
@@ -61,14 +64,13 @@ class UpdateTask extends Task
 
             system("wget {$remote} -O /tmp/poi");
             chmod('/tmp/poi', 0755);
+            rename('/tmp/poi', BIN_LOCATE . '/poi');
+            system(BIN_LOCATE . '/poi');
 
             // Reset Timestamp
             file_put_contents(HOME_ROOT . '/timestamp', 0);
 
             $this->io->notice('Update system finished.');
-
-            system('/tmp/poi version');
-            rename('/tmp/poi', BIN_LOCATE . '/poi');
         } else {
             $this->io->warning('Update system skipped.');
         }

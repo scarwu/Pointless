@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "659e60f3b3ee4ae527ca8e67190850a3",
+    "content-hash": "f1ec6012c4f59a265f16f596fb9c3b67",
     "packages": [
         {
             "name": "erusev/parsedown",
@@ -58,16 +58,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/scarwu/Oni.git",
-                "reference": "a67e98e28cf61e1bf2e861b2e0d1783166cc3c45"
+                "reference": "46b963d3ff49e9e239c6fed629bfb6a171b2db6e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/scarwu/Oni/zipball/a67e98e28cf61e1bf2e861b2e0d1783166cc3c45",
-                "reference": "a67e98e28cf61e1bf2e861b2e0d1783166cc3c45",
+                "url": "https://api.github.com/repos/scarwu/Oni/zipball/46b963d3ff49e9e239c6fed629bfb6a171b2db6e",
+                "reference": "46b963d3ff49e9e239c6fed629bfb6a171b2db6e",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.0.0"
+                "php": ">=7.1.0"
             },
             "require-dev": {
                 "phpunit/php-code-coverage": "^6.0",
@@ -93,7 +93,7 @@
             ],
             "description": "A Lightweight PHP Framework for Web & CLI",
             "homepage": "https://github.com/scarwu/Oni",
-            "time": "2018-08-08T16:54:42+00:00"
+            "time": "2018-08-14T09:06:16+00:00"
         },
         {
             "name": "scarwu/pack",
@@ -1604,7 +1604,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.0.0"
+        "php": ">=7.1.0"
     },
     "platform-dev": []
 }

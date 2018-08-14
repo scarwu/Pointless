@@ -25,7 +25,7 @@ class StartTask extends Task
     }
 
     /**
-     * Up
+     * Lifecycle Funtions
      */
     public function up()
     {
@@ -35,9 +35,6 @@ class StartTask extends Task
         }
     }
 
-    /**
-     * Run
-     */
     public function run()
     {
         // Startgin Server

@@ -26,7 +26,7 @@ class ConfigTask extends Task
     }
 
     /**
-     * Up
+     * Lifecycle Funtions
      */
     public function up()
     {
@@ -36,9 +36,6 @@ class ConfigTask extends Task
         }
     }
 
-    /**
-     * Run
-     */
     public function run()
     {
         $configPath = BLOG_ROOT . '/config.php';

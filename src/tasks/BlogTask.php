@@ -27,16 +27,16 @@ class BlogTask extends Task
             // Sub Help Info
             (new \Pointless\Task\Blog\InitTask)->helpInfo();
             (new \Pointless\Task\Blog\SetTask)->helpInfo();
-            (new \Pointless\Task\Blog\ConfigTask)->helpInfo();
             (new \Pointless\Task\Blog\BuildTask)->helpInfo();
             (new \Pointless\Task\Blog\DeployTask)->helpInfo();
+            (new \Pointless\Task\Blog\ConfigTask)->helpInfo();
         } else {
             $this->io->log('    blog            - Blog control');
         }
     }
 
     /**
-     * Up
+     * Lifecycle Funtions
      */
     public function up()
     {
@@ -54,9 +54,12 @@ class BlogTask extends Task
         }
     }
 
-    /**
-     * Run
-     */
+    public function down()
+    {
+        $this->io->writeln();
+        $this->io->info('Used command "blog -h" for more.');
+    }
+
     public function run()
     {
         $config = Resource::get('system:config');
@@ -70,8 +73,5 @@ class BlogTask extends Task
         $this->io->log("Theme    - {$config['theme']}");
         $this->io->log("Timezone - {$config['timezone']}");
         $this->io->log("Editor   - {$config['editor']}");
-
-        $this->io->writeln();
-        $this->io->info('Used command "blog -h" for more.');
     }
 }

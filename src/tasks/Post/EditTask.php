@@ -31,7 +31,7 @@ class EditTask extends Task
     }
 
     /**
-     * Up
+     * Lifecycle Funtions
      */
     public function up()
     {
@@ -50,9 +50,6 @@ class EditTask extends Task
         }
     }
 
-    /**
-     * Run
-     */
     public function run()
     {
         $format_list = [];

@@ -10,34 +10,35 @@
 
 namespace Pointless\Task;
 
-use Exception;
 use Pointless\Library\Misc;
 use Oni\CLI\Task;
 
 class IntroTask extends Task
 {
-    /**
-     * Run
-     */
-    public function run()
+    public function run($params = [])
     {
         Misc::showBanner();
 
-        // Sub Help Info
-        (new \Pointless\Task\BlogTask)->helpInfo();
-        (new \Pointless\Task\PostTask)->helpInfo();
-        (new \Pointless\Task\ServerTask)->helpInfo();
-        (new \Pointless\Task\UpdateTask)->helpInfo();
+        if (0 === count($params)) {
 
-        // Show Version
-        $date = date(DATE_RSS, BUILD_TIMESTAMP);
-        $version = BUILD_VERSION . " ($date)";
+            // Sub Help Info
+            (new \Pointless\Task\BlogTask)->helpInfo();
+            (new \Pointless\Task\PostTask)->helpInfo();
+            (new \Pointless\Task\ServerTask)->helpInfo();
+            (new \Pointless\Task\UpdateTask)->helpInfo();
 
-        if ('development' === APP_ENV) {
-            $version = "(Development) {$version}";
+            // Show Version
+            $date = date(DATE_RSS, BUILD_TIMESTAMP);
+            $version = BUILD_VERSION . " ($date)";
+
+            if ('development' === APP_ENV) {
+                $version = "(Development) {$version}";
+            }
+
+            $this->io->writeln();
+            $this->io->info($version);
+        } else {
+            $this->io->error("    Can't find the command \"{$params[0]}\".");
         }
-
-        $this->io->writeln();
-        $this->io->info($version);
     }
 }
