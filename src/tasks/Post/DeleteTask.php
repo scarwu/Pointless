@@ -39,9 +39,10 @@ class DeleteTask extends Task
     {
         $formatList = [];
 
-        foreach (Resource::get('system:constant')['formats'] as $index => $subClassName) {
-            $className = 'Pointless\\Format\\' . ucfirst($subClassName);
-            $formatList[$index] = new $className;
+        foreach (Resource::get('system:constant')['formats'] as $index => $name) {
+            $namespace = 'Pointless\\Format\\' . ucfirst($name);
+
+            $formatList[$index] = new $namespace();
 
             $this->io->log(sprintf('[ %3d] ', $index) . $formatList[$index]->getName());
         }

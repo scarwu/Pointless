@@ -39,7 +39,7 @@ EOF;
     /**
      * Initialize Blog
      *
-     * @return boolean
+     * @return bool
      */
     public static function initBlog()
     {
@@ -124,10 +124,14 @@ EOF;
      *
      * @param string $path
      *
-     * @return boolean
+     * @return bool
      */
     public static function fixPermission($path)
     {
+        if (false === is_string($path)) {
+            return false;
+        }
+
         // Check SERVER Variable
         if (false === isset($_SERVER['SUDO_USER'])) {
             return false;
@@ -144,10 +148,14 @@ EOF;
      *
      * @param string $path
      *
-     * @return boolean
+     * @return bool
      */
     public static function editFile($path)
     {
+        if (false === is_string($path)) {
+            return false;
+        }
+
         $editor = Resource::get('system:config')['editor'];
 
         if (false === Utility::commandExists($editor)) {
@@ -165,12 +173,20 @@ EOF;
      * Get Post List
      *
      * @param string $type
-     * @param boolean $skipContent
+     * @param bool $withContent
      *
      * @return array
      */
-    public static function getPostList($type = null, $skipContent = false)
+    public static function getPostList($type = null, $withContent = false)
     {
+        if (null !== $type && false === is_string($type)) {
+            return false;
+        }
+
+        if (false === is_bool($withContent)) {
+            return false;
+        }
+
         $list = [];
 
         $parsedown = new Parsedown();
@@ -181,7 +197,7 @@ EOF;
                 continue;
             }
 
-            $post = self::parseMarkdownFile($filename, $skipContent);
+            $post = self::parseMarkdownFile($filename, $withContent);
 
             if (false === $post) {
                 IO::init()->error("Markdown parse error: {$filename}");
@@ -189,13 +205,13 @@ EOF;
                 exit(1);
             }
 
-            if ($type !== null && $type !== $post['type']) {
+            if (null !== $type && $type !== $post['type']) {
                 continue;
             }
 
             $post['path'] = BLOG_POST . "/{$filename}";
 
-            if (false === $skipContent) {
+            if (false === $withContent) {
                 $post['content'] = $parsedown->text($post['content']);
             }
 
@@ -217,12 +233,18 @@ EOF;
      * Parse Markdown File
      *
      * @param string $filename
-     * @param boolean $skipContent
+     * @param bool $withContent
      *
      * @return string
      */
-    public static function parseMarkdownFile($filename, $skipContent = false)
+    public static function parseMarkdownFile($filename, $withContent = false)
     {
+        if (false === is_string($filename)
+            || false === is_bool($withContent)) {
+
+            return false;
+        }
+
         // Define Regular Expression Rule
         $regex = '/^(?:<!--({(?:.|\n)*})-->)\s*(?:#(.*))?((?:.|\n)*)/';
 
@@ -240,7 +262,7 @@ EOF;
 
         $post['title'] = trim($match[2]);
 
-        if (false === $skipContent) {
+        if (false === $withContent) {
             $post['content'] = $match[3];
         }
 

@@ -10,6 +10,7 @@
 
 namespace Pointless\Task\Blog;
 
+use Exception;
 use Pointless\Library\Misc;
 use Pointless\Library\Utility;
 use Pointless\Library\Resource;
@@ -17,6 +18,7 @@ use Pointless\Library\HTMLGenerator;
 use Pointless\Library\ExtensionLoader;
 use Oni\Loader;
 use Oni\CLI\Task;
+use Oni\Web\View;
 
 class BuildTask extends Task
 {
@@ -51,9 +53,13 @@ class BuildTask extends Task
 
     public function run()
     {
-        $blog = Resource::get('system:config')['blog'];
         $startTime = microtime(true);
         $startMemory = memory_get_usage();
+
+        // Get Resources
+        $systemConfig = Resource::get('system:config');
+        $systemConstant = Resource::get('system:constant');
+        $themeConfig = Resource::get('theme:config');
 
         // Clear Files
         $this->io->notice('Clean Files ...');
@@ -74,71 +80,82 @@ class BuildTask extends Task
             Utility::copy(BLOG_THEME . '/assets', BLOG_BUILD . '/assets');
         }
 
-        // Load Post Files
-        $this->io->notice('Load Post Files ...');
+        // Load Posts
+        $this->io->notice('Load Posts ...');
 
-        $formatList = [];
-        $result = [];
+        $postBundle = [];
 
-        foreach (Resource::get('system:constant')['formats'] as $subClassName) {
-            $className = 'Pointless\\Format\\' . ucfirst($subClassName);
+        foreach ($systemConstant['formats'] as $name) {
+            $namespace = 'Pointless\\Format\\' . ucfirst($name);
 
-            $format = new $className;
-            $type = $format->getType();
+            $instance = new $namespace();
+            $type = $instance->getType();
 
-            $formatList[$type] = $format;
-            $result[$type] = [];
+            $postBundle[$type] = [];
+
+            foreach (Misc::getPostList($type) as $post) {
+                if (false === $post['isPublic']) {
+                    continue;
+                }
+
+                $postBundle[$type][] = $instance->convertPost($post);
+            }
         }
 
-        // Load Post
-        $postList = Misc::getPostList();
-
-        foreach ($postList as $post) {
-            if (false === $post['isPublic']) {
-                continue;
-            }
-
-            if (false === isset($formatList[$post['type']])) {
-                continue;
-            }
-
-            // Append Post to Result
-            $result[$post['type']][] = $formatList[$post['type']]->postHandleAndGetResult($post);
-        }
-
-        foreach ($result as $type => $post) {
-            Resource::set("post:{$type}", array_reverse($post));
+        foreach ($postBundle as $type => $post) {
+            $postBundle[$type] = array_reverse($post);
         }
 
         // Rendering HTML Pages
         $this->io->notice('Rendering HTML ...');
 
-        $system = [
-            'config' => Resource::get("system:config"),
-            'constant' => Resource::get("system:constant")
-        ];
+        $handlerList = [];
 
-        $theme = [
-            'config' => Resource::get("theme:config")
-        ];
+        foreach ($themeConfig['handlers'] as $name) {
+            if (!isset($handlerList[$name])) {
+                $namespace = 'Pointless\\Handler\\' . ucfirst($name);
 
-        $post = [
-            'describe' => Resource::get("post:describe"),
-            'article' => Resource::get("post:article")
-        ];
+                $instance = new $namespace();
+                $type = $instance->getType();
 
-        $describeList = [];
-        $articleList = [];
-        $archiveList = [];
-        $categoryList = [];
-        $tagList = [];
-
-        foreach ($describeList as $key => $value) {
-            # code...
+                $handlerList[$type] = $instance;
+                $handlerList[$type]->initData($postBundle);
+            }
         }
 
-        foreach (Resource::get('theme:config')['views']['container'] as $name) {
-            echo $name . "\n";
+        // Init View
+        $view = View::init();
+        $view->setAttr('path', $this->getAttr(BLOG_THEME . '/views'));
+        $view->setLayoutPath('index');
+
+        $viewData = [
+            'systemConfig' => $systemConfig,
+            'systemConstant' => $systemConstant,
+            'themeConfig' => $themeConfig,
+            'sideList' => [],
+            'container' => []
+        ];
+
+        foreach ($themeConfig['views']['side'] as $name) {
+            if (!isset($handlerList[$name])) {
+                continue;
+            }
+
+            $viewData['sideList'][$name] = $handlerList[$name]->getSideData();
+        }
+
+        foreach ($themeConfig['views']['container'] as $name) {
+            $view->setContentPath("container/{$name}");
+
+            $containerData = $handlerList[$name]->getContainerData();
+
+            foreach ($containerData as $container) {
+                $viewData['container'] = $container;
+
+                $view->setData($viewData);
+            }
+
+            $html = $view->render();
         }
 
         exit();
@@ -146,17 +163,19 @@ class BuildTask extends Task
         // Generate Extension
         $this->io->notice('Generating Extensions ...');
 
-        foreach (Resource::get('theme:config')['extensions'] as $subClassName) {
-            $className = 'Pointless\\Extension\\' . ucfirst($subClassName);
-            (new $className)->run();
+        foreach ($themeConfig['extensions'] as $name) {
+            $namespace = 'Pointless\\Extension\\' . ucfirst($name);
+
+            (new $namespace)->run();
         }
 
+        // Fix Permission
+        Misc::fixPermission(BLOG_BUILD);
+
+        // Print Execution Time
         $time = sprintf('%.3f', abs(microtime(true) - $startTime));
         $memory = sprintf('%.3f', abs(memory_get_usage() - $startMemory) / 1024);
 
         $this->io->info("Generate finish, {$time}s and memory usage {$memory}KB.");
-
-        // Fix Permission
-        Misc::fixPermission(BLOG_BUILD);
     }
 }

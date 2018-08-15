@@ -24,6 +24,12 @@ class Utility
      */
     public static function pathReplace($filename, $skip = false)
     {
+        if (false === is_string($filename)
+            || false === is_bool($skip)) {
+
+            return false;
+        }
+
         $char = [
             "'", '"', '&', '$', '=',
             '!', '?', '<', '>', '|',
@@ -50,6 +56,10 @@ class Utility
      */
     public static function commandExists($command)
     {
+        if (false === is_string($command)) {
+            return false;
+        }
+
         foreach (explode(':', $_SERVER['PATH']) as $path) {
             if (file_exists("{$path}/{$command}")) {
                 return true;
@@ -68,8 +78,15 @@ class Utility
      *
      * @return bool
      */
-    public static function chown($path = null, $user = null, $group = null)
+    public static function chown($path, $user, $group)
     {
+        if (false === is_string($path)
+            || false === is_string($user)
+            || false === is_string($group)) {
+
+            return false;
+        }
+
         if (false === file_exists($path)) {
             return false;
         }
@@ -95,12 +112,16 @@ class Utility
     /**
      * Recursive mkdir
      *
-     * @param string $src
+     * @param string $path
      *
      * @return bool
      */
     public static function mkdir($path)
     {
+        if (false === is_string($path)) {
+            return false;
+        }
+
         if (file_exists($path)) {
             return true;
         }
@@ -116,8 +137,14 @@ class Utility
      *
      * @return bool
      */
-    public static function copy($src = null, $dest = null)
+    public static function copy($src, $dest)
     {
+        if (false === is_string($src)
+            || false === is_string($dest)) {
+
+            return false;
+        }
+
         if (false === file_exists($src)) {
             return false;
         }
@@ -155,8 +182,16 @@ class Utility
      *
      * @return bool
      */
-    public static function remove($path = null, $self = null)
+    public static function remove($path, $self = null)
     {
+        if (false === is_string($path)) {
+            return false;
+        }
+
+        if (null !== $self && false === is_string($self)) {
+            return false;
+        }
+
         if (false === file_exists($path)) {
             return false;
         }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Data Handler for Theme
+ * Theme Handler
  *
  * @package     Pointless
  * @author      Scar Wu
@@ -9,8 +9,6 @@
  */
 
 namespace Pointless\Extend;
-
-use Pointless\Extend\RenderTools;
 
 abstract class ThemeHandler
 {
@@ -24,20 +22,52 @@ abstract class ThemeHandler
     /**
      * @var array
      */
-    protected $list = [];
+    protected $data = [];
 
+    /**
+     * Get Type
+     *
+     * @return string
+     */
     final public function getType()
     {
         return $this->type;
     }
 
     /**
-     * Render Block
+     * Get Data
+     *
+     * @return string
      */
-    abstract public function renderBlock($blockName);
+    final public function getData()
+    {
+        return $this->data;
+    }
 
     /**
-     * Render Page
+     * Init Data
+     *
+     * @param array
      */
-    abstract public function renderPage();
+    abstract public function initData($postBundle);
+
+    /**
+     * Get Side Data
+     *
+     * @return array
+     */
+    public function getSideData()
+    {
+        return [];
+    }
+
+    /**
+     * Get Container Data
+     *
+     * @return array
+     */
+    public function getContainerData()
+    {
+        return [];
+    }
 }

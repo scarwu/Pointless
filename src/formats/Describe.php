@@ -32,25 +32,39 @@ class Describe extends Format
         ];
     }
 
-    public function inputHandleAndSaveFile($input)
+    /**
+     * Convert Input
+     *
+     * @param array $input
+     *
+     * @return array
+     */
+    public function convertInput($input)
     {
         $filename = Utility::pathReplace($input['url']);
         $filename = strtolower($filename);
-        $filename = "describe_{$filename}.md";
+        $filename = "describe_{$filename}";
 
-        return $this->save([
+        return $this->saveToFile([
             'filename' => $filename,
-            'title' => $input['title'],
             'header' => [
                 'type' => $this->type,
                 'url' => Utility::pathReplace($input['url'], true),
                 'withMessage' => false,
                 'isPublic' => false
-            ]
+            ],
+            'title' => $input['title']
         ]);
     }
 
-    public function postHandleAndGetResult($post)
+    /**
+     * Convert Post
+     *
+     * @param array $post
+     *
+     * @return array
+     */
+    public function convertPost($post)
     {
         if (!preg_match('/\.html$/', $post['url'])) {
             $post['url'] .= '/';

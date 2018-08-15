@@ -40,15 +40,21 @@ class Article extends Format
         ];
     }
 
-    public function inputHandleAndSaveFile($input)
+    /**
+     * Convert Input
+     *
+     * @param array $input
+     *
+     * @return array
+     */
+    public function convertInput($input)
     {
         $time = time();
         $filename = Utility::pathReplace($input['url']);
-        $filename = date('Ymd_', $time) . "{$filename}.md";
+        $filename = date('Ymd_', $time) . $filename;
 
-        return $this->save([
+        return $this->saveToFile([
             'filename' => $filename,
-            'title' => $input['title'],
             'header' => [
                 'type' => $this->type,
                 'url' => Utility::pathReplace($input['url']),
@@ -58,11 +64,19 @@ class Article extends Format
                 'time' => date('H:i:s', $time),
                 'withMessage' => true,
                 'isPublic' => false
-            ]
+            ],
+            'title' => $input['title']
         ]);
     }
 
-    public function postHandleAndGetResult($post)
+    /**
+     * Convert Post
+     *
+     * @param array $post
+     *
+     * @return array
+     */
+    public function convertPost($post)
     {
         $format = Resource::get('system:config')['post']['article']['format'];
         $format = trim($format, '/');

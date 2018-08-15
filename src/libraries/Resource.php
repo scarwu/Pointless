@@ -22,14 +22,18 @@ class Resource
     /**
      * Get Resource
      *
-     * @param string $index
+     * @param string $key
      *
      * @return array
      */
-    public static function get($index)
+    public static function get($key)
     {
-        if (array_key_exists($index, self::$resource)) {
-            return self::$resource[$index];
+        if (false === is_string($key)) {
+            return null;
+        }
+
+        if (array_key_exists($key, self::$resource)) {
+            return self::$resource[$key];
         }
 
         return null;
@@ -38,26 +42,42 @@ class Resource
     /**
      * Set Resource
      *
-     * @param string $index
+     * @param string $key
      * @param array $data
      */
-    public static function set($index, $data)
+    public static function set($key, $data)
     {
-        self::$resource[$index] = $data;
+        if (false === is_string($key)
+            || false === is_array($data)) {
+
+            return false;
+        }
+
+        self::$resource[$key] = $data;
+
+        return true;
     }
 
     /**
      * Append Resource
      *
-     * @param string $index
+     * @param string $key
      * @param array $data
      */
-    public static function append($index, $data)
+    public static function append($key, $data)
     {
-        if (false === array_key_exists($index, self::$resource)) {
-            self::$resource[$index] = [];
+        if (false === is_string($key)
+            || false === is_array($data)) {
+
+            return false;
         }
 
-        self::$resource[$index][] = $data;
+        if (false === array_key_exists($key, self::$resource)) {
+            self::$resource[$key] = [];
+        }
+
+        self::$resource[$key][] = $data;
+
+        return true;
     }
 }
