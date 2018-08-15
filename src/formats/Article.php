@@ -19,12 +19,24 @@ class Article extends Format
     public function __construct()
     {
         $this->type = 'article';
-        $this->name = 'Blog Article';
-        $this->question = [
-            ['title', "Enter Title:\n-> "],
-            ['url', "Enter Custom Url:\n-> "],
-            ['tag', "Enter Tag: (tag1|tag2|tag3...)\n-> "],
-            ['category', "Enter Category:\n-> "]
+        $this->name = 'Article';
+        $this->questionList = [
+            [
+                'name' => 'title',
+                'statement' => "Enter Title:\n-> "
+            ],
+            [
+                'name' => 'url',
+                'statement' => "Enter Url:\n-> "
+            ],
+            [
+                'name' => 'category',
+                'statement' => "Enter Category:\n-> "
+            ],
+            [
+                'name' => 'tags',
+                'statement' => "Enter Tags: (tag1|tag2|tag3...)\n-> "
+            ]
         ];
     }
 
@@ -40,12 +52,12 @@ class Article extends Format
             'header' => [
                 'type' => $this->type,
                 'url' => Utility::pathReplace($input['url']),
-                'tag' => $input['tag'],
+                'tags' => $input['tags'],
                 'category' => $input['category'],
                 'date' => date('Y-m-d', $time),
                 'time' => date('H:i:s', $time),
-                'message' => true,
-                'publish' => false
+                'withMessage' => true,
+                'isPublic' => false
             ]
         ]);
     }
@@ -77,8 +89,8 @@ class Article extends Format
         }
 
         // Sort tags
-        $post['tag'] = explode('|', $post['tag']);
-        sort($post['tag']);
+        $post['tags'] = explode('|', $post['tags']);
+        sort($post['tags']);
 
         // Summary and Description
         $summary = preg_replace('/<!--more-->(.|\s)*/', '', $post['content']);
@@ -95,7 +107,7 @@ class Article extends Format
             'summary' => $summary,
             'description' => $description,
             'category' => $post['category'],
-            'tag' => $post['tag'],
+            'tags' => $post['tags'],
             'date' => $post['date'],
             'time' => $post['time'],
             'year' => $year,
@@ -105,7 +117,7 @@ class Article extends Format
             'minute' => $minute,
             'second' => $second,
             'timestamp' => $timestamp,
-            'message' => $post['message']
+            'withMessage' => $post['withMessage']
         ];
     }
 }

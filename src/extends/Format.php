@@ -13,19 +13,19 @@ namespace Pointless\Extend;
 abstract class Format
 {
     /**
-     * @var string $type
+     * @var string
      */
     protected $type = null;
 
     /**
-     * @var string $name
+     * @var string
      */
     protected $name = null;
 
     /**
-     * @var mixed $question
+     * @var array
      */
-    protected $question = [];
+    protected $questionList = [];
 
     abstract public function inputHandleAndSaveFile($input);
 
@@ -41,9 +41,9 @@ abstract class Format
         return $this->name;
     }
 
-    final public function getQuestion()
+    final public function getQuestionList()
     {
-        return $this->question;
+        return $this->questionList;
     }
 
     final public function save($info)

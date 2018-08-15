@@ -14,7 +14,7 @@ $constant = [
         'timestamp' => time()
     ],
     'formats' => [
-        'StaticPage',
+        'Describe',
         'Article'
     ]
 ];

@@ -94,7 +94,7 @@ class BuildTask extends Task
         $postList = Misc::getPostList();
 
         foreach ($postList as $post) {
-            if (false === $post['publish']) {
+            if (false === $post['isPublic']) {
                 continue;
             }
 
@@ -113,26 +113,35 @@ class BuildTask extends Task
         // Rendering HTML Pages
         $this->io->notice('Rendering HTML ...');
 
-        foreach (Resource::get('theme:config')['handlers'] as $subClassName) {
-            $className = 'Pointless\\Handler\\' . ucfirst($subClassName);
+        $system = [
+            'config' => Resource::get("system:config"),
+            'constant' => Resource::get("system:constant")
+        ];
 
-            $handler = new $className;
-            $type = $handler->getType();
+        $theme = [
+            'config' => Resource::get("theme:config")
+        ];
 
-            $handlerList[$type] = new $handler;
+        $post = [
+            'describe' => Resource::get("post:describe"),
+            'article' => Resource::get("post:article")
+        ];
+
+        $describeList = [];
+        $articleList = [];
+        $archiveList = [];
+        $categoryList = [];
+        $tagList = [];
+
+        foreach ($describeList as $key => $value) {
+            # code...
         }
 
-        // Render Block
-        foreach (Resource::get('theme:config')['views'] as $blockName => $typeList) {
-            foreach ($typeList as $type) {
-                $handlerList[$type]->renderBlock($blockName);
-            }
+        foreach (Resource::get('theme:config')['views']['container'] as $name) {
+            echo $name . "\n";
         }
 
-        // Render Page
-        foreach ($handlerList as $handler) {
-            $handler->renderPage();
-        }
+        exit();
 
         // Generate Extension
         $this->io->notice('Generating Extensions ...');

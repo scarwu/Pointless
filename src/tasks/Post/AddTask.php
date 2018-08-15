@@ -58,8 +58,8 @@ class AddTask extends Task
         // Ask Question
         $input = [];
 
-        foreach ($formatList[$index]->getQuestion() as $question) {
-            $input[$question[0]] = $this->io->ask($question[1]);
+        foreach ($formatList[$index]->getQuestionList() as $question) {
+            $input[$question['name']] = $this->io->ask($question['statement']);
         }
 
         // Convert Encoding

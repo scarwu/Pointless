@@ -1,6 +1,6 @@
 <?php
 /**
- * Static Page Document Format
+ * Describe Document Format
  *
  * @package     Pointless
  * @author      Scar Wu
@@ -14,15 +14,21 @@ use Pointless\Library\Utility;
 use Pointless\Library\Resource;
 use Pointless\Extend\Format;
 
-class StaticPage extends Format
+class Describe extends Format
 {
     public function __construct()
     {
-        $this->type = 'staticPage';
-        $this->name = 'Static Page';
-        $this->question = [
-            ['title', "Enter Title:\n-> "],
-            ['url', "Enter Custom Url:\n-> "]
+        $this->type = 'describe';
+        $this->name = 'Describe';
+        $this->questionList = [
+            [
+                'name' => 'title',
+                'statement' => "Enter Title:\n-> "
+            ],
+            [
+                'name' => 'url',
+                'statement' => "Enter Url:\n-> "
+            ]
         ];
     }
 
@@ -30,7 +36,7 @@ class StaticPage extends Format
     {
         $filename = Utility::pathReplace($input['url']);
         $filename = strtolower($filename);
-        $filename = "static_{$filename}.md";
+        $filename = "describe_{$filename}.md";
 
         return $this->save([
             'filename' => $filename,
@@ -38,8 +44,8 @@ class StaticPage extends Format
             'header' => [
                 'type' => $this->type,
                 'url' => Utility::pathReplace($input['url'], true),
-                'message' => false,
-                'publish' => false
+                'withMessage' => false,
+                'isPublic' => false
             ]
         ]);
     }
@@ -55,7 +61,7 @@ class StaticPage extends Format
             'title' => $post['title'],
             'url' => $post['url'],
             'content' => $post['content'],
-            'message' => $post['message']
+            'withMessage' => $post['withMessage']
         ];
     }
 }

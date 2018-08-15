@@ -62,9 +62,9 @@ class PostTask extends Task
     {
         $this->io->notice('Post Status:');
 
-        foreach (Resource::get('system:constant')['formats'] as $sub_class_name) {
-            $class_name = 'Pointless\\Format\\' . ucfirst($sub_class_name);
-            $format = new $class_name;
+        foreach (Resource::get('system:constant')['formats'] as $subClassName) {
+            $className = 'Pointless\\Format\\' . ucfirst($subClassName);
+            $format = new $className;
 
             $name = $format->getName();
             $type = $format->getType();

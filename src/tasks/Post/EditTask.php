@@ -81,7 +81,7 @@ class EditTask extends Task
 
         // Get Post Number
         foreach ($postList as $index => $post) {
-            $text = $post['publish']
+            $text = $post['isPublic']
                 ? sprintf("[ %3d] ", $index) . $post['title']
                 : sprintf("[*%3d] ", $index) . $post['title'];
 
