@@ -12,8 +12,6 @@ namespace Pointless\Extend;
 
 abstract class ThemeHandler
 {
-    use RenderTools;
-
     /**
      * @var string
      */
@@ -35,21 +33,11 @@ abstract class ThemeHandler
     }
 
     /**
-     * Get Data
-     *
-     * @return string
-     */
-    final public function getData()
-    {
-        return $this->data;
-    }
-
-    /**
      * Init Data
      *
      * @param array
      */
-    abstract public function initData($postBundle);
+    abstract public function initData($data);
 
     /**
      * Get Side Data
@@ -62,11 +50,11 @@ abstract class ThemeHandler
     }
 
     /**
-     * Get Container Data
+     * Get Container Data List
      *
      * @return array
      */
-    public function getContainerData()
+    public function getContainerDataList()
     {
         return [];
     }

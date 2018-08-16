@@ -10,34 +10,36 @@
 
 namespace Pointless\Extension;
 
-use Pointless\Library\Resource;
 use Pointless\Extend\Extension;
-use Oni\CLI\IO;
 
 class Sitemap extends Extension
 {
-    /**
-     * Run Extension
-     */
-    public function run()
+    public function __construct()
     {
-        IO::log('Building Sitemap');
+        $this->path = 'sitemap.xml';
+    }
 
-        $blog = Resource::get('system:config')['blog'];
-        $blog['url'] = $blog['domainName'] . $blog['baseUrl'];
+    /**
+     * Render
+     */
+    public function render($data)
+    {
+        $scheme = $data['systemConfig']['blog']['withSSL'] ? 'https' : 'http';
+        $domainName = $data['systemConfig']['blog']['domainName'];
+        $baseUrl = $data['systemConfig']['blog']['baseUrl'];
 
-        $format = "\t<url>\n\t\t<loc>http://%s%s</loc>\n\t\t<lastmod>%s</lastmod>\n\t</url>\n";
+        $format = "\t<url>\n\t\t<loc>{$scheme}://%s%s</loc>\n\t\t<lastmod>%s</lastmod>\n\t</url>\n";
 
-        $sitemap = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-        $sitemap .= "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";
+        $xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+        $xml .= "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";
 
-        foreach (Resource::get('sitemap') as $path) {
-            $sitemap .= sprintf($format, $blog['url'], $path, date(DATE_ATOM));
+        foreach ($data['postPathList'] as $path) {
+            $xml .= sprintf($format, "{$domainName}{$baseUrl}", $path, date(DATE_ATOM));
         }
 
-        $sitemap .= sprintf($format, $blog['url'], '', date(DATE_ATOM));
-        $sitemap .= "</urlset>";
+        $xml .= sprintf($format, "{$domainName}{$baseUrl}", '', date(DATE_ATOM));
+        $xml .= "</urlset>";
 
-        $this->save('sitemap.xml', $sitemap);
+        return $xml;
     }
 }

@@ -10,12 +10,9 @@
 
 namespace Pointless\Task\Blog;
 
-use Exception;
 use Pointless\Library\Misc;
 use Pointless\Library\Utility;
 use Pointless\Library\Resource;
-use Pointless\Library\HTMLGenerator;
-use Pointless\Library\ExtensionLoader;
 use Oni\Loader;
 use Oni\CLI\Task;
 use Oni\Web\View;
@@ -119,46 +116,53 @@ class BuildTask extends Task
                 $type = $instance->getType();
 
                 $handlerList[$type] = $instance;
-                $handlerList[$type]->initData($postBundle);
+                $handlerList[$type]->initData([
+                    'systemConfig' => $systemConfig,
+                    'systemConstant' => $systemConstant,
+                    'themeConfig' => $themeConfig,
+                    'postBundle' => $postBundle
+                ]);
             }
         }
 
         // Init View
         $view = View::init();
-        $view->setAttr('path', $this->getAttr(BLOG_THEME . '/views'));
+        $view->setAttr('path', BLOG_THEME . '/views');
         $view->setLayoutPath('index');
 
-        $viewData = [
-            'systemConfig' => $systemConfig,
-            'systemConstant' => $systemConstant,
-            'themeConfig' => $themeConfig,
-            'sideList' => [],
-            'container' => []
-        ];
+        // Get Side Data
+        $sideList = [];
 
         foreach ($themeConfig['views']['side'] as $name) {
             if (!isset($handlerList[$name])) {
                 continue;
             }
 
-            $viewData['sideList'][$name] = $handlerList[$name]->getSideData();
+            $sideList[$name] = $handlerList[$name]->getSideData();
         }
+
+        // Get Container Data List & Render
+        $postPathList = [];
 
         foreach ($themeConfig['views']['container'] as $name) {
             $view->setContentPath("container/{$name}");
 
-            $containerData = $handlerList[$name]->getContainerData();
+            foreach ($handlerList[$name]->getContainerDataList() as $path => $container) {
+                $this->io->log("Render: {$path}");
 
-            foreach ($containerData as $container) {
-                $viewData['container'] = $container;
+                $postPathList[] = $path;
 
-                $view->setData($viewData);
+                $view->setData([
+                    'systemConfig' => $systemConfig,
+                    'systemConstant' => $systemConstant,
+                    'themeConfig' => $themeConfig,
+                    'sideList' => $sideList,
+                    'container' => $container
+                ]);
+
+                $this->saveToDisk($path, $view->render());
             }
-
-            $html = $view->render();
         }
-
-        exit();
 
         // Generate Extension
         $this->io->notice('Generating Extensions ...');
@@ -166,7 +170,18 @@ class BuildTask extends Task
         foreach ($themeConfig['extensions'] as $name) {
             $namespace = 'Pointless\\Extension\\' . ucfirst($name);
 
-            (new $namespace)->run();
+            $instance = new $namespace();
+            $path = $instance->getPath();
+
+            $this->io->log("Render: {$path}");
+
+            $this->saveToDisk($path, $instance->render([
+                'systemConfig' => $systemConfig,
+                'systemConstant' => $systemConstant,
+                'themeConfig' => $themeConfig,
+                'postBundle' => $postBundle,
+                'postPathList' => $postPathList
+            ]));
         }
 
         // Fix Permission
@@ -177,5 +192,30 @@ class BuildTask extends Task
         $memory = sprintf('%.3f', abs(memory_get_usage() - $startMemory) / 1024);
 
         $this->io->info("Generate finish, {$time}s and memory usage {$memory}KB.");
+    }
+
+    /**
+     * Save To Disk
+     *
+     * @param string $path
+     * @param string $data
+     */
+    private function saveToDisk($path, $data)
+    {
+        $realpath = BLOG_BUILD . "/{$path}";
+
+        if (!preg_match('/\.(html|xml)$/', $realpath)) {
+            if (false === file_exists($realpath)) {
+                mkdir($realpath, 0755, true);
+            }
+
+            $realpath = "{$realpath}/index.html";
+        } else {
+            if (false === file_exists(dirname($realpath))) {
+                mkdir(dirname($realpath), 0755, true);
+            }
+        }
+
+        file_put_contents($realpath, $data);
     }
 }

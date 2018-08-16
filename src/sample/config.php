@@ -17,6 +17,7 @@ $config = [
 
         'lang' => 'en', // en | zh-tw | zh-cn | other
 
+        'withSSL' => false,
         'domainName' => 'localhost',
         'baseUrl' => '/',
 

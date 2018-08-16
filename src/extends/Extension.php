@@ -10,14 +10,28 @@
 
 namespace Pointless\Extend;
 
-use Pointless\Extend\RenderTools;
-
 abstract class Extension
 {
-    use RenderTools;
+    /**
+     * @var string
+     */
+    protected $path = null;
 
     /**
      * Run Extension
+     *
+     * @return string
      */
-    abstract public function run();
+    final public function getPath() {
+        return $this->path;
+    }
+
+    /**
+     * Run Extension
+     *
+     * @param array $data
+     *
+     * @return string
+     */
+    abstract public function render($data);
 }

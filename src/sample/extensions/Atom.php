@@ -10,73 +10,80 @@
 
 namespace Pointless\Extension;
 
-use Pointless\Library\Resource;
 use Pointless\Extend\Extension;
-use Oni\CLI\IO;
 
 class Atom extends Extension
 {
-    /**
-     * Run Extension
-     */
-    public function run()
+    public function __construct()
     {
-        IO::log('Building Atom');
+        $this->path = 'atom.xml';
+    }
 
-        $quantity = Resource::get('system:config')['extension']['atom']['quantity'];
-        $blog = Resource::get('system:config')['blog'];
-        $blog['url'] = $blog['domainName'] . $blog['baseUrl'];
+    /**
+     * Render
+     */
+    public function render($data)
+    {
+        $scheme = $data['systemConfig']['blog']['withSSL'] ? 'https' : 'http';
+        $domainName = $data['systemConfig']['blog']['domainName'];
+        $baseUrl = $data['systemConfig']['blog']['baseUrl'];
 
+        $name = $data['systemConfig']['blog']['name'];
+        $slogan = $data['systemConfig']['blog']['slogan'];
+        $author = $data['systemConfig']['blog']['author'];
+        $email = $data['systemConfig']['blog']['email'];
+
+        $quantity = $data['systemConfig']['extension']['atom']['quantity'];
         $count = 0;
 
-        $atom = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
-        $atom .= "<feed xmlns=\"http://www.w3.org/2005/Atom\">\n";
+        $xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
+        $xml .= "<feed xmlns=\"http://www.w3.org/2005/Atom\">\n";
 
-        $atom .= "\t<title><![CDATA[{$blog['name']}]]></title>\n";
-        $atom .= "\t<subtitle>{$blog['slogan']}</subtitle>\n";
-        $atom .= "\t<link href=\"http://{$blog['url']}atom.xml\" rel=\"self\" />\n";
-        $atom .= "\t<link href=\"http://{$blog['url']}\" />\n";
-        $atom .= "\t<id>urn:uuid:" . $this->uuid("{$blog['url']}atom.xml") . "</id>\n";
-        $atom .= "\t<updated>" . date(DATE_ATOM) . "</updated>\n";
+        $xml .= "\t<title><![CDATA[{$name}]]></title>\n";
+        $xml .= "\t<subtitle>{$slogan}</subtitle>\n";
+        $xml .= "\t<link href=\"{$scheme}://{$domainName}{$baseUrl}atom.xml\" rel=\"self\" />\n";
+        $xml .= "\t<link href=\"{$scheme}://{$domainName}{$baseUrl}\" />\n";
+        $xml .= "\t<id>urn:uuid:" . $this->uuid("{$domainName}{$baseUrl}atom.xml") . "</id>\n";
+        $xml .= "\t<updated>" . date(DATE_ATOM) . "</updated>\n";
 
-        if (null !== $blog['author'] || null !== $blog['email']) {
-            $atom .= "\t<author>\n";
+        if (null !== $author || null !== $email) {
+            $xml .= "\t<author>\n";
 
-            if (null !== $blog['author']) {
-                $atom .= "\t\t<name><![CDATA[{$blog['author']}]]></name>\n";
+            if (null !== $author) {
+                $xml .= "\t\t<name><![CDATA[{$author}]]></name>\n";
             }
 
-            if (null !== $blog['email']) {
-                $atom .= "\t\t<email>{$blog['email']}</email>\n";
+            if (null !== $email) {
+                $xml .= "\t\t<email>{$email}</email>\n";
             }
 
-            $atom .= "\t\t<uri>http://{$blog['url']}</uri>\n";
-            $atom .= "\t</author>\n";
+            $xml .= "\t\t<uri>{$scheme}://{$domainName}{$baseUrl}</uri>\n";
+            $xml .= "\t</author>\n";
         }
 
-        foreach (Resource::get('post:article') as $post) {
+        foreach ($data['postBundle']['article'] as $post) {
             $title = $post['title'];
-            $url = "{$blog['url']}article/{$post['url']}";
+            $url = "{$domainName}{$baseUrl}article/{$post['url']}";
             $uuid = $this->uuid($url);
             $date = date(DATE_ATOM, $post['timestamp']);
             $summary = $post['content'];
 
-            $atom .= "\t<entry>\n";
-            $atom .= "\t\t<title type=\"html\"><![CDATA[{$title}]]></title>\n";
-            $atom .= "\t\t<link href=\"http://{$url}\" />\n";
-            $atom .= "\t\t<id>urn:uuid:{$uuid}</id>\n";
-            $atom .= "\t\t<updated>{$date}</updated>\n";
-            $atom .= "\t\t<summary type=\"html\"><![CDATA[{$summary}]]></summary>\n";
-            $atom .= "\t</entry>\n";
+            $xml .= "\t<entry>\n";
+            $xml .= "\t\t<title type=\"html\"><![CDATA[{$title}]]></title>\n";
+            $xml .= "\t\t<link href=\"{$scheme}://{$url}\" />\n";
+            $xml .= "\t\t<id>urn:uuid:{$uuid}</id>\n";
+            $xml .= "\t\t<updated>{$date}</updated>\n";
+            $xml .= "\t\t<summary type=\"html\"><![CDATA[{$summary}]]></summary>\n";
+            $xml .= "\t</entry>\n";
 
             if (++$count >= $quantity) {
                 break;
             }
         }
 
-        $atom .= "</feed>";
+        $xml .= "</feed>";
 
-        $this->save('atom.xml', $atom);
+        return $xml;
     }
 
     /**
