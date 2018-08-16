@@ -43,7 +43,8 @@ class BuildTask extends Task
         Resource::set('theme:config', $config);
 
         // Loader Append
-        Loader::append('Pointless\Handler', BLOG_THEME . '/handlers');
+        Loader::append('Pointless\Handler', BLOG_HANDLER);
+        Loader::append('Pointless\Handler', APP_ROOT . '/sample/handlers');
         Loader::append('Pointless\Extension', BLOG_EXTENSION);
         Loader::append('Pointless\Extension', APP_ROOT . '/sample/extensions');
     }

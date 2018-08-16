@@ -81,6 +81,7 @@ EOF;
         define('BLOG_BUILD', BLOG_ROOT . '/build');
         define('BLOG_DEPLOY', BLOG_ROOT . '/deploy');
         define('BLOG_STATIC', BLOG_ROOT . '/static');
+        define('BLOG_HANDLER', BLOG_ROOT . '/handlers');
         define('BLOG_EXTENSION', BLOG_ROOT . '/extensions');
         define('BLOG_POST', BLOG_ROOT . '/posts');
 
@@ -88,6 +89,7 @@ EOF;
         Utility::mkdir(BLOG_BUILD);
         Utility::mkdir(BLOG_DEPLOY);
         Utility::mkdir(BLOG_STATIC);
+        Utility::mkdir(BLOG_HANDLER);
         Utility::mkdir(BLOG_EXTENSION);
 
         // Copy Post
