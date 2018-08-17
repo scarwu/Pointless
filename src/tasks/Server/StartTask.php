@@ -52,8 +52,8 @@ class StartTask extends Task
         // Prepare Variables
         $pidList = [];
         $routeScript = ('production' === APP_ENV ? HOME_ROOT : APP_ROOT) . '/sample/route.php';
-        $host = Resource::get('system:config')['server']['blog']['host'];
-        $port = Resource::get('system:config')['server']['blog']['port'];
+        $host = Resource::get('system:config')['server']['host'];
+        $port = Resource::get('system:config')['server']['port'];
         $root = HOME_ROOT;
         $command = "php -S localhost:{$port} -t {$root} {$routeScript}";
 

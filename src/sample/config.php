@@ -66,13 +66,7 @@ $config = [
 
     // PHP Built-in Server for Blog preview & Markdown Editor
     'server' => [
-        'blog' => [
-            'host' => 'localhost',
-            'port' => 3000
-        ],
-        'editor' => [
-            'host' => 'localhost',
-            'port' => 3001
-        ]
+        'host' => 'localhost',
+        'port' => 3000
     ]
 ];

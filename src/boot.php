@@ -33,9 +33,9 @@ Loader::append('Pointless\Library', APP_ROOT . '/libraries');
 Loader::append('Pointless\Extend', APP_ROOT . '/extends');
 Loader::append('Pointless\Format', APP_ROOT . '/formats');
 
-use Pointless\Library\Resource;
-use Pointless\Library\Utility;
 use Pointless\Library\Misc;
+use Pointless\Library\Utility;
+use Pointless\Library\Resource;
 
 // Require Constant Attr
 require APP_ROOT . '/constant.php';
@@ -47,7 +47,7 @@ define('BUILD_VERSION', $constant['build']['version']);
 define('BUILD_TIMESTAMP', $constant['build']['timestamp']);
 
 // Define Home Root
-define('HOME_ROOT', $_SERVER['HOME'] . '/.pointless3');
+define('HOME_ROOT', $_SERVER['HOME'] . '/.pointless4');
 
 // Create Folder
 Utility::mkdir(HOME_ROOT);
@@ -64,10 +64,8 @@ if ('production' === APP_ENV) {
     // Check Timestamp
     if (BUILD_TIMESTAMP !== $timestamp) {
 
-        // Remove Old Sample
+        // Sync Files
         Utility::remove(HOME_ROOT . '/sample');
-
-        // Copy New Sample
         Utility::copy(APP_ROOT . '/sample', HOME_ROOT . '/sample');
 
         // Update Timestamp
