@@ -1,7 +1,4 @@
-.sass-cache
 temp
-node_modules
 src/vendor
-src/editor/boot
 poi.phar
 docker/poi
