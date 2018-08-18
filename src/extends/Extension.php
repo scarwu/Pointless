@@ -22,7 +22,8 @@ abstract class Extension
      *
      * @return string
      */
-    final public function getPath() {
+    final public function getPath()
+    {
         return $this->path;
     }
 

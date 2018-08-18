@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f1ec6012c4f59a265f16f596fb9c3b67",
+    "content-hash": "015fb39ec7e81f98726c6ea53d75924f",
     "packages": [
         {
             "name": "erusev/parsedown",
@@ -94,48 +94,6 @@
             "description": "A Lightweight PHP Framework for Web & CLI",
             "homepage": "https://github.com/scarwu/Oni",
             "time": "2018-08-14T15:42:36+00:00"
-        },
-        {
-            "name": "scarwu/pack",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/scarwu/Pack.git",
-                "reference": "284e3273b18ac963f597893059c0b0d34fa15695"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/scarwu/Pack/zipball/284e3273b18ac963f597893059c0b0d34fa15695",
-                "reference": "284e3273b18ac963f597893059c0b0d34fa15695",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4.0"
-            },
-            "require-dev": {
-                "phpunit/php-invoker": "1.1.*",
-                "phpunit/phpunit": "4.0.*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Pack": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Scar Wu",
-                    "email": "xneriscool@gmail.com",
-                    "homepage": "http://scar.simcz.tw"
-                }
-            ],
-            "description": "Pack CSS, JavaScript and HTML File",
-            "homepage": "https://github.com/scarwu/Pack",
-            "time": "2014-05-16T16:46:21+00:00"
         }
     ],
     "packages-dev": [
@@ -1598,8 +1556,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "scarwu/oni": 20,
-        "scarwu/pack": 20
+        "scarwu/oni": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

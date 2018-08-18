@@ -25,7 +25,7 @@ if (file_exists("{$root}/temp")) {
 }
 
 foreach ([
-    'commands',
+    'tasks',
     'formats',
     'extends',
     'libraries',
@@ -39,8 +39,8 @@ foreach ([
     'vendor/composer/autoload_psr4.php',
     'vendor/composer/autoload_real.php',
     'vendor/composer/autoload_static.php',
-    'vendor/scarwu/pack/src',
-    'vendor/scarwu/nanocli/src',
+    'vendor/myclabs/deep-copy',
+    'vendor/scarwu/oni/src',
     'vendor/erusev/parsedown/Parsedown.php'
 ] as $path) {
     Pointless\Library\Utility::copy("{$root}/src/{$path}", "{$root}/temp/{$path}");
@@ -74,3 +74,5 @@ if (isset($_SERVER['argv'][1])
     // Move Phar to Bin
     rename("{$root}/poi.phar", "{$root}/bin/poi");
 }
+
+echo "Phar is build to {$root}/poi.phar, if you want to release then using \"-r\".\n";

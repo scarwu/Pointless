@@ -29,14 +29,12 @@ class IntroTask extends Task
 
             // Show Version
             $date = date(DATE_RSS, BUILD_TIMESTAMP);
-            $version = BUILD_VERSION . " ($date)";
-
-            if ('development' === APP_ENV) {
-                $version = "(Development) {$version}";
-            }
+            $version = ('development' === APP_ENV)
+                ? BUILD_VERSION . " (Development)"
+                : BUILD_VERSION . " ({$date})";
 
             $this->io->writeln();
-            $this->io->info($version);
+            $this->io->info("    {$version}");
         } else {
             $this->io->error("    Can't find the command \"{$params[0]}\".");
         }
