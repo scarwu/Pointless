@@ -55,8 +55,8 @@ class BuildTask extends Task
         $startMemory = memory_get_usage();
 
         // Get Resources
-        $systemConfig = Resource::get('system:config');
         $systemConstant = Resource::get('system:constant');
+        $systemConfig = Resource::get('system:config');
         $themeConfig = Resource::get('theme:config');
 
         // Clear Files
@@ -118,8 +118,8 @@ class BuildTask extends Task
 
                 $handlerList[$type] = $instance;
                 $handlerList[$type]->initData([
-                    'systemConfig' => $systemConfig,
                     'systemConstant' => $systemConstant,
+                    'systemConfig' => $systemConfig,
                     'themeConfig' => $themeConfig,
                     'postBundle' => $postBundle
                 ]);
@@ -154,8 +154,8 @@ class BuildTask extends Task
                 $postPathList[] = $path;
 
                 $view->setData([
-                    'systemConfig' => $systemConfig,
                     'systemConstant' => $systemConstant,
+                    'systemConfig' => $systemConfig,
                     'themeConfig' => $themeConfig,
                     'sideList' => $sideList,
                     'container' => $container
@@ -177,8 +177,8 @@ class BuildTask extends Task
             $this->io->log("Render: {$path}");
 
             $this->saveToDisk($path, $instance->render([
-                'systemConfig' => $systemConfig,
                 'systemConstant' => $systemConstant,
+                'systemConfig' => $systemConfig,
                 'themeConfig' => $themeConfig,
                 'postBundle' => $postBundle,
                 'postPathList' => $postPathList

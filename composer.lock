@@ -58,12 +58,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/scarwu/Oni.git",
-                "reference": "886fc3f789ddf5dd0b9b54bddfdf676b48b28501"
+                "reference": "cce5039f093e34ce437bcdf1646d0c8b41e92fc9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/scarwu/Oni/zipball/886fc3f789ddf5dd0b9b54bddfdf676b48b28501",
-                "reference": "886fc3f789ddf5dd0b9b54bddfdf676b48b28501",
+                "url": "https://api.github.com/repos/scarwu/Oni/zipball/cce5039f093e34ce437bcdf1646d0c8b41e92fc9",
+                "reference": "cce5039f093e34ce437bcdf1646d0c8b41e92fc9",
                 "shasum": ""
             },
             "require": {
@@ -93,7 +93,7 @@
             ],
             "description": "A Lightweight PHP Framework for Web & CLI",
             "homepage": "https://github.com/scarwu/Oni",
-            "time": "2018-08-14T15:42:36+00:00"
+            "time": "2018-08-25T14:57:30+00:00"
         }
     ],
     "packages-dev": [
@@ -817,16 +817,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "7.3.1",
+            "version": "7.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "f9b14c17860eccb440a0352a117a81eb754cff5a"
+                "reference": "34705f81bddc3f505b9599a2ef96e2b4315ba9b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/f9b14c17860eccb440a0352a117a81eb754cff5a",
-                "reference": "f9b14c17860eccb440a0352a117a81eb754cff5a",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/34705f81bddc3f505b9599a2ef96e2b4315ba9b8",
+                "reference": "34705f81bddc3f505b9599a2ef96e2b4315ba9b8",
                 "shasum": ""
             },
             "require": {
@@ -897,7 +897,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2018-08-07T06:44:28+00:00"
+            "time": "2018-08-22T06:39:21+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
