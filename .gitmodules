@@ -1,6 +1,6 @@
-[submodule "themes/Classic"]
-	path = themes/Classic
-	url = git@github.com:scarwu/PointlessTheme-Classic.git
-[submodule "themes/Unique"]
-	path = themes/Unique
+[submodule "subModules/PointlessTheme-Unique"]
+	path = subModules/PointlessTheme-Unique
 	url = git@github.com:scarwu/PointlessTheme-Unique.git
+[submodule "subModules/PointlessTheme-Classic"]
+	path = subModules/PointlessTheme-Classic
+	url = git@github.com:scarwu/PointlessTheme-Classic.git

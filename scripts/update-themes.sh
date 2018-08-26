@@ -1,8 +1,15 @@
-#!/bin/sh
+#!/bin/bash
 
 cd `dirname $0`/../
 
 rm -rf src/sample/themes/*
 
-cp -a themes/Classic/theme src/sample/themes/Classic
-cp -a themes/Unique/theme src/sample/themes/Unique
+THEME_LIST=(
+    "Classic"
+    "Unique"
+)
+
+for THEME in ${THEME_LIST[*]}
+do
+    cp -a subModules/PointlessTheme-$THEME/theme src/sample/themes/$THEME
+done
