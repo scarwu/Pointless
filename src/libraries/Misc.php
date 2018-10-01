@@ -49,7 +49,7 @@ EOF;
 
         // Define Blog Root
         if (false === file_exists(HOME_ROOT . '/default')) {
-            file_put_contents(HOME_ROOT . '/defualt', '');
+            file_put_contents(HOME_ROOT . '/default', '');
 
             return false;
         }
@@ -57,7 +57,7 @@ EOF;
         $blogRoot = file_get_contents(HOME_ROOT . '/default');
 
         if (false === Utility::mkdir($blogRoot)) {
-            file_put_contents(HOME_ROOT . '/defualt', '');
+            file_put_contents(HOME_ROOT . '/default', '');
 
             return false;
         }
