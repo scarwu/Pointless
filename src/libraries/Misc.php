@@ -265,8 +265,12 @@ EOF;
         $post['title'] = trim($match[2]);
 
         if (false === $withContent) {
-            $post['content'] = $match[3];
+            $post['content'] = trim($match[3]);
         }
+
+        $post['accessTime'] = fileatime(BLOG_POST . "/{$filename}");
+        $post['createTIme'] = filectime(BLOG_POST . "/{$filename}");
+        $post['modifyTime'] = filemtime(BLOG_POST . "/{$filename}");
 
         return $post;
     }
