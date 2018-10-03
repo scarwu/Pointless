@@ -1,21 +1,20 @@
 git:
   submodules: false
 script:
-  - ./setup.sh
-  - php ./scripts/build.php
-  - mkdir test
-  - cd test
-  - php ../poi.phar
-  - php ../poi.phar blog
-  - php ../poi.phar blog init ./blogA
-  - php ../poi.phar blog
-  - php ../poi.phar blog init ./blogB
-  - php ../poi.phar blog
-  - php ../poi.phar blog set ./blogA
-  - php ../poi.phar blog
-  - php ../poi.phar post
-  - php ../poi.phar blog build
-  - php ../poi.phar update
+  - ./scripts/setup.sh
+  - ./scripts/build.php
+  - mkdir temp
+  - cd temp
+  - ../poi.phar
+  - ../poi.phar blog
+  - ../poi.phar blog init ./blogA
+  - ../poi.phar blog
+  - ../poi.phar blog init ./blogB
+  - ../poi.phar blog
+  - ../poi.phar blog set ./blogA
+  - ../poi.phar blog
+  - ../poi.phar post
+  - ../poi.phar blog build
 language: php
 php:
   - 7.1
