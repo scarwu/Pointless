@@ -1,9 +1,12 @@
 git:
   submodules: false
+language: php
+php:
+  - 7.1
+  - 7.2
 script:
   - ./scripts/setup.sh
   - ./scripts/build.php
-  - mkdir temp
   - cd temp
   - ../poi.phar
   - ../poi.phar blog
@@ -15,8 +18,4 @@ script:
   - ../poi.phar blog
   - ../poi.phar post
   - ../poi.phar blog build
-language: php
-php:
-  - 7.1
-  - 7.2
 
