@@ -13,7 +13,7 @@ A Static Blog Generator with PHP
 ### Install
 
 ~~~
-sudo curl https://raw.github.com/scarwu/Pointless/master/scripts/install.sh | sh
+sudo curl -fsSL https://raw.github.com/scarwu/Pointless/master/scripts/install.sh | sh
 ~~~
 
 ### Update
