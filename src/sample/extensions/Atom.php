@@ -65,7 +65,7 @@ class Atom extends Extension
             $title = $post['title'];
             $url = "{$domainName}{$baseUrl}article/{$post['url']}";
             $uuid = $this->uuid($url);
-            $date = date(DATE_ATOM, $post['timestamp']);
+            $date = date(DATE_ATOM, $post['modifyTime']);
             $summary = $post['content'];
 
             $xml .= "\t<entry>\n";

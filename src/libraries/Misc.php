@@ -269,7 +269,7 @@ EOF;
         }
 
         $post['accessTime'] = fileatime(BLOG_POST . "/{$filename}");
-        $post['createTIme'] = filectime(BLOG_POST . "/{$filename}");
+        $post['createTime'] = filectime(BLOG_POST . "/{$filename}");
         $post['modifyTime'] = filemtime(BLOG_POST . "/{$filename}");
 
         return $post;

@@ -131,6 +131,9 @@ class Article extends Format
             'minute' => $minute,
             'second' => $second,
             'timestamp' => $timestamp,
+            'accessTime' => $post['accessTime'],
+            'createTime' => $post['createTime'],
+            'modifyTime' => $post['modifyTime'],
             'withMessage' => $post['withMessage']
         ];
     }

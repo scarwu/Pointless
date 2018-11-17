@@ -88,13 +88,13 @@ class Category extends ThemeHandler
             if (isset($keys[$currentIndex - 1])) {
                 $prevKey = $keys[$currentIndex - 1];
                 $container['paging']['prevTitle'] = $prevKey;
-                $container['paging']['prevUrl'] = "category/{$prevKey}";
+                $container['paging']['prevUrl'] = "category/{$prevKey}/";
             }
 
             if (isset($keys[$currentIndex + 1])) {
                 $nextKey = $keys[$currentIndex + 1];
                 $container['paging']['nextTitle'] = $nextKey;
-                $container['paging']['nextUrl'] = "category/{$nextKey}";
+                $container['paging']['nextUrl'] = "category/{$nextKey}/";
             }
 
             if (0 === $currentIndex) {

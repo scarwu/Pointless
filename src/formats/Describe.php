@@ -75,6 +75,9 @@ class Describe extends Format
             'title' => $post['title'],
             'url' => $post['url'],
             'content' => $post['content'],
+            'accessTime' => $post['accessTime'],
+            'createTime' => $post['createTime'],
+            'modifyTime' => $post['modifyTime'],
             'withMessage' => $post['withMessage']
         ];
     }
