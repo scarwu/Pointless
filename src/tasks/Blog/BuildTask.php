@@ -143,7 +143,7 @@ class BuildTask extends Task
         }
 
         // Get Container Data List & Render
-        $postPathList = [];
+        $publicPostList = [];
 
         foreach ($themeConfig['views']['container'] as $name) {
             $view->setContentPath("container/{$name}");
@@ -151,7 +151,11 @@ class BuildTask extends Task
             foreach ($handlerList[$name]->getContainerDataList() as $path => $container) {
                 $this->io->log("Render: {$path}");
 
-                $postPathList[] = $path;
+                $publicPostList[] = [
+                    'path' => $path,
+                    'modifyTime' => isset($container['modifyTime'])
+                        ? $container['modifyTime'] : time()
+                ];
 
                 $view->setData([
                     'systemConstant' => $systemConstant,
@@ -181,7 +185,7 @@ class BuildTask extends Task
                 'systemConfig' => $systemConfig,
                 'themeConfig' => $themeConfig,
                 'postBundle' => $postBundle,
-                'postPathList' => $postPathList
+                'publicPostList' => $publicPostList
             ]));
         }
 

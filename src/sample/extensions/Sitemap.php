@@ -33,11 +33,11 @@ class Sitemap extends Extension
         $xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
         $xml .= "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";
 
-        foreach ($data['postPathList'] as $path) {
-            $xml .= sprintf($format, "{$domainName}{$baseUrl}", $path, date(DATE_ATOM));
+        foreach ($data['publicPostList'] as $post) {
+            $xml .= sprintf($format, "{$domainName}{$baseUrl}", $post['path'], date(DATE_ATOM, $post['modifyTime']));
         }
 
-        $xml .= sprintf($format, "{$domainName}{$baseUrl}", '', date(DATE_ATOM));
+        $xml .= sprintf($format, "{$domainName}{$baseUrl}", '', date(DATE_ATOM, $post['modifyTime']));
         $xml .= "</urlset>";
 
         return $xml;

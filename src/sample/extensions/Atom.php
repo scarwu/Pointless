@@ -40,7 +40,7 @@ class Atom extends Extension
         $xml .= "<feed xmlns=\"http://www.w3.org/2005/Atom\">\n";
 
         $xml .= "\t<title><![CDATA[{$name}]]></title>\n";
-        $xml .= "\t<subtitle>{$slogan}</subtitle>\n";
+        $xml .= "\t<subtitle><![CDATA[{$slogan}]]></subtitle>\n";
         $xml .= "\t<link href=\"{$scheme}://{$domainName}{$baseUrl}atom.xml\" rel=\"self\" />\n";
         $xml .= "\t<link href=\"{$scheme}://{$domainName}{$baseUrl}\" />\n";
         $xml .= "\t<id>urn:uuid:" . $this->uuid("{$domainName}{$baseUrl}atom.xml") . "</id>\n";
