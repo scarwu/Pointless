@@ -5,7 +5,7 @@ WORKDIR /home
 ENV COMMAND /usr/local/bin/poi
 ENV HOME /home
 
-RUN apk --update add php7
+RUN apk --update add php7 php7-phar
 
 COPY poi $COMMAND
 COPY entrypoint.sh /entrypoint.sh
