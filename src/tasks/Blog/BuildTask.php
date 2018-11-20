@@ -62,7 +62,7 @@ class BuildTask extends Task
         // Clear Files
         $this->io->notice('Clean Files ...');
 
-        Utility::remove(BLOG_BUILD, BLOG_BUILD);
+        Utility::remove(BLOG_BUILD, true);
 
         // Create README
         $readme = '[Powered by Pointless](https://github.com/scarwu/Pointless)';

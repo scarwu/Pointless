@@ -182,13 +182,11 @@ class Utility
      *
      * @return bool
      */
-    public static function remove($path, $self = null)
+    public static function remove($path, $isKeepRoot = false, $skipFilenameList = [])
     {
-        if (false === is_string($path)) {
-            return false;
-        }
+        if (false === is_string($path)
+            || false === is_bool($isKeepRoot)) {
 
-        if (null !== $self && false === is_string($self)) {
             return false;
         }
 
@@ -196,11 +194,15 @@ class Utility
             return false;
         }
 
+        $rootPath = $isKeepRoot ? $path : null;
+
         if (is_dir($path)) {
             $handle = opendir($path);
 
             while ($filename = readdir($handle)) {
-                if (in_array($filename, ['.', '..', '.git'])) {
+                if (in_array($filename, ['.', '..'])
+                    || in_array($filename, $skipFilenameList)) {
+
                     continue;
                 }
 
@@ -209,7 +211,7 @@ class Utility
 
             closedir($handle);
 
-            if ($path !== $self) {
+            if ($path !== $rootPath) {
                 return rmdir($path);
             }
         } else {

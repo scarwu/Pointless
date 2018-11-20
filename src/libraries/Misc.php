@@ -287,7 +287,7 @@ EOF;
         $handle = opendir(BLOG_ROOT . '/themes');
 
         while ($filename = readdir($handle)) {
-            if ('.' === $filename || '..' === $filename) {
+            if (in_array($filename, ['.', '..'])) {
                 continue;
             }
 

@@ -67,7 +67,7 @@ class DeployTask extends Task
 
         system("git pull origin {$branch}");
 
-        Utility::remove(BLOG_DEPLOY, BLOG_DEPLOY);
+        Utility::remove(BLOG_DEPLOY, true, ['.git']);
         Utility::copy(BLOG_BUILD, BLOG_DEPLOY);
 
         // Create Github CNAME

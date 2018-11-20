@@ -63,7 +63,7 @@ class UninstallTask extends Task
         $title = $themeList[array_keys($themeList)[$index]]['title'];
 
         if ('yes' === $this->io->ask("\nAre you sure uninstall thtme \"{$title}\"? (yes)\n-> ", null, 'red')) {
-            // Utility::remove($path, true);
+            Utility::remove($path);
 
             $this->io->writeln();
             $this->io->notice("Successfully uninstalled theme \"{$title}\".");
