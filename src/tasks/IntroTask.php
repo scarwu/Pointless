@@ -24,6 +24,7 @@ class IntroTask extends Task
             // Sub Help Info
             (new \Pointless\Task\BlogTask)->helpInfo();
             (new \Pointless\Task\PostTask)->helpInfo();
+            (new \Pointless\Task\ThemeTask)->helpInfo();
             (new \Pointless\Task\ServerTask)->helpInfo();
             (new \Pointless\Task\UpdateTask)->helpInfo();
 

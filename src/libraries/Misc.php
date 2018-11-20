@@ -274,4 +274,38 @@ EOF;
 
         return $post;
     }
+
+    /**
+     * Get Theme List
+     *
+     * @return array
+     */
+    public static function getThemeList()
+    {
+        $list = [];
+
+        $handle = opendir(BLOG_ROOT . '/themes');
+
+        while ($filename = readdir($handle)) {
+            if ('.' === $filename || '..' === $filename) {
+                continue;
+            }
+
+            if (false === is_dir(BLOG_ROOT . "/themes/{$filename}")) {
+                continue;
+            }
+
+            $list[$filename] = [
+                'title' => $filename,
+                'path' => BLOG_ROOT . "/themes/{$filename}"
+            ];
+        }
+
+        closedir($handle);
+
+        // Sort List
+        uksort($list, 'strnatcasecmp');
+
+        return array_values($list);
+    }
 }
