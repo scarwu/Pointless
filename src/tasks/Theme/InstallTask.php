@@ -49,18 +49,27 @@ class InstallTask extends Task
 
         $this->io->notice('Installing Theme');
 
-        $tmpFolder = '/tmp/pointless-theme-' . hash('md5', time());
+        $tmpFolder = '/tmp/pointless-theme-' . hash('md5', $gitRepo . time());
 
         if (file_exists($tmpFolder)) {
             Utility::remove($tmpFolder);
         }
 
+        // Clone Git Repo to Temp Folder
         system("git clone {$gitRepo} {$tmpFolder}");
 
-        if (is_dir("{$tmpFolder}/theme")) {
-            Utility::copy("{$tmpFolder}/theme", BLOG_ROOT . '/themes/' . hash('md5', time()));
+        // Check Theme Information
+        if (is_dir("{$tmpFolder}/dist")
+            && is_file("{$tmpFolder}/dist/constant.php")) {
+
+            // Include Theme Constant
+            include "{$tmpFolder}/dist/constant.php";
+
+            // Copy Theme to Current Folder
+            Utility::copy("{$tmpFolder}/dist", BLOG_ROOT . "/themes/{$constant['name']}");
         }
 
+        // Remove Temp Folder
         Utility::remove($tmpFolder);
     }
 }
