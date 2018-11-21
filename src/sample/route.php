@@ -8,61 +8,66 @@
  * @link        https://github.com/scarwu/Pointless
  */
 
-$root = file_get_contents("{$_SERVER['DOCUMENT_ROOT']}/default");
+define('APP_ENV', getenv('APP_ENV'));
+define('APP_ROOT', getenv('APP_ROOT'));
 
-// Define Constant
-define('BLOG_ROOT', $root);
-define('BLOG_BUILD', BLOG_ROOT . '/build');
+require APP_ROOT . '/viewer/index.php';
 
-// Require Config
-require BLOG_ROOT . '/config.php';
+// $root = file_get_contents("{$_SERVER['DOCUMENT_ROOT']}/default");
 
-// Set Variables
-$base = BLOG_BUILD;
-$mime = [
-    'html' => 'text/html',
-    'css' => 'text/css',
-    'js' => 'text/javascript',
-    'json' => 'application/json',
-    'xml' => 'application/xml',
+// // Define Constant
+// define('BLOG_ROOT', $root);
+// define('BLOG_BUILD', BLOG_ROOT . '/build');
 
-    'jpg' => 'image/jpeg',
-    'png' => 'image/png',
-    'gif' => 'image/gif',
+// // Require Config
+// require BLOG_ROOT . '/config.php';
 
-    'woff' => 'application/font-woff',
-    'ttf' => 'font/opentype'
-];
+// // Set Variables
+// $base = BLOG_BUILD;
+// $mime = [
+//     'html' => 'text/html',
+//     'css' => 'text/css',
+//     'js' => 'text/javascript',
+//     'json' => 'application/json',
+//     'xml' => 'application/xml',
 
-// Built-in Web Server Route
-$pattern = '/^' . str_replace('/', '\/', $config['blog']['baseUrl']) . '/';
+//     'jpg' => 'image/jpeg',
+//     'png' => 'image/png',
+//     'gif' => 'image/gif',
 
-if (!preg_match($pattern, $_SERVER['REQUEST_URI'])) {
-    header("Location:http://{$_SERVER['HTTP_HOST']}{$config['blog']['baseUrl']}");
-}
+//     'woff' => 'application/font-woff',
+//     'ttf' => 'font/opentype'
+// ];
 
-$pattern = '/^' . str_replace('/', '\/', $config['blog']['baseUrl']) . '(.+)/';
+// // Built-in Web Server Route
+// $pattern = '/^' . str_replace('/', '\/', $config['blog']['baseUrl']) . '/';
 
-if (preg_match($pattern, $_SERVER['REQUEST_URI'], $match)) {
-    $base = "{$base}/" . urldecode($match[1]);
-}
+// if (!preg_match($pattern, $_SERVER['REQUEST_URI'])) {
+//     header("Location:http://{$_SERVER['HTTP_HOST']}{$config['blog']['baseUrl']}");
+// }
 
-$base = is_dir($base) ? "{$base}/index.html" : $base;
-$base = explode('?', $base)[0];
+// $pattern = '/^' . str_replace('/', '\/', $config['blog']['baseUrl']) . '(.+)/';
 
-// Set Constent Type
-$extName = explode('.', $base);
-$extName = array_pop($extName);
+// if (preg_match($pattern, $_SERVER['REQUEST_URI'], $match)) {
+//     $base = "{$base}/" . urldecode($match[1]);
+// }
 
-if (isset($mime[$extName])) {
-    header("Content-type: {$mime[$extName]}");
-}
+// $base = is_dir($base) ? "{$base}/index.html" : $base;
+// $base = explode('?', $base)[0];
 
-// Response Content
-if (file_exists($base)) {
-    echo file_get_contents($base);
+// // Set Constent Type
+// $extName = explode('.', $base);
+// $extName = array_pop($extName);
 
-    return true;
-}
+// if (isset($mime[$extName])) {
+//     header("Content-type: {$mime[$extName]}");
+// }
 
-return false;
+// // Response Content
+// if (file_exists($base)) {
+//     echo file_get_contents($base);
+
+//     return true;
+// }
+
+// return false;

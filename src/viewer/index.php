@@ -14,49 +14,56 @@ date_default_timezone_set('Etc/UTC');
 // Fix: PREG_JIT_STACKLIMIT_ERROR (PHP 7)
 ini_set('pcre.jit', false);
 
-// Define Global Constants
-define('ROOT', __DIR__ . '/..');
-define('POI_ROOT', ROOT . '/../subModules/Pointless/src');
+define('HOME_ROOT', getenv('HOME_ROOT'));
+define('BLOG_ROOT', getenv('BLOG_ROOT'));
+define('BLOG_POST', BLOG_ROOT . '/posts');
+define('BLOG_STATIC', BLOG_ROOT . '/static');
 
-if (is_dir(getenv('POI_BLOG_PATH'))) {
-    define('BLOG_POST', getenv('POI_BLOG_PATH') . '/posts');
-    define('BLOG_STATIC', getenv('POI_BLOG_PATH') . '/static');
+if (false !== getenv('BLOG_THEME')) {
+    define('BLOG_THEME', getenv('BLOG_THEME'));
 } else {
-    define('BLOG_POST', POI_ROOT . '/sample/posts');
-    define('BLOG_STATIC', null);
+    require  BLOG_ROOT . '/config.php';
+
+    if ('' === $config['theme']) {
+        $config['theme'] = 'Classic';
+    }
+
+    if (file_exists(BLOG_ROOT . "/themes/{$config['theme']}")) {
+        define('BLOG_THEME', BLOG_ROOT . "/themes/{$config['theme']}");
+    } else {
+        define('BLOG_THEME', APP_ROOT . '/sample/themes/Classic');
+    }
 }
 
 // Require Composer Autoloader
-require ROOT . '/application/vendor/autoload.php';
+require APP_ROOT . '/vendor/autoload.php';
 
 error_reporting(E_ALL);
 
 // Register Whoops Exception Handler
-$whoops = new Whoops\Run();
-$whoops->pushHandler(new Whoops\Handler\PrettyPageHandler());
-$whoops->register();
+// $whoops = new Whoops\Run();
+// $whoops->pushHandler(new Whoops\Handler\PrettyPageHandler());
+// $whoops->register();
 
 // New Oni Web Application Instance
 $app = new Oni\Web\App();
 
 $app->setAttr('controller/namespace', 'WebApp\Controller');
-$app->setAttr('controller/path', ROOT . '/application/controllers');
+$app->setAttr('controller/path', APP_ROOT . '/viewer/controllers');
 $app->setAttr('controller/default/Handler', 'Main');
 $app->setAttr('controller/default/action', 'index');
 $app->setAttr('controller/error/Handler', 'Main');
 $app->setAttr('controller/error/action', 'index');
-$app->setAttr('model/namespace', 'WebApp\Model');
-$app->setAttr('model/path', ROOT . '/application/models');
-$app->setAttr('view/path', ROOT . '/application/views');
+$app->setAttr('view/path', BLOG_THEME . '/views');
 
 // Loader Append
-Oni\Loader::append('Pointless\Handler', ROOT . '/application/handlers');
-Oni\Loader::append('Pointless\Extension', ROOT . '/application/extensions');
-Oni\Loader::append('Pointless\Library', POI_ROOT . '/libraries');
-Oni\Loader::append('Pointless\Extend', POI_ROOT . '/extends');
-Oni\Loader::append('Pointless\Format', POI_ROOT . '/formats');
-Oni\Loader::append('Pointless\Handler', POI_ROOT . '/sample/handlers');
-Oni\Loader::append('Pointless\Extension', POI_ROOT . '/sample/extensions');
+Oni\Loader::append('Pointless\Handler', BLOG_THEME . '/application/handlers');
+Oni\Loader::append('Pointless\Extension', BLOG_THEME . '/application/extensions');
+Oni\Loader::append('Pointless\Library', APP_ROOT . '/libraries');
+Oni\Loader::append('Pointless\Extend', APP_ROOT . '/extends');
+Oni\Loader::append('Pointless\Format', APP_ROOT . '/formats');
+Oni\Loader::append('Pointless\Handler', APP_ROOT . '/sample/handlers');
+Oni\Loader::append('Pointless\Extension', APP_ROOT . '/sample/extensions');
 
 // Start Application
 $app->run();

@@ -21,7 +21,7 @@ class StartTask extends Task
      */
     public function helpInfo()
     {
-		$this->io->log('    server start    - Start server');
+        $this->io->log('    server start    - Start server');
     }
 
     /**
@@ -44,7 +44,36 @@ class StartTask extends Task
         $host = 'localhost';
         $port = 3000;
         $root = HOME_ROOT;
-        $command = "php -S {$host}:{$port} -t {$root} {$routeScript}";
+
+        $envs = [
+            [ 'key' => 'APP_ENV',   'value' => APP_ENV ],
+            [ 'key' => 'APP_ROOT',  'value' => APP_ROOT ],
+            [ 'key' => 'HOME_ROOT', 'value' => HOME_ROOT ],
+            [ 'key' => 'BLOG_ROOT', 'value' => BLOG_ROOT ]
+        ];
+
+        if ($this->io->hasConfigs('host')
+            && preg_match('/^\w+(?:(?:\.\w+)+)?$/', $this->io->getConfigs('host'))) {
+
+            $host = $this->io->getConfigs('host');
+        }
+
+        if ($this->io->hasConfigs('port')
+            && preg_match('/^\d+$/', $this->io->getConfigs('port'))) {
+
+            $port = (int) $this->io->getConfigs('port');
+        }
+
+        if ($this->io->hasConfigs('theme')
+            && is_dir($this->io->getConfigs('theme'))) {
+
+            $envs[] = [
+                'key' => 'BLOG_THEME',
+                'value' => $this->io->getConfigs('theme')
+            ];
+        }
+
+        $command = "php -d variables_order=EGPCS -S {$host}:{$port} {$routeScript}";
 
         // Check Command
         if ($this->isCommandRunning($command)) {
@@ -56,7 +85,9 @@ class StartTask extends Task
         // Get PID
         $output = [];
 
-        exec("{$command} > /dev/null 2>&1 & echo $!", $output);
+        exec(implode(array_map(function ($env) {
+            return "{$env['key']}={$env['value']}";
+        }, $envs), ' ') . " {$command} > /dev/null 2>&1 & echo $!", $output);
 
         $pid = $output[0];
 
@@ -69,18 +100,20 @@ class StartTask extends Task
         exec("ps {$pid}", $output);
 
         if (count($output) > 1) {
-            file_put_contents(HOME_ROOT . '/.server', json_encode([
-                'pid' => $pid,
+            $server = [
                 'command' => $command,
-                'host' => $host,
-                'port' => $port,
-                'root' => $root
-            ]));
+                'pid' => $pid,
+                'url' => "http://{$host}:{$port}",
+                'root' => HOME_ROOT
+            ];
 
             $this->io->info('Server is start.');
-            $this->io->log("Server PID - {$pid}");
-            $this->io->log("Server URL - http://{$host}:{$port}");
-            $this->io->log("Doc Root   - {$root}");
+            $this->io->writeln();
+            $this->io->notice('Server Status:');
+            $this->io->log("PID - {$server['pid']}");
+            $this->io->log("URL - {$server['url']}");
+
+            file_put_contents(HOME_ROOT . '/.server', json_encode($server));
         } else {
             $this->io->error('Server fails to start.');
         }

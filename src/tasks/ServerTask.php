@@ -68,9 +68,8 @@ class ServerTask extends Task
 
         if ($this->isCommandRunning($server['command'])) {
             $this->io->notice('Server Status:');
-            $this->io->log("Server PID - {$server['pid']}");
-            $this->io->log("Server URL - http://{$server['host']}:{$server['port']}");
-            $this->io->log("Doc Root   - {$server['root']}");
+            $this->io->log("PID - {$server['pid']}");
+            $this->io->log("URL - {$server['url']}");
         } else {
             $this->io->error('Server is not running.');
         }

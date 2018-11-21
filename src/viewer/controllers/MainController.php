@@ -30,21 +30,17 @@ class MainController extends Controller
     public function up()
     {
         // Load System Consatnt
-        include POI_ROOT . '/constant.php';
+        require APP_ROOT . '/constant.php';
 
         $systemConstant = $constant;
 
         // Load System Config
-        if (is_dir(getenv('POI_BLOG_PATH'))) {
-            include getenv('POI_BLOG_PATH') . '/config.php';
-        } else {
-            include POI_ROOT . '/sample/config.php';
-        }
+        require BLOG_ROOT . '/config.php';
 
         $systemConfig = $config;
 
         // Load Theme Config
-        require ROOT . '/application/config.php';
+        require BLOG_THEME . '/config.php';
 
         $themeConfig = $config;
 
