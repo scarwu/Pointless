@@ -22,7 +22,7 @@ class InstallTask extends Task
      */
     public function helpInfo()
     {
-        $this->io->log('    theme install <git repo>');
+        $this->io->log('    theme install <git repo url>');
 		$this->io->log('                    - Install theme');
     }
 
@@ -39,6 +39,7 @@ class InstallTask extends Task
 
     public function run()
     {
+        // [ 'theme', 'install', '<gitRepo>' ]
         $gitRepo = $this->io->getArguments(2);
 
         if (false === $gitRepo) {

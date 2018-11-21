@@ -65,8 +65,9 @@ class InitTask extends Task
     {
         $path = '';
 
-        if ($this->io->getArguments(0)) {
-            $path = $this->io->getArguments(0);
+        // [ 'blog', 'init', '<path>' ]
+        if ($this->io->getArguments(2)) {
+            $path = $this->io->getArguments(2);
         }
 
         if (!preg_match('/^\/(.+)/', $path)) {

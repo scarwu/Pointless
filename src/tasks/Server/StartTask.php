@@ -37,25 +37,21 @@ class StartTask extends Task
 
     public function run()
     {
-        // Startgin Server
         $this->io->notice('Starting Server');
 
-        // Start Blog Server
-        $this->startBlog();
-    }
-
-    /**
-     * Start Blog
-     */
-    private function startBlog()
-    {
         // Prepare Variables
-        $pidList = [];
         $routeScript = ('production' === APP_ENV ? HOME_ROOT : APP_ROOT) . '/sample/route.php';
-        $host = Resource::get('system:config')['server']['host'];
-        $port = Resource::get('system:config')['server']['port'];
+        $host = 'localhost';
+        $port = 3000;
         $root = HOME_ROOT;
-        $command = "php -S localhost:{$port} -t {$root} {$routeScript}";
+        $command = "php -S {$host}:{$port} -t {$root} {$routeScript}";
+
+        // Check Command
+        if ($this->isCommandRunning($command)) {
+            $this->io->info('Server is running.');
+
+            return false;
+        }
 
         // Get PID
         $output = [];
@@ -73,20 +69,30 @@ class StartTask extends Task
         exec("ps {$pid}", $output);
 
         if (count($output) > 1) {
-            $pidList[$pid] = [
+            file_put_contents(HOME_ROOT . '/.server', json_encode([
+                'pid' => $pid,
                 'command' => $command,
-                'root' => $root,
-                'port' => $port
-            ];
-
-            file_put_contents(HOME_ROOT . '/pid', json_encode($pidList));
+                'host' => $host,
+                'port' => $port,
+                'root' => $root
+            ]));
 
             $this->io->info('Server is start.');
-            $this->io->log("Doc Root   - {$root}");
-            $this->io->log("Server URL - http://localhost:{$port}");
             $this->io->log("Server PID - {$pid}");
+            $this->io->log("Server URL - http://{$host}:{$port}");
+            $this->io->log("Doc Root   - {$root}");
         } else {
             $this->io->error('Server fails to start.');
         }
+    }
+
+    private function isCommandRunning($command) {
+        exec('ps aux', $output);
+
+        $output = array_filter($output, function ($text) use ($command) {
+            return strpos($text, $command);
+        });
+
+        return 0 < count($output);
     }
 }

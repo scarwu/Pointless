@@ -48,12 +48,6 @@ class ServerTask extends Task
         if (false === Misc::initBlog()) {
             return false;
         }
-
-        if (false === file_exists(HOME_ROOT . '/pid')) {
-            $this->io->error('Server is not running.');
-
-            return false;
-        }
     }
 
     public function down()
@@ -64,19 +58,31 @@ class ServerTask extends Task
 
     public function run()
     {
-        $list = json_decode(file_get_contents(HOME_ROOT . '/pid'), true);
+        if (false === is_file(HOME_ROOT . '/.server')) {
+            $this->io->error('Server is not running.');
 
-        foreach ($list as $pid => $info) {
-            exec("ps aux | grep \"{$info['command']}\"", $output);
-
-            if (count($output) > 1) {
-                $this->io->notice('Server Status:');
-                $this->io->log("Doc Root   - {$info['root']}");
-                $this->io->log("Server URL - http://localhost:{$info['port']}");
-                $this->io->log("Server PID - {$pid}");
-
-                break;
-            }
+            return false;
         }
+
+        $server = json_decode(file_get_contents(HOME_ROOT . '/.server'), true);
+
+        if ($this->isCommandRunning($server['command'])) {
+            $this->io->notice('Server Status:');
+            $this->io->log("Server PID - {$server['pid']}");
+            $this->io->log("Server URL - http://{$server['host']}:{$server['port']}");
+            $this->io->log("Doc Root   - {$server['root']}");
+        } else {
+            $this->io->error('Server is not running.');
+        }
+    }
+
+    private function isCommandRunning($command) {
+        exec('ps aux', $output);
+
+        $output = array_filter($output, function ($text) use ($command) {
+            return strpos($text, $command);
+        });
+
+        return 0 < count($output);
     }
 }

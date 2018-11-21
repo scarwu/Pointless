@@ -32,30 +32,38 @@ class StopTask extends Task
         if (false === Misc::initBlog()) {
             return false;
         }
-
-        if (false === file_exists(HOME_ROOT . '/pid')) {
-            $this->io->error('Server is not running.');
-
-            return false;
-        }
     }
 
     public function run()
     {
         $this->io->notice('Stopping Server');
 
-        $list = json_decode(file_get_contents(HOME_ROOT . '/pid'), true);
+        if (false === is_file(HOME_ROOT . '/.server')) {
+            $this->io->error('Server is not running.');
 
-        foreach ($list as $pid => $info) {
-            exec("ps aux | grep \"{$info['command']}\"", $output);
-
-            if (count($output) > 1) {
-                system("kill -9 {$pid}");
-
-                $this->io->info('Server is stop.');
-            }
+            return false;
         }
 
-        unlink(HOME_ROOT . '/pid');
+        $server = json_decode(file_get_contents(HOME_ROOT . '/.server'), true);
+
+        if ($this->isCommandRunning($server['command'])) {
+            system("kill -9 {$server['pid']}");
+
+            $this->io->info('Server is stop.');
+        } else {
+            $this->io->error('Server is not running.');
+        }
+
+        unlink(HOME_ROOT . '/.server');
+    }
+
+    private function isCommandRunning($command) {
+        exec('ps aux', $output);
+
+        $output = array_filter($output, function ($text) use ($command) {
+            return strpos($text, $command);
+        });
+
+        return 0 < count($output);
     }
 }
