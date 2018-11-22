@@ -21,13 +21,13 @@ class ThemeTask extends Task
     public function helpInfo($isShowDetail = false)
     {
         if ($isShowDetail) {
-            $this->io->log('    theme           - Show theme status');
+            $this->io->log('    theme               - Show theme status');
 
             // Sub Help Info
             (new \Pointless\Task\Theme\InstallTask)->helpInfo();
             (new \Pointless\Task\Theme\UninstallTask)->helpInfo();
         } else {
-            $this->io->log('    theme           - Themes manage');
+            $this->io->log('    theme               - Themes manage');
         }
     }
 

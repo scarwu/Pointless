@@ -27,7 +27,7 @@ class EditTask extends Task
      */
     public function helpInfo()
     {
-        $this->io->log('    post edit       - Edit post');
+        $this->io->log('    post edit           - Edit post');
     }
 
     /**

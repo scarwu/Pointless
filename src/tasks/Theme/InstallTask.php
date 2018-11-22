@@ -23,7 +23,7 @@ class InstallTask extends Task
     public function helpInfo()
     {
         $this->io->log('    theme install <git repo url>');
-		$this->io->log('                    - Install theme');
+		$this->io->log('                        - Install theme');
     }
 
     /**

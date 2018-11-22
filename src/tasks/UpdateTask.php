@@ -19,9 +19,13 @@ class UpdateTask extends Task
     /**
      * Help Info
      */
-    public function helpInfo()
+    public function helpInfo($isShowDetail = false)
     {
-        $this->io->log('    update          - System self-update');
+        if ($isShowDetail) {
+            $this->io->log('    update              - Update poi command by ota');
+        } else {
+            $this->io->log('    update              - System self-update');
+        }
     }
 
     /**
@@ -29,6 +33,14 @@ class UpdateTask extends Task
      */
     public function up()
     {
+        if ($this->io->hasOptions('h')) {
+            Misc::showBanner();
+
+            $this->helpInfo(true);
+
+            return false;
+        }
+
         if ('development' === APP_ENV) {
             $this->io->error('Development version can not be update.');
 

@@ -21,7 +21,10 @@ class StartTask extends Task
      */
     public function helpInfo()
     {
-        $this->io->log('    server start    - Start server');
+        $this->io->log('    server start        - Start server');
+        $this->io->log('        --host=<host>   - Set host (default: localhost)');
+        $this->io->log('        --port=<port>   - Set port (default: 3000)');
+        $this->io->log('        --theme=<path>  - Set specify theme');
     }
 
     /**

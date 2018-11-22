@@ -48,7 +48,7 @@ error_reporting(E_ALL);
 // New Oni Web Application Instance
 $app = new Oni\Web\App();
 
-$app->setAttr('controller/namespace', 'WebApp\Controller');
+$app->setAttr('controller/namespace', 'Pointless\Viewer\Controller');
 $app->setAttr('controller/path', VIEWER_ROOT . '/controllers');
 $app->setAttr('controller/default/Handler', 'Main');
 $app->setAttr('controller/default/action', 'index');

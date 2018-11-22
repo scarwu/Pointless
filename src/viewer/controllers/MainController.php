@@ -8,7 +8,7 @@
  * @link        https://github.com/scarwu/Pointless
  */
 
-namespace WebApp\Controller;
+namespace Pointless\Viewer\Controller;
 
 use Pointless\Library\Misc;
 use Pointless\Library\Utility;

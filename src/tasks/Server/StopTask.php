@@ -20,7 +20,7 @@ class StopTask extends Task
      */
     public function helpInfo()
     {
-		$this->io->log('    server stop     - Stop server');
+		$this->io->log('    server stop         - Stop server');
     }
 
     /**
