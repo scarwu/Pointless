@@ -48,7 +48,9 @@ class StartTask extends Task
         $envs = [
             [ 'key' => 'APP_ROOT',  'value' => APP_ROOT ],
             [ 'key' => 'BLOG_ROOT', 'value' => BLOG_ROOT ],
-            [ 'key' => 'VIEWER_ROOT', 'value' => APP_ROOT . '/viewer' ]
+            [ 'key' => 'VIEWER_ROOT', 'value' => 'production' === APP_ENV
+                ? 'phar://' . trim($_SERVER['_']) . '/viewer'
+                : APP_ROOT . '/viewer' ]
         ];
 
         if ($this->io->hasConfigs('host')
