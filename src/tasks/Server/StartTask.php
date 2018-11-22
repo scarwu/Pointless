@@ -49,6 +49,7 @@ class StartTask extends Task
         $root = HOME_ROOT;
 
         $envs = [
+            [ 'key' => 'APP_ENV',  'value' => APP_ENV ],
             [ 'key' => 'APP_ROOT',  'value' => APP_ROOT ],
             [ 'key' => 'BLOG_ROOT', 'value' => BLOG_ROOT ],
             [ 'key' => 'PHAR_FILE', 'value' => ('production' === APP_ENV ? $_SERVER['_'] : false) ]

@@ -183,6 +183,8 @@ class MainController extends Controller
                 'sideList' => $this->sideList,
                 'container' => $containerList["{$path}/"]
             ]);
+        } else {
+            exit(0);
         }
     }
 

@@ -37,7 +37,12 @@ if (false !== getenv('BLOG_THEME')) {
 // Require Composer Autoloader
 require APP_ROOT . '/vendor/autoload.php';
 
-error_reporting(E_ALL);
+// Set Error Reporting
+if ('production' === APP_ROOT) {
+    error_reporting(0);
+} else {
+    error_reporting(E_ALL);
+}
 
 // Register Whoops Exception Handler
 // $whoops = new Whoops\Run();

@@ -8,6 +8,7 @@
  * @link        https://github.com/scarwu/Pointless
  */
 
+define('APP_ENV', getenv('APP_ENV'));
 define('APP_ROOT', getenv('APP_ROOT'));
 
 if (getenv('PHAR_FILE')) {
