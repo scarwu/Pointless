@@ -8,10 +8,9 @@
  * @link        https://github.com/scarwu/Pointless
  */
 
-define('APP_ENV', getenv('APP_ENV'));
-define('APP_ROOT', getenv('APP_ROOT'));
+define('VIEWER_ROOT', getenv('VIEWER_ROOT'));
 
-require APP_ROOT . '/viewer/index.php';
+require VIEWER_ROOT . '/index.php';
 
 // $root = file_get_contents("{$_SERVER['DOCUMENT_ROOT']}/default");
 

@@ -46,10 +46,9 @@ class StartTask extends Task
         $root = HOME_ROOT;
 
         $envs = [
-            [ 'key' => 'APP_ENV',   'value' => APP_ENV ],
             [ 'key' => 'APP_ROOT',  'value' => APP_ROOT ],
-            [ 'key' => 'HOME_ROOT', 'value' => HOME_ROOT ],
-            [ 'key' => 'BLOG_ROOT', 'value' => BLOG_ROOT ]
+            [ 'key' => 'BLOG_ROOT', 'value' => BLOG_ROOT ],
+            [ 'key' => 'VIEWER_ROOT', 'value' => APP_ROOT . '/viewer' ]
         ];
 
         if ($this->io->hasConfigs('host')
@@ -103,8 +102,7 @@ class StartTask extends Task
             $server = [
                 'command' => $command,
                 'pid' => $pid,
-                'url' => "http://{$host}:{$port}",
-                'root' => HOME_ROOT
+                'url' => "http://{$host}:{$port}"
             ];
 
             $this->io->info('Server is start.');
