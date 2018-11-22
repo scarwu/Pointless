@@ -14,7 +14,6 @@ date_default_timezone_set('Etc/UTC');
 // Fix: PREG_JIT_STACKLIMIT_ERROR (PHP 7)
 ini_set('pcre.jit', false);
 
-define('APP_ROOT', getenv('APP_ROOT'));
 define('BLOG_ROOT', getenv('BLOG_ROOT'));
 define('BLOG_POST', BLOG_ROOT . '/posts');
 define('BLOG_STATIC', BLOG_ROOT . '/static');
@@ -49,7 +48,7 @@ error_reporting(E_ALL);
 $app = new Oni\Web\App();
 
 $app->setAttr('controller/namespace', 'Pointless\Viewer\Controller');
-$app->setAttr('controller/path', VIEWER_ROOT . '/controllers');
+$app->setAttr('controller/path', APP_ROOT . '/viewer/controllers');
 $app->setAttr('controller/default/Handler', 'Main');
 $app->setAttr('controller/default/action', 'index');
 $app->setAttr('controller/error/Handler', 'Main');
