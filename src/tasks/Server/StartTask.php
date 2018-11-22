@@ -72,7 +72,7 @@ class StartTask extends Task
             ];
         }
 
-        $command = "php -d variables_order=EGPCS -S {$host}:{$port} {$routeScript}";
+        $command = "php -S {$host}:{$port} {$routeScript}";
 
         // Check Command
         if ($this->isCommandRunning($command)) {

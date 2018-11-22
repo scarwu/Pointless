@@ -30,6 +30,7 @@ foreach ([
     'extends',
     'libraries',
     'sample',
+    'viewer',
     'boot.php',
     'constant.php',
     'vendor/autoload.php',

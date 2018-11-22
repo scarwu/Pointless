@@ -133,21 +133,6 @@ class MainController extends Controller
         }
 
         // Check Static File
-        $mime = [
-            'html' => 'text/html',
-            'css' => 'text/css',
-            'js' => 'text/javascript',
-            'json' => 'application/json',
-            'xml' => 'application/xml',
-
-            'jpg' => 'image/jpeg',
-            'png' => 'image/png',
-            'gif' => 'image/gif',
-
-            'woff' => 'application/font-woff',
-            'ttf' => 'font/opentype'
-        ];
-
         if (is_file(BLOG_STATIC . "/{$path}")) {
             $staticPath = BLOG_STATIC . "/{$path}";
         } elseif (is_file(BLOG_THEME . "/{$path}")) {
@@ -157,14 +142,26 @@ class MainController extends Controller
         }
 
         if (null !== $staticPath) {
-            $info = pathinfo($staticPath);
+            $mimeMapping = [
+                'html' => 'text/html',
+                'css' => 'text/css',
+                'js' => 'text/javascript',
+                'json' => 'application/json',
+                'xml' => 'application/xml',
 
-            if (isset($mime[$info['extension']])) {
-                header('Content-Type: ' . $mime[$info['extension']]);
-            } else {
-                header('Content-Type: ' . mime_content_type($staticPath));
-            }
+                'jpg' => 'image/jpeg',
+                'png' => 'image/png',
+                'gif' => 'image/gif',
 
+                'woff' => 'application/font-woff',
+                'ttf' => 'font/opentype'
+            ];
+
+            $fileInfo = pathinfo($staticPath);
+            $mimeType = isset($fileInfo['extension']) && isset($mimeMapping[$fileInfo['extension']])
+                ? $mimeMapping[$fileInfo['extension']] : mime_content_type($staticPath);
+
+            header('Content-Type: ' . $mimeType);
             header('Content-Length: ' . filesize($staticPath));
 
             echo file_get_contents($staticPath);

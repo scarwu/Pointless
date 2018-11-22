@@ -10,7 +10,7 @@
 
 $constant = [
     'build' => [
-        'version' => '4.0.2',
+        'version' => '4.1.0',
         'timestamp' => time()
     ],
     'formats' => [
