@@ -1,4 +1,16 @@
 {
+    "name": "scarwu/pointless",
+    "homepage": "https://github.com/scarwu/Pointless",
+    "type": "application",
+    "description": "A static blog generator",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Scar Wu",
+            "email": "xneriscool@gmail.com",
+            "homepage": "https://scar.tw"
+        }
+    ],
     "config": {
         "vendor-dir": "src/vendor"
     },
@@ -11,5 +23,8 @@
         "phpunit/phpunit": "^7",
         "phpunit/php-invoker": "^2.0",
         "phpunit/php-code-coverage": "^6.0"
-    }
+    },
+    "bin": [
+        "bin/poi"
+    ]
 }
