@@ -6,7 +6,6 @@ rm -rf src/sample/themes/*
 
 THEME_LIST=(
     "Classic"
-    "Unique"
 )
 
 for THEME in ${THEME_LIST[*]}

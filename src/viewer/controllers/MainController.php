@@ -62,7 +62,7 @@ class MainController extends Controller
 
             foreach (Misc::getPostList($type) as $post) {
                 if (false === $post['isPublic']) {
-                    continue;
+                    $post['title'] = "<i class=\"fa fa-lock\"></i> {$post['title']}";
                 }
 
                 $postBundle[$type][] = $instance->convertPost($post);

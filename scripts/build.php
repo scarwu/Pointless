@@ -40,6 +40,7 @@ foreach ([
     'vendor/composer/autoload_psr4.php',
     'vendor/composer/autoload_real.php',
     'vendor/composer/autoload_static.php',
+    'vendor/symfony/polyfill-ctype/bootstrap.php',
     'vendor/myclabs/deep-copy',
     'vendor/scarwu/oni/src',
     'vendor/erusev/parsedown/Parsedown.php'
