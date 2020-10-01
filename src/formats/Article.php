@@ -62,6 +62,7 @@ class Article extends Format
                 'category' => $input['category'],
                 'date' => date('Y-m-d', $time),
                 'time' => date('H:i:s', $time),
+                'coverImage' => null,
                 'withMessage' => true,
                 'isPublic' => false
             ],
@@ -120,6 +121,7 @@ class Article extends Format
             'content' => $post['content'],
             'summary' => $summary,
             'description' => $description,
+            'coverImage' => isset($post['coverImage']) ? $post['coverImage'] : null,
             'category' => $post['category'],
             'tags' => $post['tags'],
             'date' => $post['date'],

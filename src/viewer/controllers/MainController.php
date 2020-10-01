@@ -62,7 +62,7 @@ class MainController extends Controller
 
             foreach (Misc::getPostList($type) as $post) {
                 if (false === $post['isPublic']) {
-                    $post['title'] = "<i class=\"fa fa-lock\"></i> {$post['title']}";
+                    $post['title'] = "🔒 {$post['title']}"; // append lock emoji before
                 }
 
                 $postBundle[$type][] = $instance->convertPost($post);
