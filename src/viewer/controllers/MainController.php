@@ -45,7 +45,7 @@ class MainController extends Controller
         $themeConfig = $config;
 
         // Set Resource
-        Resource::set('system:contant', $systemConstant);
+        Resource::set('system:constant', $systemConstant);
         Resource::set('system:config', $systemConfig);
         Resource::set('theme:config', $themeConfig);
 

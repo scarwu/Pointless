@@ -48,8 +48,8 @@ class Resource
     public static function set($key, $data)
     {
         if (false === is_string($key)
-            || false === is_array($data)) {
-
+            || false === is_array($data)
+        ) {
             return false;
         }
 
@@ -67,8 +67,8 @@ class Resource
     public static function append($key, $data)
     {
         if (false === is_string($key)
-            || false === is_array($data)) {
-
+            || false === is_array($data)
+        ) {
             return false;
         }
 

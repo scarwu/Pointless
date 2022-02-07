@@ -64,10 +64,6 @@ EOF;
 
         define('BLOG_ROOT', $blogRoot);
 
-        if (false === file_exists(BLOG_ROOT . '/.pointless')) {
-            file_put_contents(BLOG_ROOT . '/.pointless', '');
-        }
-
         if (false === file_exists(BLOG_ROOT . '/config.php')) {
             copy(APP_ROOT . '/sample/config.php', BLOG_ROOT . '/config.php');
         }
@@ -211,6 +207,7 @@ EOF;
                 continue;
             }
 
+            $file['name'] = $filename;
             $file['path'] = BLOG_POST . "/{$type}/{$filename}";
 
             if (false === $withContent) {

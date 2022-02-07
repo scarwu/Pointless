@@ -1,0 +1,136 @@
+// Global Style
+
+// Font Face
+@import url('https://fonts.googleapis.com/css?family=PT+Serif:400,700|Noto+Sans:100,300,400,700|Noto+Sans+JP:100,300,400,700')
+
+@font-face
+    font-family: ITCEDSCR
+    src: url(../../assets/fonts/ITCEDSCR.ttf) format('truetype')
+
+// Mixins
+@mixin font-size($remSize)
+    $pxSize: $remSize * 10
+
+    font-size: #{$pxSize}px
+    font-size: #{$remSize}rem
+
+@mixin border-radius($radius)
+    // $radius: 4px
+    border-radius: $radius
+
+@mixin box-shadow($shadow)
+    // $shadow: 0 1px 3px rgba(0,0,0,.25)
+    box-shadow: $shadow
+
+@mixin opacity($setting)
+    // $setting: 100
+    opacity: $setting / 100
+    filter: alpha(opacity=$setting)
+
+@mixin hover-shadow
+    border: 1px solid #c4c4c4
+    box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.3)
+
+@mixin linear-gradient($color1, $color2)
+    background: -webkit-linear-gradient($color1, $color2)
+    background: -o-linear-gradient($color1, $color2)
+    background: -moz-linear-gradient($color1, $color2)
+    background: linear-gradient($color1, $color2)
+
+@mixin linear-gradient-horizontal($color1, $color2, $color3)
+    background: -webkit-linear-gradient(left, $color1, $color2, $color3)
+    background: -o-linear-gradient(right, $color1, $color2, $color3)
+    background: -moz-linear-gradient(right, $color1, $color2, $color3)
+    background: linear-gradient(to right, $color1, $color2, $color3)
+
+@mixin nowrap
+    display: block
+    overflow: hidden
+    text-overflow: ellipsis
+    white-space: nowrap
+
+@mixin scrollable
+    overflow-x: auto
+    overflow-y: auto
+
+    &::-webkit-scrollbar
+        width: 10px
+        height: 10px
+        background: rgba(0, 0, 0, 0.1)
+        +border-radius(5px)
+
+
+    &::-webkit-scrollbar-thumb
+        background: rgba(0, 0, 0, 0.1)
+        +border-radius(5px)
+
+@mixin display-flex ($direction)
+    display: flex
+    overflow: hidden
+    flex-direction: $direction
+
+// Global Reset
+::selection,
+::-moz-selection
+    background: #b3d4fc
+    text-shadow: none
+
+*
+    -webkit-box-sizing: border-box
+    -moz-box-sizing: border-box
+    box-sizing: border-box
+
+    &:focus
+        outline: none
+
+html,
+body
+    margin: 0
+    padding: 0
+
+html
+    font-size: 62.5%
+
+body
+    overflow-y: scroll
+    font-family: "PT Serif", "Noto Sans TC", Arial, sans-serif
+
+a
+    cursor: pointer
+    text-decoration: none !important
+
+    &:visited,
+    &:link
+        text-decoration: none !important
+
+    &:hover
+    &:focus
+        text-decoration: none !important
+
+    &,
+    &:visited
+        color: #333
+
+    &:hover
+        color: #555
+
+hr
+    display: block
+    height: 1px
+    border: 0
+    border-top: 1px solid #ccc
+    margin: 1em 0
+    padding: 0
+
+audio,
+canvas,
+img,
+video
+    vertical-align: middle
+
+html,
+button,
+input,
+select,
+textarea
+    color: #222

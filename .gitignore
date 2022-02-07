@@ -1,5 +1,6 @@
 .DS_Store
 temp
 src/vendor
+node_modules
 poi.phar
 docker/poi

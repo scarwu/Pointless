@@ -38,16 +38,16 @@ if (false !== getenv('BLOG_THEME')) {
 require APP_ROOT . '/vendor/autoload.php';
 
 // Set Error Reporting
-if ('production' === APP_ROOT) {
+if ('production' === APP_ENV) {
     error_reporting(0);
 } else {
     error_reporting(E_ALL);
-}
 
-// Register Whoops Exception Handler
-// $whoops = new Whoops\Run();
-// $whoops->pushHandler(new Whoops\Handler\PrettyPageHandler());
-// $whoops->register();
+    // Register Whoops Exception Handler
+    $whoops = new Whoops\Run();
+    $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler());
+    $whoops->register();
+}
 
 // New Oni Web Application Instance
 $app = new Oni\Web\App();
