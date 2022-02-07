@@ -24,7 +24,7 @@ class BuildTask extends Task
      */
     public function helpInfo()
     {
-        $this->io->log('    blog build          - Generate blog');
+        $this->io->log('    blog build              - Generate blog');
     }
 
     /**

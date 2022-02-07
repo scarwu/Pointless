@@ -116,6 +116,9 @@ class PostController extends Controller
 
     public function indexAction()
     {
+        $query = $this->req->query();
+        $targetType = isset($query['type']) ? $query['type'] : null;
+
         $result = [];
 
         foreach (Resource::get('system:constant')['formats'] as $subClassName) {
@@ -124,6 +127,10 @@ class PostController extends Controller
 
             $name = $format->getName();
             $type = $format->getType();
+
+            if (true === is_string($targetType) && $targetType !== $type) {
+                continue;
+            }
 
             $result[$type] = Misc::getPostList($type, false);
         }

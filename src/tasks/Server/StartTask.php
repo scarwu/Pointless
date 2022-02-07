@@ -21,10 +21,10 @@ class StartTask extends Task
      */
     public function helpInfo()
     {
-        $this->io->log('    server start        - Start server');
-        $this->io->log('        --host=<host>   - Set host (default: localhost)');
-        $this->io->log('        --port=<port>   - Set port (default: 3000)');
-        $this->io->log('        --theme=<path>  - Set specify theme');
+        $this->io->log('    server start            - Start server');
+        $this->io->log('            --host=<?>      - Set host (default: localhost)');
+        $this->io->log('            --port=<?>      - Set port (default: 3000)');
+        $this->io->log('            --theme=<?>     - Set specify theme');
     }
 
     /**
@@ -56,8 +56,8 @@ class StartTask extends Task
         ];
 
         if ($this->io->hasConfigs('host')
-            && preg_match('/^\w+(?:(?:\.\w+)+)?$/', $this->io->getConfigs('host'))) {
-
+            && preg_match('/^\w+(?:(?:\.\w+)+)?$/', $this->io->getConfigs('host'))
+        ) {
             $host = $this->io->getConfigs('host');
         }
 

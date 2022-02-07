@@ -25,8 +25,7 @@ class InitTask extends Task
      */
     public function helpInfo()
     {
-        $this->io->log('    blog init <path or not>');
-        $this->io->log('                        - Init a new blog');
+        $this->io->log('    blog init <path?>       - Init a new blog');
     }
 
     /**

@@ -22,9 +22,9 @@ class UpdateTask extends Task
     public function helpInfo($isShowDetail = false)
     {
         if ($isShowDetail) {
-            $this->io->log('    update              - Update poi command by ota');
+            $this->io->log('    update                  - Update poi command by ota');
         } else {
-            $this->io->log('    update              - System self-update');
+            $this->io->log('    update                  - System self-update');
         }
     }
 

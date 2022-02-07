@@ -62,12 +62,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/scarwu/Oni.git",
-                "reference": "59dd4e551c45e9dcad0ee43071b24dc521976b27"
+                "reference": "7bfba8d3c1d2af9f9f31dc4bafe7a60b5dd07769"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/scarwu/Oni/zipball/59dd4e551c45e9dcad0ee43071b24dc521976b27",
-                "reference": "59dd4e551c45e9dcad0ee43071b24dc521976b27",
+                "url": "https://api.github.com/repos/scarwu/Oni/zipball/7bfba8d3c1d2af9f9f31dc4bafe7a60b5dd07769",
+                "reference": "7bfba8d3c1d2af9f9f31dc4bafe7a60b5dd07769",
                 "shasum": ""
             },
             "require": {
@@ -102,7 +102,7 @@
                 "issues": "https://github.com/scarwu/Oni/issues",
                 "source": "https://github.com/scarwu/Oni/tree/feature/upgrade"
             },
-            "time": "2022-02-07T12:50:48+00:00"
+            "time": "2022-02-07T13:32:07+00:00"
         }
     ],
     "packages-dev": [

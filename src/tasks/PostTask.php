@@ -22,14 +22,14 @@ class PostTask extends Task
     public function helpInfo($isShowDetail = false)
     {
         if ($isShowDetail) {
-            $this->io->log('    post                - Show posts status');
+            $this->io->log('    post                    - Show posts status');
 
             // Sub Help Info
             (new \Pointless\Task\Post\AddTask)->helpInfo();
             (new \Pointless\Task\Post\EditTask)->helpInfo();
             (new \Pointless\Task\Post\DeleteTask)->helpInfo();
         } else {
-            $this->io->log('    post                - Posts manage');
+            $this->io->log('    post                    - Posts manage');
         }
     }
 

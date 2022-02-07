@@ -22,8 +22,8 @@ class InstallTask extends Task
      */
     public function helpInfo()
     {
-        $this->io->log('    theme install <git repo url>');
-		$this->io->log('                        - Install theme');
+        $this->io->log('    theme install <gitUrl>  - Install theme');
+        $this->io->log('            --branch=<?>    - Set branch (default: master)');
     }
 
     /**
@@ -48,6 +48,12 @@ class InstallTask extends Task
             return false;
         }
 
+        if (true === $this->io->hasConfigs('branch')) {
+            $branch = $this->io->getConfigs('branch');
+        } else {
+            $branch = 'master';
+        }
+
         $this->io->notice('Installing Theme');
 
         $tmpFolder = '/tmp/pointless-theme-' . hash('md5', $gitRepo . time());
@@ -57,7 +63,7 @@ class InstallTask extends Task
         }
 
         // Clone Git Repo to Temp Folder
-        system("git clone {$gitRepo} {$tmpFolder}");
+        system("git clone --branch {$branch} {$gitRepo} {$tmpFolder}");
 
         // Check Theme Information
         if (is_dir("{$tmpFolder}/dist")

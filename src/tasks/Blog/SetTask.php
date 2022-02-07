@@ -25,8 +25,7 @@ class SetTask extends Task
      */
     public function helpInfo()
     {
-        $this->io->log('    blog set <path or not>');
-        $this->io->log('                        - Set another blog as default');
+        $this->io->log('    blog set <path?>        - Set another blog as default');
     }
 
     /**

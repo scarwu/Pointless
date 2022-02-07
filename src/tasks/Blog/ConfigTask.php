@@ -22,7 +22,7 @@ class ConfigTask extends Task
      */
     public function helpInfo()
     {
-        $this->io->log('    blog config         - Modify config');
+        $this->io->log('    blog config             - Modify config');
     }
 
     /**
