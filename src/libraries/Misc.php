@@ -80,7 +80,7 @@ EOF;
         // Define Path
         define('BLOG_BUILD', BLOG_ROOT . '/build');
         define('BLOG_DEPLOY', BLOG_ROOT . '/deploy');
-        define('BLOG_STATIC', BLOG_ROOT . '/static');
+        define('BLOG_ASSET', BLOG_ROOT . '/assets');
         define('BLOG_HANDLER', BLOG_ROOT . '/handlers');
         define('BLOG_EXTENSION', BLOG_ROOT . '/extensions');
         define('BLOG_POST', BLOG_ROOT . '/posts');
@@ -88,7 +88,7 @@ EOF;
         // Create Folders
         Utility::mkdir(BLOG_BUILD);
         Utility::mkdir(BLOG_DEPLOY);
-        Utility::mkdir(BLOG_STATIC);
+        Utility::mkdir(BLOG_ASSET);
         Utility::mkdir(BLOG_HANDLER);
         Utility::mkdir(BLOG_EXTENSION);
 
@@ -192,35 +192,35 @@ EOF;
         $list = [];
 
         $parsedown = new Parsedown();
-        $handle = opendir(BLOG_POST);
+        $handle = opendir(BLOG_POST . "/{$type}");
 
         while ($filename = readdir($handle)) {
             if (!preg_match('/.md$/', $filename)) {
                 continue;
             }
 
-            $post = self::parseMarkdownFile($filename, $withContent);
+            $file = self::parseMarkdownFile($type, $filename, $withContent);
 
-            if (false === $post) {
+            if (false === $file) {
                 IO::init()->error("Markdown parse error: {$filename}");
 
                 exit(1);
             }
 
-            if (null !== $type && $type !== $post['type']) {
+            if (null !== $type && $type !== $file['type']) {
                 continue;
             }
 
-            $post['path'] = BLOG_POST . "/{$filename}";
+            $file['path'] = BLOG_POST . "/{$type}/{$filename}";
 
             if (false === $withContent) {
-                $post['content'] = $parsedown->text($post['content']);
+                $file['content'] = $parsedown->text($file['content']);
             }
 
-            $index = (isset($post['date']) && isset($post['time']))
-                ? "{$post['date']}{$post['time']}" : $post['title'];
+            $index = (isset($file['date']) && isset($file['time']))
+                ? "{$file['date']}{$file['time']}" : $file['title'];
 
-            $list[$index] = $post;
+            $list[$index] = $file;
         }
 
         closedir($handle);
@@ -234,12 +234,13 @@ EOF;
     /**
      * Parse Markdown File
      *
+     * @param string $type
      * @param string $filename
      * @param bool $withContent
      *
      * @return string
      */
-    public static function parseMarkdownFile($filename, $withContent = false)
+    public static function parseMarkdownFile($type, $filename, $withContent = false)
     {
         if (false === is_string($filename)
             || false === is_bool($withContent)) {
@@ -247,32 +248,34 @@ EOF;
             return false;
         }
 
+        $filepath = BLOG_POST . "/{$type}/{$filename}";
+
         // Define Regular Expression Rule
         $regex = '/^(?:<!--({(?:.|\n)*})-->)\s*(?:#(.*))?((?:.|\n)*)/';
 
-        preg_match($regex, file_get_contents(BLOG_POST . "/{$filename}"), $match);
+        preg_match($regex, file_get_contents($filepath), $match);
 
         if (4 !== count($match)) {
             return false;
         }
 
-        $post = json_decode($match[1], true);
+        $file = json_decode($match[1], true);
 
-        if (null === $post) {
+        if (null === $file) {
             return false;
         }
 
-        $post['title'] = trim($match[2]);
+        $file['title'] = trim($match[2]);
 
         if (false === $withContent) {
-            $post['content'] = trim($match[3]);
+            $file['content'] = trim($match[3]);
         }
 
-        $post['accessTime'] = fileatime(BLOG_POST . "/{$filename}");
-        $post['createTime'] = filectime(BLOG_POST . "/{$filename}");
-        $post['modifyTime'] = filemtime(BLOG_POST . "/{$filename}");
+        $file['accessTime'] = fileatime($filepath);
+        $file['createTime'] = filectime($filepath);
+        $file['modifyTime'] = filemtime($filepath);
 
-        return $post;
+        return $file;
     }
 
     /**

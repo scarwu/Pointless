@@ -66,11 +66,12 @@ abstract class Format
      */
     final public function saveToFile($info)
     {
+        $type = $info['type'];
         $filename = $info['filename'];
         $title = $info['title'];
         $hedaer = $info['header'];
 
-        $filepath = BLOG_POST . "/{$filename}.md";
+        $filepath = BLOG_POST . "/{$type}/{$filename}.md";
 
         if (file_exists($filepath)) {
             return [$filename, null];

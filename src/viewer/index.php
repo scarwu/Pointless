@@ -16,7 +16,7 @@ ini_set('pcre.jit', false);
 
 define('BLOG_ROOT', getenv('BLOG_ROOT'));
 define('BLOG_POST', BLOG_ROOT . '/posts');
-define('BLOG_STATIC', BLOG_ROOT . '/static');
+define('BLOG_ASSET', BLOG_ROOT . '/assets');
 
 if (false !== getenv('BLOG_THEME')) {
     define('BLOG_THEME', getenv('BLOG_THEME'));

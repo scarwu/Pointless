@@ -72,7 +72,7 @@ class BuildTask extends Task
         // Copy Assets Files
         $this->io->notice('Copy Assets Files ...');
 
-        Utility::copy(BLOG_STATIC, BLOG_BUILD);
+        Utility::copy(BLOG_ASSET, BLOG_BUILD);
 
         if (file_exists(BLOG_THEME . '/assets')) {
             Utility::copy(BLOG_THEME . '/assets', BLOG_BUILD . '/assets');

@@ -16,21 +16,29 @@ use Pointless\Extend\Format;
 
 class Describe extends Format
 {
-    public function __construct()
-    {
-        $this->type = 'describe';
-        $this->name = 'Describe';
-        $this->questionList = [
-            [
-                'name' => 'title',
-                'statement' => "Enter Title:\n-> "
-            ],
-            [
-                'name' => 'url',
-                'statement' => "Enter Url:\n-> "
-            ]
-        ];
-    }
+    /**
+     * @var string
+     */
+    protected $type = 'describe';
+
+    /**
+     * @var string
+     */
+    protected $name = 'Describe';
+
+    /**
+     * @var array
+     */
+    protected $questionList = [
+        [
+            'name' => 'title',
+            'statement' => "Enter Title:\n-> "
+        ],
+        [
+            'name' => 'url',
+            'statement' => "Enter Url:\n-> "
+        ]
+    ];
 
     /**
      * Convert Input
@@ -43,9 +51,9 @@ class Describe extends Format
     {
         $filename = Utility::pathReplace($input['url']);
         $filename = strtolower($filename);
-        $filename = "describe_{$filename}";
 
         return $this->saveToFile([
+            'type' => $this->type,
             'filename' => $filename,
             'header' => [
                 'type' => $this->type,

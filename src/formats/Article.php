@@ -16,29 +16,37 @@ use Pointless\Extend\Format;
 
 class Article extends Format
 {
-    public function __construct()
-    {
-        $this->type = 'article';
-        $this->name = 'Article';
-        $this->questionList = [
-            [
-                'name' => 'title',
-                'statement' => "Enter Title:\n-> "
-            ],
-            [
-                'name' => 'url',
-                'statement' => "Enter Url:\n-> "
-            ],
-            [
-                'name' => 'category',
-                'statement' => "Enter Category:\n-> "
-            ],
-            [
-                'name' => 'tags',
-                'statement' => "Enter Tags: (tag1|tag2|tag3...)\n-> "
-            ]
-        ];
-    }
+    /**
+     * @var string
+     */
+    protected $type = 'article';
+
+    /**
+     * @var string
+     */
+    protected $name = 'Article';
+
+    /**
+     * @var array
+     */
+    protected $questionList = [
+        [
+            'name' => 'title',
+            'statement' => "Enter Title:\n-> "
+        ],
+        [
+            'name' => 'url',
+            'statement' => "Enter Url:\n-> "
+        ],
+        [
+            'name' => 'category',
+            'statement' => "Enter Category:\n-> "
+        ],
+        [
+            'name' => 'tags',
+            'statement' => "Enter Tags: (tag1|tag2|tag3...)\n-> "
+        ]
+    ];
 
     /**
      * Convert Input
@@ -54,6 +62,7 @@ class Article extends Format
         $filename = date('Ymd_', $time) . $filename;
 
         return $this->saveToFile([
+            'type' => $this->type,
             'filename' => $filename,
             'header' => [
                 'type' => $this->type,

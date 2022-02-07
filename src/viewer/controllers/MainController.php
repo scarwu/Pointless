@@ -132,9 +132,9 @@ class MainController extends Controller
             return $this->pageAction($params);
         }
 
-        // Check Static File
-        if (is_file(BLOG_STATIC . "/{$path}")) {
-            $staticPath = BLOG_STATIC . "/{$path}";
+        // Check Assets File
+        if (is_file(BLOG_ASSET . "/{$path}")) {
+            $staticPath = BLOG_ASSET . "/{$path}";
         } elseif (is_file(BLOG_THEME . "/{$path}")) {
             $staticPath = BLOG_THEME . "/{$path}";
         } else {
