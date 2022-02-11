@@ -1,5 +1,5 @@
 <?php
-use Oni\Web\Helper;
+use Oni\Web\Helper\HTML;
 
 $name = $systemConfig['blog']['name'];
 $lang = $systemConfig['blog']['lang'];
@@ -20,7 +20,7 @@ $description = (!isset($container['description']) || '' === $container['descript
     : $container['description'];
 ?>
 <!doctype html>
-<html class="no-js" style="display: block !important;" lang="<?=$lang?>">
+<html lang="<?=$lang?>">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -30,7 +30,6 @@ $description = (!isset($container['description']) || '' === $container['descript
 
     <link rel="stylesheet" href="<?=$baseUrl?>assets/styles/theme.min.css">
 
-    <script src="<?=$baseUrl?>assets/scripts/vendor/modernizr.min.js"></script>
     <script src="<?=$baseUrl?>assets/scripts/theme.min.js" async></script>
 
     <script>
@@ -57,7 +56,7 @@ $description = (!isset($container['description']) || '' === $container['descript
     <div id="main">
         <div id="border">
             <hgroup id="header">
-                <h1><?=Helper::linkTo($baseUrl, $name)?></h1>
+                <h1><?=HTML::linkTo($baseUrl, $name)?></h1>
                 <h2><?=$slogan?></h2>
             </hgroup>
 

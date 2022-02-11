@@ -1,5 +1,5 @@
 <?php
-use Oni\Web\Helper;
+use Oni\Web\Helper\HTML;
 
 $disqusShortname = $systemConfig['blog']['disqusShortname'];
 ?>

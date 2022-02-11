@@ -10,5 +10,5 @@ THEME_LIST=(
 
 for THEME in ${THEME_LIST[*]}
 do
-    cp -a subModules/PointlessTheme-$THEME/theme src/sample/themes/$THEME
+    cp -a subModules/PointlessTheme-$THEME/dist src/sample/themes/$THEME
 done

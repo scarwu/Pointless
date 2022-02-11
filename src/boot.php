@@ -17,7 +17,7 @@ ini_set('pcre.jit', false);
 // Composer Autoloader
 require APP_ROOT . '/vendor/autoload.php';
 
-use Oni\Loader;
+use Oni\Core\Loader;
 use Oni\CLI\App;
 
 // New Oni CLI Application Instance

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "504cc144d5447270ab7b9d8d1acdc7b9",
+    "content-hash": "79b27bd8d13b4079dcee31c1869a8d51",
     "packages": [
         {
             "name": "erusev/parsedown",
@@ -58,27 +58,26 @@
         },
         {
             "name": "scarwu/oni",
-            "version": "dev-master",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/scarwu/Oni.git",
-                "reference": "7bfba8d3c1d2af9f9f31dc4bafe7a60b5dd07769"
+                "reference": "5f1f15acdd1cdbc090aa0b042319e29367aa7a3a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/scarwu/Oni/zipball/7bfba8d3c1d2af9f9f31dc4bafe7a60b5dd07769",
-                "reference": "7bfba8d3c1d2af9f9f31dc4bafe7a60b5dd07769",
+                "url": "https://api.github.com/repos/scarwu/Oni/zipball/5f1f15acdd1cdbc090aa0b042319e29367aa7a3a",
+                "reference": "5f1f15acdd1cdbc090aa0b042319e29367aa7a3a",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.1.0"
+                "php": ">=7.3.0"
             },
             "require-dev": {
                 "phpunit/php-code-coverage": "^6.0",
                 "phpunit/php-invoker": "^2.0",
                 "phpunit/phpunit": "^7"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-0": {
@@ -100,9 +99,9 @@
             "homepage": "https://github.com/scarwu/Oni",
             "support": {
                 "issues": "https://github.com/scarwu/Oni/issues",
-                "source": "https://github.com/scarwu/Oni/tree/feature/upgrade"
+                "source": "https://github.com/scarwu/Oni/tree/1.0.1"
             },
-            "time": "2022-02-07T13:32:07+00:00"
+            "time": "2022-02-11T17:53:45+00:00"
         }
     ],
     "packages-dev": [
@@ -1987,13 +1986,11 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "scarwu/oni": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.1.0"
+        "php": ">=7.3.0"
     },
     "platform-dev": [],
     "plugin-api-version": "2.0.0"

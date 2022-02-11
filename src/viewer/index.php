@@ -61,13 +61,13 @@ $app->setAttr('controller/error/action', 'index');
 $app->setAttr('view/path', BLOG_THEME . '/views');
 
 // Loader Append
-Oni\Loader::append('Pointless\Handler', BLOG_THEME . '/handlers');
-Oni\Loader::append('Pointless\Extension', BLOG_THEME . '/extensions');
-Oni\Loader::append('Pointless\Library', APP_ROOT . '/libraries');
-Oni\Loader::append('Pointless\Extend', APP_ROOT . '/extends');
-Oni\Loader::append('Pointless\Format', APP_ROOT . '/formats');
-Oni\Loader::append('Pointless\Handler', APP_ROOT . '/sample/handlers');
-Oni\Loader::append('Pointless\Extension', APP_ROOT . '/sample/extensions');
+Oni\Core\Loader::append('Pointless\Handler', BLOG_THEME . '/handlers');
+Oni\Core\Loader::append('Pointless\Extension', BLOG_THEME . '/extensions');
+Oni\Core\Loader::append('Pointless\Library', APP_ROOT . '/libraries');
+Oni\Core\Loader::append('Pointless\Extend', APP_ROOT . '/extends');
+Oni\Core\Loader::append('Pointless\Format', APP_ROOT . '/formats');
+Oni\Core\Loader::append('Pointless\Handler', APP_ROOT . '/sample/handlers');
+Oni\Core\Loader::append('Pointless\Extension', APP_ROOT . '/sample/extensions');
 
 // Start Application
 $app->run();

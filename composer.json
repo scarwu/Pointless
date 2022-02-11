@@ -15,8 +15,8 @@
         "vendor-dir": "src/vendor"
     },
     "require": {
-        "php": ">=7.1.0",
-        "scarwu/oni": "dev-master",
+        "php": ">=7.3.0",
+        "scarwu/oni": "^1.0.0",
         "erusev/parsedown": "^1.7.1"
     },
     "require-dev": {
