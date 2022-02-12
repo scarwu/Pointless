@@ -10,8 +10,11 @@
 
 namespace Pointless\Task;
 
-use Pointless\Library\Misc;
-use Oni\CLI\Task;
+use Pointless\Library\Core;
+use Pointless\Library\Utility;
+use Pointless\Task\Server\StartTask;
+use Pointless\Task\Server\StopTask;
+use Pointless\Extend\Task;
 
 class ServerTask extends Task
 {
@@ -24,8 +27,8 @@ class ServerTask extends Task
             $this->io->log('    server                  - Show server status');
 
             // Sub Help Info
-            (new \Pointless\Task\Server\StartTask)->helpInfo();
-            (new \Pointless\Task\Server\StopTask)->helpInfo();
+            (new StartTask)->helpInfo();
+            (new StopTask)->helpInfo();
         } else {
             $this->io->log('    server                  - Built-in web server');
         }
@@ -37,15 +40,14 @@ class ServerTask extends Task
     public function up()
     {
         if (true === $this->io->hasOptions('h')) {
-            Misc::showBanner();
-
+            $this->showBanner();
             $this->helpInfo(true);
 
             return false;
         }
 
         // Init Blog
-        if (false === Misc::initBlog()) {
+        if (false === Core::initBlog()) {
             return false;
         }
     }

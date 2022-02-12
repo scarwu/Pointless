@@ -10,9 +10,13 @@
 
 namespace Pointless\Task;
 
-use Pointless\Library\Misc;
+use Pointless\Library\Core;
 use Pointless\Library\Resource;
-use Oni\CLI\Task;
+use Pointless\Task\Blog\InitTask;
+use Pointless\Task\Blog\BuildTask;
+use Pointless\Task\Blog\DeployTask;
+use Pointless\Task\Blog\ConfigTask;
+use Pointless\Extend\Task;
 
 class BlogTask extends Task
 {
@@ -25,10 +29,10 @@ class BlogTask extends Task
             $this->io->log('    blog                    - Show blog status');
 
             // Sub Help Info
-            (new \Pointless\Task\Blog\InitTask)->helpInfo();
-            (new \Pointless\Task\Blog\BuildTask)->helpInfo();
-            (new \Pointless\Task\Blog\DeployTask)->helpInfo();
-            (new \Pointless\Task\Blog\ConfigTask)->helpInfo();
+            (new InitTask)->helpInfo();
+            (new BuildTask)->helpInfo();
+            (new DeployTask)->helpInfo();
+            (new ConfigTask)->helpInfo();
         } else {
             $this->io->log('    blog                    - Blog control');
         }
@@ -40,15 +44,14 @@ class BlogTask extends Task
     public function up()
     {
         if (true === $this->io->hasOptions('h')) {
-            Misc::showBanner();
-
+            $this->showBanner();
             $this->helpInfo(true);
 
             return false;
         }
 
         // Init Blog
-        if (false === Misc::initBlog()) {
+        if (false === Core::initBlog()) {
             return false;
         }
     }

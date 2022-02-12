@@ -10,11 +10,11 @@
 
 namespace Pointless\Task\Blog;
 
-use Pointless\Library\Misc;
+use Pointless\Library\Core;
 use Pointless\Library\Utility;
 use Pointless\Library\Resource;
+use Pointless\Extend\Task;
 use Oni\Loader;
-use Oni\CLI\Task;
 use Oni\Web\View;
 
 class BuildTask extends Task
@@ -33,7 +33,7 @@ class BuildTask extends Task
     public function up()
     {
         // Init Blog
-        if (false === Misc::initBlog()) {
+        if (false === Core::initBlog()) {
             return false;
         }
 
@@ -91,7 +91,7 @@ class BuildTask extends Task
 
             $postBundle[$type] = [];
 
-            foreach (Misc::getPostList($type) as $post) {
+            foreach (Core::getPostList($type) as $post) {
                 if (false === $post['isPublic']) {
                     continue;
                 }
@@ -190,7 +190,7 @@ class BuildTask extends Task
         }
 
         // Fix Permission
-        Misc::fixPermission(BLOG_BUILD);
+        Utility::fixPermission(BLOG_BUILD);
 
         // Print Execution Time
         $time = sprintf('%.3f', abs(microtime(true) - $startTime));

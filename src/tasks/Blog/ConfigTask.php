@@ -10,10 +10,10 @@
 
 namespace Pointless\Task\Blog;
 
-use Pointless\Library\Misc;
+use Pointless\Library\Core;
 use Pointless\Library\Utility;
 use Pointless\Library\Resource;
-use Oni\CLI\Task;
+use Pointless\Extend\Task;
 
 class ConfigTask extends Task
 {
@@ -31,7 +31,7 @@ class ConfigTask extends Task
     public function up()
     {
         // Init Blog
-        if (false === Misc::initBlog()) {
+        if (false === Core::initBlog()) {
             return false;
         }
     }
@@ -41,6 +41,6 @@ class ConfigTask extends Task
         $configPath = BLOG_ROOT . '/config.php';
 
         // Call CLI Editor to open file
-        Misc::editFile($configPath);
+        Core::editFile($configPath);
     }
 }

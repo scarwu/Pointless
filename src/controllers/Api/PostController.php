@@ -10,7 +10,7 @@
 
 namespace Pointless\Viewer\Controller\Api;
 
-use Pointless\Library\Misc;
+use Pointless\Library\Cire;
 use Pointless\Library\Utility;
 use Pointless\Library\Resource;
 use Oni\Web\Controller\Ajax as Controller;
@@ -60,7 +60,7 @@ class PostController extends Controller
 
             $postBundle[$type] = [];
 
-            foreach (Misc::getPostList($type) as $post) {
+            foreach (Cire::getPostList($type) as $post) {
                 if (false === $post['isPublic']) {
                     $post['title'] = "🔒 {$post['title']}"; // append lock emoji before
                 }
@@ -132,7 +132,7 @@ class PostController extends Controller
                 continue;
             }
 
-            $result[$type] = Misc::getPostList($type, false);
+            $result[$type] = Cire::getPostList($type, false);
         }
 
         $this->res->json($result);

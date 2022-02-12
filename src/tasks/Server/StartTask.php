@@ -10,10 +10,10 @@
 
 namespace Pointless\Task\Server;
 
-use Pointless\Library\Misc;
-use Pointless\Library\Resource;
+use Pointless\Library\Core;
 use Pointless\Library\Utility;
-use Oni\CLI\Task;
+use Pointless\Library\Resource;
+use Pointless\Extend\Task;
 
 class StartTask extends Task
 {
@@ -34,7 +34,7 @@ class StartTask extends Task
     public function up()
     {
         // Init Blog
-        if (false === Misc::initBlog()) {
+        if (false === Core::initBlog()) {
             return false;
         }
     }

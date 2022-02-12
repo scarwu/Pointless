@@ -10,8 +10,10 @@
 
 namespace Pointless\Task;
 
-use Pointless\Library\Misc;
-use Oni\CLI\Task;
+use Pointless\Library\Core;
+use Pointless\Task\Theme\InstallTask;
+use Pointless\Task\Theme\UninstallTask;
+use Pointless\Extend\Task;
 
 class ThemeTask extends Task
 {
@@ -24,8 +26,8 @@ class ThemeTask extends Task
             $this->io->log('    theme                   - Show theme status');
 
             // Sub Help Info
-            (new \Pointless\Task\Theme\InstallTask)->helpInfo();
-            (new \Pointless\Task\Theme\UninstallTask)->helpInfo();
+            (new InstallTask)->helpInfo();
+            (new UninstallTask)->helpInfo();
         } else {
             $this->io->log('    theme                   - Themes manage');
         }
@@ -37,15 +39,14 @@ class ThemeTask extends Task
     public function up()
     {
         if (true === $this->io->hasOptions('h')) {
-            Misc::showBanner();
-
+            $this->showBanner();
             $this->helpInfo(true);
 
             return false;
         }
 
         // Init Blog
-        if (false === Misc::initBlog()) {
+        if (false === Core::initBlog()) {
             return false;
         }
     }
@@ -60,7 +61,7 @@ class ThemeTask extends Task
     {
         $this->io->notice('Theme Status:');
 
-        $count = count(Misc::getThemeList());
+        $count = count(Core::getThemeList());
 
         $this->io->log("{$count} theme(s).");
     }

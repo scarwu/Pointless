@@ -14,26 +14,28 @@ date_default_timezone_set('Etc/UTC');
 // Fix: PREG_JIT_STACKLIMIT_ERROR (PHP 7)
 ini_set('pcre.jit', false);
 
-// Composer Autoloader
+// Require Composer Autoloader
 require APP_ROOT . '/vendor/autoload.php';
 
-use Oni\Core\Loader;
-use Oni\CLI\App;
+// Set Error Reporting
+if ('production' === APP_ENV) {
+    error_reporting(0);
+} else {
+    error_reporting(E_ALL);
 
-// New Oni CLI Application Instance
-$app = new App();
-
-// Set Attr
-$app->setAttr('task/namespace', 'Pointless\Task');
-$app->setAttr('task/path', APP_ROOT . '/tasks');
-$app->setAttr('task/default/handler', 'Intro');
+    // Register Whoops Exception Handler
+    $whoops = new Whoops\Run();
+    $whoops->pushHandler(new \Whoops\Handler\PlainTextHandler());
+    $whoops->register();
+}
 
 // Loader Append
+use Oni\Core\Loader;
+
 Loader::append('Pointless\Library', APP_ROOT . '/libraries');
 Loader::append('Pointless\Extend', APP_ROOT . '/extends');
 Loader::append('Pointless\Format', APP_ROOT . '/formats');
 
-use Pointless\Library\Misc;
 use Pointless\Library\Utility;
 use Pointless\Library\Resource;
 
@@ -53,7 +55,13 @@ define('HOME_ROOT', $_SERVER['HOME'] . '/.pointless5');
 Utility::mkdir(HOME_ROOT);
 
 // Fix Permission
-Misc::fixPermission(HOME_ROOT);
+Utility::fixPermission(HOME_ROOT);
 
-// Run Application
+// New Oni CLI Application Instance
+use Oni\CLI\App;
+
+$app = new App();
+$app->setAttr('task/namespace', 'Pointless\Task');
+$app->setAttr('task/path', APP_ROOT . '/tasks');
+$app->setAttr('task/default/handler', 'Intro');
 $app->run();

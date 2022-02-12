@@ -10,10 +10,10 @@
 
 namespace Pointless\Task\Blog;
 
-use Pointless\Library\Misc;
+use Pointless\Library\Core;
 use Pointless\Library\Utility;
 use Pointless\Library\Resource;
-use Oni\CLI\Task;
+use Pointless\Extend\Task;
 
 class DeployTask extends Task
 {
@@ -31,7 +31,7 @@ class DeployTask extends Task
     public function up()
     {
         // Init Blog
-        if (false === Misc::initBlog()) {
+        if (false === Core::initBlog()) {
             return false;
         }
 
@@ -80,6 +80,6 @@ class DeployTask extends Task
         system("git push origin {$branch}");
 
         // Fix Permission
-        Misc::fixPermission(BLOG_DEPLOY);
+        Utility::fixPermission(BLOG_DEPLOY);
     }
 }

@@ -10,9 +10,9 @@
 
 namespace Pointless\Task;
 
-use Pointless\Library\Misc;
+use Pointless\Library\Core;
 use Pointless\Library\Utility;
-use Oni\CLI\Task;
+use Pointless\Extend\Task;
 
 class UpdateTask extends Task
 {
@@ -34,15 +34,14 @@ class UpdateTask extends Task
     public function up()
     {
         if (true === $this->io->hasOptions('h')) {
-            Misc::showBanner();
-
+            $this->showBanner();
             $this->helpInfo(true);
 
             return false;
         }
 
         if ('development' === APP_ENV) {
-            $this->io->error('Development version can not be update.');
+            $this->io->error('Development mode not allow update.');
 
             return false;
         }

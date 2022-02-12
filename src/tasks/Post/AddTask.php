@@ -10,10 +10,10 @@
 
 namespace Pointless\Task\Post;
 
-use Pointless\Library\Misc;
+use Pointless\Library\Core;
 use Pointless\Library\Utility;
 use Pointless\Library\Resource;
-use Oni\CLI\Task;
+use Pointless\Extend\Task;
 
 class AddTask extends Task
 {
@@ -31,7 +31,7 @@ class AddTask extends Task
     public function up()
     {
         // Init Blog
-        if (false === Misc::initBlog()) {
+        if (false === Core::initBlog()) {
             return false;
         }
     }
@@ -84,6 +84,6 @@ class AddTask extends Task
         $this->io->notice($formatList[$index]->getName() . " {$filename} was created.");
 
         // Call CLI Editor to open file
-        Misc::editFile($filepath);
+        Core::editFile($filepath);
     }
 }

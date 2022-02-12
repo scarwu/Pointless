@@ -15,27 +15,8 @@ use Pointless\Library\Resource;
 use Parsedown;
 use Oni\CLI\IO;
 
-class Misc {
-
-    /**
-     * Show Banner
-     */
-    public static function showBanner()
-    {
-        $banner = <<<EOF
-                                           __                          _______
-      ______  ______  __  ______  ______  / /\______  _____  _____    / _____/\
-     / __  /\/ __  /\/ /\/ __  /\/_  __/\/ / /  ___/\/  __/\/  __/\  / /_____\/
-    / /_/ / / /_/ / / / / /\/ / /\/ /\_\/ / /  ___/\/\  \_\/\  \_\/ /______ \
-   / ____/ /_____/ /_/ /_/ /_/ / /_/ / /_/ /_____/\/____/\/____/\/ _\_____/ /\
-  /_/\___\/\_____\/\_\/\_\/\_\/  \_\/  \_\/\_____\/\____\/\____\/ /________/ /
-  \_\/                                                            \_________/
-
-EOF;
-
-        IO::init()->notice($banner);
-    }
-
+class Core
+{
     /**
      * Initialize Blog
      *
@@ -110,30 +91,6 @@ EOF;
 
         // Fix Permission
         self::fixPermission(BLOG_ROOT);
-
-        return true;
-    }
-
-    /**
-     * Fix Permission
-     *
-     * @param string $path
-     *
-     * @return bool
-     */
-    public static function fixPermission($path)
-    {
-        if (false === is_string($path)) {
-            return false;
-        }
-
-        // Check SERVER Variable
-        if (false === isset($_SERVER['SUDO_USER'])) {
-            return false;
-        }
-
-        // Change Owner (Fix Permission)
-        Utility::chown($path, fileowner($_SERVER['HOME']), filegroup($_SERVER['HOME']));
 
         return true;
     }

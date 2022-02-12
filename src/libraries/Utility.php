@@ -206,6 +206,26 @@ class Utility
     }
 
     /**
+     * Fix Permission
+     *
+     * @param string $path
+     *
+     * @return bool
+     */
+    public static function fixPermission(string $path): bool
+    {
+        // Check SERVER Variable
+        if (false === isset($_SERVER['SUDO_USER'])) {
+            return false;
+        }
+
+        // Change Owner (Fix Permission)
+        self::chown($path, fileowner($_SERVER['HOME']), filegroup($_SERVER['HOME']));
+
+        return true;
+    }
+
+    /**
      * Save JSON File
      *
      * @param string $path

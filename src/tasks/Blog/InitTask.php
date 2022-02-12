@@ -10,8 +10,9 @@
 
 namespace Pointless\Task\Blog;
 
-use Pointless\Library\Misc;
-use Oni\CLI\Task;
+use Pointless\Library\Core;
+use Pointless\Library\Utility;
+use Pointless\Extend\Task;
 
 class InitTask extends Task
 {
@@ -53,7 +54,7 @@ class InitTask extends Task
         Utility::saveJsonFile(HOME_ROOT . '/config.json', $config);
 
         // Init Blog
-        if (false === Misc::initBlog()) {
+        if (false === Core::initBlog()) {
             return false;
         }
 

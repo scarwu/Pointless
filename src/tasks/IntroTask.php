@@ -10,23 +10,28 @@
 
 namespace Pointless\Task;
 
-use Pointless\Library\Misc;
-use Oni\CLI\Task;
+use Pointless\Library\Core;
+use Pointless\Task\BlogTask;
+use Pointless\Task\PostTask;
+use Pointless\Task\ThemeTask;
+use Pointless\Task\ServerTask;
+use Pointless\Task\UpdateTask;
+use Pointless\Extend\Task;
 
 class IntroTask extends Task
 {
     public function run($params = [])
     {
-        Misc::showBanner();
+        $this->showBanner();
 
         if (0 === count($params)) {
 
             // Sub Help Info
-            (new \Pointless\Task\BlogTask)->helpInfo();
-            (new \Pointless\Task\PostTask)->helpInfo();
-            (new \Pointless\Task\ThemeTask)->helpInfo();
-            (new \Pointless\Task\ServerTask)->helpInfo();
-            (new \Pointless\Task\UpdateTask)->helpInfo();
+            (new BlogTask)->helpInfo();
+            (new PostTask)->helpInfo();
+            (new ThemeTask)->helpInfo();
+            (new ServerTask)->helpInfo();
+            (new UpdateTask)->helpInfo();
 
             // Show Version
             $date = date(DATE_RSS, BUILD_TIMESTAMP);

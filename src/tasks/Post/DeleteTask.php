@@ -10,9 +10,9 @@
 
 namespace Pointless\Task\Post;
 
-use Pointless\Library\Misc;
+use Pointless\Library\Core;
 use Pointless\Library\Resource;
-use Oni\CLI\Task;
+use Pointless\Extend\Task;
 
 class DeleteTask extends Task
 {
@@ -30,7 +30,7 @@ class DeleteTask extends Task
     public function up()
     {
         // Init Blog
-        if (false === Misc::initBlog()) {
+        if (false === Core::initBlog()) {
             return false;
         }
     }
@@ -57,7 +57,7 @@ class DeleteTask extends Task
 
         // Load Markdown
         $type = $formatList[$index]->getType();
-        $postList = Misc::getPostList($type, true);
+        $postList = Core::getPostList($type, true);
 
         if (0 === count($postList)) {
             $this->io->error('No post(s).');

@@ -10,9 +10,12 @@
 
 namespace Pointless\Task;
 
-use Pointless\Library\Misc;
+use Pointless\Library\Core;
 use Pointless\Library\Resource;
-use Oni\CLI\Task;
+use Pointless\Task\Post\AddTask;
+use Pointless\Task\Post\EditTask;
+use Pointless\Task\Post\DeleteTask;
+use Pointless\Extend\Task;
 
 class PostTask extends Task
 {
@@ -25,9 +28,9 @@ class PostTask extends Task
             $this->io->log('    post                    - Show posts status');
 
             // Sub Help Info
-            (new \Pointless\Task\Post\AddTask)->helpInfo();
-            (new \Pointless\Task\Post\EditTask)->helpInfo();
-            (new \Pointless\Task\Post\DeleteTask)->helpInfo();
+            (new AddTask)->helpInfo();
+            (new EditTask)->helpInfo();
+            (new DeleteTask)->helpInfo();
         } else {
             $this->io->log('    post                    - Posts manage');
         }
@@ -39,15 +42,14 @@ class PostTask extends Task
     public function up()
     {
         if (true === $this->io->hasOptions('h')) {
-            Misc::showBanner();
-
+            $this->showBanner();
             $this->helpInfo(true);
 
             return false;
         }
 
         // Init Blog
-        if (false === Misc::initBlog()) {
+        if (false === Core::initBlog()) {
             return false;
         }
     }
@@ -68,7 +70,7 @@ class PostTask extends Task
 
             $name = $format->getName();
             $type = $format->getType();
-            $count = count(Misc::getPostList($type));
+            $count = count(Core::getPostList($type));
 
             $this->io->log("{$count} {$name} post(s).");
         }
