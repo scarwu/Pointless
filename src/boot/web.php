@@ -29,17 +29,6 @@ if ('production' === APP_ENV) {
     $whoops->register();
 }
 
-// Loader Append
-use Oni\Core\Loader;
-
-Loader::append('Pointless\Handler', BLOG_THEME . '/handlers');
-Loader::append('Pointless\Extension', BLOG_THEME . '/extensions');
-Loader::append('Pointless\Library', APP_ROOT . '/libraries');
-Loader::append('Pointless\Extend', APP_ROOT . '/extends');
-Loader::append('Pointless\Format', APP_ROOT . '/formats');
-Loader::append('Pointless\Handler', APP_ROOT . '/handlers');
-Loader::append('Pointless\Extension', APP_ROOT . '/extensions');
-
 define('BLOG_ROOT', getenv('BLOG_ROOT'));
 define('BLOG_POST', BLOG_ROOT . '/posts');
 define('BLOG_ASSET', BLOG_ROOT . '/assets');
@@ -59,6 +48,17 @@ if (false !== getenv('BLOG_THEME')) {
         define('BLOG_THEME', APP_ROOT . '/sample/themes/Classic');
     }
 }
+
+// Loader Append
+use Oni\Core\Loader;
+
+Loader::append('Pointless\Handler', BLOG_THEME . '/handlers');
+Loader::append('Pointless\Extension', BLOG_THEME . '/extensions');
+Loader::append('Pointless\Library', APP_ROOT . '/libraries');
+Loader::append('Pointless\Extend', APP_ROOT . '/extends');
+Loader::append('Pointless\Format', APP_ROOT . '/formats');
+Loader::append('Pointless\Handler', APP_ROOT . '/handlers');
+Loader::append('Pointless\Extension', APP_ROOT . '/extensions');
 
 // New Oni Web Application Instance
 use Oni\Web\App;

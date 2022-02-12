@@ -25,16 +25,17 @@ if (file_exists("{$root}/temp")) {
 }
 
 foreach ([
+    'boot',
     'tasks',
     'formats',
     'extends',
     'libraries',
     'controllers',
+    'handles',
+    'extesions',
     'scripts',
     'styles',
     'sample',
-    'web.php',
-    'cli.php',
     'constant.php',
     'vendor/autoload.php',
     'vendor/composer/ClassLoader.php',
@@ -43,6 +44,7 @@ foreach ([
     'vendor/composer/autoload_psr4.php',
     'vendor/composer/autoload_real.php',
     'vendor/composer/autoload_static.php',
+    'vendor/composer/platform_check.php',
     'vendor/symfony/polyfill-ctype/bootstrap.php',
     'vendor/myclabs/deep-copy',
     'vendor/scarwu/oni/src',

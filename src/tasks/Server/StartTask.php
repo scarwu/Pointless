@@ -67,21 +67,21 @@ class StartTask extends Task
             [ 'key' => 'PHAR_FILE', 'value' => isset($_SERVER['_']) ? $_SERVER['_'] : null ]
         ];
 
-        if ($this->io->hasConfigs('host')
-            && preg_match('/^\w+(?:(?:\.\w+)+)?$/', $this->io->getConfigs('host'))
+        if (true === $this->io->hasConfigs('host')
+            && true === (bool) preg_match('/^\w+(?:(?:\.\w+)+)?$/', $this->io->getConfigs('host'))
         ) {
             $host = $this->io->getConfigs('host');
         }
 
-        if ($this->io->hasConfigs('port')
-            && preg_match('/^\d+$/', $this->io->getConfigs('port'))) {
-
+        if (true === $this->io->hasConfigs('port')
+            && true === (bool) preg_match('/^\d+$/', $this->io->getConfigs('port'))
+        ) {
             $port = (int) $this->io->getConfigs('port');
         }
 
-        if ($this->io->hasConfigs('theme')
-            && is_dir($this->io->getConfigs('theme'))) {
-
+        if (true === $this->io->hasConfigs('theme')
+            && true === is_dir($this->io->getConfigs('theme'))
+        ) {
             $envs[] = [
                 'key' => 'BLOG_THEME',
                 'value' => $this->io->getConfigs('theme')

@@ -44,7 +44,7 @@ class InstallTask extends Task
         // [ 'theme', 'install', '<gitRepo>' ]
         $gitRepo = $this->io->getArguments(2);
 
-        if (false === $gitRepo) {
+        if (false === isset($gitRepo)) {
             $this->io->error("Git repo url is not found.");
 
             return false;

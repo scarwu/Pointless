@@ -24,15 +24,11 @@ class Resource
      *
      * @param string $key
      *
-     * @return array
+     * @return mixed
      */
-    public static function get($key)
+    public static function get(string $key)
     {
-        if (false === is_string($key)) {
-            return null;
-        }
-
-        if (array_key_exists($key, self::$resource)) {
+        if (true === array_key_exists($key, self::$resource)) {
             return self::$resource[$key];
         }
 
@@ -43,16 +39,10 @@ class Resource
      * Set Resource
      *
      * @param string $key
-     * @param array $data
+     * @param mixed $data
      */
-    public static function set($key, $data)
+    public static function set(string $key, $data): bool
     {
-        if (false === is_string($key)
-            || false === is_array($data)
-        ) {
-            return false;
-        }
-
         self::$resource[$key] = $data;
 
         return true;
@@ -64,14 +54,8 @@ class Resource
      * @param string $key
      * @param array $data
      */
-    public static function append($key, $data)
+    public static function append(string $key, $data): bool
     {
-        if (false === is_string($key)
-            || false === is_array($data)
-        ) {
-            return false;
-        }
-
         if (false === array_key_exists($key, self::$resource)) {
             self::$resource[$key] = [];
         }

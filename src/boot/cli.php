@@ -29,20 +29,8 @@ if ('production' === APP_ENV) {
     $whoops->register();
 }
 
-// Loader Append
-use Oni\Core\Loader;
-
-Loader::append('Pointless\Library', APP_ROOT . '/libraries');
-Loader::append('Pointless\Extend', APP_ROOT . '/extends');
-Loader::append('Pointless\Format', APP_ROOT . '/formats');
-
-use Pointless\Library\Utility;
-use Pointless\Library\Resource;
-
 // Require Constant Attr
 require APP_ROOT . '/constant.php';
-
-Resource::set('system:constant', $constant);
 
 // Define Variables
 define('BUILD_VERSION', $constant['build']['version']);
@@ -51,11 +39,23 @@ define('BUILD_TIMESTAMP', $constant['build']['timestamp']);
 // Define Home Root
 define('HOME_ROOT', $_SERVER['HOME'] . '/.pointless5');
 
-// Create Folder
-Utility::mkdir(HOME_ROOT);
+// Loader Append
+use Oni\Core\Loader;
 
-// Fix Permission
+Loader::append('Pointless\Library', APP_ROOT . '/libraries');
+Loader::append('Pointless\Extend', APP_ROOT . '/extends');
+Loader::append('Pointless\Format', APP_ROOT . '/formats');
+
+// Load Pointless Classes
+use Pointless\Library\Utility;
+use Pointless\Library\Resource;
+
+// Create Home Folder & Fix Permission
+Utility::mkdir(HOME_ROOT);
 Utility::fixPermission(HOME_ROOT);
+
+// Set Resource
+Resource::set('system:constant', $constant);
 
 // New Oni CLI Application Instance
 use Oni\CLI\App;

@@ -51,7 +51,7 @@ class Utility
     public static function commandExists(string $command): bool
     {
         foreach (explode(':', $_SERVER['PATH']) as $path) {
-            if (file_exists("{$path}/{$command}")) {
+            if (true === file_exists("{$path}/{$command}")) {
                 return true;
             }
         }
@@ -77,7 +77,7 @@ class Utility
         chown($path, $user);
         chgrp($path, $group);
 
-        if (is_dir($path)) {
+        if (true === is_dir($path)) {
             $handle = opendir($path);
 
             while ($filename = readdir($handle)) {
@@ -102,7 +102,7 @@ class Utility
     public static function mkdir(string $path): bool
     {
         if (true === file_exists($path)) {
-            return true;
+            return is_dir($path);
         }
 
         return mkdir($path, 0755, true);
@@ -122,7 +122,7 @@ class Utility
             return false;
         }
 
-        if (is_dir($src)) {
+        if (true === is_dir($src)) {
             if (false === file_exists($dest)) {
                 mkdir($dest, 0755, true);
             }
@@ -138,13 +138,19 @@ class Utility
             }
 
             closedir($handle);
-        } else {
+
+            return true;
+        } elseif (true === is_file($src)) {
             if (false === file_exists(dirname($dest))) {
                 mkdir(dirname($dest), 0755, true);
             }
 
             copy($src, $dest);
+
+            return true;
         }
+
+        return true;
     }
 
     /**
@@ -164,7 +170,7 @@ class Utility
 
         $rootPath = $isKeepRoot ? $path : null;
 
-        if (is_dir($path)) {
+        if (true === is_dir($path)) {
             $handle = opendir($path);
 
             while ($filename = readdir($handle)) {
@@ -180,11 +186,17 @@ class Utility
             closedir($handle);
 
             if ($path !== $rootPath) {
-                return rmdir($path);
+                rmdir($path);
+
+                return true;
             }
-        } else {
-            return unlink($path);
+        } elseif (true === is_file($path)){
+            unlink($path);
+
+            return true;
         }
+
+        return true;
     }
 
     /**

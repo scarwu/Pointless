@@ -14,7 +14,7 @@ use Pointless\Library\BlogCore;
 use Pointless\Library\Utility;
 use Pointless\Library\Resource;
 use Pointless\Extend\Task;
-use Oni\Loader;
+use Oni\Core\Loader;
 use Oni\Web\View;
 
 class BuildTask extends Task
@@ -46,9 +46,9 @@ class BuildTask extends Task
 
         // Loader Append
         Loader::append('Pointless\Handler', BLOG_HANDLER);
-        Loader::append('Pointless\Handler', APP_ROOT . '/sample/handlers');
+        Loader::append('Pointless\Handler', APP_ROOT . '/handlers');
         Loader::append('Pointless\Extension', BLOG_EXTENSION);
-        Loader::append('Pointless\Extension', APP_ROOT . '/sample/extensions');
+        Loader::append('Pointless\Extension', APP_ROOT . '/extensions');
     }
 
     public function run()

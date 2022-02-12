@@ -45,6 +45,7 @@ class StopTask extends Task
         $config = Utility::loadJsonFile(HOME_ROOT . '/config.json');
 
         if (false === is_array($config)
+            || false === isset($config['server'])
             || false === is_array($config['server'])
         ) {
             $this->io->error('Server is not running.');
