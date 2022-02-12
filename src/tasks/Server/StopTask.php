@@ -41,28 +41,28 @@ class StopTask extends Task
     {
         $this->io->notice('Stopping Server');
 
-        // Load & Save Config
-        $config = Utility::loadJsonFile(HOME_ROOT . '/config.json');
+        // Load & Save Blog Config
+        $blog = Utility::loadJsonFile(HOME_ROOT . '/blog.json');
 
-        if (false === is_array($config)
-            || false === isset($config['server'])
-            || false === is_array($config['server'])
+        if (false === is_array($blog)
+            || false === isset($blog['server'])
+            || false === is_array($blog['server'])
         ) {
             $this->io->error('Server is not running.');
 
             return false;
         }
 
-        if (true === Utility::isCommandRunning($config['server']['command'])) {
-            system("kill -9 {$config['server']['pid']}");
+        if (true === Utility::isCommandRunning($blog['server']['command'])) {
+            system("kill -9 {$blog['server']['pid']}");
 
             $this->io->info('Server is stop.');
         } else {
             $this->io->error('Server is not running.');
         }
 
-        $config['server'] = null;
+        $blog['server'] = null;
 
-        Utility::saveJsonFile(HOME_ROOT . '/config.json', $config);
+        Utility::saveJsonFile(HOME_ROOT . '/blog.json', $blog);
     }
 }

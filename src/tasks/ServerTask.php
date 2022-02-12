@@ -62,23 +62,30 @@ class ServerTask extends Task
 
     public function run()
     {
-        // Load & Save Config
-        $config = Utility::loadJsonFile(HOME_ROOT . '/config.json');
+        // Load & Save Blog Config
+        $blog = Utility::loadJsonFile(HOME_ROOT . '/blog.json');
 
-        if (false === is_array($config)
-            || false === is_array($config['server'])
+        if (false === is_array($blog)
+            || false === isset($blog['server'])
+            || false === is_array($blog['server'])
         ) {
             $this->io->error('Server is not running.');
 
             return false;
         }
 
-        if (true === Utility::isCommandRunning($config['server']['command'])) {
-            $this->io->notice('Server Status:');
-            $this->io->log("PID - {$config['server']['pid']}");
-            $this->io->log("URL - {$config['server']['url']}");
-        } else {
+        if (false === Utility::isCommandRunning($blog['server']['command'])) {
             $this->io->error('Server is not running.');
+
+            $blog['server'] = null;
+
+            Utility::saveJsonFile(HOME_ROOT . '/blog.json', $blog);
+
+            return false;
         }
+
+        $this->io->notice('Server Status:');
+        $this->io->log("PID - {$blog['server']['pid']}");
+        $this->io->log("URL - {$blog['server']['url']}");
     }
 }

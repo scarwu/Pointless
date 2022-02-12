@@ -86,6 +86,6 @@ class AddTask extends Task
         $this->io->notice($formatList[$index]->getName() . " {$filename} was created.");
 
         // Call CLI Editor to open file
-        BlogCore::editFile($filepath);
+        $this->editFile($filepath);
     }
 }

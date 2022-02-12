@@ -101,6 +101,6 @@ class EditTask extends Task
         $postPath = $postList[array_keys($postList)[$index]]['path'];
 
         // Call CLI Editor to open file
-        BlogCore::editFile($postPath);
+        $this->editFile($postPath);
     }
 }

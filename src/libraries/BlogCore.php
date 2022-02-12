@@ -18,6 +18,8 @@ use Oni\CLI\IO;
 
 class BlogCore
 {
+    private function __construct() {}
+
     /**
      * Initialize
      *
@@ -30,29 +32,20 @@ class BlogCore
         }
 
         // Load Config
-        $config = Utility::loadJsonFile(HOME_ROOT . '/config.json');
+        $blog = Utility::loadJsonFile(HOME_ROOT . '/blog.json');
 
-        if (false === is_array($config) || false === is_string($config['blog'])) {
+        if (false === is_array($blog)
+            || false === is_string($blog['path'])
+        ) {
             return false;
         }
 
-        if (false === Utility::mkdir($config['blog'])) {
+        if (false === Utility::mkdir($blog['path'])) {
             return false;
         }
 
-        // Define Blog Root
-        define('BLOG_ROOT', $config['blog']);
-
-        if (false === file_exists(BLOG_ROOT . '/config.php')) {
-            copy(APP_ROOT . '/sample/config.php', BLOG_ROOT . '/config.php');
-        }
-
-        // Require Config Attr
-        require BLOG_ROOT . '/config.php';
-
-        Resource::set('system:config', $config);
-
-        // Define Path
+        // Define Variables
+        define('BLOG_ROOT', $blog['path']);
         define('BLOG_BUILD', BLOG_ROOT . '/build');
         define('BLOG_DEPLOY', BLOG_ROOT . '/deploy');
         define('BLOG_ASSET', BLOG_ROOT . '/assets');
@@ -60,28 +53,17 @@ class BlogCore
         define('BLOG_EXTENSION', BLOG_ROOT . '/extensions');
         define('BLOG_POST', BLOG_ROOT . '/posts');
 
-        // Create Folders
-        Utility::mkdir(BLOG_BUILD);
-        Utility::mkdir(BLOG_DEPLOY);
-        Utility::mkdir(BLOG_ASSET);
-        Utility::mkdir(BLOG_HANDLER);
-        Utility::mkdir(BLOG_EXTENSION);
+        require BLOG_ROOT . '/config.php';
 
-        // Copy Post
-        if (false === file_exists(BLOG_POST)) {
-            Utility::copy(APP_ROOT . '/sample/posts', BLOG_POST);
-        }
-
-        // Init Theme
-        if (false === file_exists(BLOG_ROOT . '/themes')) {
-            Utility::copy(APP_ROOT . '/sample/themes', BLOG_ROOT . '/themes');
-        }
-
-        if ('' === $config['theme']) {
+        if (false === isset($config['theme']) || '' === $config['theme']) {
             $config['theme'] = 'Classic';
         }
 
-        if (file_exists(BLOG_ROOT . "/themes/{$config['theme']}")) {
+        if (false === isset($config['timezone']) || '' === $config['timezone']) {
+            $config['timezone'] = 'Etc/UTC';
+        }
+
+        if (true === file_exists(BLOG_ROOT . "/themes/{$config['theme']}")) {
             define('BLOG_THEME', BLOG_ROOT . "/themes/{$config['theme']}");
         } else {
             define('BLOG_THEME', APP_ROOT . '/sample/themes/Classic');
@@ -90,34 +72,30 @@ class BlogCore
         // Set Timezone
         date_default_timezone_set($config['timezone']);
 
+        Resource::set('system:config', $config);
+
+        // Copy Sample Files
+        if (false === file_exists(BLOG_ROOT . '/config.php')) {
+            Utility::copy(APP_ROOT . '/sample/config.php', BLOG_ROOT . '/config.php');
+        }
+
+        if (false === file_exists(BLOG_POST)) {
+            Utility::copy(APP_ROOT . '/sample/posts', BLOG_POST);
+        }
+
+        if (false === file_exists(BLOG_ROOT . '/themes')) {
+            Utility::copy(APP_ROOT . '/sample/themes', BLOG_ROOT . '/themes');
+        }
+
+        // Create Folders
+        Utility::mkdir(BLOG_BUILD);
+        Utility::mkdir(BLOG_DEPLOY);
+        Utility::mkdir(BLOG_ASSET);
+        Utility::mkdir(BLOG_HANDLER);
+        Utility::mkdir(BLOG_EXTENSION);
+
         // Fix Permission
         Utility::fixPermission(BLOG_ROOT);
-
-        return true;
-    }
-
-    /**
-     * Edit File
-     *
-     * @param string $path
-     *
-     * @return bool
-     */
-    public static function editFile($path)
-    {
-        if (false === is_string($path)) {
-            return false;
-        }
-
-        $editor = Resource::get('system:config')['editor'];
-
-        if (false === Utility::commandExists($editor)) {
-            IO::init()->error("System command \"{$editor}\" is not found.");
-
-            return false;
-        }
-
-        system("{$editor} {$path} < `tty` > `tty`");
 
         return true;
     }
@@ -192,14 +170,8 @@ class BlogCore
      *
      * @return string
      */
-    public static function parseMarkdownFile($type, $filename, $withContent = false)
+    public static function parseMarkdownFile(string $type, string $filename, bool $withContent = false)
     {
-        if (false === is_string($filename)
-            || false === is_bool($withContent)) {
-
-            return false;
-        }
-
         $filepath = BLOG_POST . "/{$type}/{$filename}";
 
         // Define Regular Expression Rule
@@ -235,14 +207,14 @@ class BlogCore
      *
      * @return array
      */
-    public static function getThemeList()
+    public static function getThemeList(): array
     {
         $list = [];
 
         $handle = opendir(BLOG_ROOT . '/themes');
 
         while ($filename = readdir($handle)) {
-            if (in_array($filename, ['.', '..'])) {
+            if (true === in_array($filename, ['.', '..'])) {
                 continue;
             }
 

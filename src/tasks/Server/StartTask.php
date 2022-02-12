@@ -94,7 +94,7 @@ class StartTask extends Task
         if (true === Utility::isCommandRunning($command)) {
             $this->io->info('Server is running.');
 
-            return false;
+            return true;
         }
 
         // Get PID
@@ -114,31 +114,33 @@ class StartTask extends Task
 
         exec("ps {$pid}", $output);
 
-        if (1 < count($output)) {
-            $url = "http://{$host}:{$port}";
-
-            $this->io->info('Server is start.');
-            $this->io->writeln();
-            $this->io->notice('Server Status:');
-            $this->io->log("PID - {$pid}");
-            $this->io->log("URL - {$url}");
-
-            // Load & Save Config
-            $config = Utility::loadJsonFile(HOME_ROOT . '/config.json');
-
-            if (false === is_array($config)) {
-                $config = [];
-            }
-
-            $config['server'] = [
-                'command' => $command,
-                'pid' => $pid,
-                'url' => $url
-            ];
-
-            Utility::saveJsonFile(HOME_ROOT . '/config.json', $config);
-        } else {
+        if (1 >= count($output)) {
             $this->io->error('Server fails to start.');
+
+            return false;
         }
+
+        $url = "http://{$host}:{$port}";
+
+        $this->io->info('Server is start.');
+        $this->io->writeln();
+        $this->io->notice('Server Status:');
+        $this->io->log("PID - {$pid}");
+        $this->io->log("URL - {$url}");
+
+        // Load & Save Blog Config
+        $blog = Utility::loadJsonFile(HOME_ROOT . '/blog.json');
+
+        if (false === is_array($blog)) {
+            $blog = [];
+        }
+
+        $blog['server'] = [
+            'command' => $command,
+            'pid' => $pid,
+            'url' => $url
+        ];
+
+        Utility::saveJsonFile(HOME_ROOT . '/blog.json', $blog);
     }
 }

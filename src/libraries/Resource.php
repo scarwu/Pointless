@@ -15,7 +15,7 @@ class Resource
     /**
      * @var array
      */
-    private static $resource = [];
+    private static $_resource = [];
 
     private function __construct() {}
 
@@ -28,8 +28,8 @@ class Resource
      */
     public static function get(string $key)
     {
-        if (true === array_key_exists($key, self::$resource)) {
-            return self::$resource[$key];
+        if (true === array_key_exists($key, self::$_resource)) {
+            return self::$_resource[$key];
         }
 
         return null;
@@ -43,7 +43,7 @@ class Resource
      */
     public static function set(string $key, $data): bool
     {
-        self::$resource[$key] = $data;
+        self::$_resource[$key] = $data;
 
         return true;
     }
@@ -56,11 +56,11 @@ class Resource
      */
     public static function append(string $key, $data): bool
     {
-        if (false === array_key_exists($key, self::$resource)) {
-            self::$resource[$key] = [];
+        if (false === array_key_exists($key, self::$_resource)) {
+            self::$_resource[$key] = [];
         }
 
-        self::$resource[$key][] = $data;
+        self::$_resource[$key][] = $data;
 
         return true;
     }

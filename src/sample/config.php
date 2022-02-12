@@ -1,6 +1,6 @@
 <?php
 /**
- * Home Config
+ * Blog Config
  *
  * @package     Pointless
  * @author      Scar Wu

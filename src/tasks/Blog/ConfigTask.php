@@ -40,9 +40,7 @@ class ConfigTask extends Task
 
     public function run()
     {
-        $configPath = BLOG_ROOT . '/config.php';
-
         // Call CLI Editor to open file
-        BlogCore::editFile($configPath);
+        $this->editFile(BLOG_ROOT . '/config.php');
     }
 }

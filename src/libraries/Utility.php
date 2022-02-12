@@ -175,8 +175,8 @@ class Utility
 
             while ($filename = readdir($handle)) {
                 if (in_array($filename, ['.', '..'])
-                    || in_array($filename, $skipFilenameList)) {
-
+                    || in_array($filename, $skipFilenameList)
+                ) {
                     continue;
                 }
 
@@ -248,7 +248,7 @@ class Utility
     public static function saveJsonFile(string $path, $data): bool
     {
         if (true === file_exists($path)) {
-            return false;
+            self::remove($path);
         }
 
         file_put_contents($path, json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
@@ -270,5 +270,53 @@ class Utility
         }
 
         return json_decode(file_get_contents($path), true);
+    }
+
+    /**
+     * Save Markdown File
+     *
+     * @param string $path
+     * @param mixed $path
+     *
+     * @return bool
+     */
+    public static function saveMarkdownFile(string $path, array $header, string $content = ''): bool
+    {
+        if (true === file_exists($path)) {
+            self::remove($path);
+        }
+
+        $header = json_encode($header, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+        file_put_contents($path, "<!--{$header}-->\n\n{$content}\n\n");
+
+        return true;
+    }
+
+    /**
+     * Load Markdown File
+     *
+     * @param string $path
+     *
+     * @return string
+     */
+    public static function loadMarkdownFile(string $path): ?string
+    {
+        if (false === file_exists($path)) {
+            return null;
+        }
+
+        $regex = '/^<!--({(?:.|\n)*})-->\s*(.*?)\s*$/';
+
+        preg_match($regex, file_get_contents($path), $match);
+
+        if (3 !== count($match)) {
+            return null;
+        }
+
+        return [
+            'header' => json_decode($match[1], true),
+            'content' => $match[2]
+        ];
     }
 }

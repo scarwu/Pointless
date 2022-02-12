@@ -10,6 +10,8 @@
 
 namespace Pointless\Extend;
 
+use Pointless\Library\Utility;
+use Pointless\Library\Resource;
 use Oni\CLI\Task as CLITask;
 
 abstract class Task extends CLITask
@@ -31,5 +33,31 @@ abstract class Task extends CLITask
 EOF;
 
         $this->io->notice($banner);
+    }
+
+    /**
+     * Edit File
+     *
+     * @param string $path
+     *
+     * @return bool
+     */
+    protected function editFile(string $path): bool
+    {
+        if (false === is_string($path)) {
+            return false;
+        }
+
+        $editor = Resource::get('system:config')['editor'];
+
+        if (false === Utility::commandExists($editor)) {
+            $this->io->error("System command \"{$editor}\" is not found.");
+
+            return false;
+        }
+
+        system("{$editor} {$path} < `tty` > `tty`");
+
+        return true;
     }
 }

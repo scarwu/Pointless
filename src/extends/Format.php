@@ -10,6 +10,8 @@
 
 namespace Pointless\Extend;
 
+use Pointless\Library\Utility;
+
 abstract class Format
 {
     /**
@@ -69,7 +71,7 @@ abstract class Format
         $type = $info['type'];
         $filename = $info['filename'];
         $title = $info['title'];
-        $hedaer = $info['header'];
+        $header = $info['header'];
 
         $filepath = BLOG_POST . "/{$type}/{$filename}.md";
 
@@ -77,11 +79,7 @@ abstract class Format
             return [$filename, null];
         }
 
-        // Convert to JSON
-        $json = json_encode($hedaer, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-
-        // Create Post
-        file_put_contents($filepath, "<!--{$json}-->\n\n# {$title}\n\n");
+        Utility::saveMarkdownFile($filepath, $header, "# {$title}");
 
         return [
             $filename,

@@ -42,16 +42,16 @@ class InitTask extends Task
             $path = getcwd() . ('' !== $path ? "/{$path}" : $path);
         }
 
-        // Load Config
-        $config = Utility::loadJsonFile(HOME_ROOT . '/config.json');
+        // Load Blog Config
+        $blog = Utility::loadJsonFile(HOME_ROOT . '/blog.json');
 
-        if (false === is_array($config)) {
-            $config = [];
+        if (false === is_array($blog)) {
+            $blog = [];
         }
 
-        $config['blog'] = $path;
+        $blog['path'] = $path;
 
-        Utility::saveJsonFile(HOME_ROOT . '/config.json', $config);
+        Utility::saveJsonFile(HOME_ROOT . '/blog.json', $blog);
 
         // Init Blog
         if (false === BlogCore::init()) {
