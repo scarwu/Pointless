@@ -15,4 +15,4 @@ if (getenv('PHAR_FILE')) {
     Phar::loadPhar(getenv('PHAR_FILE'), 'poi.phar');
 }
 
-require APP_ROOT . '/viewer/index.php';
+require APP_ROOT . '/boot/web.php';

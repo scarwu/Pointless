@@ -53,7 +53,7 @@ if ('production' === APP_ENV) {
 $app = new Oni\Web\App();
 
 $app->setAttr('controller/namespace', 'Pointless\Viewer\Controller');
-$app->setAttr('controller/path', APP_ROOT . '/viewer/controllers');
+$app->setAttr('controller/path', APP_ROOT . '/controllers');
 $app->setAttr('controller/default/Handler', 'Main');
 $app->setAttr('controller/default/action', 'index');
 $app->setAttr('controller/error/Handler', 'Main');

@@ -14,4 +14,4 @@ define('APP_ENV', 'development');
 define('APP_ROOT', realpath(dirname(__FILE__)));
 
 // Load Bootstrap
-require APP_ROOT . '/boot.php';
+require APP_ROOT . '/boot/cli.php';
