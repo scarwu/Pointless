@@ -1,6 +1,6 @@
 <?php
 /**
- * Miscellaneous
+ * Blog Core
  *
  * @package     Pointless
  * @author      Scar Wu
@@ -12,19 +12,20 @@ namespace Pointless\Library;
 
 use Pointless\Library\Utility;
 use Pointless\Library\Resource;
+use Pointless\Library\CustomException;
 use Parsedown;
 use Oni\CLI\IO;
 
-class Core
+class BlogCore
 {
     /**
-     * Initialize Blog
+     * Initialize
      *
      * @return bool
      */
-    public static function initBlog()
+    public static function init()
     {
-        if (defined('BLOG_ROOT')) {
+        if (true === defined('BLOG_ROOT')) {
             return true;
         }
 
@@ -90,7 +91,7 @@ class Core
         date_default_timezone_set($config['timezone']);
 
         // Fix Permission
-        self::fixPermission(BLOG_ROOT);
+        Utility::fixPermission(BLOG_ROOT);
 
         return true;
     }

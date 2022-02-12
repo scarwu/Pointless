@@ -10,7 +10,7 @@
 
 namespace Pointless\Task\Theme;
 
-use Pointless\Library\Core;
+use Pointless\Library\BlogCore;
 use Pointless\Library\Utility;
 use Pointless\Library\Resource;
 use Pointless\Extend\Task;
@@ -32,7 +32,9 @@ class InstallTask extends Task
     public function up()
     {
         // Init Blog
-        if (false === Core::initBlog()) {
+        if (false === BlogCore::init()) {
+            $this->io->error('Please init blog first.');
+
             return false;
         }
     }

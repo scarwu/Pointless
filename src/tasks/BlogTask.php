@@ -10,7 +10,7 @@
 
 namespace Pointless\Task;
 
-use Pointless\Library\Core;
+use Pointless\Library\BlogCore;
 use Pointless\Library\Resource;
 use Pointless\Task\Blog\InitTask;
 use Pointless\Task\Blog\BuildTask;
@@ -51,7 +51,9 @@ class BlogTask extends Task
         }
 
         // Init Blog
-        if (false === Core::initBlog()) {
+        if (false === BlogCore::init()) {
+            $this->io->error('Please init blog first.');
+
             return false;
         }
     }

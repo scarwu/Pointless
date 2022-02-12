@@ -235,7 +235,7 @@ class Utility
      */
     public static function saveJsonFile(string $path, $data): bool
     {
-        if (false === file_exists($path)) {
+        if (true === file_exists($path)) {
             return false;
         }
 

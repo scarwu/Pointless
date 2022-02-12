@@ -10,7 +10,7 @@
 
 namespace Pointless\Task\Blog;
 
-use Pointless\Library\Core;
+use Pointless\Library\BlogCore;
 use Pointless\Library\Utility;
 use Pointless\Extend\Task;
 
@@ -54,7 +54,9 @@ class InitTask extends Task
         Utility::saveJsonFile(HOME_ROOT . '/config.json', $config);
 
         // Init Blog
-        if (false === Core::initBlog()) {
+        if (false === BlogCore::init()) {
+            $this->io->error('Init Blog Failed.');
+
             return false;
         }
 

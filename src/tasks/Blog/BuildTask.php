@@ -10,7 +10,7 @@
 
 namespace Pointless\Task\Blog;
 
-use Pointless\Library\Core;
+use Pointless\Library\BlogCore;
 use Pointless\Library\Utility;
 use Pointless\Library\Resource;
 use Pointless\Extend\Task;
@@ -33,7 +33,9 @@ class BuildTask extends Task
     public function up()
     {
         // Init Blog
-        if (false === Core::initBlog()) {
+        if (false === BlogCore::init()) {
+            $this->io->error('Please init blog first.');
+
             return false;
         }
 
@@ -91,7 +93,7 @@ class BuildTask extends Task
 
             $postBundle[$type] = [];
 
-            foreach (Core::getPostList($type) as $post) {
+            foreach (BlogCore::getPostList($type) as $post) {
                 if (false === $post['isPublic']) {
                     continue;
                 }

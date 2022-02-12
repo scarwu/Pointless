@@ -10,7 +10,7 @@
 
 namespace Pointless\Task;
 
-use Pointless\Library\Core;
+use Pointless\Library\BlogCore;
 use Pointless\Library\Resource;
 use Pointless\Task\Post\AddTask;
 use Pointless\Task\Post\EditTask;
@@ -49,7 +49,9 @@ class PostTask extends Task
         }
 
         // Init Blog
-        if (false === Core::initBlog()) {
+        if (false === BlogCore::init()) {
+            $this->io->error('Please init blog first.');
+
             return false;
         }
     }
@@ -70,7 +72,7 @@ class PostTask extends Task
 
             $name = $format->getName();
             $type = $format->getType();
-            $count = count(Core::getPostList($type));
+            $count = count(BlogCore::getPostList($type));
 
             $this->io->log("{$count} {$name} post(s).");
         }

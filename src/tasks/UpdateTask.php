@@ -10,7 +10,6 @@
 
 namespace Pointless\Task;
 
-use Pointless\Library\Core;
 use Pointless\Library\Utility;
 use Pointless\Extend\Task;
 

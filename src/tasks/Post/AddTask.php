@@ -10,7 +10,7 @@
 
 namespace Pointless\Task\Post;
 
-use Pointless\Library\Core;
+use Pointless\Library\BlogCore;
 use Pointless\Library\Utility;
 use Pointless\Library\Resource;
 use Pointless\Extend\Task;
@@ -31,7 +31,9 @@ class AddTask extends Task
     public function up()
     {
         // Init Blog
-        if (false === Core::initBlog()) {
+        if (false === BlogCore::init()) {
+            $this->io->error('Please init blog first.');
+
             return false;
         }
     }
@@ -84,6 +86,6 @@ class AddTask extends Task
         $this->io->notice($formatList[$index]->getName() . " {$filename} was created.");
 
         // Call CLI Editor to open file
-        Core::editFile($filepath);
+        BlogCore::editFile($filepath);
     }
 }

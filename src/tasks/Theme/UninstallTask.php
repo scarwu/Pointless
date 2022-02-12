@@ -10,7 +10,7 @@
 
 namespace Pointless\Task\Theme;
 
-use Pointless\Library\Core;
+use Pointless\Library\BlogCore;
 use Pointless\Library\Utility;
 use Pointless\Library\Resource;
 use Pointless\Extend\Task;
@@ -31,7 +31,9 @@ class UninstallTask extends Task
     public function up()
     {
         // Init Blog
-        if (false === Core::initBlog()) {
+        if (false === BlogCore::init()) {
+            $this->io->error('Please init blog first.');
+
             return false;
         }
     }
@@ -39,7 +41,7 @@ class UninstallTask extends Task
     public function run()
     {
         // Load Markdown
-        $themeList = Core::getThemeList();
+        $themeList = BlogCore::getThemeList();
 
         if (0 === count($themeList)) {
             $this->io->error('No theme(s).');

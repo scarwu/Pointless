@@ -10,7 +10,7 @@
 
 namespace Pointless\Viewer\Controller;
 
-use Pointless\Library\Core;
+use Pointless\Library\BlogCore;
 use Pointless\Library\Utility;
 use Pointless\Library\Resource;
 use Oni\Web\Controller\Page as Controller;
@@ -60,7 +60,7 @@ class MainController extends Controller
 
             $postBundle[$type] = [];
 
-            foreach (Core::getPostList($type) as $post) {
+            foreach (BlogCore::getPostList($type) as $post) {
                 if (false === $post['isPublic']) {
                     $post['title'] = "🔒 {$post['title']}"; // append lock emoji before
                 }

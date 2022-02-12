@@ -10,7 +10,6 @@
 
 namespace Pointless\Task;
 
-use Pointless\Library\Core;
 use Pointless\Task\BlogTask;
 use Pointless\Task\PostTask;
 use Pointless\Task\ThemeTask;

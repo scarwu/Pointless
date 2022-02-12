@@ -10,7 +10,7 @@
 
 namespace Pointless\Task\Post;
 
-use Pointless\Library\Core;
+use Pointless\Library\BlogCore;
 use Pointless\Library\Resource;
 use Pointless\Extend\Task;
 
@@ -30,7 +30,9 @@ class DeleteTask extends Task
     public function up()
     {
         // Init Blog
-        if (false === Core::initBlog()) {
+        if (false === BlogCore::init()) {
+            $this->io->error('Please init blog first.');
+
             return false;
         }
     }
@@ -57,7 +59,7 @@ class DeleteTask extends Task
 
         // Load Markdown
         $type = $formatList[$index]->getType();
-        $postList = Core::getPostList($type, true);
+        $postList = BlogCore::getPostList($type, true);
 
         if (0 === count($postList)) {
             $this->io->error('No post(s).');

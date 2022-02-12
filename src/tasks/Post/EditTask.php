@@ -10,7 +10,7 @@
 
 namespace Pointless\Task\Post;
 
-use Pointless\Library\Core;
+use Pointless\Library\BlogCore;
 use Pointless\Library\Utility;
 use Pointless\Library\Resource;
 use Pointless\Extend\Task;
@@ -36,7 +36,9 @@ class EditTask extends Task
     public function up()
     {
         // Init Blog
-        if (false === Core::initBlog()) {
+        if (false === BlogCore::init()) {
+            $this->io->error('Please init blog first.');
+
             return false;
         }
 
@@ -72,7 +74,7 @@ class EditTask extends Task
 
         // Load Post
         $type = $formatList[$index]->getType();
-        $postList = Core::getPostList($type, true);
+        $postList = BlogCore::getPostList($type, true);
 
         if (0 === count($postList)) {
             $this->io->error('No post(s).');
@@ -99,6 +101,6 @@ class EditTask extends Task
         $postPath = $postList[array_keys($postList)[$index]]['path'];
 
         // Call CLI Editor to open file
-        Core::editFile($postPath);
+        BlogCore::editFile($postPath);
     }
 }
