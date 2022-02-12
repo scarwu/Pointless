@@ -22,14 +22,8 @@ class Utility
      *
      * @return string
      */
-    public static function pathReplace($filename, $skip = false)
+    public static function pathReplace(string $filename, bool $skip = false): string
     {
-        if (false === is_string($filename)
-            || false === is_bool($skip)) {
-
-            return false;
-        }
-
         $char = [
             "'", '"', '&', '$', '=',
             '!', '?', '<', '>', '|',
@@ -54,12 +48,8 @@ class Utility
      *
      * @return bool
      */
-    public static function commandExists($command)
+    public static function commandExists(string $command): bool
     {
-        if (false === is_string($command)) {
-            return false;
-        }
-
         foreach (explode(':', $_SERVER['PATH']) as $path) {
             if (file_exists("{$path}/{$command}")) {
                 return true;
@@ -78,15 +68,8 @@ class Utility
      *
      * @return bool
      */
-    public static function chown($path, $user, $group)
+    public static function chown(string $path, string $user, string $group): bool
     {
-        if (false === is_string($path)
-            || false === is_string($user)
-            || false === is_string($group)) {
-
-            return false;
-        }
-
         if (false === file_exists($path)) {
             return false;
         }
@@ -116,13 +99,9 @@ class Utility
      *
      * @return bool
      */
-    public static function mkdir($path)
+    public static function mkdir(string $path): bool
     {
-        if (false === is_string($path)) {
-            return false;
-        }
-
-        if (file_exists($path)) {
+        if (true === file_exists($path)) {
             return true;
         }
 
@@ -137,14 +116,8 @@ class Utility
      *
      * @return bool
      */
-    public static function copy($src, $dest)
+    public static function copy(string $src, string $dest): bool
     {
-        if (false === is_string($src)
-            || false === is_string($dest)) {
-
-            return false;
-        }
-
         if (false === file_exists($src)) {
             return false;
         }
@@ -179,17 +152,12 @@ class Utility
      *
      * @param string $path
      * @param string $self
+     * @param array $skipFilenameList
      *
      * @return bool
      */
-    public static function remove($path, $isKeepRoot = false, $skipFilenameList = [])
+    public static function remove(string $path, bool $isKeepRoot = false, array $skipFilenameList = []): bool
     {
-        if (false === is_string($path)
-            || false === is_bool($isKeepRoot)) {
-
-            return false;
-        }
-
         if (false === file_exists($path)) {
             return false;
         }
@@ -217,5 +185,58 @@ class Utility
         } else {
             return unlink($path);
         }
+    }
+
+    /**
+     * Is Command Running
+     *
+     * @param string $command
+     *
+     * @return bool
+     */
+    public static function isCommandRunning(string $command): bool
+    {
+        exec('ps aux', $output);
+
+        $output = array_filter($output, function ($text) use ($command) {
+            return strpos($text, $command);
+        });
+
+        return 0 < count($output);
+    }
+
+    /**
+     * Save JSON File
+     *
+     * @param string $path
+     * @param mixed $path
+     *
+     * @return bool
+     */
+    public static function saveJsonFile(string $path, $data): bool
+    {
+        if (false === file_exists($path)) {
+            return false;
+        }
+
+        file_put_contents($path, json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+
+        return true;
+    }
+
+    /**
+     * Load JSON File
+     *
+     * @param string $path
+     *
+     * @return mixed
+     */
+    public static function loadJsonFile(string $path)
+    {
+        if (false === file_exists($path)) {
+            return null;
+        }
+
+        return json_decode(file_get_contents($path), true);
     }
 }

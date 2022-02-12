@@ -47,22 +47,19 @@ EOF;
             return true;
         }
 
+        // Load Config
+        $config = Utility::loadJsonFile(HOME_ROOT . '/config.json');
+
+        if (false === is_array($config) || false === is_string($config['blog'])) {
+            return false;
+        }
+
+        if (false === Utility::mkdir($config['blog'])) {
+            return false;
+        }
+
         // Define Blog Root
-        if (false === file_exists(HOME_ROOT . '/default')) {
-            file_put_contents(HOME_ROOT . '/default', '');
-
-            return false;
-        }
-
-        $blogRoot = file_get_contents(HOME_ROOT . '/default');
-
-        if (false === Utility::mkdir($blogRoot)) {
-            file_put_contents(HOME_ROOT . '/default', '');
-
-            return false;
-        }
-
-        define('BLOG_ROOT', $blogRoot);
+        define('BLOG_ROOT', $config['blog']);
 
         if (false === file_exists(BLOG_ROOT . '/config.php')) {
             copy(APP_ROOT . '/sample/config.php', BLOG_ROOT . '/config.php');

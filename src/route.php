@@ -11,7 +11,7 @@
 define('APP_ENV', getenv('APP_ENV'));
 define('APP_ROOT', getenv('APP_ROOT'));
 
-if (getenv('PHAR_FILE')) {
+if ('production' === APP_ENV) {
     Phar::loadPhar(getenv('PHAR_FILE'), 'poi.phar');
 }
 

@@ -20,7 +20,7 @@ class ServerTask extends Task
      */
     public function helpInfo($isShowDetail = false)
     {
-        if ($isShowDetail) {
+        if (true === $isShowDetail) {
             $this->io->log('    server                  - Show server status');
 
             // Sub Help Info
@@ -36,7 +36,7 @@ class ServerTask extends Task
      */
     public function up()
     {
-        if ($this->io->hasOptions('h')) {
+        if (true === $this->io->hasOptions('h')) {
             Misc::showBanner();
 
             $this->helpInfo(true);
@@ -58,30 +58,23 @@ class ServerTask extends Task
 
     public function run()
     {
-        if (false === is_file(HOME_ROOT . '/.server')) {
+        // Load & Save Config
+        $config = Utility::loadJsonFile(HOME_ROOT . '/config.json');
+
+        if (false === is_array($config)
+            || false === is_array($config['server'])
+        ) {
             $this->io->error('Server is not running.');
 
             return false;
         }
 
-        $server = json_decode(file_get_contents(HOME_ROOT . '/.server'), true);
-
-        if ($this->isCommandRunning($server['command'])) {
+        if (true === Utility::isCommandRunning($config['server']['command'])) {
             $this->io->notice('Server Status:');
-            $this->io->log("PID - {$server['pid']}");
-            $this->io->log("URL - {$server['url']}");
+            $this->io->log("PID - {$config['server']['pid']}");
+            $this->io->log("URL - {$config['server']['url']}");
         } else {
             $this->io->error('Server is not running.');
         }
-    }
-
-    private function isCommandRunning($command) {
-        exec('ps aux', $output);
-
-        $output = array_filter($output, function ($text) use ($command) {
-            return strpos($text, $command);
-        });
-
-        return 0 < count($output);
     }
 }

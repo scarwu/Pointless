@@ -21,12 +21,11 @@ class BlogTask extends Task
      */
     public function helpInfo($isShowDetail = false)
     {
-        if ($isShowDetail) {
+        if (true === $isShowDetail) {
             $this->io->log('    blog                    - Show blog status');
 
             // Sub Help Info
             (new \Pointless\Task\Blog\InitTask)->helpInfo();
-            (new \Pointless\Task\Blog\SetTask)->helpInfo();
             (new \Pointless\Task\Blog\BuildTask)->helpInfo();
             (new \Pointless\Task\Blog\DeployTask)->helpInfo();
             (new \Pointless\Task\Blog\ConfigTask)->helpInfo();
@@ -40,7 +39,7 @@ class BlogTask extends Task
      */
     public function up()
     {
-        if ($this->io->hasOptions('h')) {
+        if (true === $this->io->hasOptions('h')) {
             Misc::showBanner();
 
             $this->helpInfo(true);

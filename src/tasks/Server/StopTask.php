@@ -38,32 +38,27 @@ class StopTask extends Task
     {
         $this->io->notice('Stopping Server');
 
-        if (false === is_file(HOME_ROOT . '/.server')) {
+        // Load & Save Config
+        $config = Utility::loadJsonFile(HOME_ROOT . '/config.json');
+
+        if (false === is_array($config)
+            || false === is_array($config['server'])
+        ) {
             $this->io->error('Server is not running.');
 
             return false;
         }
 
-        $server = json_decode(file_get_contents(HOME_ROOT . '/.server'), true);
-
-        if ($this->isCommandRunning($server['command'])) {
-            system("kill -9 {$server['pid']}");
+        if (true === Utility::isCommandRunning($config['server']['command'])) {
+            system("kill -9 {$config['server']['pid']}");
 
             $this->io->info('Server is stop.');
         } else {
             $this->io->error('Server is not running.');
         }
 
-        unlink(HOME_ROOT . '/.server');
-    }
+        $config['server'] = null;
 
-    private function isCommandRunning($command) {
-        exec('ps aux', $output);
-
-        $output = array_filter($output, function ($text) use ($command) {
-            return strpos($text, $command);
-        });
-
-        return 0 < count($output);
+        Utility::saveJsonFile(HOME_ROOT . '/config.json', $config);
     }
 }

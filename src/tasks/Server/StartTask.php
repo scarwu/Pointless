@@ -12,6 +12,7 @@ namespace Pointless\Task\Server;
 
 use Pointless\Library\Misc;
 use Pointless\Library\Resource;
+use Pointless\Library\Utility;
 use Oni\CLI\Task;
 
 class StartTask extends Task
@@ -42,17 +43,26 @@ class StartTask extends Task
     {
         $this->io->notice('Starting Server');
 
+        // Set Route Script Path
+        if ('production' === APP_ENV) {
+            Utility::remove(HOME_ROOT . '/route.php');
+            Utility::copy(APP_ROOT . '/route.php', HOME_ROOT . '/route.php');
+
+            $routeScript = HOME_ROOT . '/route.php';
+        } else {
+            $routeScript = APP_ROOT . '/route.php';
+        }
+
         // Prepare Variables
-        $routeScript = ('production' === APP_ENV ? HOME_ROOT : APP_ROOT) . '/sample/route.php';
         $host = 'localhost';
         $port = 3000;
         $root = HOME_ROOT;
 
         $envs = [
-            [ 'key' => 'APP_ENV',  'value' => APP_ENV ],
+            [ 'key' => 'APP_ENV',   'value' => APP_ENV ],
             [ 'key' => 'APP_ROOT',  'value' => APP_ROOT ],
             [ 'key' => 'BLOG_ROOT', 'value' => BLOG_ROOT ],
-            [ 'key' => 'PHAR_FILE', 'value' => ('production' === APP_ENV ? $_SERVER['_'] : false) ]
+            [ 'key' => 'PHAR_FILE', 'value' => isset($_SERVER['_']) ? $_SERVER['_'] : null ]
         ];
 
         if ($this->io->hasConfigs('host')
@@ -79,7 +89,7 @@ class StartTask extends Task
         $command = "php -S {$host}:{$port} {$routeScript}";
 
         // Check Command
-        if ($this->isCommandRunning($command)) {
+        if (true === Utility::isCommandRunning($command)) {
             $this->io->info('Server is running.');
 
             return false;
@@ -102,32 +112,31 @@ class StartTask extends Task
 
         exec("ps {$pid}", $output);
 
-        if (count($output) > 1) {
-            $server = [
-                'command' => $command,
-                'pid' => $pid,
-                'url' => "http://{$host}:{$port}"
-            ];
+        if (1 < count($output)) {
+            $url = "http://{$host}:{$port}";
 
             $this->io->info('Server is start.');
             $this->io->writeln();
             $this->io->notice('Server Status:');
-            $this->io->log("PID - {$server['pid']}");
-            $this->io->log("URL - {$server['url']}");
+            $this->io->log("PID - {$pid}");
+            $this->io->log("URL - {$url}");
 
-            file_put_contents(HOME_ROOT . '/.server', json_encode($server));
+            // Load & Save Config
+            $config = Utility::loadJsonFile(HOME_ROOT . '/config.json');
+
+            if (false === is_array($config)) {
+                $config = [];
+            }
+
+            $config['server'] = [
+                'command' => $command,
+                'pid' => $pid,
+                'url' => $url
+            ];
+
+            Utility::saveJsonFile(HOME_ROOT . '/config.json', $config);
         } else {
             $this->io->error('Server fails to start.');
         }
-    }
-
-    private function isCommandRunning($command) {
-        exec('ps aux', $output);
-
-        $output = array_filter($output, function ($text) use ($command) {
-            return strpos($text, $command);
-        });
-
-        return 0 < count($output);
     }
 }

@@ -25,54 +25,38 @@ class InitTask extends Task
      */
     public function helpInfo()
     {
-        $this->io->log('    blog init <path?>       - Init a new blog');
+        $this->io->log('    blog init <path?>       - Init blog');
     }
 
     /**
      * Lifecycle Funtions
      */
-    public function up()
-    {
-        $this->path = $this->getPath();
-
-        if (file_exists($this->path)) {
-            $this->io->error("Path \"{$this->path}\" is exists.");
-
-            return false;
-        }
-    }
-
     public function run()
     {
-        // Set Path to Defult Blog File
-        file_put_contents(HOME_ROOT . '/default', $this->path);
+        // [ 'blog', 'init', '<path>' ]
+        $path = (null !== $this->io->getArguments(2))
+            ? $this->io->getArguments(2) : '';
+
+        if (false === (bool) preg_match('/^\/(.+)/', $path)) {
+            $path = getcwd() . ('' !== $path ? "/{$path}" : $path);
+        }
+
+        // Load Config
+        $config = Utility::loadJsonFile(HOME_ROOT . '/config.json');
+
+        if (false === is_array($config)) {
+            $config = [];
+        }
+
+        $config['blog'] = $path;
+
+        Utility::saveJsonFile(HOME_ROOT . '/config.json', $config);
 
         // Init Blog
         if (false === Misc::initBlog()) {
             return false;
         }
 
-        $this->io->notice("Default blog is setting to path \"{$this->path}\".");
-    }
-
-    /**
-     * Gte Path
-     *
-     * @return string
-     */
-    private function getPath()
-    {
-        $path = '';
-
-        // [ 'blog', 'init', '<path>' ]
-        if ($this->io->getArguments(2)) {
-            $path = $this->io->getArguments(2);
-        }
-
-        if (!preg_match('/^\/(.+)/', $path)) {
-            $path = getcwd() . ('' !== $path ? "/{$path}" : $path);
-        }
-
-        return $path;
+        $this->io->notice("Default blog is setting to path \"{$path}\".");
     }
 }

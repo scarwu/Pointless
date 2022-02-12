@@ -47,31 +47,10 @@ define('BUILD_VERSION', $constant['build']['version']);
 define('BUILD_TIMESTAMP', $constant['build']['timestamp']);
 
 // Define Home Root
-define('HOME_ROOT', $_SERVER['HOME'] . '/.pointless4');
+define('HOME_ROOT', $_SERVER['HOME'] . '/.pointless5');
 
 // Create Folder
 Utility::mkdir(HOME_ROOT);
-
-if ('production' === APP_ENV) {
-
-    // Create Folder
-    Utility::mkdir(HOME_ROOT . '/sample');
-
-    // Get Timestamp
-    $timestamp = file_exists(HOME_ROOT . '/.timestamp')
-        ? file_get_contents(HOME_ROOT . '/.timestamp') : 0;
-
-    // Check Timestamp
-    if (BUILD_TIMESTAMP !== $timestamp) {
-
-        // Sync Files
-        Utility::remove(HOME_ROOT . '/sample');
-        Utility::copy(APP_ROOT . '/sample', HOME_ROOT . '/sample');
-
-        // Update Timestamp
-        file_put_contents(HOME_ROOT . '/timestamp', BUILD_TIMESTAMP);
-    }
-}
 
 // Fix Permission
 Misc::fixPermission(HOME_ROOT);

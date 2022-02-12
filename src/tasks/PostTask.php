@@ -21,7 +21,7 @@ class PostTask extends Task
      */
     public function helpInfo($isShowDetail = false)
     {
-        if ($isShowDetail) {
+        if (true === $isShowDetail) {
             $this->io->log('    post                    - Show posts status');
 
             // Sub Help Info
@@ -38,7 +38,7 @@ class PostTask extends Task
      */
     public function up()
     {
-        if ($this->io->hasOptions('h')) {
+        if (true === $this->io->hasOptions('h')) {
             Misc::showBanner();
 
             $this->helpInfo(true);

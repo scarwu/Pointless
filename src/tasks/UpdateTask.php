@@ -21,7 +21,7 @@ class UpdateTask extends Task
      */
     public function helpInfo($isShowDetail = false)
     {
-        if ($isShowDetail) {
+        if (true === $isShowDetail) {
             $this->io->log('    update                  - Update poi command by ota');
         } else {
             $this->io->log('    update                  - System self-update');
@@ -33,7 +33,7 @@ class UpdateTask extends Task
      */
     public function up()
     {
-        if ($this->io->hasOptions('h')) {
+        if (true === $this->io->hasOptions('h')) {
             Misc::showBanner();
 
             $this->helpInfo(true);
