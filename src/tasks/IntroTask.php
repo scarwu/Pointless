@@ -15,6 +15,7 @@ use Pointless\Task\PostTask;
 use Pointless\Task\ThemeTask;
 use Pointless\Task\ServerTask;
 use Pointless\Task\UpdateTask;
+use Pointless\Library\Resource;
 use Pointless\Extend\Task;
 
 class IntroTask extends Task
@@ -33,10 +34,12 @@ class IntroTask extends Task
             (new UpdateTask)->helpInfo();
 
             // Show Version
-            $date = date(DATE_RSS, BUILD_TIMESTAMP);
+            $constant = Resource::get('system:constant');
+
+            $date = date(DATE_RSS, $constant['build']['timestamp']);
             $version = ('development' === APP_ENV)
-                ? BUILD_VERSION . " (Development)"
-                : BUILD_VERSION . " ({$date})";
+                ? "{$constant['build']['version']} (Development)"
+                : "{$constant['build']['version']} ({$date})";
 
             $this->io->writeln();
             $this->io->info("    {$version}");

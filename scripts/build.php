@@ -58,10 +58,24 @@ if (file_exists("{$root}/poi.phar")) {
     unlink("{$root}/poi.phar");
 }
 
+// Create Stub
+$stub = sprintf(<<<EOF
+#!/usr/bin/env php
+<?php
+Phar::mapPhar('poi.phar');
+define('BUILD_TIMESTAMP', '%s');
+define('APP_ENV', 'production');
+define('APP_ROOT', 'phar://poi.phar');
+define('BIN_LOCATE', realpath(__FILE__));
+require APP_ROOT . '/boot/cli.php';
+__HALT_COMPILER();
+?>
+EOF, time());
+
 // Create Phar
 $phar = new Phar("{$root}/poi.phar");
 $phar->setAlias('poi.phar');
-$phar->setStub(file_get_contents("{$root}/src/stub.php"));
+$phar->setStub($stub);
 $phar->buildFromDirectory("{$root}/temp");
 $phar->compressFiles(Phar::GZ);
 $phar->stopBuffering();

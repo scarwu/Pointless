@@ -71,14 +71,12 @@ class UpdateTask extends Task
 
         if ('y' === $anwser) {
             $remote = "https://raw.github.com/scarwu/Pointless/master/bin/poi";
+            $tempFile = '/tmp/poi-' . time();
 
-            system("wget {$remote} -O /tmp/poi");
-            chmod('/tmp/poi', 0755);
-            rename('/tmp/poi', BIN_LOCATE . '/poi');
-            system(BIN_LOCATE . '/poi');
-
-            // Reset Timestamp
-            file_put_contents(HOME_ROOT . '/timestamp', 0);
+            system("wget {$remote} -O {$tempFile}");
+            chmod($tempFile, 0755);
+            rename($tempFile, BIN_LOCATE);
+            system(BIN_LOCATE);
 
             $this->io->notice('Update system finished.');
         } else {

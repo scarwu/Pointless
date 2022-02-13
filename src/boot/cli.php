@@ -29,16 +29,6 @@ if ('production' === APP_ENV) {
     $whoops->register();
 }
 
-// Require Constant Attr
-require APP_ROOT . '/constant.php';
-
-// Define Variables
-define('BUILD_VERSION', $constant['build']['version']);
-define('BUILD_TIMESTAMP', $constant['build']['timestamp']);
-
-// Define Home Root
-define('HOME_ROOT', $_SERVER['HOME'] . '/.pointless5');
-
 // Loader Append
 use Oni\Core\Loader;
 
@@ -50,9 +40,15 @@ Loader::append('Pointless\Format', APP_ROOT . '/formats');
 use Pointless\Library\Utility;
 use Pointless\Library\Resource;
 
+// Define Variables
+define('HOME_ROOT', $_SERVER['HOME'] . '/.pointless5');
+
 // Create Home Folder & Fix Permission
 Utility::mkdir(HOME_ROOT);
 Utility::fixPermission(HOME_ROOT);
+
+// Require Constant Attr
+require APP_ROOT . '/constant.php';
 
 // Set Resource
 Resource::set('system:constant', $constant);

@@ -29,9 +29,6 @@ if ('production' === APP_ENV) {
     $whoops->register();
 }
 
-// Require Constant Attr
-require APP_ROOT . '/constant.php';
-
 // Loader Append
 use Oni\Core\Loader;
 
@@ -41,6 +38,9 @@ Loader::append('Pointless\Format', APP_ROOT . '/formats');
 
 // Load Pointless Classes
 use Pointless\Library\Resource;
+
+// Require Constant Attr
+require APP_ROOT . '/constant.php';
 
 // Set Resource
 Resource::set('system:constant', $constant);
