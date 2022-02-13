@@ -22,7 +22,7 @@ class ConfigTask extends Task
      */
     public function helpInfo()
     {
-        $this->io->log('    blog config             - Modify config');
+        $this->io->log('blog config             - Modify config');
     }
 
     /**
@@ -33,6 +33,15 @@ class ConfigTask extends Task
         // Init Blog
         if (false === BlogCore::init()) {
             $this->io->error('Please init blog first.');
+
+            return false;
+        }
+
+        // Check Editor
+        $editor = Resource::get('blog:config')['editor'];
+
+        if (false === Utility::commandExists($editor)) {
+            $this->io->error("System command \"{$editor}\" is not found.");
 
             return false;
         }

@@ -22,18 +22,9 @@ class PostTask extends Task
     /**
      * Help Info
      */
-    public function helpInfo($isShowDetail = false)
+    public function helpInfo()
     {
-        if (true === $isShowDetail) {
-            $this->io->log('    post                    - Show posts status');
-
-            // Sub Help Info
-            (new AddTask)->helpInfo();
-            (new EditTask)->helpInfo();
-            (new DeleteTask)->helpInfo();
-        } else {
-            $this->io->log('    post                    - Posts manage');
-        }
+        $this->io->log('post                    - Posts manage');
     }
 
     /**
@@ -41,12 +32,11 @@ class PostTask extends Task
      */
     public function up()
     {
-        if (true === $this->io->hasOptions('h')) {
-            $this->showBanner();
-            $this->helpInfo(true);
-
-            return false;
-        }
+        $this->showBanner();
+        (new AddTask)->helpInfo();
+        (new EditTask)->helpInfo();
+        (new DeleteTask)->helpInfo();
+        $this->io->writeln();
 
         // Init Blog
         if (false === BlogCore::init()) {
@@ -56,15 +46,9 @@ class PostTask extends Task
         }
     }
 
-    public function down()
-    {
-        $this->io->writeln();
-        $this->io->info('Used command "post -h" for more.');
-    }
-
     public function run()
     {
-        $this->io->notice('Post Status:');
+        $this->io->notice('Status:');
 
         foreach (Resource::get('system:constant')['formats'] as $subClassName) {
             $className = 'Pointless\\Format\\' . ucfirst($subClassName);

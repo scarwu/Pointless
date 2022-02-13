@@ -25,17 +25,7 @@ class BlogTask extends Task
      */
     public function helpInfo($isShowDetail = false)
     {
-        if (true === $isShowDetail) {
-            $this->io->log('    blog                    - Show blog status');
-
-            // Sub Help Info
-            (new InitTask)->helpInfo();
-            (new BuildTask)->helpInfo();
-            (new DeployTask)->helpInfo();
-            (new ConfigTask)->helpInfo();
-        } else {
-            $this->io->log('    blog                    - Blog control');
-        }
+        $this->io->log('blog                    - Blog control');
     }
 
     /**
@@ -43,12 +33,12 @@ class BlogTask extends Task
      */
     public function up()
     {
-        if (true === $this->io->hasOptions('h')) {
-            $this->showBanner();
-            $this->helpInfo(true);
-
-            return false;
-        }
+        $this->showBanner();
+        (new InitTask)->helpInfo();
+        (new BuildTask)->helpInfo();
+        (new DeployTask)->helpInfo();
+        (new ConfigTask)->helpInfo();
+        $this->io->writeln();
 
         // Init Blog
         if (false === BlogCore::init()) {
@@ -58,21 +48,15 @@ class BlogTask extends Task
         }
     }
 
-    public function down()
-    {
-        $this->io->writeln();
-        $this->io->info('Used command "blog -h" for more.');
-    }
-
     public function run()
     {
         $config = Resource::get('blog:config');
 
-        $this->io->notice('Blog Path:');
+        $this->io->notice('Path:');
         $this->io->log(BLOG_ROOT);
-
         $this->io->writeln();
-        $this->io->notice('Blog Information:');
+
+        $this->io->notice('Information:');
         $this->io->log("Name     - {$config['name']}");
         $this->io->log("Theme    - {$config['theme']}");
         $this->io->log("Timezone - {$config['timezone']}");

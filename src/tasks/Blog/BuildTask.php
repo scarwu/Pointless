@@ -24,7 +24,7 @@ class BuildTask extends Task
      */
     public function helpInfo()
     {
-        $this->io->log('    blog build              - Generate blog');
+        $this->io->log('blog build              - Generate blog');
     }
 
     /**
@@ -228,7 +228,7 @@ class BuildTask extends Task
     {
         $realpath = BLOG_BUILD . "/{$path}";
 
-        if (!preg_match('/\.(html|xml)$/', $realpath)) {
+        if (false === (bool) preg_match('/\.(html|xml)$/', $realpath)) {
             if (false === file_exists($realpath)) {
                 mkdir($realpath, 0755, true);
             }

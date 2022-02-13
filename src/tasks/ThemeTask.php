@@ -20,17 +20,9 @@ class ThemeTask extends Task
     /**
      * Help Info
      */
-    public function helpInfo($isShowDetail = false)
+    public function helpInfo()
     {
-        if (true === $isShowDetail) {
-            $this->io->log('    theme                   - Show theme status');
-
-            // Sub Help Info
-            (new InstallTask)->helpInfo();
-            (new UninstallTask)->helpInfo();
-        } else {
-            $this->io->log('    theme                   - Themes manage');
-        }
+        $this->io->log('theme                   - Themes manage');
     }
 
     /**
@@ -38,12 +30,10 @@ class ThemeTask extends Task
      */
     public function up()
     {
-        if (true === $this->io->hasOptions('h')) {
-            $this->showBanner();
-            $this->helpInfo(true);
-
-            return false;
-        }
+        $this->showBanner();
+        (new InstallTask)->helpInfo();
+        (new UninstallTask)->helpInfo();
+        $this->io->writeln();
 
         // Init Blog
         if (false === BlogCore::init()) {
@@ -53,15 +43,9 @@ class ThemeTask extends Task
         }
     }
 
-    public function down()
-    {
-        $this->io->writeln();
-        $this->io->info('Used command "theme -h" for more.');
-    }
-
     public function run()
     {
-        $this->io->notice('Theme Status:');
+        $this->io->notice('Status:');
 
         $count = count(BlogCore::getThemeList());
 

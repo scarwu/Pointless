@@ -20,11 +20,7 @@ class UpdateTask extends Task
      */
     public function helpInfo($isShowDetail = false)
     {
-        if (true === $isShowDetail) {
-            $this->io->log('    update                  - Update poi command by ota');
-        } else {
-            $this->io->log('    update                  - System self-update');
-        }
+        $this->io->log('update                  - System self-update');
     }
 
     /**
@@ -32,12 +28,8 @@ class UpdateTask extends Task
      */
     public function up()
     {
-        if (true === $this->io->hasOptions('h')) {
-            $this->showBanner();
-            $this->helpInfo(true);
-
-            return false;
-        }
+        $this->showBanner();
+        $this->io->writeln();
 
         if ('development' === APP_ENV) {
             $this->io->error('Development mode not allow update.');
@@ -56,12 +48,6 @@ class UpdateTask extends Task
 
             return false;
         }
-    }
-
-    public function down()
-    {
-        $this->io->writeln();
-        $this->io->info('Used command "update -h" for more.');
     }
 
     public function run()

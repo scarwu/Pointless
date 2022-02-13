@@ -23,15 +23,7 @@ class ServerTask extends Task
      */
     public function helpInfo($isShowDetail = false)
     {
-        if (true === $isShowDetail) {
-            $this->io->log('    server                  - Show server status');
-
-            // Sub Help Info
-            (new StartTask)->helpInfo();
-            (new StopTask)->helpInfo();
-        } else {
-            $this->io->log('    server                  - Built-in web server');
-        }
+        $this->io->log('server                  - Built-in web server');
     }
 
     /**
@@ -39,12 +31,10 @@ class ServerTask extends Task
      */
     public function up()
     {
-        if (true === $this->io->hasOptions('h')) {
-            $this->showBanner();
-            $this->helpInfo(true);
-
-            return false;
-        }
+        $this->showBanner();
+        (new StartTask)->helpInfo();
+        (new StopTask)->helpInfo();
+        $this->io->writeln();
 
         // Init Blog
         if (false === BlogCore::init()) {
@@ -52,12 +42,6 @@ class ServerTask extends Task
 
             return false;
         }
-    }
-
-    public function down()
-    {
-        $this->io->writeln();
-        $this->io->info('Used command "server -h" for more.');
     }
 
     public function run()
@@ -84,7 +68,7 @@ class ServerTask extends Task
             return false;
         }
 
-        $this->io->notice('Server Status:');
+        $this->io->notice('Status:');
         $this->io->log("PID - {$blog['server']['pid']}");
         $this->io->log("URL - {$blog['server']['url']}");
     }

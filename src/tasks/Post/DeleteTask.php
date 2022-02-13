@@ -22,7 +22,7 @@ class DeleteTask extends Task
      */
     public function helpInfo()
     {
-        $this->io->log('    post delete             - Delete post');
+        $this->io->log('post delete             - Delete post');
     }
 
     /**

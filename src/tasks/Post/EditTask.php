@@ -18,16 +18,11 @@ use Pointless\Extend\Task;
 class EditTask extends Task
 {
     /**
-     * @var string
-     */
-    private $editor;
-
-    /**
      * Help Info
      */
     public function helpInfo()
     {
-        $this->io->log('    post edit               - Edit post');
+        $this->io->log('post edit               - Edit post');
     }
 
     /**

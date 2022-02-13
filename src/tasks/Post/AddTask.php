@@ -22,7 +22,7 @@ class AddTask extends Task
      */
     public function helpInfo()
     {
-        $this->io->log('    post add                - Add new post');
+        $this->io->log('post add                - Add new post');
     }
 
     /**

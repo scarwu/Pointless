@@ -22,8 +22,8 @@ class InstallTask extends Task
      */
     public function helpInfo()
     {
-        $this->io->log('    theme install <gitUrl>  - Install theme');
-        $this->io->log('            --branch=<?>    - Set branch (default: master)');
+        $this->io->log('theme install <gitUrl>  - Install theme');
+        $this->io->log('        --branch=<?>    - Set branch (default: master)');
     }
 
     /**

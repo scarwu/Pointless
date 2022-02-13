@@ -22,7 +22,7 @@ class UninstallTask extends Task
      */
     public function helpInfo()
     {
-        $this->io->log('    theme uninstall         - Uninstall theme');
+        $this->io->log('theme uninstall         - Uninstall theme');
     }
 
     /**
