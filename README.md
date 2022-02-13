@@ -8,7 +8,7 @@ A Static Blog Generator with PHP
 
 ### Requirement
 
-* PHP 7.1+
+* PHP 7.3+
 
 ### Install
 

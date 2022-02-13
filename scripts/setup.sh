@@ -8,4 +8,3 @@ git submodule update
 
 # Install Packages
 composer install
-yarn install
