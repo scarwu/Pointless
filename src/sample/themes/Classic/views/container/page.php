@@ -1,9 +1,9 @@
 <?php
 use Oni\Web\Helper\HTML;
 
-$domainName = $systemConfig['blog']['domainName'];
-$baseUrl = $systemConfig['blog']['baseUrl'];
-$disqusShortname = $systemConfig['blog']['disqusShortname'];
+$domainName = $blog['config']['domainName'];
+$baseUrl = $blog['config']['baseUrl'];
+$disqusShortname = $blog['config']['disqusShortname'];
 
 // Paging
 $paging = $container['paging'];

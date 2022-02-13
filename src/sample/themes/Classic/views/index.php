@@ -1,22 +1,22 @@
 <?php
 use Oni\Web\Helper\HTML;
 
-$name = $systemConfig['blog']['name'];
-$lang = $systemConfig['blog']['lang'];
-$slogan = $systemConfig['blog']['slogan'];
-$footer = $systemConfig['blog']['footer'];
+$name = $blog['config']['name'];
+$lang = $blog['config']['lang'];
+$slogan = $blog['config']['slogan'];
+$footer = $blog['config']['footer'];
 
-$domainName = $systemConfig['blog']['domainName'];
-$baseUrl = $systemConfig['blog']['baseUrl'];
+$domainName = $blog['config']['domainName'];
+$baseUrl = $blog['config']['baseUrl'];
 
-$googleAnalytics = $systemConfig['blog']['googleAnalytics'];
-$disqusShortname = $systemConfig['blog']['disqusShortname'];
+$googleAnalytics = $blog['config']['googleAnalytics'];
+$disqusShortname = $blog['config']['disqusShortname'];
 
 $title = isset($container['title'])
-    ? "{$container['title']} | {$systemConfig['blog']['name']}"
-    : $systemConfig['blog']['name'];
+    ? "{$container['title']} | {$blog['config']['name']}"
+    : $blog['config']['name'];
 $description = (!isset($container['description']) || '' === $container['description'])
-    ? $systemConfig['blog']['description']
+    ? $blog['config']['description']
     : $container['description'];
 ?>
 <!doctype html>
@@ -75,7 +75,7 @@ $description = (!isset($container['description']) || '' === $container['descript
             </div>
 
             <div id="side">
-            <?php foreach ($themeConfig['views']['side'] as $name): ?>
+            <?php foreach ($theme['config']['views']['side'] as $name): ?>
             <?=$this->loadPartial("side/{$name}")?>
             <?php endforeach; ?>
             </div>

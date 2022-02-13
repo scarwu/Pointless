@@ -1,7 +1,7 @@
 <?php
 use Oni\Web\Helper\HTML;
 
-$disqusShortname = $systemConfig['blog']['disqusShortname'];
+$disqusShortname = $blog['config']['disqusShortname'];
 ?>
 <div id="container_static">
     <article class="post_block">

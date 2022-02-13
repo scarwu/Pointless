@@ -1,7 +1,7 @@
 <?php
 use Oni\Web\Helper\HTML;
 
-$baseUrl = $systemConfig['blog']['baseUrl'];
+$baseUrl = $blog['config']['baseUrl'];
 
 // Paging
 $paging = $container['paging'];
