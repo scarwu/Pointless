@@ -9,26 +9,37 @@
  */
 
 $config = [
-    'blog' => [
-        'name' => 'My Blog',
-        'slogan' => 'Pointless - Static Blog Generator',
-        'footer' => 'My Blog',
-        'description' => '',
+    'name' => 'My Blog',
+    'slogan' => 'Pointless - Static Blog Generator',
+    'footer' => 'My Blog',
+    'description' => '',
 
-        'lang' => 'en', // en | zh-tw | zh-cn | other
+    // en | zh-tw | zh-cn | other
+    'lang' => 'en',
 
-        'withSSL' => false,
-        'domainName' => 'localhost',
-        'baseUrl' => '/',
+    'withSSL' => false,
+    'domainName' => 'localhost',
+    'baseUrl' => '/',
 
-        'author' => null,
-        'email' => null,
+    'author' => null,
+    'email' => null,
 
-        'disqusShortname' => null, // Disqus Shortname
-        'googleAnalytics' => null, // Google Analytics - UA-xxxxxxxx-x
-    ],
+    // Disqus Shortname
+    'disqusShortname' => null,
+
+    // Google Analytics - UA-xxxxxxxx-x
+    'googleAnalytics' => null,
 
     'theme' => 'Classic',
+
+    // Reference: http://php.net/manual/en/timezones.php
+    'timezone' => 'Etc/UTC',
+
+    // Reference: http://php.net/manual/en/function.iconv.php
+    // UTF-8 | Big5 | GBK
+    'encoding' => 'UTF-8',
+
+    'editor' => 'vi',
 
     'extension' => [
         'atom' => [
@@ -47,22 +58,26 @@ $config = [
     ],
 
     'deploy' => [
-        'github' => [
-            'account' => null,
-            'repo' => null,
-            'branch' => null,
-            'cname' => false
+        'target' => 'github',
+        'setting' => [
+            'github' => [
+                'account' => null,
+                'repo' => null,
+                'branch' => null,
+                'enableCname' => false
+            ]
         ]
     ],
-
-    // Reference: http://php.net/manual/en/timezones.php
-    'timezone' => 'Etc/UTC',
-
-    // Reference: http://php.net/manual/en/function.iconv.php
-    // Big5 | GBK | other => UTF-8
-    'encoding' => null,
-
-    'editor' => 'vi',
+    'backup' => [
+        'target' => 'github',
+        'setting' => [
+            'github' => [
+                'account' => null,
+                'repo' => null,
+                'branch' => null
+            ]
+        ]
+    ],
 
     // PHP Built-in Server for Blog preview & Markdown Editor
     'server' => [

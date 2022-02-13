@@ -43,10 +43,10 @@ class EditTask extends Task
         }
 
         // Check Editor
-        $this->editor = Resource::get('system:config')['editor'];
+        $editor = Resource::get('config:blog')['editor'];
 
-        if (false === Utility::commandExists($this->editor)) {
-            $this->io->error("System command \"{$this->editor}\" is not found.");
+        if (false === Utility::commandExists($editor)) {
+            $this->io->error("System command \"{$editor}\" is not found.");
 
             return false;
         }
@@ -56,7 +56,7 @@ class EditTask extends Task
     {
         $formatList = [];
 
-        foreach (Resource::get('system:constant')['formats'] as $index => $name) {
+        foreach (Resource::get('constant')['formats'] as $index => $name) {
             $namespace = 'Pointless\\Format\\' . ucfirst($name);
 
             $formatList[$index] = new $namespace();
@@ -84,7 +84,7 @@ class EditTask extends Task
 
         // Get Post Number
         foreach ($postList as $index => $post) {
-            $text = $post['isPublic']
+            $text = $post['params']['isPublic']
                 ? sprintf("[ %3d] ", $index) . $post['title']
                 : sprintf("[*%3d] ", $index) . $post['title'];
 
@@ -97,10 +97,9 @@ class EditTask extends Task
                 && $answer < count($postList);
         });
 
-        // Get Info
-        $postPath = $postList[array_keys($postList)[$index]]['path'];
+        $filepath = $postList[array_keys($postList)[$index]]['filepath'];
 
         // Call CLI Editor to open file
-        $this->editFile($postPath);
+        $this->editFile($filepath);
     }
 }

@@ -74,19 +74,19 @@ class Describe extends Format
      */
     public function convertPost($post)
     {
-        if (!preg_match('/\.html$/', $post['url'])) {
-            $post['url'] .= '/';
+        if (false === (bool) preg_match('/\.html$/', $post['params']['url'])) {
+            $post['params']['url'] .= '/';
         }
 
         return [
-            'type' => $post['type'],
+            'type' => $post['params']['type'],
             'title' => $post['title'],
-            'url' => $post['url'],
+            'url' => $post['params']['url'],
             'content' => $post['content'],
             'accessTime' => $post['accessTime'],
             'createTime' => $post['createTime'],
             'modifyTime' => $post['modifyTime'],
-            'withMessage' => $post['withMessage']
+            'withMessage' => $post['params']['withMessage']
         ];
     }
 }

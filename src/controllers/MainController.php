@@ -13,6 +13,7 @@ namespace Pointless\Viewer\Controller;
 use Pointless\Library\BlogCore;
 use Pointless\Library\Utility;
 use Pointless\Library\Resource;
+use Oni\Core\Loader;
 use Oni\Web\Controller\Page as Controller;
 
 class MainController extends Controller
@@ -29,30 +30,30 @@ class MainController extends Controller
 
     public function up()
     {
-        // Load System Consatnt
-        require APP_ROOT . '/constant.php';
+        // Init Blog
+        if (false === BlogCore::init()) {
+            $this->io->error('Please init blog first.');
 
-        $systemConstant = $constant;
+            return false;
+        }
 
-        // Load System Config
-        require BLOG_ROOT . '/config.php';
+        $this->view->setAttr('path', BLOG_THEME . '/views');
 
-        $systemConfig = $config;
+        // Loader Append
+        Loader::append('Pointless\Handler', BLOG_HANDLER);
+        Loader::append('Pointless\Handler', APP_ROOT . '/handlers');
+        Loader::append('Pointless\Extension', BLOG_EXTENSION);
+        Loader::append('Pointless\Extension', APP_ROOT . '/extensions');
 
-        // Load Theme Config
-        require BLOG_THEME . '/config.php';
-
-        $themeConfig = $config;
-
-        // Set Resource
-        Resource::set('system:constant', $systemConstant);
-        Resource::set('system:config', $systemConfig);
-        Resource::set('theme:config', $themeConfig);
+        // Get Resources
+        $constant = Resource::get('constant');
+        $blogConfig = Resource::get('config:blog');
+        $themeConfig = Resource::get('config:theme');
 
         // Load Posts
         $postBundle = [];
 
-        foreach ($systemConstant['formats'] as $name) {
+        foreach ($constant['formats'] as $name) {
             $namespace = 'Pointless\\Format\\' . ucfirst($name);
 
             $instance = new $namespace();
@@ -60,8 +61,8 @@ class MainController extends Controller
 
             $postBundle[$type] = [];
 
-            foreach (BlogCore::getPostList($type) as $post) {
-                if (false === $post['isPublic']) {
+            foreach (BlogCore::getPostList($type, true) as $post) {
+                if (false === $post['params']['isPublic']) {
                     $post['title'] = "🔒 {$post['title']}"; // append lock emoji before
                 }
 
@@ -85,8 +86,8 @@ class MainController extends Controller
 
                 $handlerList[$type] = $instance;
                 $handlerList[$type]->initData([
-                    'systemConstant' => $systemConstant,
-                    'systemConfig' => $systemConfig,
+                    'constant' => $constant,
+                    'blogConfig' => $blogConfig,
                     'themeConfig' => $themeConfig,
                     'postBundle' => $postBundle
                 ]);
@@ -177,8 +178,8 @@ class MainController extends Controller
             // Set View
             $this->view->setContentPath('container/describe');
             $this->view->setData([
-                'systemConstant' => Resource::get('system:constant'),
-                'systemConfig' => Resource::get('system:config'),
+                'constant' => Resource::get('constant'),
+                'blogConfig' => Resource::get('config:blog'),
                 'themeConfig' => Resource::get('theme:config'),
                 'sideList' => $this->sideList,
                 'container' => $containerList["{$path}/"]
@@ -204,9 +205,11 @@ class MainController extends Controller
         // Set View
         $this->view->setContentPath('container/article');
         $this->view->setData([
-            'systemConstant' => Resource::get('system:constant'),
-            'systemConfig' => Resource::get('system:config'),
-            'themeConfig' => Resource::get('theme:config'),
+            'constant' => Resource::get('constant'),
+            'config' => [
+                'blog' => Resource::get('config:blog'),
+                'theme' => Resource::get('theme:config')
+            ],
             'sideList' => $this->sideList,
             'container' => isset($containerList[$path])
                 ? $containerList[$path] : []
@@ -229,9 +232,11 @@ class MainController extends Controller
         // Set View
         $this->view->setContentPath('container/page');
         $this->view->setData([
-            'systemConstant' => Resource::get('system:constant'),
-            'systemConfig' => Resource::get('system:config'),
-            'themeConfig' => Resource::get('theme:config'),
+            'constant' => Resource::get('constant'),
+            'config' => [
+                'blog' => Resource::get('config:blog'),
+                'theme' => Resource::get('theme:config')
+            ],
             'sideList' => $this->sideList,
             'container' => isset($containerList[$path])
                 ? $containerList[$path] : []
@@ -254,9 +259,11 @@ class MainController extends Controller
         // Set View
         $this->view->setContentPath('container/archive');
         $this->view->setData([
-            'systemConstant' => Resource::get('system:constant'),
-            'systemConfig' => Resource::get('system:config'),
-            'themeConfig' => Resource::get('theme:config'),
+            'constant' => Resource::get('constant'),
+            'config' => [
+                'blog' => Resource::get('config:blog'),
+                'theme' => Resource::get('theme:config')
+            ],
             'sideList' => $this->sideList,
             'container' => isset($containerList[$path])
                 ? $containerList[$path] : []
@@ -279,9 +286,11 @@ class MainController extends Controller
         // Set View
         $this->view->setContentPath('container/category');
         $this->view->setData([
-            'systemConstant' => Resource::get('system:constant'),
-            'systemConfig' => Resource::get('system:config'),
-            'themeConfig' => Resource::get('theme:config'),
+            'constant' => Resource::get('constant'),
+            'config' => [
+                'blog' => Resource::get('config:blog'),
+                'theme' => Resource::get('theme:config')
+            ],
             'sideList' => $this->sideList,
             'container' => isset($containerList[$path])
                 ? $containerList[$path] : []
@@ -304,9 +313,11 @@ class MainController extends Controller
         // Set View
         $this->view->setContentPath('container/tag');
         $this->view->setData([
-            'systemConstant' => Resource::get('system:constant'),
-            'systemConfig' => Resource::get('system:config'),
-            'themeConfig' => Resource::get('theme:config'),
+            'constant' => Resource::get('constant'),
+            'config' => [
+                'blog' => Resource::get('config:blog'),
+                'theme' => Resource::get('theme:config')
+            ],
             'sideList' => $this->sideList,
             'container' => isset($containerList[$path])
                 ? $containerList[$path] : []

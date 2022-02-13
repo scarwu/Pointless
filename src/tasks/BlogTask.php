@@ -66,14 +66,14 @@ class BlogTask extends Task
 
     public function run()
     {
-        $config = Resource::get('system:config');
+        $config = Resource::get('config:blog');
 
         $this->io->notice('Blog Path:');
         $this->io->log(BLOG_ROOT);
 
         $this->io->writeln();
         $this->io->notice('Blog Information:');
-        $this->io->log("Name     - {$config['blog']['name']}");
+        $this->io->log("Name     - {$config['name']}");
         $this->io->log("Theme    - {$config['theme']}");
         $this->io->log("Timezone - {$config['timezone']}");
         $this->io->log("Editor   - {$config['editor']}");

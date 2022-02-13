@@ -28,7 +28,7 @@ class Page extends ThemeHandler
     {
         $data['articleByPage'] = [];
         $articleList = $data['postBundle']['article'];
-        $quantity = $data['systemConfig']['post']['article']['quantity'];
+        $quantity = $data['blogConfig']['post']['article']['quantity'];
         $totalIndex = ceil(count($articleList) / $quantity);
 
         for ($currentIndex = 1; $currentIndex <= $totalIndex; $currentIndex++) {

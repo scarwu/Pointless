@@ -47,41 +47,56 @@ class DeployTask extends Task
 
     public function run()
     {
-        $blog = Resource::get('system:config')['blog'];
-        $github = Resource::get('system:config')['deploy']['github'];
+        $config = Resource::get('config:blog');
+        $target = $config['deploy']['target'];
 
-        $account = $github['account'];
-        $repo = $github['repo'];
-        $branch = $github['branch'];
+        switch ($target) {
+        case 'github':
+            $setting = $config['deploy']['setting']['github'];
 
-        if (null === $account || null === $repo || null === $branch) {
-            $this->io->error('Please add Github setting in Pointless config.');
+            $account = $setting['account'];
+            $repo = $setting['repo'];
+            $branch = $setting['branch'];
+
+            if (false === is_string($account)
+                || false === is_string($repo)
+                || false === is_string($branch)
+            ) {
+                $this->io->error('Please add Github setting in blog config.');
+
+                return false;
+            }
+
+            // Create Deploy Folder & Fix Permission
+            Utility::mkdir(BLOG_DEPLOY);
+            Utility::fixPermission(BLOG_DEPLOY);
+
+            chdir(BLOG_DEPLOY);
+
+            if (false === file_exists(BLOG_DEPLOY . '/.git')) {
+                system('git init');
+                system("git remote add origin git@github.com:{$account}/{$repo}.git");
+            }
+
+            system("git pull origin {$branch}");
+
+            Utility::remove(BLOG_DEPLOY, true, ['.git']);
+            Utility::copy(BLOG_BUILD, BLOG_DEPLOY);
+
+            // Create Github CNAME
+            if (true === $github['enableCname']) {
+                file_put_contents(BLOG_DEPLOY . '/CNAME', $config['domainName']);
+            }
+
+            system('git add --all .');
+            system(sprintf('git commit -m "%s"', date(DATE_RSS)));
+            system("git push origin {$branch}");
+
+            break;
+        default:
+            $this->io->error('Deploy target not found.');
 
             return false;
         }
-
-        chdir(BLOG_DEPLOY);
-
-        if (false === file_exists(BLOG_DEPLOY . '/.git')) {
-            system('git init');
-            system("git remote add origin git@github.com:{$account}/{$repo}.git");
-        }
-
-        system("git pull origin {$branch}");
-
-        Utility::remove(BLOG_DEPLOY, true, ['.git']);
-        Utility::copy(BLOG_BUILD, BLOG_DEPLOY);
-
-        // Create Github CNAME
-        if ($github['cname']) {
-            file_put_contents(BLOG_DEPLOY . '/CNAME', $blog['domainName']);
-        }
-
-        system('git add --all .');
-        system(sprintf('git commit -m "%s"', date(DATE_RSS)));
-        system("git push origin {$branch}");
-
-        // Fix Permission
-        Utility::fixPermission(BLOG_DEPLOY);
     }
 }

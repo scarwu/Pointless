@@ -39,11 +39,6 @@ class BuildTask extends Task
             return false;
         }
 
-        // Require Theme Attr
-        require BLOG_THEME . '/config.php';
-
-        Resource::set('theme:config', $config);
-
         // Loader Append
         Loader::append('Pointless\Handler', BLOG_HANDLER);
         Loader::append('Pointless\Handler', APP_ROOT . '/handlers');
@@ -57,9 +52,9 @@ class BuildTask extends Task
         $startMemory = memory_get_usage();
 
         // Get Resources
-        $systemConstant = Resource::get('system:constant');
-        $systemConfig = Resource::get('system:config');
-        $themeConfig = Resource::get('theme:config');
+        $constant = Resource::get('constant');
+        $blogConfig = Resource::get('config:blog');
+        $themeConfig = Resource::get('config:theme');
 
         // Clear Files
         $this->io->notice('Clean Files ...');
@@ -85,7 +80,7 @@ class BuildTask extends Task
 
         $postBundle = [];
 
-        foreach ($systemConstant['formats'] as $name) {
+        foreach ($constant['formats'] as $name) {
             $namespace = 'Pointless\\Format\\' . ucfirst($name);
 
             $instance = new $namespace();
@@ -120,9 +115,11 @@ class BuildTask extends Task
 
                 $handlerList[$type] = $instance;
                 $handlerList[$type]->initData([
-                    'systemConstant' => $systemConstant,
-                    'systemConfig' => $systemConfig,
-                    'themeConfig' => $themeConfig,
+                    'constant' => $constant,
+                    'config' => [
+                        'blog' => $blogConfig,
+                        'theme' => $themeConfig
+                    ],
                     'postBundle' => $postBundle
                 ]);
             }
@@ -160,9 +157,11 @@ class BuildTask extends Task
                 ];
 
                 $view->setData([
-                    'systemConstant' => $systemConstant,
-                    'systemConfig' => $systemConfig,
-                    'themeConfig' => $themeConfig,
+                    'constant' => $constant,
+                    'config' => [
+                        'blog' => $blogConfig,
+                        'theme' => $themeConfig
+                    ],
                     'sideList' => $sideList,
                     'container' => $container
                 ]);
@@ -183,9 +182,11 @@ class BuildTask extends Task
             $this->io->log("Render: {$path}");
 
             $this->saveToDisk($path, $instance->render([
-                'systemConstant' => $systemConstant,
-                'systemConfig' => $systemConfig,
-                'themeConfig' => $themeConfig,
+                'constant' => $constant,
+                'config' => [
+                    'blog' => $blogConfig,
+                    'theme' => $themeConfig
+                ],
                 'postBundle' => $postBundle,
                 'publicPostList' => $publicPostList
             ]));

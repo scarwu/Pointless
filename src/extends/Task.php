@@ -48,7 +48,7 @@ EOF;
             return false;
         }
 
-        $editor = Resource::get('system:config')['editor'];
+        $editor = Resource::get('config:blog')['editor'];
 
         if (false === Utility::commandExists($editor)) {
             $this->io->error("System command \"{$editor}\" is not found.");

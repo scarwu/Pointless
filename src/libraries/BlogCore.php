@@ -10,15 +10,22 @@
 
 namespace Pointless\Library;
 
+use Parsedown;
 use Pointless\Library\Utility;
 use Pointless\Library\Resource;
 use Pointless\Library\CustomException;
-use Parsedown;
 use Oni\CLI\IO;
 
 class BlogCore
 {
     private function __construct() {}
+
+    private static $_isInited = false;
+
+    /**
+     * @var object
+     */
+    private static $_parsedown = null;
 
     /**
      * Initialize
@@ -27,25 +34,31 @@ class BlogCore
      */
     public static function init()
     {
-        if (true === defined('BLOG_ROOT')) {
+        if (true === self::$_isInited) {
             return true;
         }
 
-        // Load Config
-        $blog = Utility::loadJsonFile(HOME_ROOT . '/blog.json');
+        if (false === getenv('BLOG_ROOT')) {
 
-        if (false === is_array($blog)
-            || false === is_string($blog['path'])
-        ) {
-            return false;
-        }
+            // Load Config
+            $blog = Utility::loadJsonFile(HOME_ROOT . '/blog.json');
 
-        if (false === Utility::mkdir($blog['path'])) {
-            return false;
+            if (false === is_array($blog)
+                || false === is_string($blog['path'])
+            ) {
+                return false;
+            }
+
+            if (false === Utility::mkdir($blog['path'])) {
+                return false;
+            }
+
+            define('BLOG_ROOT', $blog['path']);
+        } else {
+            define('BLOG_ROOT', getenv('BLOG_ROOT'));
         }
 
         // Define Variables
-        define('BLOG_ROOT', $blog['path']);
         define('BLOG_BUILD', BLOG_ROOT . '/build');
         define('BLOG_DEPLOY', BLOG_ROOT . '/deploy');
         define('BLOG_ASSET', BLOG_ROOT . '/assets');
@@ -72,7 +85,7 @@ class BlogCore
         // Set Timezone
         date_default_timezone_set($config['timezone']);
 
-        Resource::set('system:config', $config);
+        Resource::set('config:blog', $config);
 
         // Copy Sample Files
         if (false === file_exists(BLOG_ROOT . '/config.php')) {
@@ -97,6 +110,13 @@ class BlogCore
         // Fix Permission
         Utility::fixPermission(BLOG_ROOT);
 
+        // Require Theme Attr
+        require BLOG_THEME . '/config.php';
+
+        Resource::set('config:theme', $config);
+
+        self::$_isInited = true;
+
         return true;
     }
 
@@ -104,53 +124,49 @@ class BlogCore
      * Get Post List
      *
      * @param string $type
-     * @param bool $withContent
+     * @param bool $isParseRaw
      *
      * @return array
      */
-    public static function getPostList($type = null, $withContent = false)
+    public static function getPostList(?string $type = null, bool $isParseRaw = false)
     {
-        if (null !== $type && false === is_string($type)) {
-            return false;
-        }
-
-        if (false === is_bool($withContent)) {
-            return false;
-        }
-
         $list = [];
-
-        $parsedown = new Parsedown();
         $handle = opendir(BLOG_POST . "/{$type}");
 
         while ($filename = readdir($handle)) {
-            if (!preg_match('/.md$/', $filename)) {
+            if (false === (bool) preg_match('/.md$/', $filename)) {
                 continue;
             }
 
-            $file = self::parseMarkdownFile($type, $filename, $withContent);
+            $filepath = BLOG_POST . "/{$type}/{$filename}";
 
-            if (false === $file) {
-                IO::init()->error("Markdown parse error: {$filename}");
+            // Load Markdown File
+            $markdown = Utility::loadMarkdownFile($filepath);
 
-                exit(1);
+            if (null === $markdown) {
+                throw new CustomException('blogCore:getPostList:loadMarkdownFile:error');
             }
 
-            if (null !== $type && $type !== $file['type']) {
-                continue;
+            if (true === $isParseRaw) {
+                $parseResult = self::parseMarkdownRaw($markdown['raw']);
+
+                if (false === is_array($parseResult)) {
+                    throw new CustomException('blogCore:getPostList:parseMarkdownRaw:error');
+                }
+
+                $markdown['title'] = $parseResult['title'];
+                $markdown['content'] = $parseResult['content'];
+
+                unset($markdown['raw']);
             }
 
-            $file['name'] = $filename;
-            $file['path'] = BLOG_POST . "/{$type}/{$filename}";
+            $markdown['filename'] = $filename;
+            $markdown['filepath'] = $filepath;
+            $markdown['accessTime'] = fileatime($markdown['filepath']);
+            $markdown['createTime'] = filectime($markdown['filepath']);
+            $markdown['modifyTime'] = filemtime($markdown['filepath']);
 
-            if (false === $withContent) {
-                $file['content'] = $parsedown->text($file['content']);
-            }
-
-            $index = (isset($file['date']) && isset($file['time']))
-                ? "{$file['date']}{$file['time']}" : $file['title'];
-
-            $list[$index] = $file;
+            $list[$markdown['filename']] = $markdown;
         }
 
         closedir($handle);
@@ -162,44 +178,28 @@ class BlogCore
     }
 
     /**
-     * Parse Markdown File
+     * Parse Markdown Raw
      *
-     * @param string $type
-     * @param string $filename
-     * @param bool $withContent
+     * @param string $raw
      *
-     * @return string
+     * @return array
      */
-    public static function parseMarkdownFile(string $type, string $filename, bool $withContent = false)
+    public static function parseMarkdownRaw(string $raw): ?array
     {
-        $filepath = BLOG_POST . "/{$type}/{$filename}";
-
-        // Define Regular Expression Rule
-        $regex = '/^(?:<!--({(?:.|\n)*})-->)\s*(?:#(.*))?((?:.|\n)*)/';
-
-        preg_match($regex, file_get_contents($filepath), $match);
-
-        if (4 !== count($match)) {
-            return false;
+        if (null === self::$_parsedown) {
+            self::$_parsedown = new Parsedown();
         }
 
-        $file = json_decode($match[1], true);
+        $regex = '/^(?:#(.*))?((?:.|\s)*)/';
 
-        if (null === $file) {
-            return false;
+        if (false === (bool) preg_match($regex, $raw, $match)) {
+            return null;
         }
 
-        $file['title'] = trim($match[2]);
-
-        if (false === $withContent) {
-            $file['content'] = trim($match[3]);
-        }
-
-        $file['accessTime'] = fileatime($filepath);
-        $file['createTime'] = filectime($filepath);
-        $file['modifyTime'] = filemtime($filepath);
-
-        return $file;
+        return [
+            'title' => trim($match[1]),
+            'content' => self::$_parsedown->text($match[2])
+        ];
     }
 
     /**

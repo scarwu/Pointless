@@ -29,84 +29,7 @@ class PostController extends Controller
 
     public function up()
     {
-        // Load System Consatnt
-        require APP_ROOT . '/constant.php';
-
-        $systemConstant = $constant;
-
-        // Load System Config
-        require BLOG_ROOT . '/config.php';
-
-        $systemConfig = $config;
-
-        // Load Theme Config
-        require BLOG_THEME . '/config.php';
-
-        $themeConfig = $config;
-
-        // Set Resource
-        Resource::set('system:constant', $systemConstant);
-        Resource::set('system:config', $systemConfig);
-        Resource::set('theme:config', $themeConfig);
-
-        // Load Posts
-        $postBundle = [];
-
-        foreach ($systemConstant['formats'] as $name) {
-            $namespace = 'Pointless\\Format\\' . ucfirst($name);
-
-            $instance = new $namespace();
-            $type = $instance->getType();
-
-            $postBundle[$type] = [];
-
-            foreach (BlogCore::getPostList($type) as $post) {
-                if (false === $post['isPublic']) {
-                    $post['title'] = "🔒 {$post['title']}"; // append lock emoji before
-                }
-
-                $postBundle[$type][] = $instance->convertPost($post);
-            }
-        }
-
-        foreach ($postBundle as $type => $post) {
-            $postBundle[$type] = array_reverse($post);
-        }
-
-        // Rendering HTML Pages
-        $handlerList = [];
-
-        foreach ($themeConfig['handlers'] as $name) {
-            if (!isset($handlerList[$name])) {
-                $namespace = 'Pointless\\Handler\\' . ucfirst($name);
-
-                $instance = new $namespace();
-                $type = $instance->getType();
-
-                $handlerList[$type] = $instance;
-                $handlerList[$type]->initData([
-                    'systemConstant' => $systemConstant,
-                    'systemConfig' => $systemConfig,
-                    'themeConfig' => $themeConfig,
-                    'postBundle' => $postBundle
-                ]);
-            }
-        }
-
-        // Get Side Data
-        $sideList = [];
-
-        foreach ($themeConfig['views']['side'] as $name) {
-            if (!isset($handlerList[$name])) {
-                continue;
-            }
-
-            $sideList[$name] = $handlerList[$name]->getSideData();
-        }
-
-        // Set Private Variables
-        $this->handlerList = $handlerList;
-        $this->sideList = $sideList;
+        // do nothing
     }
 
     public function down()
@@ -121,7 +44,7 @@ class PostController extends Controller
 
         $result = [];
 
-        foreach (Resource::get('system:constant')['formats'] as $subClassName) {
+        foreach (Resource::get('constant')['formats'] as $subClassName) {
             $className = 'Pointless\\Format\\' . ucfirst($subClassName);
             $format = new $className;
 
@@ -132,7 +55,7 @@ class PostController extends Controller
                 continue;
             }
 
-            $result[$type] = BlogCore::getPostList($type, false);
+            $result[$type] = BlogCore::getPostList($type);
         }
 
         $this->res->json($result);

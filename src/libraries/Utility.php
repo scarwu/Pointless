@@ -280,15 +280,15 @@ class Utility
      *
      * @return bool
      */
-    public static function saveMarkdownFile(string $path, array $header, string $content = ''): bool
+    public static function saveMarkdownFile(string $path, array $params, string $raw = ''): bool
     {
         if (true === file_exists($path)) {
             self::remove($path);
         }
 
-        $header = json_encode($header, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        $params = json_encode($params, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
-        file_put_contents($path, "<!--{$header}-->\n\n{$content}\n\n");
+        file_put_contents($path, "<!--{$params}-->\n\n{$raw}\n\n");
 
         return true;
     }
@@ -298,25 +298,23 @@ class Utility
      *
      * @param string $path
      *
-     * @return string
+     * @return array
      */
-    public static function loadMarkdownFile(string $path): ?string
+    public static function loadMarkdownFile(string $path): ?array
     {
         if (false === file_exists($path)) {
             return null;
         }
 
-        $regex = '/^<!--({(?:.|\n)*})-->\s*(.*?)\s*$/';
+        $regex = '/^<!--({(?:.|\n)*})-->((?:.|\s)*)/';
 
-        preg_match($regex, file_get_contents($path), $match);
-
-        if (3 !== count($match)) {
+        if (false === (bool) preg_match($regex, file_get_contents($path), $match)) {
             return null;
         }
 
         return [
-            'header' => json_decode($match[1], true),
-            'content' => $match[2]
+            'params' => json_decode(trim($match[1]), true),
+            'raw' => trim($match[2])
         ];
     }
 }

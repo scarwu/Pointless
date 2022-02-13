@@ -11,6 +11,7 @@
 namespace Pointless\Task\Post;
 
 use Pointless\Library\BlogCore;
+use Pointless\Library\Utility;
 use Pointless\Library\Resource;
 use Pointless\Extend\Task;
 
@@ -41,7 +42,7 @@ class DeleteTask extends Task
     {
         $formatList = [];
 
-        foreach (Resource::get('system:constant')['formats'] as $index => $name) {
+        foreach (Resource::get('constant')['formats'] as $index => $name) {
             $namespace = 'Pointless\\Format\\' . ucfirst($name);
 
             $formatList[$index] = new $namespace();
@@ -69,7 +70,7 @@ class DeleteTask extends Task
 
         // Get Post Number
         foreach ($postList as $index => $post) {
-            $text = $post['isPublic']
+            $text = $post['params']['isPublic']
                 ? sprintf("[ %3d] ", $index) . $post['title']
                 : sprintf("[*%3d] ", $index) . $post['title'];
 
@@ -83,11 +84,11 @@ class DeleteTask extends Task
         });
 
         // Get Info
-        $path = $postList[array_keys($postList)[$index]]['path'];
+        $filepath = $postList[array_keys($postList)[$index]]['filepath'];
         $title = $postList[array_keys($postList)[$index]]['title'];
 
         if ('yes' === $this->io->ask("\nAre you sure delete post \"{$title}\"? (yes)\n-> ", null, 'red')) {
-            unlink($path);
+            Utility::remove($filepath);
 
             $this->io->writeln();
             $this->io->notice("Successfully removed post \"{$title}\".");

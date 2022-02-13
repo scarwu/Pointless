@@ -88,14 +88,14 @@ class Article extends Format
      */
     public function convertPost($post)
     {
-        $format = Resource::get('system:config')['post']['article']['format'];
+        $format = Resource::get('config:system')['post']['article']['format'];
         $format = trim($format, '/');
 
         // Time information
-        list($year, $month, $day) = explode('-', $post['date']);
-        list($hour, $minute, $second) = explode(':', $post['time']);
+        list($year, $month, $day) = explode('-', $post['params']['date']);
+        list($hour, $minute, $second) = explode(':', $post['params']['time']);
 
-        $timestamp = strtotime("{$day}-{$month}-{$year} {$post['time']}");
+        $timestamp = strtotime("{$day}-{$month}-{$year} {$post['params']['time']}");
 
         // Generate custom url
         $url = str_replace([
@@ -105,16 +105,17 @@ class Article extends Format
         ], [
             $year, $month, $day,
             $hour, $minute, $second, $timestamp,
-            $post['title'], $post['url']
+            $post['title'], $post['params']['url']
         ], $format);
 
-        if (!preg_match('/\.html$/', $url)) {
+        if (false === (bool) preg_match('/\.html$/', $url)) {
             $url .= '/';
         }
 
         // Sort tags
-        $post['tags'] = explode('|', $post['tags']);
-        sort($post['tags']);
+        $post['params']['tags'] = explode('|', $post['params']['tags']);
+
+        sort($post['params']['tags']);
 
         // Summary and Description
         $summary = preg_replace('/<!--more-->(.|\s)*/', '', $post['content']);
@@ -124,17 +125,17 @@ class Article extends Format
         $description = isset($match[1]) ? strip_tags($match[1]) : '';
 
         return [
-            'type' => $post['type'],
+            'type' => $post['params']['type'],
             'title' => $post['title'],
             'url' => $url,
             'content' => $post['content'],
             'summary' => $summary,
             'description' => $description,
-            'coverImage' => isset($post['coverImage']) ? $post['coverImage'] : null,
-            'category' => $post['category'],
-            'tags' => $post['tags'],
-            'date' => $post['date'],
-            'time' => $post['time'],
+            'coverImage' => isset($post['params']['coverImage']) ? $post['params']['coverImage'] : null,
+            'category' => $post['params']['category'],
+            'tags' => $post['params']['tags'],
+            'date' => $post['params']['date'],
+            'time' => $post['params']['time'],
             'year' => $year,
             'month' => $month,
             'day' => $day,
@@ -145,7 +146,7 @@ class Article extends Format
             'accessTime' => $post['accessTime'],
             'createTime' => $post['createTime'],
             'modifyTime' => $post['modifyTime'],
-            'withMessage' => $post['withMessage']
+            'withMessage' => $post['params']['withMessage']
         ];
     }
 }
