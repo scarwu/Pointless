@@ -21,6 +21,11 @@ class MainController extends Controller
     /**
      * @var array
      */
+    private $editorAssets = [];
+
+    /**
+     * @var array
+     */
     private $sideList = [];
 
     /**
@@ -111,6 +116,16 @@ class MainController extends Controller
             $sideList[$name] = $handlerList[$name]->getSideData();
         }
 
+        // Set Editor Assets
+        $this->editorAssets = [
+            'styles' => [
+                'styles/editor.min.css'
+            ],
+            'scripts' => [
+                'scripts/editor.min.js'
+            ]
+        ];
+
         // Set Private Variables
         $this->handlerList = $handlerList;
         $this->sideList = $sideList;
@@ -145,6 +160,8 @@ class MainController extends Controller
             $staticPath = BLOG_ASSET . "/{$path}";
         } elseif (is_file(BLOG_THEME . "/{$path}")) {
             $staticPath = BLOG_THEME . "/{$path}";
+        } elseif (is_file(BLOG_EDITOR . "/{$path}")) {
+            $staticPath = BLOG_EDITOR . "/{$path}";
         } else {
             $staticPath = null;
         }
@@ -195,6 +212,7 @@ class MainController extends Controller
                     'config' => Resource::get('theme:config'),
                     'constant' => Resource::get('theme:constant')
                 ],
+                'editorAssets' => $this->editorAssets,
                 'sideList' => $this->sideList,
                 'container' => $containerList["{$path}/"]
             ]);
@@ -229,6 +247,7 @@ class MainController extends Controller
                 'config' => Resource::get('theme:config'),
                 'constant' => Resource::get('theme:constant')
             ],
+            'editorAssets' => $this->editorAssets,
             'sideList' => $this->sideList,
             'container' => isset($containerList[$path])
                 ? $containerList[$path] : []
@@ -261,6 +280,7 @@ class MainController extends Controller
                 'config' => Resource::get('theme:config'),
                 'constant' => Resource::get('theme:constant')
             ],
+            'editorAssets' => $this->editorAssets,
             'sideList' => $this->sideList,
             'container' => isset($containerList[$path])
                 ? $containerList[$path] : []
@@ -293,6 +313,7 @@ class MainController extends Controller
                 'config' => Resource::get('theme:config'),
                 'constant' => Resource::get('theme:constant')
             ],
+            'editorAssets' => $this->editorAssets,
             'sideList' => $this->sideList,
             'container' => isset($containerList[$path])
                 ? $containerList[$path] : []
@@ -325,6 +346,7 @@ class MainController extends Controller
                 'config' => Resource::get('theme:config'),
                 'constant' => Resource::get('theme:constant')
             ],
+            'editorAssets' => $this->editorAssets,
             'sideList' => $this->sideList,
             'container' => isset($containerList[$path])
                 ? $containerList[$path] : []
@@ -357,6 +379,7 @@ class MainController extends Controller
                 'config' => Resource::get('theme:config'),
                 'constant' => Resource::get('theme:constant')
             ],
+            'editorAssets' => $this->editorAssets,
             'sideList' => $this->sideList,
             'container' => isset($containerList[$path])
                 ? $containerList[$path] : []

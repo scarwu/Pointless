@@ -86,6 +86,12 @@ class BlogCore
             define('BLOG_THEME', getenv('BLOG_THEME'));
         }
 
+        if (false === getenv('BLOG_EDITOR')) {
+            define('BLOG_EDITOR', APP_ROOT . '/sample/editor');
+        } else {
+            define('BLOG_EDITOR', getenv('BLOG_EDITOR'));
+        }
+
         // Set Timezone
         date_default_timezone_set($config['timezone']);
 

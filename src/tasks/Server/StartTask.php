@@ -26,6 +26,7 @@ class StartTask extends Task
         $this->io->log('            --host=<?>      - Set host (default: localhost)');
         $this->io->log('            --port=<?>      - Set port (default: 3000)');
         $this->io->log('            --theme=<?>     - Set specify theme');
+        $this->io->log('            --editor=<?>    - Set specify editor');
     }
 
     /**
@@ -85,6 +86,15 @@ class StartTask extends Task
             $envs[] = [
                 'key' => 'BLOG_THEME',
                 'value' => $this->io->getConfigs('theme')
+            ];
+        }
+
+        if (true === $this->io->hasConfigs('editor')
+            && true === is_dir($this->io->getConfigs('editor'))
+        ) {
+            $envs[] = [
+                'key' => 'BLOG_EDITOR',
+                'value' => $this->io->getConfigs('editor')
             ];
         }
 

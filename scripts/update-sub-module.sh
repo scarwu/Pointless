@@ -2,6 +2,12 @@
 
 cd `dirname $0`/../
 
+# Copy Editor
+rm -rf src/sample/editor
+
+cp -a subModules/PointlessEditor/dist src/sample/editor
+
+# Copy Themes
 rm -rf src/sample/themes/*
 
 THEME_LIST=(
