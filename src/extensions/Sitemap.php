@@ -24,9 +24,9 @@ class Sitemap extends Extension
      */
     public function render($data)
     {
-        $scheme = $data['blogConfig']['withSSL'] ? 'https' : 'http';
-        $domainName = $data['blogConfig']['domainName'];
-        $baseUrl = $data['blogConfig']['baseUrl'];
+        $scheme = $data['blog']['config']['withSSL'] ? 'https' : 'http';
+        $domainName = $data['blog']['config']['domainName'];
+        $baseUrl = $data['blog']['config']['baseUrl'];
 
         $format = "\t<url>\n\t\t<loc>{$scheme}://%s%s</loc>\n\t\t<lastmod>%s</lastmod>\n\t</url>\n";
 

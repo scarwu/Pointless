@@ -88,7 +88,7 @@ class Article extends Format
      */
     public function convertPost($post)
     {
-        $format = Resource::get('config:system')['post']['article']['format'];
+        $format = Resource::get('blog:config')['post']['article']['format'];
         $format = trim($format, '/');
 
         // Time information

@@ -29,7 +29,12 @@ class PostController extends Controller
 
     public function up()
     {
-        // do nothing
+        // Init Blog
+        if (false === BlogCore::init()) {
+            $this->io->error('Please init blog first.');
+
+            return false;
+        }
     }
 
     public function down()
@@ -44,7 +49,7 @@ class PostController extends Controller
 
         $result = [];
 
-        foreach (Resource::get('constant')['formats'] as $subClassName) {
+        foreach (Resource::get('system:constant')['formats'] as $subClassName) {
             $className = 'Pointless\\Format\\' . ucfirst($subClassName);
             $format = new $className;
 

@@ -42,7 +42,7 @@ class AddTask extends Task
     {
         $formatList = [];
 
-        foreach (Resource::get('constant')['formats'] as $index => $name) {
+        foreach (Resource::get('system:constant')['formats'] as $index => $name) {
             $namespace = 'Pointless\\Format\\' . ucfirst($name);
 
             $formatList[$index] = new $namespace();
@@ -66,7 +66,7 @@ class AddTask extends Task
         }
 
         // Convert Encoding
-        $encoding = Resource::get('config:blog')['encoding'];
+        $encoding = Resource::get('blog:config')['encoding'];
 
         if (null !== $encoding && 'UTF-8' !== $encoding) {
             foreach ($input as $key => $value) {

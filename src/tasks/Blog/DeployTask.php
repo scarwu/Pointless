@@ -47,7 +47,7 @@ class DeployTask extends Task
 
     public function run()
     {
-        $config = Resource::get('config:blog');
+        $config = Resource::get('blog:config');
         $target = $config['deploy']['target'];
 
         switch ($target) {

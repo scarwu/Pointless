@@ -37,8 +37,6 @@ class MainController extends Controller
             return false;
         }
 
-        $this->view->setAttr('path', BLOG_THEME . '/views');
-
         // Loader Append
         Loader::append('Pointless\Handler', BLOG_HANDLER);
         Loader::append('Pointless\Handler', APP_ROOT . '/handlers');
@@ -46,14 +44,15 @@ class MainController extends Controller
         Loader::append('Pointless\Extension', APP_ROOT . '/extensions');
 
         // Get Resources
-        $constant = Resource::get('constant');
-        $blogConfig = Resource::get('config:blog');
-        $themeConfig = Resource::get('config:theme');
+        $systemConstant = Resource::get('system:constant');
+        $blogConfig = Resource::get('blog:config');
+        $themeConfig = Resource::get('theme:config');
+        $themeConstant = Resource::get('theme:constant');
 
         // Load Posts
         $postBundle = [];
 
-        foreach ($constant['formats'] as $name) {
+        foreach ($systemConstant['formats'] as $name) {
             $namespace = 'Pointless\\Format\\' . ucfirst($name);
 
             $instance = new $namespace();
@@ -86,9 +85,16 @@ class MainController extends Controller
 
                 $handlerList[$type] = $instance;
                 $handlerList[$type]->initData([
-                    'constant' => $constant,
-                    'blogConfig' => $blogConfig,
-                    'themeConfig' => $themeConfig,
+                    'system' => [
+                        'constant' => $systemConstant
+                    ],
+                    'blog' => [
+                        'config' => $blogConfig
+                    ],
+                    'theme' => [
+                        'config' => $themeConfig,
+                        'constant' => $themeConstant
+                    ],
                     'postBundle' => $postBundle
                 ]);
             }
@@ -110,6 +116,7 @@ class MainController extends Controller
         $this->sideList = $sideList;
 
         // Set View
+        $this->view->setAttr('path', BLOG_THEME . '/views');
         $this->view->setLayoutPath('index');
     }
 
@@ -178,9 +185,16 @@ class MainController extends Controller
             // Set View
             $this->view->setContentPath('container/describe');
             $this->view->setData([
-                'constant' => Resource::get('constant'),
-                'blogConfig' => Resource::get('config:blog'),
-                'themeConfig' => Resource::get('theme:config'),
+                'system' => [
+                    'constant' => Resource::get('system:constant')
+                ],
+                'blog' => [
+                    'config' => Resource::get('blog:config')
+                ],
+                'theme' => [
+                    'config' => Resource::get('theme:config'),
+                    'constant' => Resource::get('theme:constant')
+                ],
                 'sideList' => $this->sideList,
                 'container' => $containerList["{$path}/"]
             ]);
@@ -205,10 +219,15 @@ class MainController extends Controller
         // Set View
         $this->view->setContentPath('container/article');
         $this->view->setData([
-            'constant' => Resource::get('constant'),
-            'config' => [
-                'blog' => Resource::get('config:blog'),
-                'theme' => Resource::get('theme:config')
+            'system' => [
+                'constant' => Resource::get('system:constant')
+            ],
+            'blog' => [
+                'config' => Resource::get('blog:config')
+            ],
+            'theme' => [
+                'config' => Resource::get('theme:config'),
+                'constant' => Resource::get('theme:constant')
             ],
             'sideList' => $this->sideList,
             'container' => isset($containerList[$path])
@@ -232,10 +251,15 @@ class MainController extends Controller
         // Set View
         $this->view->setContentPath('container/page');
         $this->view->setData([
-            'constant' => Resource::get('constant'),
-            'config' => [
-                'blog' => Resource::get('config:blog'),
-                'theme' => Resource::get('theme:config')
+            'system' => [
+                'constant' => Resource::get('system:constant')
+            ],
+            'blog' => [
+                'config' => Resource::get('blog:config')
+            ],
+            'theme' => [
+                'config' => Resource::get('theme:config'),
+                'constant' => Resource::get('theme:constant')
             ],
             'sideList' => $this->sideList,
             'container' => isset($containerList[$path])
@@ -259,10 +283,15 @@ class MainController extends Controller
         // Set View
         $this->view->setContentPath('container/archive');
         $this->view->setData([
-            'constant' => Resource::get('constant'),
-            'config' => [
-                'blog' => Resource::get('config:blog'),
-                'theme' => Resource::get('theme:config')
+            'system' => [
+                'constant' => Resource::get('system:constant')
+            ],
+            'blog' => [
+                'config' => Resource::get('blog:config')
+            ],
+            'theme' => [
+                'config' => Resource::get('theme:config'),
+                'constant' => Resource::get('theme:constant')
             ],
             'sideList' => $this->sideList,
             'container' => isset($containerList[$path])
@@ -286,10 +315,15 @@ class MainController extends Controller
         // Set View
         $this->view->setContentPath('container/category');
         $this->view->setData([
-            'constant' => Resource::get('constant'),
-            'config' => [
-                'blog' => Resource::get('config:blog'),
-                'theme' => Resource::get('theme:config')
+            'system' => [
+                'constant' => Resource::get('system:constant')
+            ],
+            'blog' => [
+                'config' => Resource::get('blog:config')
+            ],
+            'theme' => [
+                'config' => Resource::get('theme:config'),
+                'constant' => Resource::get('theme:constant')
             ],
             'sideList' => $this->sideList,
             'container' => isset($containerList[$path])
@@ -313,10 +347,15 @@ class MainController extends Controller
         // Set View
         $this->view->setContentPath('container/tag');
         $this->view->setData([
-            'constant' => Resource::get('constant'),
-            'config' => [
-                'blog' => Resource::get('config:blog'),
-                'theme' => Resource::get('theme:config')
+            'system' => [
+                'constant' => Resource::get('system:constant')
+            ],
+            'blog' => [
+                'config' => Resource::get('blog:config')
+            ],
+            'theme' => [
+                'config' => Resource::get('theme:config'),
+                'constant' => Resource::get('theme:constant')
             ],
             'sideList' => $this->sideList,
             'container' => isset($containerList[$path])

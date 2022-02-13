@@ -66,7 +66,7 @@ class BlogTask extends Task
 
     public function run()
     {
-        $config = Resource::get('config:blog');
+        $config = Resource::get('blog:config');
 
         $this->io->notice('Blog Path:');
         $this->io->log(BLOG_ROOT);

@@ -43,7 +43,7 @@ class EditTask extends Task
         }
 
         // Check Editor
-        $editor = Resource::get('config:blog')['editor'];
+        $editor = Resource::get('blog:config')['editor'];
 
         if (false === Utility::commandExists($editor)) {
             $this->io->error("System command \"{$editor}\" is not found.");
@@ -56,7 +56,7 @@ class EditTask extends Task
     {
         $formatList = [];
 
-        foreach (Resource::get('constant')['formats'] as $index => $name) {
+        foreach (Resource::get('system:constant')['formats'] as $index => $name) {
             $namespace = 'Pointless\\Format\\' . ucfirst($name);
 
             $formatList[$index] = new $namespace();

@@ -52,9 +52,10 @@ class BuildTask extends Task
         $startMemory = memory_get_usage();
 
         // Get Resources
-        $constant = Resource::get('constant');
-        $blogConfig = Resource::get('config:blog');
-        $themeConfig = Resource::get('config:theme');
+        $systemConstant = Resource::get('system:constant');
+        $blogConfig = Resource::get('blog:config');
+        $themeConfig = Resource::get('theme:config');
+        $themeConstant = Resource::get('theme:constant');
 
         // Clear Files
         $this->io->notice('Clean Files ...');
@@ -80,7 +81,7 @@ class BuildTask extends Task
 
         $postBundle = [];
 
-        foreach ($constant['formats'] as $name) {
+        foreach ($systemConstant['formats'] as $name) {
             $namespace = 'Pointless\\Format\\' . ucfirst($name);
 
             $instance = new $namespace();
@@ -88,8 +89,8 @@ class BuildTask extends Task
 
             $postBundle[$type] = [];
 
-            foreach (BlogCore::getPostList($type) as $post) {
-                if (false === $post['isPublic']) {
+            foreach (BlogCore::getPostList($type, true) as $post) {
+                if (false === $post['params']['isPublic']) {
                     continue;
                 }
 
@@ -115,10 +116,15 @@ class BuildTask extends Task
 
                 $handlerList[$type] = $instance;
                 $handlerList[$type]->initData([
-                    'constant' => $constant,
-                    'config' => [
-                        'blog' => $blogConfig,
-                        'theme' => $themeConfig
+                    'system' => [
+                        'constant' => $systemConstant
+                    ],
+                    'blog' => [
+                        'config' => $blogConfig,
+                    ],
+                    'theme' => [
+                        'config' => $themeConfig,
+                        'constant' => $themeConstant
                     ],
                     'postBundle' => $postBundle
                 ]);
@@ -157,10 +163,15 @@ class BuildTask extends Task
                 ];
 
                 $view->setData([
-                    'constant' => $constant,
-                    'config' => [
-                        'blog' => $blogConfig,
-                        'theme' => $themeConfig
+                    'system' => [
+                        'constant' => $systemConstant
+                    ],
+                    'blog' => [
+                        'config' => $blogConfig,
+                    ],
+                    'theme' => [
+                        'config' => $themeConfig,
+                        'constant' => $themeConstant
                     ],
                     'sideList' => $sideList,
                     'container' => $container
@@ -182,10 +193,15 @@ class BuildTask extends Task
             $this->io->log("Render: {$path}");
 
             $this->saveToDisk($path, $instance->render([
-                'constant' => $constant,
-                'config' => [
-                    'blog' => $blogConfig,
-                    'theme' => $themeConfig
+                'system' => [
+                    'constant' => $systemConstant
+                ],
+                'blog' => [
+                    'config' => $blogConfig,
+                ],
+                'theme' => [
+                    'config' => $themeConfig,
+                    'constant' => $themeConstant
                 ],
                 'postBundle' => $postBundle,
                 'publicPostList' => $publicPostList

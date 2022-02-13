@@ -43,7 +43,7 @@ Loader::append('Pointless\Format', APP_ROOT . '/formats');
 use Pointless\Library\Resource;
 
 // Set Resource
-Resource::set('constant', $constant);
+Resource::set('system:constant', $constant);
 
 // New Oni Web Application Instance
 use Oni\Web\App;

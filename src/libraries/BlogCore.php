@@ -76,16 +76,20 @@ class BlogCore
             $config['timezone'] = 'Etc/UTC';
         }
 
-        if (true === file_exists(BLOG_ROOT . "/themes/{$config['theme']}")) {
-            define('BLOG_THEME', BLOG_ROOT . "/themes/{$config['theme']}");
+        if (false === getenv('BLOG_THEME')) {
+            if (true === file_exists(BLOG_ROOT . "/themes/{$config['theme']}")) {
+                define('BLOG_THEME', BLOG_ROOT . "/themes/{$config['theme']}");
+            } else {
+                define('BLOG_THEME', APP_ROOT . '/sample/themes/Classic');
+            }
         } else {
-            define('BLOG_THEME', APP_ROOT . '/sample/themes/Classic');
+            define('BLOG_THEME', getenv('BLOG_THEME'));
         }
 
         // Set Timezone
         date_default_timezone_set($config['timezone']);
 
-        Resource::set('config:blog', $config);
+        Resource::set('blog:config', $config);
 
         // Copy Sample Files
         if (false === file_exists(BLOG_ROOT . '/config.php')) {
@@ -110,10 +114,12 @@ class BlogCore
         // Fix Permission
         Utility::fixPermission(BLOG_ROOT);
 
-        // Require Theme Attr
+        // Require Theme Config & Constant
         require BLOG_THEME . '/config.php';
+        require BLOG_THEME . '/constant.php';
 
-        Resource::set('config:theme', $config);
+        Resource::set('theme:config', $config);
+        Resource::set('theme:constant', $constant);
 
         self::$_isInited = true;
 

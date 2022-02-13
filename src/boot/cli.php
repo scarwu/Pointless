@@ -55,7 +55,7 @@ Utility::mkdir(HOME_ROOT);
 Utility::fixPermission(HOME_ROOT);
 
 // Set Resource
-Resource::set('constant', $constant);
+Resource::set('system:constant', $constant);
 
 // New Oni CLI Application Instance
 use Oni\CLI\App;

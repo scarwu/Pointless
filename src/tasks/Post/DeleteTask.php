@@ -42,7 +42,7 @@ class DeleteTask extends Task
     {
         $formatList = [];
 
-        foreach (Resource::get('constant')['formats'] as $index => $name) {
+        foreach (Resource::get('system:constant')['formats'] as $index => $name) {
             $namespace = 'Pointless\\Format\\' . ucfirst($name);
 
             $formatList[$index] = new $namespace();

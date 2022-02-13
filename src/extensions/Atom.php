@@ -24,16 +24,16 @@ class Atom extends Extension
      */
     public function render($data)
     {
-        $scheme = $data['blogConfig']['withSSL'] ? 'https' : 'http';
-        $domainName = $data['blogConfig']['domainName'];
-        $baseUrl = $data['blogConfig']['baseUrl'];
+        $scheme = $data['blog']['config']['withSSL'] ? 'https' : 'http';
+        $domainName = $data['blog']['config']['domainName'];
+        $baseUrl = $data['blog']['config']['baseUrl'];
 
-        $name = $data['blogConfig']['name'];
-        $slogan = $data['blogConfig']['slogan'];
-        $author = $data['blogConfig']['author'];
-        $email = $data['blogConfig']['email'];
+        $name = $data['blog']['config']['name'];
+        $slogan = $data['blog']['config']['slogan'];
+        $author = $data['blog']['config']['author'];
+        $email = $data['blog']['config']['email'];
 
-        $quantity = $data['blogConfig']['extension']['atom']['quantity'];
+        $quantity = $data['blog']['config']['extension']['atom']['quantity'];
         $count = 0;
 
         $xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
