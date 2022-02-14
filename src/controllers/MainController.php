@@ -119,10 +119,10 @@ class MainController extends Controller
         // Set Editor Assets
         $this->editorAssets = [
             'styles' => [
-                'styles/editor.min.css'
+                'assets/styles/editor.min.css'
             ],
             'scripts' => [
-                'scripts/editor.min.js'
+                'assets/scripts/editor.min.js'
             ]
         ];
 

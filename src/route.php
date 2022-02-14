@@ -15,4 +15,4 @@ if ('production' === APP_ENV) {
     Phar::loadPhar(getenv('PHAR_FILE'), 'poi.phar');
 }
 
-require APP_ROOT . '/boot/web.php';
+require APP_ROOT . '/boot.php';
