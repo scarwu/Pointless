@@ -60,7 +60,7 @@ class PostController extends Controller
                 continue;
             }
 
-            $result[$type] = BlogCore::getPostList($type);
+            $result[$type] = BlogCore::getPostList($type, true);
         }
 
         $this->res->json($result);

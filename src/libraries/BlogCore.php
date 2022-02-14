@@ -169,7 +169,7 @@ class BlogCore
                 $markdown['title'] = $parseResult['title'];
                 $markdown['content'] = $parseResult['content'];
 
-                unset($markdown['raw']);
+                // unset($markdown['raw']);
             }
 
             $markdown['filename'] = $filename;
