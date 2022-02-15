@@ -25,8 +25,11 @@ class StartTask extends Task
         $this->io->log('server start            - Start server');
         $this->io->log('        --host=<?>      - Set host (default: localhost)');
         $this->io->log('        --port=<?>      - Set port (default: 3000)');
-        $this->io->log('        --theme=<?>     - Set specify theme');
-        $this->io->log('        --editor=<?>    - Set specify editor');
+
+        if ('development' === APP_ENV) {
+            $this->io->log('        --theme=<?>     - Set specify theme');
+            $this->io->log('        --editor=<?>    - Set specify editor');
+        }
     }
 
     /**
@@ -80,22 +83,24 @@ class StartTask extends Task
             $port = (int) $this->io->getConfigs('port');
         }
 
-        if (true === $this->io->hasConfigs('theme')
-            && true === is_dir($this->io->getConfigs('theme'))
-        ) {
-            $envs[] = [
-                'key' => 'BLOG_THEME',
-                'value' => $this->io->getConfigs('theme')
-            ];
-        }
+        if ('development' === APP_ENV) {
+            if (true === $this->io->hasConfigs('theme')
+                && true === is_dir($this->io->getConfigs('theme'))
+            ) {
+                $envs[] = [
+                    'key' => 'BLOG_THEME',
+                    'value' => $this->io->getConfigs('theme')
+                ];
+            }
 
-        if (true === $this->io->hasConfigs('editor')
-            && true === is_dir($this->io->getConfigs('editor'))
-        ) {
-            $envs[] = [
-                'key' => 'BLOG_EDITOR',
-                'value' => $this->io->getConfigs('editor')
-            ];
+            if (true === $this->io->hasConfigs('editor')
+                && true === is_dir($this->io->getConfigs('editor'))
+            ) {
+                $envs[] = [
+                    'key' => 'BLOG_EDITOR',
+                    'value' => $this->io->getConfigs('editor')
+                ];
+            }
         }
 
         $command = "php -S {$host}:{$port} {$routeScript}";

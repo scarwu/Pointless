@@ -25,7 +25,6 @@ if (file_exists("{$root}/temp")) {
 }
 
 foreach ([
-    'boot',
     'tasks',
     'formats',
     'extends',
@@ -36,6 +35,8 @@ foreach ([
     'scripts',
     'styles',
     'sample',
+    'route.php',
+    'boot.php',
     'constant.php',
     'vendor/autoload.php',
     'vendor/composer/ClassLoader.php',
@@ -67,7 +68,7 @@ define('BUILD_TIMESTAMP', '%s');
 define('APP_ENV', 'production');
 define('APP_ROOT', 'phar://poi.phar');
 define('BIN_LOCATE', realpath(__FILE__));
-require APP_ROOT . '/boot/cli.php';
+require APP_ROOT . '/boot.php';
 __HALT_COMPILER();
 ?>
 EOF, time());
