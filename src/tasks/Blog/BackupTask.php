@@ -22,7 +22,7 @@ class BackupTask extends Task
      */
     public function helpInfo()
     {
-        $this->io->log('blog backup             - Backup blog to Git');
+        $this->io->log('blog backup             - Backup blog');
     }
 
     /**
