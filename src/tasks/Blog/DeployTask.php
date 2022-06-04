@@ -84,7 +84,7 @@ class DeployTask extends Task
             Utility::copy(BLOG_BUILD, BLOG_DEPLOY);
 
             // Create Github CNAME
-            if (true === $github['enableCname']) {
+            if (true === $setting['enableCname']) {
                 file_put_contents(BLOG_DEPLOY . '/CNAME', $config['domainName']);
             }
 
