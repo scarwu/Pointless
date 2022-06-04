@@ -15,6 +15,7 @@ use Pointless\Library\Resource;
 use Pointless\Task\Blog\InitTask;
 use Pointless\Task\Blog\BuildTask;
 use Pointless\Task\Blog\DeployTask;
+use Pointless\Task\Blog\BackupTask;
 use Pointless\Task\Blog\ConfigTask;
 use Pointless\Extend\Task;
 
@@ -37,6 +38,7 @@ class BlogTask extends Task
         (new InitTask)->helpInfo();
         (new BuildTask)->helpInfo();
         (new DeployTask)->helpInfo();
+        (new BackupTask)->helpInfo();
         (new ConfigTask)->helpInfo();
         $this->io->writeln();
 

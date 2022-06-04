@@ -1,6 +1,6 @@
 <?php
 /**
- * Blog Deploy Task
+ * Blog Backup Task
  *
  * @package     Pointless
  * @author      Scar Wu
@@ -15,14 +15,14 @@ use Pointless\Library\Utility;
 use Pointless\Library\Resource;
 use Pointless\Extend\Task;
 
-class DeployTask extends Task
+class BackupTask extends Task
 {
     /**
      * Help Info
      */
     public function helpInfo()
     {
-        $this->io->log('blog deploy             - Deploy blog to Git');
+        $this->io->log('blog backup             - Backup blog to Git');
     }
 
     /**
@@ -48,11 +48,11 @@ class DeployTask extends Task
     public function run()
     {
         $config = Resource::get('blog:config');
-        $target = $config['deploy']['target'];
+        $target = $config['backup']['target'];
 
         switch ($target) {
         case 'github':
-            $setting = $config['deploy']['setting']['github'];
+            $setting = $config['backup']['setting']['github'];
 
             $account = $setting['account'];
             $repo = $setting['repo'];
@@ -67,25 +67,30 @@ class DeployTask extends Task
                 return false;
             }
 
-            // Create Deploy Folder & Fix Permission
-            Utility::mkdir(BLOG_DEPLOY);
-            Utility::fixPermission(BLOG_DEPLOY);
+            // Create Backup Folder & Fix Permission
+            Utility::mkdir(BLOG_BACKUP);
+            Utility::fixPermission(BLOG_BACKUP);
 
-            chdir(BLOG_DEPLOY);
+            chdir(BLOG_BACKUP);
 
-            if (false === file_exists(BLOG_DEPLOY . '/.git')) {
+            if (false === file_exists(BLOG_BACKUP . '/.git')) {
                 system('git init');
                 system("git remote add origin git@github.com:{$account}/{$repo}.git");
             }
 
             system("git pull origin {$branch}");
 
-            Utility::remove(BLOG_DEPLOY, true, ['.git']);
-            Utility::copy(BLOG_BUILD, BLOG_DEPLOY);
+            Utility::remove(BLOG_BACKUP, true, ['.git']);
 
-            // Create Github CNAME
-            if (true === $github['enableCname']) {
-                file_put_contents(BLOG_DEPLOY . '/CNAME', $config['domainName']);
+            foreach ([
+                'posts',
+                'assets',
+                'themes',
+                'handlers',
+                'extensions',
+                'config.php'
+            ] as $filepath) {
+                Utility::copy(BLOG_ROOT . "/{$filepath}", BLOG_BACKUP . "/{$filepath}");
             }
 
             system('git add --all .');
@@ -94,7 +99,7 @@ class DeployTask extends Task
 
             break;
         default:
-            $this->io->error('Deploy target not found.');
+            $this->io->error('Backup target not found.');
 
             return false;
         }

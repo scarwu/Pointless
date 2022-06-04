@@ -61,6 +61,7 @@ class BlogCore
         // Define Variables
         define('BLOG_BUILD', BLOG_ROOT . '/build');
         define('BLOG_DEPLOY', BLOG_ROOT . '/deploy');
+        define('BLOG_BACKUP', BLOG_ROOT . '/backup');
         define('BLOG_ASSET', BLOG_ROOT . '/assets');
         define('BLOG_HANDLER', BLOG_ROOT . '/handlers');
         define('BLOG_EXTENSION', BLOG_ROOT . '/extensions');
@@ -113,6 +114,7 @@ class BlogCore
         // Create Folders
         Utility::mkdir(BLOG_BUILD);
         Utility::mkdir(BLOG_DEPLOY);
+        Utility::mkdir(BLOG_BACKUP);
         Utility::mkdir(BLOG_ASSET);
         Utility::mkdir(BLOG_HANDLER);
         Utility::mkdir(BLOG_EXTENSION);
