@@ -76,7 +76,7 @@ if ('cli' === PHP_SAPI) {
     $app->setAttr('task/default/handler', 'Intro');
 } else {
     $app = new WebApp();
-    $app->setAttr('controller/namespace', 'Pointless\Viewer\Controller');
+    $app->setAttr('controller/namespace', 'Pointless\Controller');
     $app->setAttr('controller/path', APP_ROOT . '/controllers');
     $app->setAttr('controller/default/Handler', 'Main');
     $app->setAttr('controller/default/action', 'index');

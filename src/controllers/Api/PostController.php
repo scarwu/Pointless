@@ -8,7 +8,7 @@
  * @link        https://github.com/scarwu/Pointless
  */
 
-namespace Pointless\Viewer\Controller\Api;
+namespace Pointless\Controller\Api;
 
 use Pointless\Library\BlogCore;
 use Pointless\Library\Utility;
