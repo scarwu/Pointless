@@ -10,7 +10,7 @@
 
 $constant = [
     'build' => [
-        'version' => '5.0.0',
+        'version' => '5.0.1',
         'timestamp' => (true === defined('BUILD_TIMESTAMP'))
             ? BUILD_TIMESTAMP : time()
     ],
