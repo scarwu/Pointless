@@ -50,26 +50,24 @@ class EditTask extends Task
     public function run()
     {
         $formatList = [];
+        $options = [];
 
-        foreach (Resource::get('system:constant')['formats'] as $index => $name) {
+        foreach (Resource::get('system:constant')['formats'] as $name) {
             $namespace = 'Pointless\\Format\\' . ucfirst($name);
+            $formatItem = new $namespace();
 
-            $formatList[$index] = new $namespace();
-
-            $this->io->log(sprintf('[ %3d] ', $index) . $formatList[$index]->getName());
+            $formatList[] = $formatItem;
+            $options[] = $formatItem->getName();
         }
 
-        $index = $this->io->ask("\nSelect Document Format:\n-> ", function ($answer) use ($formatList) {
-            return (true === is_numeric($answer))
-                && $answer >= 0
-                && $answer < count($formatList);
-        });
+        $index = $this->io->menuSelector('Select Document Format:', $options);
 
         $this->io->writeln();
 
         // Load Post
         $type = $formatList[$index]->getType();
         $postList = BlogCore::getPostList($type, true);
+        $postList = array_reverse($postList);
 
         if (0 === count($postList)) {
             $this->io->error('No post(s).');
@@ -78,20 +76,20 @@ class EditTask extends Task
         }
 
         // Get Post Number
-        foreach ($postList as $index => $post) {
-            $text = $post['params']['isPublic']
-                ? sprintf("[ %3d] ", $index) . $post['title']
-                : sprintf("[*%3d] ", $index) . $post['title'];
+        $options = [];
 
-            $this->io->log($text);
+        foreach ($postList as $index => $post) {
+            $text = (false === $post['params']['isPublic'])
+                ? "🔒{$post['title']}" : $post['title'];
+
+            $options[] = "[{$post['params']['date']}] {$text}";
         }
 
-        $index = $this->io->ask("\nEnter Number:\n-> ", function ($answer) use ($postList) {
-            return (true === is_numeric($answer))
-                && $answer >= 0
-                && $answer < count($postList);
-        });
+        $index = $this->io->menuSelector('Select Post:', $options, 12);
 
+        $this->io->writeln();
+
+        // Get Info
         $filepath = $postList[array_keys($postList)[$index]]['filepath'];
 
         // Call CLI Editor to open file

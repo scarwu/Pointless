@@ -15,7 +15,7 @@ $constant = [
             ? BUILD_TIMESTAMP : time()
     ],
     'formats' => [
-        'Describe',
-        'Article'
+        'Article',
+        'Describe'
     ]
 ];

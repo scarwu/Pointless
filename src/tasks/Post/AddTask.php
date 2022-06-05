@@ -41,20 +41,17 @@ class AddTask extends Task
     public function run()
     {
         $formatList = [];
+        $options = [];
 
-        foreach (Resource::get('system:constant')['formats'] as $index => $name) {
+        foreach (Resource::get('system:constant')['formats'] as $name) {
             $namespace = 'Pointless\\Format\\' . ucfirst($name);
+            $formatItem = new $namespace();
 
-            $formatList[$index] = new $namespace();
-
-            $this->io->log(sprintf('[ %3d] ', $index) . $formatList[$index]->getName());
+            $formatList[] = $formatItem;
+            $options[] = $formatItem->getName();
         }
 
-        $index = $this->io->ask("\nSelect Document Format:\n-> ", function ($answer) use ($formatList) {
-            return (true === is_numeric($answer))
-                && $answer >= 0
-                && $answer < count($formatList);
-        });
+        $index = $this->io->menuSelector('Select Document Format:', $options);
 
         $this->io->writeln();
 
@@ -63,6 +60,8 @@ class AddTask extends Task
 
         foreach ($formatList[$index]->getQuestionList() as $question) {
             $input[$question['name']] = $this->io->ask($question['statement']);
+
+            $this->io->writeln();
         }
 
         // Convert Encoding

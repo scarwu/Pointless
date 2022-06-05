@@ -32,11 +32,11 @@ class Describe extends Format
     protected $questionList = [
         [
             'name' => 'title',
-            'statement' => "Enter Title:\n-> "
+            'statement' => 'Enter Title:'
         ],
         [
             'name' => 'url',
-            'statement' => "Enter Url:\n-> "
+            'statement' => 'Enter Url:'
         ]
     ];
 

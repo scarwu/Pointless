@@ -32,19 +32,19 @@ class Article extends Format
     protected $questionList = [
         [
             'name' => 'title',
-            'statement' => "Enter Title:\n-> "
+            'statement' => 'Enter Title:'
         ],
         [
             'name' => 'url',
-            'statement' => "Enter Url:\n-> "
+            'statement' => 'Enter Url:'
         ],
         [
             'name' => 'category',
-            'statement' => "Enter Category:\n-> "
+            'statement' => 'Enter Category:'
         ],
         [
             'name' => 'tags',
-            'statement' => "Enter Tags: (tag1|tag2|tag3...)\n-> "
+            'statement' => 'Enter Tags: (tag1|tag2|tag3...)'
         ]
     ];
 

@@ -46,7 +46,6 @@ foreach ([
     'vendor/composer/autoload_real.php',
     'vendor/composer/autoload_static.php',
     'vendor/composer/platform_check.php',
-    'vendor/symfony/polyfill-ctype/bootstrap.php',
     'vendor/myclabs/deep-copy',
     'vendor/scarwu/oni/src',
     'vendor/erusev/parsedown/Parsedown.php'
