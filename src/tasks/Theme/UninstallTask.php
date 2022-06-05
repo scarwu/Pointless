@@ -55,7 +55,7 @@ class UninstallTask extends Task
         }
 
         $index = $this->io->ask("\nEnter Number:\n-> ", function ($answer) use ($themeList) {
-            return is_numeric($answer)
+            return (true === is_numeric($answer))
                 && $answer >= 0
                 && $answer < count($themeList);
         });

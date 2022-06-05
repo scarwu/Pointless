@@ -45,7 +45,7 @@ class PostController extends Controller
     public function indexAction()
     {
         $query = $this->req->query();
-        $targetType = isset($query['type']) ? $query['type'] : null;
+        $targetType = (true === isset($query['type'])) ? $query['type'] : null;
 
         $result = [];
 

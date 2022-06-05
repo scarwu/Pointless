@@ -30,7 +30,7 @@ class Tag extends ThemeHandler
 
         foreach ($data['postBundle']['article'] as $post) {
             foreach ($post['tags'] as $tag) {
-                if (!isset($data['articleByTag'][$tag])) {
+                if (false === isset($data['articleByTag'][$tag])) {
                     $data['articleByTag'][$tag] = [];
                 }
 
@@ -79,13 +79,13 @@ class Tag extends ThemeHandler
             $container['paging']['totalIndex'] = $totalIndex;
             $container['paging']['currentIndex'] = $currentIndex + 1;
 
-            if (isset($keys[$currentIndex - 1])) {
+            if (true === isset($keys[$currentIndex - 1])) {
                 $prevKey = $keys[$currentIndex - 1];
                 $container['paging']['prevTitle'] = $prevKey;
                 $container['paging']['prevUrl'] = "tag/{$prevKey}/";
             }
 
-            if (isset($keys[$currentIndex + 1])) {
+            if (true === isset($keys[$currentIndex + 1])) {
                 $nextKey = $keys[$currentIndex + 1];
                 $container['paging']['nextTitle'] = $nextKey;
                 $container['paging']['nextUrl'] = "tag/{$nextKey}/";

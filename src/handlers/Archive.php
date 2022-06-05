@@ -31,12 +31,14 @@ class Archive extends ThemeHandler
         foreach ($data['postBundle']['article'] as $post) {
             $archive = $post['year'];
 
-            if (!isset($data['articleByArchive'][$archive])) {
+            if (false === isset($data['articleByArchive'][$archive])) {
                 $data['articleByArchive'][$archive] = [];
             }
 
             $data['articleByArchive'][$archive][] = $post;
         }
+
+        krsort($data['articleByArchive']);
 
         $this->data = $data;
     }
@@ -77,13 +79,13 @@ class Archive extends ThemeHandler
             $container['paging']['totalIndex'] = $totalIndex;
             $container['paging']['currentIndex'] = $currentIndex + 1;
 
-            if (isset($keys[$currentIndex - 1])) {
+            if (true === isset($keys[$currentIndex - 1])) {
                 $prevKey = $keys[$currentIndex - 1];
                 $container['paging']['prevTitle'] = $prevKey;
                 $container['paging']['prevUrl'] = "archive/{$prevKey}/";
             }
 
-            if (isset($keys[$currentIndex + 1])) {
+            if (true === isset($keys[$currentIndex + 1])) {
                 $nextKey = $keys[$currentIndex + 1];
                 $container['paging']['nextTitle'] = $nextKey;
                 $container['paging']['nextUrl'] = "archive/{$nextKey}/";

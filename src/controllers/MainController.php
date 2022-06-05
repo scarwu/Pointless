@@ -67,7 +67,7 @@ class MainController extends Controller
 
             foreach (BlogCore::getPostList($type, true) as $post) {
                 if (false === $post['params']['isPublic']) {
-                    $post['title'] = "🔒 {$post['title']}"; // append lock emoji before
+                    $post['title'] = "🔒{$post['title']}"; // prepend lock emoji
                 }
 
                 $postBundle[$type][] = $instance->convertPost($post);
@@ -82,7 +82,7 @@ class MainController extends Controller
         $handlerList = [];
 
         foreach ($themeConfig['handlers'] as $name) {
-            if (!isset($handlerList[$name])) {
+            if (false === isset($handlerList[$name])) {
                 $namespace = 'Pointless\\Handler\\' . ucfirst($name);
 
                 $instance = new $namespace();
@@ -109,7 +109,7 @@ class MainController extends Controller
         $sideList = [];
 
         foreach ($themeConfig['views']['side'] as $name) {
-            if (!isset($handlerList[$name])) {
+            if (false === isset($handlerList[$name])) {
                 continue;
             }
 
@@ -156,11 +156,11 @@ class MainController extends Controller
         }
 
         // Check Assets File
-        if (is_file(BLOG_ASSET . "/{$path}")) {
+        if (true === is_file(BLOG_ASSET . "/{$path}")) {
             $staticPath = BLOG_ASSET . "/{$path}";
-        } elseif (is_file(BLOG_THEME . "/{$path}")) {
+        } elseif (true === is_file(BLOG_THEME . "/{$path}")) {
             $staticPath = BLOG_THEME . "/{$path}";
-        } elseif (is_file(BLOG_EDITOR . "/{$path}")) {
+        } elseif (true === is_file(BLOG_EDITOR . "/{$path}")) {
             $staticPath = BLOG_EDITOR . "/{$path}";
         } else {
             $staticPath = null;
@@ -183,7 +183,7 @@ class MainController extends Controller
             ];
 
             $fileInfo = pathinfo($staticPath);
-            $mimeType = isset($fileInfo['extension']) && isset($mimeMapping[$fileInfo['extension']])
+            $mimeType = (true === isset($fileInfo['extension']) && true === isset($mimeMapping[$fileInfo['extension']]))
                 ? $mimeMapping[$fileInfo['extension']] : mime_content_type($staticPath);
 
             header('Content-Type: ' . $mimeType);
@@ -197,7 +197,7 @@ class MainController extends Controller
         // Get Container Data List
         $containerList = $this->handlerList['describe']->getContainerDataList();
 
-        if (isset($containerList["{$path}/"])) {
+        if (true === isset($containerList["{$path}/"])) {
 
             // Set View
             $this->view->setContentPath('container/describe');

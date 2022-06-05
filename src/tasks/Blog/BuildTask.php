@@ -108,7 +108,7 @@ class BuildTask extends Task
         $handlerList = [];
 
         foreach ($themeConfig['handlers'] as $name) {
-            if (!isset($handlerList[$name])) {
+            if (false === isset($handlerList[$name])) {
                 $namespace = 'Pointless\\Handler\\' . ucfirst($name);
 
                 $instance = new $namespace();
@@ -140,7 +140,7 @@ class BuildTask extends Task
         $sideList = [];
 
         foreach ($themeConfig['views']['side'] as $name) {
-            if (!isset($handlerList[$name])) {
+            if (false === isset($handlerList[$name])) {
                 continue;
             }
 

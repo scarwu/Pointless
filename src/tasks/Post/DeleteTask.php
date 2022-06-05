@@ -51,7 +51,7 @@ class DeleteTask extends Task
         }
 
         $index = $this->io->ask("\nSelect Document Format:\n-> ", function ($answer) use ($formatList) {
-            return is_numeric($answer)
+            return (true === is_numeric($answer))
                 && $answer >= 0
                 && $answer < count($formatList);
         });
@@ -78,7 +78,7 @@ class DeleteTask extends Task
         }
 
         $index = $this->io->ask("\nEnter Number:\n-> ", function ($answer) use ($postList) {
-            return is_numeric($answer)
+            return (true === is_numeric($answer))
                 && $answer >= 0
                 && $answer < count($postList);
         });

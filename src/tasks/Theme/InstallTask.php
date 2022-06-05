@@ -68,8 +68,9 @@ class InstallTask extends Task
         system("git clone --branch {$branch} {$gitRepo} {$tmpFolder}");
 
         // Check Theme Information
-        if (is_dir("{$tmpFolder}/dist")
-            && is_file("{$tmpFolder}/dist/constant.php")) {
+        if (true === is_dir("{$tmpFolder}/dist")
+            && true === is_file("{$tmpFolder}/dist/constant.php")
+        ) {
 
             // Include Theme Constant
             include "{$tmpFolder}/dist/constant.php";

@@ -53,13 +53,13 @@ class Article extends ThemeHandler
             $container['paging']['totalIndex'] = $totalIndex;
             $container['paging']['currentIndex'] = $currentIndex + 1;
 
-            if (isset($keys[$currentIndex - 1])) {
+            if (true === isset($keys[$currentIndex - 1])) {
                 $prevKey = $keys[$currentIndex - 1];
                 $container['paging']['prevTitle'] = $articleList[$prevKey]['title'];
                 $container['paging']['prevUrl'] = "article/{$articleList[$prevKey]['url']}";
             }
 
-            if (isset($keys[$currentIndex + 1])) {
+            if (true === isset($keys[$currentIndex + 1])) {
                 $nextKey = $keys[$currentIndex + 1];
                 $container['paging']['nextTitle'] = $articleList[$nextKey]['title'];
                 $container['paging']['nextUrl'] = "article/{$articleList[$nextKey]['url']}";

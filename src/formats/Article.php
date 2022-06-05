@@ -122,7 +122,7 @@ class Article extends Format
 
         preg_match('/<p>((:?.|\n)*?)<\/p>/', $summary, $match);
 
-        $description = isset($match[1]) ? strip_tags($match[1]) : '';
+        $description = (true === isset($match[1])) ? strip_tags($match[1]) : '';
 
         return [
             'type' => $post['params']['type'],
@@ -131,7 +131,7 @@ class Article extends Format
             'content' => $post['content'],
             'summary' => $summary,
             'description' => $description,
-            'coverImage' => isset($post['params']['coverImage']) ? $post['params']['coverImage'] : null,
+            'coverImage' => (true === isset($post['params']['coverImage'])) ? $post['params']['coverImage'] : null,
             'category' => $post['params']['category'],
             'tags' => $post['params']['tags'],
             'date' => $post['params']['date'],

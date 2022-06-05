@@ -31,20 +31,14 @@ class Category extends ThemeHandler
         foreach ($data['postBundle']['article'] as $post) {
             $category = $post['category'];
 
-            if (!isset($data['articleByCategory'][$category])) {
+            if (false === isset($data['articleByCategory'][$category])) {
                 $data['articleByCategory'][$category] = [];
             }
 
             $data['articleByCategory'][$category][] = $post;
         }
 
-        uasort($data['articleByCategory'], function ($a, $b) {
-            if (count($a) === count($b)) {
-                return 0;
-            }
-
-            return count($a) > count($b) ? -1 : 1;
-        });
+        ksort($data['articleByCategory']);
 
         $this->data = $data;
     }
@@ -85,13 +79,13 @@ class Category extends ThemeHandler
             $container['paging']['totalIndex'] = $totalIndex;
             $container['paging']['currentIndex'] = $currentIndex + 1;
 
-            if (isset($keys[$currentIndex - 1])) {
+            if (true === isset($keys[$currentIndex - 1])) {
                 $prevKey = $keys[$currentIndex - 1];
                 $container['paging']['prevTitle'] = $prevKey;
                 $container['paging']['prevUrl'] = "category/{$prevKey}/";
             }
 
-            if (isset($keys[$currentIndex + 1])) {
+            if (true === isset($keys[$currentIndex + 1])) {
                 $nextKey = $keys[$currentIndex + 1];
                 $container['paging']['nextTitle'] = $nextKey;
                 $container['paging']['nextUrl'] = "category/{$nextKey}/";
