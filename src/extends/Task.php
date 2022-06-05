@@ -10,6 +10,7 @@
 
 namespace Pointless\Extend;
 
+use Pointless\Library\BlogCore;
 use Pointless\Library\Utility;
 use Pointless\Library\Resource;
 use Oni\CLI\Task as CLITask;
@@ -59,5 +60,81 @@ EOF;
         system("{$editor} {$path} < `tty` > `tty`");
 
         return true;
+    }
+
+    /**
+     * Select Format Item
+     */
+    protected function selectFormatItem(): object
+    {
+        $formatList = [];
+        $options = [];
+
+        foreach (Resource::get('system:constant')['formats'] as $name) {
+            $namespace = 'Pointless\\Format\\' . ucfirst($name);
+            $formatItem = new $namespace();
+
+            $formatList[] = $formatItem;
+            $options[] = $formatItem->getName();
+        }
+
+        $index = $this->io->menuSelector('Select Document Format:', $options);
+
+        $this->io->writeln();
+
+        return $formatList[$index];
+    }
+
+    /**
+     * Select Post Data
+     */
+    protected function selectPostData($type): ?array
+    {
+        $postList = BlogCore::getPostList($type, true);
+        $postList = array_reverse($postList);
+
+        if (0 === count($postList)) {
+            return null;
+        }
+
+        $options = [];
+
+        foreach ($postList as $index => $post) {
+            $title = (false === $post['params']['isPublic'])
+                ? "🔒{$post['title']}" : $post['title'];
+
+            $options[] = (true === isset($post['params']['date']))
+                ? "[{$post['params']['date']}] {$title}" : $title;
+        }
+
+        $index = $this->io->menuSelector('Select Post:', $options, 12);
+
+        $this->io->writeln();
+
+        return $postList[array_keys($postList)[$index]];
+    }
+
+    /**
+     * Select Theme Data
+     */
+    protected function selectThemeData(): ?array
+    {
+        $themeList = BlogCore::getThemeList();
+
+        if (0 === count($themeList)) {
+            return null;
+        }
+
+        $options = [];
+
+        foreach ($themeList as $index => $theme) {
+            $options[] = $theme['title'];
+        }
+
+        $index = $this->io->menuSelector('Select Theme:', $options, 12);
+
+        $this->io->writeln();
+
+        return $themeList[array_keys($themeList)[$index]];
     }
 }

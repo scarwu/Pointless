@@ -40,25 +40,13 @@ class AddTask extends Task
 
     public function run()
     {
-        $formatList = [];
-        $options = [];
-
-        foreach (Resource::get('system:constant')['formats'] as $name) {
-            $namespace = 'Pointless\\Format\\' . ucfirst($name);
-            $formatItem = new $namespace();
-
-            $formatList[] = $formatItem;
-            $options[] = $formatItem->getName();
-        }
-
-        $index = $this->io->menuSelector('Select Document Format:', $options);
-
-        $this->io->writeln();
+        // Select Format Item
+        $formatItem = $this->selectFormatItem();
 
         // Ask Question
         $input = [];
 
-        foreach ($formatList[$index]->getQuestionList() as $question) {
+        foreach ($formatItem->getQuestionList() as $question) {
             $input[$question['name']] = $this->io->ask($question['statement']);
 
             $this->io->writeln();
@@ -74,15 +62,15 @@ class AddTask extends Task
         }
 
         // Save File
-        list($filename, $filepath) = $formatList[$index]->convertInput($input);
+        list($filename, $filepath) = $formatItem->convertInput($input);
 
         if (null === $filepath) {
-            $this->io->error($formatList[$index]->getName() . " {$filename} is exsist.");
+            $this->io->error($formatItem->getName() . " {$filename} is exsist.");
 
             return false;
         }
 
-        $this->io->notice($formatList[$index]->getName() . " {$filename} was created.");
+        $this->io->notice($formatItem->getName() . " {$filename} was created.");
 
         // Call CLI Editor to open file
         $this->editFile($filepath);

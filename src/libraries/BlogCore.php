@@ -180,7 +180,11 @@ class BlogCore
             $markdown['createTime'] = filectime($markdown['filepath']);
             $markdown['modifyTime'] = filemtime($markdown['filepath']);
 
-            $list[$markdown['filename']] = $markdown;
+            $key = (true === isset($markdown['params']['date']) && true === isset($markdown['params']['time']))
+                ? "{$markdown['params']['date']} {$markdown['params']['time']}"
+                : $markdown['filename'];
+
+            $list[$key] = $markdown;
         }
 
         closedir($handle);

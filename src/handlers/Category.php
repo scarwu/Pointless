@@ -38,7 +38,7 @@ class Category extends ThemeHandler
             $data['articleByCategory'][$category][] = $post;
         }
 
-        ksort($data['articleByCategory']);
+        uksort($data['articleByCategory'], 'strnatcasecmp');
 
         $this->data = $data;
     }

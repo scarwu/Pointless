@@ -38,7 +38,7 @@ class Tag extends ThemeHandler
             }
         }
 
-        ksort($data['articleByTag']);
+        uksort($data['articleByTag'], 'strnatcasecmp');
 
         $this->data = $data;
     }

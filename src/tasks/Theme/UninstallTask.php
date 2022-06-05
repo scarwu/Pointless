@@ -40,34 +40,27 @@ class UninstallTask extends Task
 
     public function run()
     {
-        // Load Markdown
-        $themeList = BlogCore::getThemeList();
+        // Select Theme Data
+        $themeData = $this->selectThemeData();
 
-        if (0 === count($themeList)) {
+        if (false === is_array($themeData)) {
             $this->io->error('No theme(s).');
 
             return false;
         }
 
-        // Get Theme Number
-        foreach ($themeList as $index => $theme) {
-            $this->io->log(sprintf("[ %3d] ", $index) . $theme['title']);
-        }
-
-        $index = $this->io->ask("\nEnter Number:\n-> ", function ($answer) use ($themeList) {
-            return (true === is_numeric($answer))
-                && $answer >= 0
-                && $answer < count($themeList);
-        });
-
         // Get Info
-        $path = $themeList[array_keys($themeList)[$index]]['path'];
-        $title = $themeList[array_keys($themeList)[$index]]['title'];
+        $title = $themeData['title'];
+        $path = $themeData['path'];
 
-        if ('yes' === $this->io->ask("\nAre you sure uninstall theme \"{$title}\"? (yes)\n-> ", null, 'red')) {
+        $anwser = $this->io->ask("Are you sure uninstall theme \"{$title}\"? [y/N]", null, 'red');
+        $anwser = strtolower($anwser);
+
+        $this->io->writeln();
+
+        if ('y' === $anwser) {
             Utility::remove($path);
 
-            $this->io->writeln();
             $this->io->notice("Successfully uninstalled theme \"{$title}\".");
         }
     }

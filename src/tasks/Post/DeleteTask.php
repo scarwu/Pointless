@@ -40,54 +40,30 @@ class DeleteTask extends Task
 
     public function run()
     {
-        $formatList = [];
-        $options = [];
+        // Select Format Item
+        $formatItem = $this->selectFormatItem();
 
-        foreach (Resource::get('system:constant')['formats'] as $name) {
-            $namespace = 'Pointless\\Format\\' . ucfirst($name);
-            $formatItem = new $namespace();
+        // Select Post Data
+        $postData = $this->selectPostData($formatItem->getType());
 
-            $formatList[] = $formatItem;
-            $options[] = $formatItem->getName();
-        }
-
-        $index = $this->io->menuSelector('Select Document Format:', $options);
-
-        $this->io->writeln();
-
-        // Load Post
-        $type = $formatList[$index]->getType();
-        $postList = BlogCore::getPostList($type, true);
-        $postList = array_reverse($postList);
-
-        if (0 === count($postList)) {
+        if (false === is_array($postData)) {
             $this->io->error('No post(s).');
 
             return false;
         }
 
-        // Get Post Number
-        $options = [];
+        // Get Info
+        $title = $postData['title'];
+        $filepath = $postData['filepath'];
 
-        foreach ($postList as $index => $post) {
-            $text = (false === $post['params']['isPublic'])
-                ? "🔒{$post['title']}" : $post['title'];
-
-            $options[] = "[{$post['params']['date']}] {$text}";
-        }
-
-        $index = $this->io->menuSelector('Select Post:', $options, 12);
+        $anwser = $this->io->ask("Are you sure delete post \"{$title}\"? [y/N]", null, 'red');
+        $anwser = strtolower($anwser);
 
         $this->io->writeln();
 
-        // Get Info
-        $filepath = $postList[array_keys($postList)[$index]]['filepath'];
-        $title = $postList[array_keys($postList)[$index]]['title'];
-
-        if ('yes' === $this->io->ask("Are you sure delete post \"{$title}\"? (yes)", null, 'red')) {
+        if ('y' === $anwser) {
             Utility::remove($filepath);
 
-            $this->io->writeln();
             $this->io->notice("Successfully removed post \"{$title}\".");
         }
     }

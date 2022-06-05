@@ -55,6 +55,8 @@ class UpdateTask extends Task
         $anwser = $this->io->ask('Are you sure to update system? [y/N]');
         $anwser = strtolower($anwser);
 
+        $this->io->writeln();
+
         if ('y' === $anwser) {
             $remote = "https://raw.github.com/scarwu/Pointless/master/bin/poi";
             $tempFile = '/tmp/poi-' . time();
