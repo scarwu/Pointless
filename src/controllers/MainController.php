@@ -33,6 +33,16 @@ class MainController extends Controller
      */
     private $handlerList = [];
 
+    /**
+     * @var bool
+     */
+    private $isStaticFile = false;
+
+    /**
+     * @var bool
+     */
+    private $isNotFound = false;
+
     public function up()
     {
         // Init Blog
@@ -119,10 +129,12 @@ class MainController extends Controller
         // Set Assets
         $this->assets = [
             'styles' => [
-                'assets/styles/theme.min.css'
+                'assets/styles/theme.min.css',
+                'assets/styles/editor.min.css'
             ],
             'scripts' => [
-                'assets/scripts/theme.min.js'
+                'assets/scripts/theme.min.js',
+                'assets/scripts/editor.min.js'
             ]
         ];
 
@@ -138,7 +150,11 @@ class MainController extends Controller
 
     public function down()
     {
-        $this->res->html($this->view->render());
+        if (true === $this->isNotFound) {
+            http_response_code(404);
+        } elseif (false === $this->isStaticFile) {
+            $this->res->html($this->view->render());
+        }
     }
 
     /**
@@ -192,34 +208,37 @@ class MainController extends Controller
 
             echo file_get_contents($staticPath);
 
-            exit(0);
+            $this->isStaticFile = true;
+
+            return true;
         }
 
         // Get Container Data List
         $containerList = $this->handlerList['describe']->getContainerDataList();
 
-        if (true === isset($containerList["{$path}/"])) {
+        if (false === isset($containerList["{$path}/"])) {
+            $this->isNotFound = true;
 
-            // Set View
-            $this->view->setContentPath('container/describe');
-            $this->view->setData([
-                'system' => [
-                    'constant' => Resource::get('system:constant')
-                ],
-                'blog' => [
-                    'config' => Resource::get('blog:config')
-                ],
-                'theme' => [
-                    'config' => Resource::get('theme:config'),
-                    'constant' => Resource::get('theme:constant')
-                ],
-                'assets' => $this->assets,
-                'sideList' => $this->sideList,
-                'container' => $containerList["{$path}/"]
-            ]);
-        } else {
-            exit(0);
+            return false;
         }
+
+        // Set View
+        $this->view->setContentPath('container/describe');
+        $this->view->setData([
+            'system' => [
+                'constant' => Resource::get('system:constant')
+            ],
+            'blog' => [
+                'config' => Resource::get('blog:config')
+            ],
+            'theme' => [
+                'config' => Resource::get('theme:config'),
+                'constant' => Resource::get('theme:constant')
+            ],
+            'assets' => $this->assets,
+            'sideList' => $this->sideList,
+            'container' => $containerList["{$path}/"]
+        ]);
     }
 
     /**
@@ -234,6 +253,12 @@ class MainController extends Controller
 
         // Get Container Data List
         $containerList = $this->handlerList['article']->getContainerDataList();
+
+        if (false === isset($containerList[$path])) {
+            $this->isNotFound = true;
+
+            return false;
+        }
 
         // Set View
         $this->view->setContentPath('container/article');
@@ -250,8 +275,7 @@ class MainController extends Controller
             ],
             'assets' => $this->assets,
             'sideList' => $this->sideList,
-            'container' => isset($containerList[$path])
-                ? $containerList[$path] : []
+            'container' => $containerList[$path]
         ]);
     }
 
@@ -268,6 +292,12 @@ class MainController extends Controller
         // Get Container Data List
         $containerList = $this->handlerList['page']->getContainerDataList();
 
+        if (false === isset($containerList[$path])) {
+            $this->isNotFound = true;
+
+            return false;
+        }
+
         // Set View
         $this->view->setContentPath('container/page');
         $this->view->setData([
@@ -283,8 +313,7 @@ class MainController extends Controller
             ],
             'assets' => $this->assets,
             'sideList' => $this->sideList,
-            'container' => isset($containerList[$path])
-                ? $containerList[$path] : []
+            'container' => $containerList[$path]
         ]);
     }
 
@@ -301,6 +330,12 @@ class MainController extends Controller
         // Get Container Data List
         $containerList = $this->handlerList['archive']->getContainerDataList();
 
+        if (false === isset($containerList[$path])) {
+            $this->isNotFound = true;
+
+            return false;
+        }
+
         // Set View
         $this->view->setContentPath('container/archive');
         $this->view->setData([
@@ -316,8 +351,7 @@ class MainController extends Controller
             ],
             'assets' => $this->assets,
             'sideList' => $this->sideList,
-            'container' => isset($containerList[$path])
-                ? $containerList[$path] : []
+            'container' => $containerList[$path]
         ]);
     }
 
@@ -334,6 +368,12 @@ class MainController extends Controller
         // Get Container Data List
         $containerList = $this->handlerList['category']->getContainerDataList();
 
+        if (false === isset($containerList[$path])) {
+            $this->isNotFound = true;
+
+            return false;
+        }
+
         // Set View
         $this->view->setContentPath('container/category');
         $this->view->setData([
@@ -349,8 +389,7 @@ class MainController extends Controller
             ],
             'assets' => $this->assets,
             'sideList' => $this->sideList,
-            'container' => isset($containerList[$path])
-                ? $containerList[$path] : []
+            'container' => $containerList[$path]
         ]);
     }
 
@@ -367,6 +406,12 @@ class MainController extends Controller
         // Get Container Data List
         $containerList = $this->handlerList['tag']->getContainerDataList();
 
+        if (false === isset($containerList[$path])) {
+            $this->isNotFound = true;
+
+            return false;
+        }
+
         // Set View
         $this->view->setContentPath('container/tag');
         $this->view->setData([
@@ -382,8 +427,7 @@ class MainController extends Controller
             ],
             'assets' => $this->assets,
             'sideList' => $this->sideList,
-            'container' => isset($containerList[$path])
-                ? $containerList[$path] : []
+            'container' => $containerList[$path]
         ]);
     }
 }
