@@ -58,16 +58,16 @@
         },
         {
             "name": "scarwu/oni",
-            "version": "1.1.0",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/scarwu/Oni.git",
-                "reference": "a7f42a789e8e329968ee68e8c445a75e2fa8f151"
+                "reference": "6c95e3ccda4084b9be8a705de86ff1fdd3f313dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/scarwu/Oni/zipball/a7f42a789e8e329968ee68e8c445a75e2fa8f151",
-                "reference": "a7f42a789e8e329968ee68e8c445a75e2fa8f151",
+                "url": "https://api.github.com/repos/scarwu/Oni/zipball/6c95e3ccda4084b9be8a705de86ff1fdd3f313dd",
+                "reference": "6c95e3ccda4084b9be8a705de86ff1fdd3f313dd",
                 "shasum": ""
             },
             "require": {
@@ -99,9 +99,9 @@
             "homepage": "https://github.com/scarwu/Oni",
             "support": {
                 "issues": "https://github.com/scarwu/Oni/issues",
-                "source": "https://github.com/scarwu/Oni/tree/1.1.0"
+                "source": "https://github.com/scarwu/Oni/tree/1.1.1"
             },
-            "time": "2022-06-05T19:46:31+00:00"
+            "time": "2022-06-06T00:05:32+00:00"
         }
     ],
     "packages-dev": [

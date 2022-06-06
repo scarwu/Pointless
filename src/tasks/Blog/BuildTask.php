@@ -131,10 +131,20 @@ class BuildTask extends Task
             }
         }
 
+        $assets = [
+            'styles' => [
+                'assets/styles/theme.min.css'
+            ],
+            'scripts' => [
+                'assets/scripts/theme.min.js'
+            ]
+        ];
+
         // Init View
         $view = View::init();
         $view->setAttr('path', BLOG_THEME . '/views');
-        $view->setLayoutPath('index');
+        $view->setIndexPath(APP_ROOT . 'views/index');
+        $view->setLayoutPath('layout');
 
         // Get Side Data
         $sideList = [];
@@ -173,6 +183,7 @@ class BuildTask extends Task
                         'config' => $themeConfig,
                         'constant' => $themeConstant
                     ],
+                    'assets' => $assets,
                     'sideList' => $sideList,
                     'container' => $container
                 ]);

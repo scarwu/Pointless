@@ -21,7 +21,7 @@ class MainController extends Controller
     /**
      * @var array
      */
-    private $editorAssets = [];
+    private $assets = [];
 
     /**
      * @var array
@@ -116,13 +116,13 @@ class MainController extends Controller
             $sideList[$name] = $handlerList[$name]->getSideData();
         }
 
-        // Set Editor Assets
-        $this->editorAssets = [
+        // Set Assets
+        $this->assets = [
             'styles' => [
-                'assets/styles/editor.min.css'
+                'assets/styles/theme.min.css'
             ],
             'scripts' => [
-                'assets/scripts/editor.min.js'
+                'assets/scripts/theme.min.js'
             ]
         ];
 
@@ -132,7 +132,8 @@ class MainController extends Controller
 
         // Set View
         $this->view->setAttr('path', BLOG_THEME . '/views');
-        $this->view->setLayoutPath('index');
+        $this->view->setIndexPath(APP_ROOT . '/views/index');
+        $this->view->setLayoutPath('layout');
     }
 
     public function down()
@@ -212,7 +213,7 @@ class MainController extends Controller
                     'config' => Resource::get('theme:config'),
                     'constant' => Resource::get('theme:constant')
                 ],
-                'editorAssets' => $this->editorAssets,
+                'assets' => $this->assets,
                 'sideList' => $this->sideList,
                 'container' => $containerList["{$path}/"]
             ]);
@@ -247,7 +248,7 @@ class MainController extends Controller
                 'config' => Resource::get('theme:config'),
                 'constant' => Resource::get('theme:constant')
             ],
-            'editorAssets' => $this->editorAssets,
+            'assets' => $this->assets,
             'sideList' => $this->sideList,
             'container' => isset($containerList[$path])
                 ? $containerList[$path] : []
@@ -280,7 +281,7 @@ class MainController extends Controller
                 'config' => Resource::get('theme:config'),
                 'constant' => Resource::get('theme:constant')
             ],
-            'editorAssets' => $this->editorAssets,
+            'assets' => $this->assets,
             'sideList' => $this->sideList,
             'container' => isset($containerList[$path])
                 ? $containerList[$path] : []
@@ -313,7 +314,7 @@ class MainController extends Controller
                 'config' => Resource::get('theme:config'),
                 'constant' => Resource::get('theme:constant')
             ],
-            'editorAssets' => $this->editorAssets,
+            'assets' => $this->assets,
             'sideList' => $this->sideList,
             'container' => isset($containerList[$path])
                 ? $containerList[$path] : []
@@ -346,7 +347,7 @@ class MainController extends Controller
                 'config' => Resource::get('theme:config'),
                 'constant' => Resource::get('theme:constant')
             ],
-            'editorAssets' => $this->editorAssets,
+            'assets' => $this->assets,
             'sideList' => $this->sideList,
             'container' => isset($containerList[$path])
                 ? $containerList[$path] : []
@@ -379,7 +380,7 @@ class MainController extends Controller
                 'config' => Resource::get('theme:config'),
                 'constant' => Resource::get('theme:constant')
             ],
-            'editorAssets' => $this->editorAssets,
+            'assets' => $this->assets,
             'sideList' => $this->sideList,
             'container' => isset($containerList[$path])
                 ? $containerList[$path] : []
