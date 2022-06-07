@@ -21,17 +21,17 @@ class MainController extends Controller
     /**
      * @var array
      */
-    private $assets = [];
-
-    /**
-     * @var array
-     */
     private $sideList = [];
 
     /**
      * @var array
      */
     private $handlerList = [];
+
+    /**
+     * @var array
+     */
+    private $viewData = [];
 
     /**
      * @var bool
@@ -63,6 +63,20 @@ class MainController extends Controller
         $blogConfig = Resource::get('blog:config');
         $themeConfig = Resource::get('theme:config');
         $themeConstant = Resource::get('theme:constant');
+
+        // Set View Data
+        $this->viewData = [
+            'system' => [
+                'constant' => $systemConstant
+            ],
+            'blog' => [
+                'config' => $blogConfig
+            ],
+            'theme' => [
+                'config' => $themeConfig,
+                'constant' => $themeConstant
+            ]
+        ];
 
         // Load Posts
         $postBundle = [];
@@ -99,19 +113,9 @@ class MainController extends Controller
                 $type = $instance->getType();
 
                 $handlerList[$type] = $instance;
-                $handlerList[$type]->initData([
-                    'system' => [
-                        'constant' => $systemConstant
-                    ],
-                    'blog' => [
-                        'config' => $blogConfig
-                    ],
-                    'theme' => [
-                        'config' => $themeConfig,
-                        'constant' => $themeConstant
-                    ],
+                $handlerList[$type]->initData(array_merge($this->viewData, [
                     'postBundle' => $postBundle
-                ]);
+                ]));
             }
         }
 
@@ -125,18 +129,6 @@ class MainController extends Controller
 
             $sideList[$name] = $handlerList[$name]->getSideData();
         }
-
-        // Set Assets
-        $this->assets = [
-            'styles' => [
-                'assets/styles/theme.min.css',
-                'assets/styles/editor.min.css'
-            ],
-            'scripts' => [
-                'assets/scripts/theme.min.js',
-                'assets/scripts/editor.min.js'
-            ]
-        ];
 
         // Set Private Variables
         $this->handlerList = $handlerList;
@@ -158,6 +150,44 @@ class MainController extends Controller
     }
 
     /**
+     * Return Static File
+     *
+     * @param string $staticPath
+     *
+     * @return array
+     */
+    private function returnStaticFile(string $staticPath)
+    {
+        $mimeMapping = [
+            'html' => 'text/html',
+            'css' => 'text/css',
+            'js' => 'text/javascript',
+            'json' => 'application/json',
+            'xml' => 'application/xml',
+
+            'jpg' => 'image/jpeg',
+            'png' => 'image/png',
+            'gif' => 'image/gif',
+
+            'woff' => 'application/font-woff',
+            'ttf' => 'font/opentype'
+        ];
+
+        $fileInfo = pathinfo($staticPath);
+        $mimeType = (true === isset($fileInfo['extension']) && true === isset($mimeMapping[$fileInfo['extension']]))
+            ? $mimeMapping[$fileInfo['extension']] : mime_content_type($staticPath);
+
+        header('Content-Type: ' . $mimeType);
+        header('Content-Length: ' . filesize($staticPath));
+
+        echo file_get_contents($staticPath);
+
+        $this->isStaticFile = true;
+
+        return true;
+    }
+
+    /**
      * Describe Action
      *
      * @param array $params
@@ -172,45 +202,13 @@ class MainController extends Controller
             return $this->pageAction($params);
         }
 
-        // Check Assets File
+        // Check and Static File
         if (true === is_file(BLOG_ASSET . "/{$path}")) {
-            $staticPath = BLOG_ASSET . "/{$path}";
+            return $this->returnStaticFile(BLOG_ASSET . "/{$path}");
         } elseif (true === is_file(BLOG_THEME . "/{$path}")) {
-            $staticPath = BLOG_THEME . "/{$path}";
+            return $this->returnStaticFile(BLOG_THEME . "/{$path}");
         } elseif (true === is_file(BLOG_EDITOR . "/{$path}")) {
-            $staticPath = BLOG_EDITOR . "/{$path}";
-        } else {
-            $staticPath = null;
-        }
-
-        if (null !== $staticPath) {
-            $mimeMapping = [
-                'html' => 'text/html',
-                'css' => 'text/css',
-                'js' => 'text/javascript',
-                'json' => 'application/json',
-                'xml' => 'application/xml',
-
-                'jpg' => 'image/jpeg',
-                'png' => 'image/png',
-                'gif' => 'image/gif',
-
-                'woff' => 'application/font-woff',
-                'ttf' => 'font/opentype'
-            ];
-
-            $fileInfo = pathinfo($staticPath);
-            $mimeType = (true === isset($fileInfo['extension']) && true === isset($mimeMapping[$fileInfo['extension']]))
-                ? $mimeMapping[$fileInfo['extension']] : mime_content_type($staticPath);
-
-            header('Content-Type: ' . $mimeType);
-            header('Content-Length: ' . filesize($staticPath));
-
-            echo file_get_contents($staticPath);
-
-            $this->isStaticFile = true;
-
-            return true;
+            return $this->returnStaticFile(BLOG_EDITOR . "/{$path}");
         }
 
         // Get Container Data List
@@ -224,21 +222,10 @@ class MainController extends Controller
 
         // Set View
         $this->view->setContentPath('container/describe');
-        $this->view->setData([
-            'system' => [
-                'constant' => Resource::get('system:constant')
-            ],
-            'blog' => [
-                'config' => Resource::get('blog:config')
-            ],
-            'theme' => [
-                'config' => Resource::get('theme:config'),
-                'constant' => Resource::get('theme:constant')
-            ],
-            'assets' => $this->assets,
+        $this->view->setData(array_merge($this->viewData, [
             'sideList' => $this->sideList,
             'container' => $containerList["{$path}/"]
-        ]);
+        ]));
     }
 
     /**
@@ -262,21 +249,10 @@ class MainController extends Controller
 
         // Set View
         $this->view->setContentPath('container/article');
-        $this->view->setData([
-            'system' => [
-                'constant' => Resource::get('system:constant')
-            ],
-            'blog' => [
-                'config' => Resource::get('blog:config')
-            ],
-            'theme' => [
-                'config' => Resource::get('theme:config'),
-                'constant' => Resource::get('theme:constant')
-            ],
-            'assets' => $this->assets,
+        $this->view->setData(array_merge($this->viewData, [
             'sideList' => $this->sideList,
             'container' => $containerList[$path]
-        ]);
+        ]));
     }
 
     /**
@@ -300,21 +276,10 @@ class MainController extends Controller
 
         // Set View
         $this->view->setContentPath('container/page');
-        $this->view->setData([
-            'system' => [
-                'constant' => Resource::get('system:constant')
-            ],
-            'blog' => [
-                'config' => Resource::get('blog:config')
-            ],
-            'theme' => [
-                'config' => Resource::get('theme:config'),
-                'constant' => Resource::get('theme:constant')
-            ],
-            'assets' => $this->assets,
+        $this->view->setData(array_merge($this->viewData, [
             'sideList' => $this->sideList,
             'container' => $containerList[$path]
-        ]);
+        ]));
     }
 
     /**
@@ -338,21 +303,10 @@ class MainController extends Controller
 
         // Set View
         $this->view->setContentPath('container/archive');
-        $this->view->setData([
-            'system' => [
-                'constant' => Resource::get('system:constant')
-            ],
-            'blog' => [
-                'config' => Resource::get('blog:config')
-            ],
-            'theme' => [
-                'config' => Resource::get('theme:config'),
-                'constant' => Resource::get('theme:constant')
-            ],
-            'assets' => $this->assets,
+        $this->view->setData(array_merge($this->viewData, [
             'sideList' => $this->sideList,
             'container' => $containerList[$path]
-        ]);
+        ]));
     }
 
     /**
@@ -376,21 +330,10 @@ class MainController extends Controller
 
         // Set View
         $this->view->setContentPath('container/category');
-        $this->view->setData([
-            'system' => [
-                'constant' => Resource::get('system:constant')
-            ],
-            'blog' => [
-                'config' => Resource::get('blog:config')
-            ],
-            'theme' => [
-                'config' => Resource::get('theme:config'),
-                'constant' => Resource::get('theme:constant')
-            ],
-            'assets' => $this->assets,
+        $this->view->setData(array_merge($this->viewData, [
             'sideList' => $this->sideList,
             'container' => $containerList[$path]
-        ]);
+        ]));
     }
 
     /**
@@ -414,20 +357,24 @@ class MainController extends Controller
 
         // Set View
         $this->view->setContentPath('container/tag');
-        $this->view->setData([
-            'system' => [
-                'constant' => Resource::get('system:constant')
-            ],
-            'blog' => [
-                'config' => Resource::get('blog:config')
-            ],
-            'theme' => [
-                'config' => Resource::get('theme:config'),
-                'constant' => Resource::get('theme:constant')
-            ],
-            'assets' => $this->assets,
+        $this->view->setData(array_merge($this->viewData, [
             'sideList' => $this->sideList,
             'container' => $containerList[$path]
-        ]);
+        ]));
+    }
+
+    /**
+     * Editor Action
+     *
+     * @param array $params
+     */
+    public function editorAction($params = [])
+    {
+        $path = trim($this->req->uri(), '/');
+        $path = urldecode($path);
+
+        // Set View
+        $this->view->setIndexPath(BLOG_EDITOR . '/views/index');
+        $this->view->setData($this->viewData);
     }
 }
