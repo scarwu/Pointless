@@ -48,6 +48,7 @@ Loader::append('Pointless\Format', APP_ROOT . '/formats');
 
 use Pointless\Library\Utility;
 use Pointless\Library\Resource;
+use Pointless\Library\BlogCore;
 
 if ('cli' === PHP_SAPI) {
 
@@ -73,15 +74,37 @@ if ('cli' === PHP_SAPI) {
     $app = new CLIApp();
     $app->setAttr('task/namespace', 'Pointless\Task');
     $app->setAttr('task/path', APP_ROOT . '/tasks');
-    $app->setAttr('task/default/handler', 'Intro');
+    $app->setAttr('router/default/task', 'Intro');
 } else {
     $app = new WebApp();
     $app->setAttr('controller/namespace', 'Pointless\Controller');
     $app->setAttr('controller/path', APP_ROOT . '/controllers');
-    $app->setAttr('controller/default/Handler', 'Main');
-    $app->setAttr('controller/default/action', 'index');
-    $app->setAttr('controller/error/Handler', 'Main');
-    $app->setAttr('controller/error/action', 'index');
+    $app->setAttr('router/controller/default', 'main');
+    $app->setAttr('router/action/default', 'index');
+    $app->setAttr('router/action/error', 'index');
+    $app->setAttr('router/event/up', function () use ($app) {
+
+        // Init Blog
+        if (false === BlogCore::init()) {
+            $this->io->error('Please init blog first.');
+
+            return false;
+        }
+
+        // Loader Append
+        Loader::append('Pointless\Handler', BLOG_HANDLER);
+        Loader::append('Pointless\Handler', APP_ROOT . '/handlers');
+        Loader::append('Pointless\Extension', BLOG_EXTENSION);
+        Loader::append('Pointless\Extension', APP_ROOT . '/extensions');
+
+        // Set View
+        $app->setAttr('view/paths', [
+            APP_ROOT . '/views', BLOG_THEME . '/views'
+        ]);
+        $app->setAttr('static/paths', [
+            BLOG_ASSET, BLOG_THEME, BLOG_EDITOR
+        ]);
+    });
 }
 
 $app->run();

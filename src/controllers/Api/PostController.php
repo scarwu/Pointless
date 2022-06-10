@@ -17,31 +17,6 @@ use Oni\Web\Controller\Ajax as Controller;
 
 class PostController extends Controller
 {
-    /**
-     * @var array
-     */
-    private $sideList = [];
-
-    /**
-     * @var array
-     */
-    private $handlerList = [];
-
-    public function up()
-    {
-        // Init Blog
-        if (false === BlogCore::init()) {
-            $this->io->error('Please init blog first.');
-
-            return false;
-        }
-    }
-
-    public function down()
-    {
-        // do nothing
-    }
-
     public function indexAction()
     {
         $query = $this->req->query();

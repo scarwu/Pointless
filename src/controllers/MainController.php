@@ -33,31 +33,8 @@ class MainController extends Controller
      */
     private $viewData = [];
 
-    /**
-     * @var bool
-     */
-    private $isStaticFile = false;
-
-    /**
-     * @var bool
-     */
-    private $isNotFound = false;
-
     public function up()
     {
-        // Init Blog
-        if (false === BlogCore::init()) {
-            $this->io->error('Please init blog first.');
-
-            return false;
-        }
-
-        // Loader Append
-        Loader::append('Pointless\Handler', BLOG_HANDLER);
-        Loader::append('Pointless\Handler', APP_ROOT . '/handlers');
-        Loader::append('Pointless\Extension', BLOG_EXTENSION);
-        Loader::append('Pointless\Extension', APP_ROOT . '/extensions');
-
         // Get Resources
         $systemConstant = Resource::get('system:constant');
         $blogConfig = Resource::get('blog:config');
@@ -82,9 +59,9 @@ class MainController extends Controller
         $postBundle = [];
 
         foreach ($systemConstant['formats'] as $name) {
-            $namespace = 'Pointless\\Format\\' . ucfirst($name);
+            $className = 'Pointless\\Format\\' . ucfirst($name);
 
-            $instance = new $namespace();
+            $instance = new $className();
             $type = $instance->getType();
 
             $postBundle[$type] = [];
@@ -107,9 +84,9 @@ class MainController extends Controller
 
         foreach ($themeConfig['handlers'] as $name) {
             if (false === isset($handlerList[$name])) {
-                $namespace = 'Pointless\\Handler\\' . ucfirst($name);
+                $className = 'Pointless\\Handler\\' . ucfirst($name);
 
-                $instance = new $namespace();
+                $instance = new $className();
                 $type = $instance->getType();
 
                 $handlerList[$type] = $instance;
@@ -130,61 +107,12 @@ class MainController extends Controller
             $sideList[$name] = $handlerList[$name]->getSideData();
         }
 
-        // Set Private Variables
+        // Set List
         $this->handlerList = $handlerList;
         $this->sideList = $sideList;
 
-        // Set View
-        $this->view->setAttr('path', BLOG_THEME . '/views');
-        $this->view->setIndexPath(APP_ROOT . '/views/index');
+        // Set View Layout
         $this->view->setLayoutPath('layout');
-    }
-
-    public function down()
-    {
-        if (true === $this->isNotFound) {
-            http_response_code(404);
-        } elseif (false === $this->isStaticFile) {
-            $this->res->html($this->view->render());
-        }
-    }
-
-    /**
-     * Return Static File
-     *
-     * @param string $staticPath
-     *
-     * @return array
-     */
-    private function returnStaticFile(string $staticPath)
-    {
-        $mimeMapping = [
-            'html' => 'text/html',
-            'css' => 'text/css',
-            'js' => 'text/javascript',
-            'json' => 'application/json',
-            'xml' => 'application/xml',
-
-            'jpg' => 'image/jpeg',
-            'png' => 'image/png',
-            'gif' => 'image/gif',
-
-            'woff' => 'application/font-woff',
-            'ttf' => 'font/opentype'
-        ];
-
-        $fileInfo = pathinfo($staticPath);
-        $mimeType = (true === isset($fileInfo['extension']) && true === isset($mimeMapping[$fileInfo['extension']]))
-            ? $mimeMapping[$fileInfo['extension']] : mime_content_type($staticPath);
-
-        header('Content-Type: ' . $mimeType);
-        header('Content-Length: ' . filesize($staticPath));
-
-        echo file_get_contents($staticPath);
-
-        $this->isStaticFile = true;
-
-        return true;
     }
 
     /**
@@ -202,20 +130,11 @@ class MainController extends Controller
             return $this->pageAction($params);
         }
 
-        // Check and Static File
-        if (true === is_file(BLOG_ASSET . "/{$path}")) {
-            return $this->returnStaticFile(BLOG_ASSET . "/{$path}");
-        } elseif (true === is_file(BLOG_THEME . "/{$path}")) {
-            return $this->returnStaticFile(BLOG_THEME . "/{$path}");
-        } elseif (true === is_file(BLOG_EDITOR . "/{$path}")) {
-            return $this->returnStaticFile(BLOG_EDITOR . "/{$path}");
-        }
-
         // Get Container Data List
         $containerList = $this->handlerList['describe']->getContainerDataList();
 
         if (false === isset($containerList["{$path}/"])) {
-            $this->isNotFound = true;
+            http_response_code(404);
 
             return false;
         }
@@ -242,7 +161,7 @@ class MainController extends Controller
         $containerList = $this->handlerList['article']->getContainerDataList();
 
         if (false === isset($containerList[$path])) {
-            $this->isNotFound = true;
+            http_response_code(404);
 
             return false;
         }
@@ -269,7 +188,7 @@ class MainController extends Controller
         $containerList = $this->handlerList['page']->getContainerDataList();
 
         if (false === isset($containerList[$path])) {
-            $this->isNotFound = true;
+            http_response_code(404);
 
             return false;
         }
@@ -296,7 +215,7 @@ class MainController extends Controller
         $containerList = $this->handlerList['archive']->getContainerDataList();
 
         if (false === isset($containerList[$path])) {
-            $this->isNotFound = true;
+            http_response_code(404);
 
             return false;
         }
@@ -323,7 +242,7 @@ class MainController extends Controller
         $containerList = $this->handlerList['category']->getContainerDataList();
 
         if (false === isset($containerList[$path])) {
-            $this->isNotFound = true;
+            http_response_code(404);
 
             return false;
         }
@@ -350,7 +269,7 @@ class MainController extends Controller
         $containerList = $this->handlerList['tag']->getContainerDataList();
 
         if (false === isset($containerList[$path])) {
-            $this->isNotFound = true;
+            http_response_code(404);
 
             return false;
         }
