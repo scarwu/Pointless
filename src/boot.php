@@ -49,6 +49,7 @@ Loader::append('Pointless\Format', APP_ROOT . '/formats');
 use Pointless\Library\Utility;
 use Pointless\Library\Resource;
 use Pointless\Library\BlogCore;
+use Pointless\Library\CustomException;
 
 if ('cli' === PHP_SAPI) {
 
@@ -86,9 +87,7 @@ if ('cli' === PHP_SAPI) {
 
         // Init Blog
         if (false === BlogCore::init()) {
-            $this->io->error('Please init blog first.');
-
-            return false;
+            throw new CustomException('pointless:blogCore:init:error');
         }
 
         // Loader Append
@@ -107,4 +106,16 @@ if ('cli' === PHP_SAPI) {
     });
 }
 
-$app->run();
+$exceptionObject = null;
+
+try {
+    $app->run();
+} catch (\Exception $_exceptionObject) {
+    $exceptionObject = $_exceptionObject;
+} catch (\Throwable $_exceptionObject) {
+    $exceptionObject = $_exceptionObject;
+}
+
+if (null !== $exceptionObject) {
+    throw $exceptionObject;
+}

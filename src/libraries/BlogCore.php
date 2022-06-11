@@ -14,7 +14,6 @@ use Parsedown;
 use Pointless\Library\Utility;
 use Pointless\Library\Resource;
 use Pointless\Library\CustomException;
-use Oni\CLI\IO;
 
 class BlogCore
 {
