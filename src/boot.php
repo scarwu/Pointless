@@ -75,7 +75,7 @@ if ('cli' === PHP_SAPI) {
     $app = new CLIApp();
     $app->setAttr('task/namespace', 'Pointless\Task');
     $app->setAttr('task/path', APP_ROOT . '/tasks');
-    $app->setAttr('router/default/task', 'Intro');
+    $app->setAttr('router/task/default', 'Intro');
 } else {
     $app = new WebApp();
     $app->setAttr('controller/namespace', 'Pointless\Controller');
