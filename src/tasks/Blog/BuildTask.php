@@ -142,8 +142,10 @@ class BuildTask extends Task
 
         // Init View
         $view = View::init();
-        $view->setAttr('path', BLOG_THEME . '/views');
-        $view->setIndexPath(APP_ROOT . 'views/index');
+        $view->setAttr('paths', [
+            APP_ROOT . '/views',
+            BLOG_THEME . '/views'
+        ]);
         $view->setLayoutPath('layout');
 
         // Get Side Data

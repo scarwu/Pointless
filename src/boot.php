@@ -98,10 +98,13 @@ if ('cli' === PHP_SAPI) {
 
         // Set View
         $app->setAttr('view/paths', [
-            APP_ROOT . '/views', BLOG_THEME . '/views'
+            APP_ROOT . '/views',
+            BLOG_THEME . '/views'
         ]);
         $app->setAttr('static/paths', [
-            BLOG_ASSET, BLOG_THEME, BLOG_EDITOR
+            BLOG_ASSET,
+            BLOG_THEME,
+            BLOG_EDITOR
         ]);
     });
 }

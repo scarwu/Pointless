@@ -132,8 +132,7 @@ class PostController extends Controller
             ];
         }
 
-
-
+        Utility::saveMarkdownFile($filepath, $header, "# {$title}");
 
         return [
             'status' => 'ok',
@@ -156,32 +155,34 @@ class PostController extends Controller
         }
 
 
+        Utility::saveMarkdownFile($filepath, $header, "# {$title}");
 
-        $url = (true === isset($params[0])) ? $params[0] : null;
 
-        if (false === is_string($url)) {
-            http_response_code(400);
+        // $url = (true === isset($params[0])) ? $params[0] : null;
 
-            return [
-                'status' => 'error',
-                'text' => 'pointless:api:param:urlError'
-            ];
-        }
+        // if (false === is_string($url)) {
+        //     http_response_code(400);
 
-        $list = [];
+        //     return [
+        //         'status' => 'error',
+        //         'text' => 'pointless:api:param:urlError'
+        //     ];
+        // }
 
-        foreach (Resource::get('system:constant')['formats'] as $subClassName) {
-            $className = 'Pointless\\Format\\' . ucfirst($subClassName);
-            $format = new $className;
+        // $list = [];
 
-            $name = $format->getName();
+        // foreach (Resource::get('system:constant')['formats'] as $subClassName) {
+        //     $className = 'Pointless\\Format\\' . ucfirst($subClassName);
+        //     $format = new $className;
 
-            if (true === is_string($type) && $type !== $format->getType()) {
-                continue;
-            }
+        //     $name = $format->getName();
 
-            $list = BlogCore::getPostList($type, true);
-        }
+        //     if (true === is_string($type) && $type !== $format->getType()) {
+        //         continue;
+        //     }
+
+        //     $list = BlogCore::getPostList($type, true);
+        // }
 
 
         return [
