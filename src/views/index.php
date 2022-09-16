@@ -11,12 +11,16 @@ $baseUrl = $blog['config']['baseUrl'];
 $googleAnalytics = $blog['config']['googleAnalytics'];
 $disqusShortname = $blog['config']['disqusShortname'];
 
-$title = isset($container['title'])
+$title = (true === isset($container['title']))
     ? "{$container['title']} | {$blog['config']['name']}"
     : $blog['config']['name'];
-$description = (!isset($container['description']) || '' === $container['description'])
+$description = (false === isset($container['description']) || '' === $container['description'])
     ? $blog['config']['description']
     : $container['description'];
+$url = "{$protocol}://{$domainName}{$baseUrl}{$container['url']}";
+$coverImage = (false === isset($container['coverImage']))
+    ? "{$protocol}://{$domainName}{$baseUrl}images/icon.jpg"
+    : $container['coverImage'];
 ?>
 <!doctype html>
 <html lang="<?=$lang?>">
@@ -26,14 +30,14 @@ $description = (!isset($container['description']) || '' === $container['descript
     <meta name="author" content="<?=$blog['config']['author']?>" />
     <meta property="og:description" name="description" content="<?=$description?>" />
     <meta property="og:title" content="<?=$title?>" />
-    <meta property="og:url" content="<?=$protocol?>://<?="{$domainName}{$baseUrl}{$container['url']}"?>" />
-    <meta property="og:image" content="<?=$protocol?>://<?="{$domainName}{$baseUrl}"?>images/icon.jpg" />
+    <meta property="og:url" content="<?=$url?>" />
+    <meta property="og:image" content="<?=$coverImage?>" />
     <meta property="og:type" content="website" />
 
     <title><?=$title?></title>
 
-    <link rel="canonical" href="<?=$protocol?>://<?="{$domainName}{$baseUrl}{$container['url']}"?>" />
-    <link rel="image_src" href="<?=$protocol?>://<?="{$domainName}{$baseUrl}"?>images/icon.jpg" />
+    <link rel="canonical" href="<?=$url?>" />
+    <link rel="image_src" href="<?=$coverImage?>" />
     <link rel="shortcut icon" href="<?=$protocol?>://<?="{$domainName}{$baseUrl}"?>favicon.ico" />
     <?php foreach ($theme['constant']['assets']['styles'] as $file): ?>
     <link rel="stylesheet" href="<?=$baseUrl?><?=$file?>?<?=$postfix?>" />
