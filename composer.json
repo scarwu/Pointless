@@ -15,15 +15,15 @@
         "vendor-dir": "src/vendor"
     },
     "require": {
-        "php": ">=7.3.0",
-        "scarwu/oni": "^1.0.0",
-        "erusev/parsedown": "^1.7.1"
+        "php": ">=8.4",
+        "scarwu/oni": "^2.0.0",
+        "erusev/parsedown": "^1.8.0"
     },
     "require-dev": {
         "filp/whoops": "^2.1",
-        "phpunit/phpunit": "^7",
-        "phpunit/php-invoker": "^2.0",
-        "phpunit/php-code-coverage": "^6.0"
+        "phpunit/phpunit": "^13",
+        "phpunit/php-invoker": "^7.0",
+        "phpunit/php-code-coverage": "^14.0"
     },
     "bin": [
         "bin/poi"
