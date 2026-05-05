@@ -16,20 +16,9 @@ use Pointless\Extend\Format;
 
 class Article extends Format
 {
-    /**
-     * @var string
-     */
-    protected $type = 'article';
-
-    /**
-     * @var string
-     */
-    protected $name = 'Article';
-
-    /**
-     * @var array
-     */
-    protected $questionList = [
+    protected string $type = 'article';
+    protected string $name = 'Article';
+    protected array $questionList = [
         [
             'name' => 'title',
             'statement' => 'Enter Title:'
@@ -55,7 +44,8 @@ class Article extends Format
      *
      * @return array
      */
-    public function convertInput($input)
+    #[\Override]
+    public function convertInput(array $input): array
     {
         $time = time();
         $filename = Utility::pathReplace($input['url']);
@@ -86,14 +76,15 @@ class Article extends Format
      *
      * @return array
      */
-    public function convertPost($post)
+    #[\Override]
+    public function convertPost(array $post): array
     {
         $format = Resource::get('blog:config')['post']['article']['format'];
         $format = trim($format, '/');
 
         // Time information
-        list($year, $month, $day) = explode('-', $post['params']['date']);
-        list($hour, $minute, $second) = explode(':', $post['params']['time']);
+        [$year, $month, $day] = explode('-', $post['params']['date']);
+        [$hour, $minute, $second] = explode(':', $post['params']['time']);
 
         $timestamp = strtotime("{$day}-{$month}-{$year} {$post['params']['time']}");
 
@@ -108,7 +99,7 @@ class Article extends Format
             $post['title'], $post['params']['url']
         ], $format);
 
-        if (false === (bool) preg_match('/\.html$/', $url)) {
+        if (!str_ends_with($url, '.html')) {
             $url .= '/';
         }
 
@@ -122,7 +113,7 @@ class Article extends Format
 
         preg_match('/<p>((:?.|\n)*?)<\/p>/', $summary, $match);
 
-        $description = (true === isset($match[1])) ? strip_tags($match[1]) : '';
+        $description = isset($match[1]) ? strip_tags($match[1]) : '';
 
         return [
             'type' => $post['params']['type'],
@@ -131,7 +122,7 @@ class Article extends Format
             'content' => $post['content'],
             'summary' => $summary,
             'description' => $description,
-            'coverImage' => (true === isset($post['params']['coverImage'])) ? $post['params']['coverImage'] : null,
+            'coverImage' => $post['params']['coverImage'] ?? null,
             'category' => $post['params']['category'],
             'tags' => $post['params']['tags'],
             'date' => $post['params']['date'],

@@ -20,7 +20,7 @@ abstract class Task extends CLITask
     /**
      * Show Banner
      */
-    protected function showBanner()
+    protected function showBanner(): void
     {
         $banner = <<<EOF
                                          __                          _______
@@ -45,10 +45,6 @@ EOF;
      */
     protected function editFile(string $path): bool
     {
-        if (false === is_string($path)) {
-            return false;
-        }
-
         $editor = Resource::get('blog:config')['editor'];
 
         if (false === Utility::commandExists($editor)) {
@@ -65,7 +61,7 @@ EOF;
     /**
      * Select Format Item
      */
-    protected function selectFormatItem(): object
+    protected function selectFormatItem(): \Pointless\Extend\Format
     {
         $formatList = [];
         $options = [];
@@ -88,7 +84,7 @@ EOF;
     /**
      * Select Post Data
      */
-    protected function selectPostData($type): ?array
+    protected function selectPostData(string $type): ?array
     {
         $postList = BlogCore::getPostList($type, true);
         $postList = array_reverse($postList);
@@ -103,7 +99,7 @@ EOF;
             $title = (false === $post['params']['isPublic'])
                 ? "🔒{$post['title']}" : $post['title'];
 
-            $options[] = (true === isset($post['params']['date']))
+            $options[] = (isset($post['params']['date']))
                 ? "[{$post['params']['date']}] {$title}" : $title;
         }
 

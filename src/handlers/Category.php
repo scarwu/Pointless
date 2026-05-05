@@ -14,24 +14,21 @@ use Pointless\Extend\ThemeHandler;
 
 class Category extends ThemeHandler
 {
-    public function __construct()
-    {
-        $this->type = 'category';
-    }
-
+    protected ?string $type = 'category';
     /**
      * Init Data
      *
      * @param array
      */
-    public function initData($data)
+    #[\Override]
+    public function initData(array $data): void
     {
         $data['articleByCategory'] = [];
 
         foreach ($data['postBundle']['article'] as $post) {
             $category = $post['category'];
 
-            if (false === isset($data['articleByCategory'][$category])) {
+            if (!isset($data['articleByCategory'][$category])) {
                 $data['articleByCategory'][$category] = [];
             }
 
@@ -48,7 +45,8 @@ class Category extends ThemeHandler
      *
      * @return array
      */
-    public function getSideData()
+    #[\Override]
+    public function getSideData(): array
     {
         return $this->data['articleByCategory'];
     }
@@ -58,7 +56,8 @@ class Category extends ThemeHandler
      *
      * @return array
      */
-    public function getContainerDataList()
+    #[\Override]
+    public function getContainerDataList(): array
     {
         $articleList = $this->data['articleByCategory'];
         $keys = array_keys($articleList);
@@ -79,13 +78,13 @@ class Category extends ThemeHandler
             $container['paging']['totalIndex'] = $totalIndex;
             $container['paging']['currentIndex'] = $currentIndex + 1;
 
-            if (true === isset($keys[$currentIndex - 1])) {
+            if (isset($keys[$currentIndex - 1])) {
                 $prevKey = $keys[$currentIndex - 1];
                 $container['paging']['prevTitle'] = $prevKey;
                 $container['paging']['prevUrl'] = "category/{$prevKey}/";
             }
 
-            if (true === isset($keys[$currentIndex + 1])) {
+            if (isset($keys[$currentIndex + 1])) {
                 $nextKey = $keys[$currentIndex + 1];
                 $container['paging']['nextTitle'] = $nextKey;
                 $container['paging']['nextUrl'] = "category/{$nextKey}/";

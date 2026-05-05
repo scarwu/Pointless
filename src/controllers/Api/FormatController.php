@@ -20,7 +20,7 @@ class FormatController extends Controller
     /**
      * Get List Action
      */
-    public function getListAction($params = [])
+    public function getListAction(array $params = []): mixed
     {
         if (0 === count($params)) {
             http_response_code(400);
@@ -37,7 +37,7 @@ class FormatController extends Controller
             $className = 'Pointless\\Format\\' . ucfirst($subClassName);
             $format = new $className;
 
-            if (true === is_string($type) && $type !== $format->getType()) {
+            if (is_string($type) && $type !== $format->getType()) {
                 continue;
             }
 
@@ -54,7 +54,7 @@ class FormatController extends Controller
     /**
      * Get List Action
      */
-    public function getItemAction($params = [])
+    public function getItemAction(array $params = []): mixed
     {
         if (0 === count($params)) {
             http_response_code(400);
@@ -65,9 +65,9 @@ class FormatController extends Controller
             ];
         }
 
-        $type = (true === isset($params[0])) ? $params[0] : null;
+        $type = $params[0] ?? null;
 
-        if (false === in_array($type, [ 'article', 'describe' ])) {
+        if (!in_array($type, [ 'article', 'describe' ])) {
             http_response_code(400);
 
             return [
@@ -80,7 +80,7 @@ class FormatController extends Controller
             $className = 'Pointless\\Format\\' . ucfirst($subClassName);
             $format = new $className;
 
-            if (true === is_string($type) && $type !== $format->getType()) {
+            if (is_string($type) && $type !== $format->getType()) {
                 continue;
             }
 

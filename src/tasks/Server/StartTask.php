@@ -20,7 +20,7 @@ class StartTask extends Task
     /**
      * Help Info
      */
-    public function helpInfo()
+    public function helpInfo(): void
     {
         $this->io->log('server start            - Start server');
         $this->io->log('        --host=<?>      - Set host (default: localhost)');
@@ -35,7 +35,8 @@ class StartTask extends Task
     /**
      * Lifecycle Funtions
      */
-    public function up()
+    #[\Override]
+    public function up(): mixed
     {
         // Init Blog
         if (false === BlogCore::init()) {
@@ -45,7 +46,8 @@ class StartTask extends Task
         }
     }
 
-    public function run()
+    #[\Override]
+    public function run(array $params = []): void
     {
         $this->io->notice('Starting Server');
 
@@ -68,7 +70,7 @@ class StartTask extends Task
             [ 'key' => 'APP_ENV',   'value' => APP_ENV ],
             [ 'key' => 'APP_ROOT',  'value' => APP_ROOT ],
             [ 'key' => 'BLOG_ROOT', 'value' => BLOG_ROOT ],
-            [ 'key' => 'PHAR_FILE', 'value' => isset($_SERVER['_']) ? $_SERVER['_'] : null ]
+            [ 'key' => 'PHAR_FILE', 'value' => $_SERVER['_'] ?? null ]
         ];
 
         if (true === $this->io->hasConfigs('host')
@@ -85,7 +87,7 @@ class StartTask extends Task
 
         if ('development' === APP_ENV) {
             if (true === $this->io->hasConfigs('theme')
-                && true === is_dir($this->io->getConfigs('theme'))
+                && is_dir($this->io->getConfigs('theme'))
             ) {
                 $envs[] = [
                     'key' => 'BLOG_THEME',
@@ -94,7 +96,7 @@ class StartTask extends Task
             }
 
             if (true === $this->io->hasConfigs('editor')
-                && true === is_dir($this->io->getConfigs('editor'))
+                && is_dir($this->io->getConfigs('editor'))
             ) {
                 $envs[] = [
                     'key' => 'BLOG_EDITOR',
@@ -109,15 +111,13 @@ class StartTask extends Task
         if (true === Utility::isCommandRunning($command)) {
             $this->io->info('Server is running.');
 
-            return true;
+            return;
         }
 
         // Get PID
         $output = [];
 
-        exec(implode(array_map(function ($env) {
-            return "{$env['key']}={$env['value']}";
-        }, $envs), ' ') . " {$command} > /dev/null 2>&1 & echo $!", $output);
+        exec(implode(' ', array_map(fn($env) => "{$env['key']}={$env['value']}", $envs)) . " {$command} > /dev/null 2>&1 & echo $!", $output);
 
         $pid = $output[0];
 
@@ -132,7 +132,7 @@ class StartTask extends Task
         if (1 >= count($output)) {
             $this->io->error('Server fails to start.');
 
-            return false;
+            return;
         }
 
         $url = "http://{$host}:{$port}";
@@ -146,7 +146,7 @@ class StartTask extends Task
         // Load & Save Blog Config
         $blog = Utility::loadJsonFile(HOME_ROOT . '/blog.json');
 
-        if (false === is_array($blog)) {
+        if (!is_array($blog)) {
             $blog = [];
         }
 

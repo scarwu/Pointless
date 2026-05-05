@@ -20,7 +20,7 @@ class ThemeTask extends Task
     /**
      * Help Info
      */
-    public function helpInfo()
+    public function helpInfo(): void
     {
         $this->io->log('theme                   - Themes manage');
     }
@@ -28,7 +28,8 @@ class ThemeTask extends Task
     /**
      * Lifecycle Funtions
      */
-    public function up()
+    #[\Override]
+    public function up(): mixed
     {
         $this->showBanner();
         (new InstallTask)->helpInfo();
@@ -43,7 +44,8 @@ class ThemeTask extends Task
         }
     }
 
-    public function run()
+    #[\Override]
+    public function run(array $params = []): void
     {
         $this->io->notice('Status:');
 

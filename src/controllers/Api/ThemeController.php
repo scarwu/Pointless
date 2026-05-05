@@ -20,7 +20,7 @@ class ThemeController extends Controller
     /**
      * Get List Action
      */
-    public function getListAction($params = [])
+    public function getListAction(array $params = []): mixed
     {
         if (0 < count($params)) {
             http_response_code(404);
@@ -41,7 +41,7 @@ class ThemeController extends Controller
     /**
      * Install Item Action
      */
-    public function installItemAction($params = [])
+    public function installItemAction(array $params = []): mixed
     {
         if (0 < count($params)) {
             http_response_code(404);
@@ -55,7 +55,7 @@ class ThemeController extends Controller
         // // [ 'theme', 'install', '<gitRepo>' ]
         // $gitRepo = $this->io->getArguments(2);
 
-        // if (false === isset($gitRepo)) {
+        // if (!isset($gitRepo)) {
         //     $this->io->error("Git repo url is not found.");
 
         //     return false;
@@ -102,7 +102,7 @@ class ThemeController extends Controller
     /**
      * Uninstall Item Action
      */
-    public function uninstallItemAction($params = [])
+    public function uninstallItemAction(array $params = []): mixed
     {
         if (0 === count($params)) {
             http_response_code(400);

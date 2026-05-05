@@ -22,7 +22,7 @@ class BuildTask extends Task
     /**
      * Help Info
      */
-    public function helpInfo()
+    public function helpInfo(): void
     {
         $this->io->log('blog build              - Generate blog');
     }
@@ -30,7 +30,8 @@ class BuildTask extends Task
     /**
      * Lifecycle Funtions
      */
-    public function up()
+    #[\Override]
+    public function up(): mixed
     {
         // Init Blog
         if (false === BlogCore::init()) {
@@ -46,7 +47,8 @@ class BuildTask extends Task
         Loader::append('Pointless\Extension', APP_ROOT . '/extensions');
     }
 
-    public function run()
+    #[\Override]
+    public function run(array $params = []): void
     {
         $startTime = microtime(true);
         $startMemory = memory_get_usage();
@@ -108,7 +110,7 @@ class BuildTask extends Task
         $handlerList = [];
 
         foreach ($themeConfig['handlers'] as $name) {
-            if (false === isset($handlerList[$name])) {
+            if (!isset($handlerList[$name])) {
                 $namespace = 'Pointless\\Handler\\' . ucfirst($name);
 
                 $instance = new $namespace();
@@ -152,7 +154,7 @@ class BuildTask extends Task
         $sideList = [];
 
         foreach ($themeConfig['views']['side'] as $name) {
-            if (false === isset($handlerList[$name])) {
+            if (!isset($handlerList[$name])) {
                 continue;
             }
 
@@ -170,8 +172,7 @@ class BuildTask extends Task
 
                 $publicPostList[] = [
                     'path' => $path,
-                    'modifyTime' => isset($container['modifyTime'])
-                        ? $container['modifyTime'] : time()
+                    'modifyTime' => $container['modifyTime'] ?? time()
                 ];
 
                 $view->setData([
@@ -237,18 +238,18 @@ class BuildTask extends Task
      * @param string $path
      * @param string $data
      */
-    private function saveToDisk($path, $data)
+    private function saveToDisk(string $path, string $data): void
     {
         $realpath = BLOG_BUILD . "/{$path}";
 
-        if (false === (bool) preg_match('/\.(html|xml)$/', $realpath)) {
-            if (false === file_exists($realpath)) {
+        if (!preg_match('/\.(html|xml)$/', $realpath)) {
+            if (!file_exists($realpath)) {
                 mkdir($realpath, 0755, true);
             }
 
             $realpath = "{$realpath}/index.html";
         } else {
-            if (false === file_exists(dirname($realpath))) {
+            if (!file_exists(dirname($realpath))) {
                 mkdir(dirname($realpath), 0755, true);
             }
         }

@@ -20,7 +20,7 @@ class UninstallTask extends Task
     /**
      * Help Info
      */
-    public function helpInfo()
+    public function helpInfo(): void
     {
         $this->io->log('theme uninstall         - Uninstall theme');
     }
@@ -28,7 +28,8 @@ class UninstallTask extends Task
     /**
      * Lifecycle Funtions
      */
-    public function up()
+    #[\Override]
+    public function up(): mixed
     {
         // Init Blog
         if (false === BlogCore::init()) {
@@ -38,15 +39,16 @@ class UninstallTask extends Task
         }
     }
 
-    public function run()
+    #[\Override]
+    public function run(array $params = []): void
     {
         // Select Theme Data
         $themeData = $this->selectThemeData();
 
-        if (false === is_array($themeData)) {
+        if (!is_array($themeData)) {
             $this->io->error('No theme(s).');
 
-            return false;
+            return;
         }
 
         // Get Info

@@ -12,22 +12,15 @@ namespace Pointless\Extend;
 
 abstract class ThemeHandler
 {
-    /**
-     * @var string
-     */
-    protected $type = null;
-
-    /**
-     * @var array
-     */
-    protected $data = [];
+    protected ?string $type = null;
+    protected array $data = [];
 
     /**
      * Get Type
      *
      * @return string
      */
-    final public function getType()
+    final public function getType(): ?string
     {
         return $this->type;
     }
@@ -37,14 +30,14 @@ abstract class ThemeHandler
      *
      * @param array
      */
-    abstract public function initData($data);
+    abstract public function initData(array $data): void;
 
     /**
      * Get Side Data
      *
      * @return array
      */
-    public function getSideData()
+    public function getSideData(): array
     {
         return [];
     }
@@ -54,7 +47,7 @@ abstract class ThemeHandler
      *
      * @return array
      */
-    public function getContainerDataList()
+    public function getContainerDataList(): array
     {
         return [];
     }

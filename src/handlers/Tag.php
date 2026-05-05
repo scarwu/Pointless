@@ -14,23 +14,20 @@ use Pointless\Extend\ThemeHandler;
 
 class Tag extends ThemeHandler
 {
-    public function __construct()
-    {
-        $this->type = 'tag';
-    }
-
+    protected ?string $type = 'tag';
     /**
      * Init Data
      *
      * @param array
      */
-    public function initData($data)
+    #[\Override]
+    public function initData(array $data): void
     {
         $data['articleByTag'] = [];
 
         foreach ($data['postBundle']['article'] as $post) {
             foreach ($post['tags'] as $tag) {
-                if (false === isset($data['articleByTag'][$tag])) {
+                if (!isset($data['articleByTag'][$tag])) {
                     $data['articleByTag'][$tag] = [];
                 }
 
@@ -48,7 +45,8 @@ class Tag extends ThemeHandler
      *
      * @return array
      */
-    public function getSideData()
+    #[\Override]
+    public function getSideData(): array
     {
         return $this->data['articleByTag'];
     }
@@ -58,7 +56,8 @@ class Tag extends ThemeHandler
      *
      * @return array
      */
-    public function getContainerDataList()
+    #[\Override]
+    public function getContainerDataList(): array
     {
         $articleList = $this->data['articleByTag'];
         $keys = array_keys($articleList);
@@ -79,13 +78,13 @@ class Tag extends ThemeHandler
             $container['paging']['totalIndex'] = $totalIndex;
             $container['paging']['currentIndex'] = $currentIndex + 1;
 
-            if (true === isset($keys[$currentIndex - 1])) {
+            if (isset($keys[$currentIndex - 1])) {
                 $prevKey = $keys[$currentIndex - 1];
                 $container['paging']['prevTitle'] = $prevKey;
                 $container['paging']['prevUrl'] = "tag/{$prevKey}/";
             }
 
-            if (true === isset($keys[$currentIndex + 1])) {
+            if (isset($keys[$currentIndex + 1])) {
                 $nextKey = $keys[$currentIndex + 1];
                 $container['paging']['nextTitle'] = $nextKey;
                 $container['paging']['nextUrl'] = "tag/{$nextKey}/";

@@ -20,7 +20,7 @@ class ConfigTask extends Task
     /**
      * Help Info
      */
-    public function helpInfo()
+    public function helpInfo(): void
     {
         $this->io->log('blog config             - Modify config');
     }
@@ -28,7 +28,8 @@ class ConfigTask extends Task
     /**
      * Lifecycle Funtions
      */
-    public function up()
+    #[\Override]
+    public function up(): mixed
     {
         // Init Blog
         if (false === BlogCore::init()) {
@@ -47,7 +48,8 @@ class ConfigTask extends Task
         }
     }
 
-    public function run()
+    #[\Override]
+    public function run(array $params = []): void
     {
         // Call CLI Editor to open file
         $this->editFile(BLOG_ROOT . '/config.php');

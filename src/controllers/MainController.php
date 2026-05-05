@@ -18,22 +18,12 @@ use Oni\Web\Controller\Page as Controller;
 
 class MainController extends Controller
 {
-    /**
-     * @var array
-     */
-    private $sideList = [];
+    private array $sideList = [];
+    private array $handlerList = [];
+    private array $viewData = [];
 
-    /**
-     * @var array
-     */
-    private $handlerList = [];
-
-    /**
-     * @var array
-     */
-    private $viewData = [];
-
-    public function up()
+    #[\Override]
+    public function up(): mixed
     {
         // Get Resources
         $systemConstant = Resource::get('system:constant');
@@ -83,7 +73,7 @@ class MainController extends Controller
         $handlerList = [];
 
         foreach ($themeConfig['handlers'] as $name) {
-            if (false === isset($handlerList[$name])) {
+            if (!isset($handlerList[$name])) {
                 $className = 'Pointless\\Handler\\' . ucfirst($name);
 
                 $instance = new $className();
@@ -100,7 +90,7 @@ class MainController extends Controller
         $sideList = [];
 
         foreach ($themeConfig['views']['side'] as $name) {
-            if (false === isset($handlerList[$name])) {
+            if (!isset($handlerList[$name])) {
                 continue;
             }
 
@@ -120,7 +110,7 @@ class MainController extends Controller
      *
      * @param array $params
      */
-    public function indexAction($params = [])
+    public function indexAction(array $params = []): mixed
     {
         $path = trim($this->req->uri(), '/');
         $path = urldecode($path);
@@ -133,7 +123,7 @@ class MainController extends Controller
         // Get Container Data List
         $containerList = $this->handlerList['describe']->getContainerDataList();
 
-        if (false === isset($containerList["{$path}/"])) {
+        if (!isset($containerList["{$path}/"])) {
             http_response_code(404);
 
             return false;
@@ -152,15 +142,15 @@ class MainController extends Controller
      *
      * @param array $params
      */
-    public function articleAction($params = [])
+    public function articleAction(array $params = []): mixed
     {
-        $path = 'article/' . (0 !== count($params) ? join('/', $params) . '/' : '');
+        $path = 'article/' . (0 !== count($params) ? implode('/', $params) . '/' : '');
         $path = urldecode($path);
 
         // Get Container Data List
         $containerList = $this->handlerList['article']->getContainerDataList();
 
-        if (false === isset($containerList[$path])) {
+        if (!isset($containerList[$path])) {
             http_response_code(404);
 
             return false;
@@ -179,15 +169,15 @@ class MainController extends Controller
      *
      * @param array $params
      */
-    public function pageAction($params = [])
+    public function pageAction(array $params = []): mixed
     {
-        $path = 'page/' . (0 !== count($params) ? join('/', $params) . '/' : '');
+        $path = 'page/' . (0 !== count($params) ? implode('/', $params) . '/' : '');
         $path = urldecode($path);
 
         // Get Container Data List
         $containerList = $this->handlerList['page']->getContainerDataList();
 
-        if (false === isset($containerList[$path])) {
+        if (!isset($containerList[$path])) {
             http_response_code(404);
 
             return false;
@@ -206,15 +196,15 @@ class MainController extends Controller
      *
      * @param array $params
      */
-    public function archiveAction($params = [])
+    public function archiveAction(array $params = []): mixed
     {
-        $path = 'archive/' . (0 !== count($params) ? join('/', $params) . '/' : '');
+        $path = 'archive/' . (0 !== count($params) ? implode('/', $params) . '/' : '');
         $path = urldecode($path);
 
         // Get Container Data List
         $containerList = $this->handlerList['archive']->getContainerDataList();
 
-        if (false === isset($containerList[$path])) {
+        if (!isset($containerList[$path])) {
             http_response_code(404);
 
             return false;
@@ -233,15 +223,15 @@ class MainController extends Controller
      *
      * @param array $params
      */
-    public function categoryAction($params = [])
+    public function categoryAction(array $params = []): mixed
     {
-        $path = 'category/' . (0 !== count($params) ? join('/', $params) . '/' : '');
+        $path = 'category/' . (0 !== count($params) ? implode('/', $params) . '/' : '');
         $path = urldecode($path);
 
         // Get Container Data List
         $containerList = $this->handlerList['category']->getContainerDataList();
 
-        if (false === isset($containerList[$path])) {
+        if (!isset($containerList[$path])) {
             http_response_code(404);
 
             return false;
@@ -260,15 +250,15 @@ class MainController extends Controller
      *
      * @param array $params
      */
-    public function tagAction($params = [])
+    public function tagAction(array $params = []): mixed
     {
-        $path = 'tag/' . (0 !== count($params) ? join('/', $params) . '/' : '');
+        $path = 'tag/' . (0 !== count($params) ? implode('/', $params) . '/' : '');
         $path = urldecode($path);
 
         // Get Container Data List
         $containerList = $this->handlerList['tag']->getContainerDataList();
 
-        if (false === isset($containerList[$path])) {
+        if (!isset($containerList[$path])) {
             http_response_code(404);
 
             return false;
@@ -287,7 +277,7 @@ class MainController extends Controller
      *
      * @param array $params
      */
-    public function editorAction($params = [])
+    public function editorAction(array $params = []): mixed
     {
         $path = trim($this->req->uri(), '/');
         $path = urldecode($path);

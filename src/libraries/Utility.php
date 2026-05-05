@@ -51,7 +51,7 @@ class Utility
     public static function commandExists(string $command): bool
     {
         foreach (explode(':', $_SERVER['PATH']) as $path) {
-            if (true === file_exists("{$path}/{$command}")) {
+            if (file_exists("{$path}/{$command}")) {
                 return true;
             }
         }
@@ -70,26 +70,28 @@ class Utility
      */
     public static function chown(string $path, string $user, string $group): bool
     {
-        if (false === file_exists($path)) {
+        if (!file_exists($path)) {
             return false;
         }
 
         chown($path, $user);
         chgrp($path, $group);
 
-        if (true === is_dir($path)) {
+        if (is_dir($path)) {
             $handle = opendir($path);
 
             while ($filename = readdir($handle)) {
-                if (in_array($filename, ['.', '..'])) {
+                if (in_array($filename, ['.', '..'], true)) {
                     continue;
                 }
 
-                self::chown("{$path}/{$command}", $user, $group);
+                self::chown("{$path}/{$filename}", $user, $group);
             }
 
             closedir($handle);
         }
+
+        return true;
     }
 
     /**
@@ -101,7 +103,7 @@ class Utility
      */
     public static function mkdir(string $path): bool
     {
-        if (true === file_exists($path)) {
+        if (file_exists($path)) {
             return is_dir($path);
         }
 
@@ -118,19 +120,19 @@ class Utility
      */
     public static function copy(string $src, string $dest): bool
     {
-        if (false === file_exists($src)) {
+        if (!file_exists($src)) {
             return false;
         }
 
-        if (true === is_dir($src)) {
-            if (false === file_exists($dest)) {
+        if (is_dir($src)) {
+            if (!file_exists($dest)) {
                 mkdir($dest, 0755, true);
             }
 
             $handle = opendir($src);
 
             while ($filename = readdir($handle)) {
-                if (in_array($filename, ['.', '..', '.git'])) {
+                if (in_array($filename, ['.', '..', '.git'], true)) {
                     continue;
                 }
 
@@ -141,7 +143,7 @@ class Utility
 
             return true;
         } elseif (true === is_file($src)) {
-            if (false === file_exists(dirname($dest))) {
+            if (!file_exists(dirname($dest))) {
                 mkdir(dirname($dest), 0755, true);
             }
 
@@ -164,18 +166,18 @@ class Utility
      */
     public static function remove(string $path, bool $isKeepRoot = false, array $skipFilenameList = []): bool
     {
-        if (false === file_exists($path)) {
+        if (!file_exists($path)) {
             return false;
         }
 
         $rootPath = $isKeepRoot ? $path : null;
 
-        if (true === is_dir($path)) {
+        if (is_dir($path)) {
             $handle = opendir($path);
 
             while ($filename = readdir($handle)) {
-                if (in_array($filename, ['.', '..'])
-                    || in_array($filename, $skipFilenameList)
+                if (in_array($filename, ['.', '..'], true)
+                    || in_array($filename, $skipFilenameList, true)
                 ) {
                     continue;
                 }
@@ -210,9 +212,7 @@ class Utility
     {
         exec('ps aux', $output);
 
-        $output = array_filter($output, function ($text) use ($command) {
-            return strpos($text, $command);
-        });
+        $output = array_filter($output, fn($text) => str_contains($text, $command));
 
         return 0 < count($output);
     }
@@ -227,7 +227,7 @@ class Utility
     public static function fixPermission(string $path): bool
     {
         // Check SERVER Variable
-        if (false === isset($_SERVER['SUDO_USER'])) {
+        if (!isset($_SERVER['SUDO_USER'])) {
             return false;
         }
 
@@ -241,13 +241,13 @@ class Utility
      * Save JSON File
      *
      * @param string $path
-     * @param mixed $path
+     * @param mixed $data
      *
      * @return bool
      */
     public static function saveJsonFile(string $path, $data): bool
     {
-        if (true === file_exists($path)) {
+        if (file_exists($path)) {
             self::remove($path);
         }
 
@@ -263,9 +263,9 @@ class Utility
      *
      * @return mixed
      */
-    public static function loadJsonFile(string $path)
+    public static function loadJsonFile(string $path): mixed
     {
-        if (false === file_exists($path)) {
+        if (!file_exists($path)) {
             return null;
         }
 
@@ -282,7 +282,7 @@ class Utility
      */
     public static function saveMarkdownFile(string $path, array $params, string $raw = ''): bool
     {
-        if (true === file_exists($path)) {
+        if (file_exists($path)) {
             self::remove($path);
         }
 
@@ -302,7 +302,7 @@ class Utility
      */
     public static function loadMarkdownFile(string $path): ?array
     {
-        if (false === file_exists($path)) {
+        if (!file_exists($path)) {
             return null;
         }
 

@@ -20,14 +20,15 @@ use Pointless\Extend\Task;
 
 class IntroTask extends Task
 {
-    public function run($params = [])
+    #[\Override]
+    public function run(array $params = []): void
     {
         $this->showBanner();
 
         if (0 !== count($params)) {
             $this->io->error("Can't find the command \"{$params[0]}\".");
 
-            return false;
+            return;
         }
 
         // Sub Help Info

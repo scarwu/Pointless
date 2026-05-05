@@ -19,7 +19,7 @@ class StopTask extends Task
     /**
      * Help Info
      */
-    public function helpInfo()
+    public function helpInfo(): void
     {
 		$this->io->log('server stop             - Stop server');
     }
@@ -27,7 +27,8 @@ class StopTask extends Task
     /**
      * Lifecycle Funtions
      */
-    public function up()
+    #[\Override]
+    public function up(): mixed
     {
         // Init Blog
         if (false === BlogCore::init()) {
@@ -37,20 +38,21 @@ class StopTask extends Task
         }
     }
 
-    public function run()
+    #[\Override]
+    public function run(array $params = []): void
     {
         $this->io->notice('Stopping Server');
 
         // Load & Save Blog Config
         $blog = Utility::loadJsonFile(HOME_ROOT . '/blog.json');
 
-        if (false === is_array($blog)
-            || false === isset($blog['server'])
-            || false === is_array($blog['server'])
+        if (!is_array($blog)
+            || !isset($blog['server'])
+            || !is_array($blog['server'])
         ) {
             $this->io->error('Server is not running.');
 
-            return false;
+            return;
         }
 
         if (true === Utility::isCommandRunning($blog['server']['command'])) {

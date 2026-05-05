@@ -14,17 +14,14 @@ use Pointless\Extend\ThemeHandler;
 
 class Article extends ThemeHandler
 {
-    public function __construct()
-    {
-        $this->type = 'article';
-    }
-
+    protected ?string $type = 'article';
     /**
      * Init Data
      *
      * @param array
      */
-    public function initData($data)
+    #[\Override]
+    public function initData(array $data): void
     {
         $this->data = $data;
     }
@@ -34,7 +31,8 @@ class Article extends ThemeHandler
      *
      * @return array
      */
-    public function getContainerDataList()
+    #[\Override]
+    public function getContainerDataList(): array
     {
         $articleList = $this->data['postBundle']['article'];
         $keys = array_keys($articleList);
@@ -53,13 +51,13 @@ class Article extends ThemeHandler
             $container['paging']['totalIndex'] = $totalIndex;
             $container['paging']['currentIndex'] = $currentIndex + 1;
 
-            if (true === isset($keys[$currentIndex - 1])) {
+            if (isset($keys[$currentIndex - 1])) {
                 $prevKey = $keys[$currentIndex - 1];
                 $container['paging']['prevTitle'] = $articleList[$prevKey]['title'];
                 $container['paging']['prevUrl'] = "article/{$articleList[$prevKey]['url']}";
             }
 
-            if (true === isset($keys[$currentIndex + 1])) {
+            if (isset($keys[$currentIndex + 1])) {
                 $nextKey = $keys[$currentIndex + 1];
                 $container['paging']['nextTitle'] = $articleList[$nextKey]['title'];
                 $container['paging']['nextUrl'] = "article/{$articleList[$nextKey]['url']}";

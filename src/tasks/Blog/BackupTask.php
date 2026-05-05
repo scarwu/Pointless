@@ -20,7 +20,7 @@ class BackupTask extends Task
     /**
      * Help Info
      */
-    public function helpInfo()
+    public function helpInfo(): void
     {
         $this->io->log('blog backup             - Backup blog');
     }
@@ -28,7 +28,8 @@ class BackupTask extends Task
     /**
      * Lifecycle Funtions
      */
-    public function up()
+    #[\Override]
+    public function up(): mixed
     {
         // Init Blog
         if (false === BlogCore::init()) {
@@ -45,7 +46,8 @@ class BackupTask extends Task
         }
     }
 
-    public function run()
+    #[\Override]
+    public function run(array $params = []): void
     {
         $config = Resource::get('blog:config');
         $target = $config['backup']['target'];
@@ -58,13 +60,13 @@ class BackupTask extends Task
             $repo = $setting['repo'];
             $branch = $setting['branch'];
 
-            if (false === is_string($account)
-                || false === is_string($repo)
-                || false === is_string($branch)
+            if (!is_string($account)
+                || !is_string($repo)
+                || !is_string($branch)
             ) {
                 $this->io->error('Please add Github setting in blog config.');
 
-                return false;
+                return;
             }
 
             // Create Backup Folder & Fix Permission
@@ -73,7 +75,7 @@ class BackupTask extends Task
 
             chdir(BLOG_BACKUP);
 
-            if (false === file_exists(BLOG_BACKUP . '/.git')) {
+            if (!file_exists(BLOG_BACKUP . '/.git')) {
                 system('git init');
                 system("git remote add origin git@github.com:{$account}/{$repo}.git");
             }
@@ -101,7 +103,7 @@ class BackupTask extends Task
         default:
             $this->io->error('Backup target not found.');
 
-            return false;
+            return;
         }
     }
 }

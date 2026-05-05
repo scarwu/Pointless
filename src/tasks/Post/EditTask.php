@@ -20,7 +20,7 @@ class EditTask extends Task
     /**
      * Help Info
      */
-    public function helpInfo()
+    public function helpInfo(): void
     {
         $this->io->log('post edit               - Edit post');
     }
@@ -28,7 +28,8 @@ class EditTask extends Task
     /**
      * Lifecycle Funtions
      */
-    public function up()
+    #[\Override]
+    public function up(): mixed
     {
         // Init Blog
         if (false === BlogCore::init()) {
@@ -47,7 +48,8 @@ class EditTask extends Task
         }
     }
 
-    public function run()
+    #[\Override]
+    public function run(array $params = []): void
     {
         // Select Format Item
         $formatItem = $this->selectFormatItem();
@@ -55,10 +57,10 @@ class EditTask extends Task
         // Select Post Data
         $postData = $this->selectPostData($formatItem->getType());
 
-        if (false === is_array($postData)) {
+        if (!is_array($postData)) {
             $this->io->error('No post(s).');
 
-            return false;
+            return;
         }
 
         // Get Info

@@ -20,7 +20,7 @@ class InstallTask extends Task
     /**
      * Help Info
      */
-    public function helpInfo()
+    public function helpInfo(): void
     {
         $this->io->log('theme install <gitUrl>  - Install theme');
         $this->io->log('        --branch=<?>    - Set branch (default: master)');
@@ -29,7 +29,8 @@ class InstallTask extends Task
     /**
      * Lifecycle Funtions
      */
-    public function up()
+    #[\Override]
+    public function up(): mixed
     {
         // Init Blog
         if (false === BlogCore::init()) {
@@ -39,15 +40,16 @@ class InstallTask extends Task
         }
     }
 
-    public function run()
+    #[\Override]
+    public function run(array $params = []): void
     {
         // [ 'theme', 'install', '<gitRepo>' ]
         $gitRepo = $this->io->getArguments(2);
 
-        if (false === isset($gitRepo)) {
+        if (!isset($gitRepo)) {
             $this->io->error("Git repo url is not found.");
 
-            return false;
+            return;
         }
 
         if (true === $this->io->hasConfigs('branch')) {
@@ -68,8 +70,8 @@ class InstallTask extends Task
         system("git clone --branch {$branch} {$gitRepo} {$tmpFolder}");
 
         // Check Theme Information
-        if (true === is_dir("{$tmpFolder}/dist")
-            && true === is_file("{$tmpFolder}/dist/constant.php")
+        if (is_dir("{$tmpFolder}/dist")
+            && is_file("{$tmpFolder}/dist/constant.php")
         ) {
 
             // Include Theme Constant

@@ -18,7 +18,7 @@ class UpdateTask extends Task
     /**
      * Help Info
      */
-    public function helpInfo($isShowDetail = false)
+    public function helpInfo(bool $isShowDetail = false): void
     {
         $this->io->log('update                  - System self-update');
     }
@@ -26,7 +26,8 @@ class UpdateTask extends Task
     /**
      * Lifecycle Funtions
      */
-    public function up()
+    #[\Override]
+    public function up(): mixed
     {
         $this->showBanner();
         $this->io->writeln();
@@ -50,7 +51,8 @@ class UpdateTask extends Task
         }
     }
 
-    public function run()
+    #[\Override]
+    public function run(array $params = []): void
     {
         $anwser = $this->io->ask('Are you sure to update system? [y/N]');
         $anwser = strtolower($anwser);

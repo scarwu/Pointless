@@ -14,15 +14,13 @@ use Pointless\Extend\Extension;
 
 class Sitemap extends Extension
 {
-    public function __construct()
-    {
-        $this->path = 'sitemap.xml';
-    }
+    protected ?string $path = 'sitemap.xml';
 
     /**
      * Render
      */
-    public function render($data)
+    #[\Override]
+    public function render(array $data): string
     {
         $scheme = $data['blog']['config']['withSSL'] ? 'https' : 'http';
         $domainName = $data['blog']['config']['domainName'];

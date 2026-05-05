@@ -20,7 +20,7 @@ class PostController extends Controller
     /**
      * Get List Action
      */
-    public function getListAction($params = [])
+    public function getListAction(array $params = []): mixed
     {
         if (0 === count($params)) {
             http_response_code(400);
@@ -31,9 +31,9 @@ class PostController extends Controller
             ];
         }
 
-        $type = (true === isset($params[0])) ? $params[0] : null;
+        $type = $params[0] ?? null;
 
-        if (false === in_array($type, [ 'article', 'describe' ])) {
+        if (!in_array($type, [ 'article', 'describe' ])) {
             http_response_code(400);
 
             return [
@@ -48,7 +48,7 @@ class PostController extends Controller
             $className = 'Pointless\\Format\\' . ucfirst($subClassName);
             $format = new $className;
 
-            if (true === is_string($type) && $type !== $format->getType()) {
+            if (is_string($type) && $type !== $format->getType()) {
                 continue;
             }
 
@@ -65,7 +65,7 @@ class PostController extends Controller
     /**
      * Get Item Action
      */
-    public function getItemAction($params = [])
+    public function getItemAction(array $params = []): mixed
     {
         if (0 === count($params)) {
             http_response_code(400);
@@ -76,9 +76,9 @@ class PostController extends Controller
             ];
         }
 
-        $url = (true === isset($params[0])) ? $params[0] : null;
+        $url = (isset($params[0])) ? $params[0] : null;
 
-        if (false === is_string($url)) {
+        if (!is_string($url)) {
             http_response_code(400);
 
             return [
@@ -95,8 +95,8 @@ class PostController extends Controller
             $type = $format->getType();
 
             foreach (BlogCore::getPostList($type, true) as $item) {
-                if (false === isset($item['params'])
-                    || false === isset($item['params']['url'])
+                if (!isset($item['params'])
+                    || !isset($item['params']['url'])
                     || $url !== $item['params']['url']
                 ) {
                     continue;
@@ -121,7 +121,7 @@ class PostController extends Controller
     /**
      * Create Item Action
      */
-    public function createItemAction($params = [])
+    public function createItemAction(array $params = []): mixed
     {
         if (0 === count($params)) {
             http_response_code(400);
@@ -143,7 +143,7 @@ class PostController extends Controller
     /**
      * Update Item Action
      */
-    public function updateItemAction($params = [])
+    public function updateItemAction(array $params = []): mixed
     {
         if (0 === count($params)) {
             http_response_code(400);
@@ -158,9 +158,9 @@ class PostController extends Controller
         Utility::saveMarkdownFile($filepath, $header, "# {$title}");
 
 
-        // $url = (true === isset($params[0])) ? $params[0] : null;
+        // $url = (isset($params[0])) ? $params[0] : null;
 
-        // if (false === is_string($url)) {
+        // if (!is_string($url)) {
         //     http_response_code(400);
 
         //     return [
@@ -177,7 +177,7 @@ class PostController extends Controller
 
         //     $name = $format->getName();
 
-        //     if (true === is_string($type) && $type !== $format->getType()) {
+        //     if (is_string($type) && $type !== $format->getType()) {
         //         continue;
         //     }
 
@@ -194,7 +194,7 @@ class PostController extends Controller
     /**
      * Remove Item Action
      */
-    public function removeItemAction($params = [])
+    public function removeItemAction(array $params = []): mixed
     {
         if (0 === count($params)) {
             http_response_code(400);
@@ -206,7 +206,7 @@ class PostController extends Controller
         }
 
         // $query = $this->req->query();
-        // $targetType = (true === isset($query['type'])) ? $query['type'] : null;
+        // $targetType = (isset($query['type'])) ? $query['type'] : null;
 
         // $result = [];
 
@@ -217,7 +217,7 @@ class PostController extends Controller
         //     $name = $format->getName();
         //     $type = $format->getType();
 
-        //     if (true === is_string($targetType) && $targetType !== $type) {
+        //     if (is_string($targetType) && $targetType !== $type) {
         //         continue;
         //     }
 
@@ -233,7 +233,7 @@ class PostController extends Controller
     /**
      * Get Media List Action
      */
-    public function getMediaListAction($params = [])
+    public function getMediaListAction(array $params = []): mixed
     {
         if (0 === count($params)) {
             http_response_code(400);
@@ -247,7 +247,7 @@ class PostController extends Controller
         $list = [];
 
         // $query = $this->req->query();
-        // $targetType = (true === isset($query['type'])) ? $query['type'] : null;
+        // $targetType = (isset($query['type'])) ? $query['type'] : null;
 
         // $result = [];
 
@@ -258,7 +258,7 @@ class PostController extends Controller
         //     $name = $format->getName();
         //     $type = $format->getType();
 
-        //     if (true === is_string($targetType) && $targetType !== $type) {
+        //     if (is_string($targetType) && $targetType !== $type) {
         //         continue;
         //     }
 
@@ -275,7 +275,7 @@ class PostController extends Controller
     /**
      * Upload Media Item Action
      */
-    public function uploadMediaItemAction($params = [])
+    public function uploadMediaItemAction(array $params = []): mixed
     {
         if (0 === count($params)) {
             http_response_code(400);
@@ -287,7 +287,7 @@ class PostController extends Controller
         }
 
         // $query = $this->req->query();
-        // $targetType = (true === isset($query['type'])) ? $query['type'] : null;
+        // $targetType = (isset($query['type'])) ? $query['type'] : null;
 
         // $result = [];
 
@@ -298,7 +298,7 @@ class PostController extends Controller
         //     $name = $format->getName();
         //     $type = $format->getType();
 
-        //     if (true === is_string($targetType) && $targetType !== $type) {
+        //     if (is_string($targetType) && $targetType !== $type) {
         //         continue;
         //     }
 
@@ -314,7 +314,7 @@ class PostController extends Controller
     /**
      * Remove Media Item Action
      */
-    public function removeMediaItemAction($params = [])
+    public function removeMediaItemAction(array $params = []): mixed
     {
         if (0 === count($params)) {
             http_response_code(400);
@@ -326,7 +326,7 @@ class PostController extends Controller
         }
 
         // $query = $this->req->query();
-        // $targetType = (true === isset($query['type'])) ? $query['type'] : null;
+        // $targetType = (isset($query['type'])) ? $query['type'] : null;
 
         // $result = [];
 
@@ -337,7 +337,7 @@ class PostController extends Controller
         //     $name = $format->getName();
         //     $type = $format->getType();
 
-        //     if (true === is_string($targetType) && $targetType !== $type) {
+        //     if (is_string($targetType) && $targetType !== $type) {
         //         continue;
         //     }
 

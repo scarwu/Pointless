@@ -12,10 +12,7 @@ namespace Pointless\Library;
 
 class Resource
 {
-    /**
-     * @var array
-     */
-    private static $_resource = [];
+    private static array $_resource = [];
 
     private function __construct() {}
 
@@ -26,9 +23,9 @@ class Resource
      *
      * @return mixed
      */
-    public static function get(string $key)
+    public static function get(string $key): mixed
     {
-        if (true === array_key_exists($key, self::$_resource)) {
+        if (isset(self::$_resource[$key])) {
             return self::$_resource[$key];
         }
 
@@ -41,7 +38,7 @@ class Resource
      * @param string $key
      * @param mixed $data
      */
-    public static function set(string $key, $data): bool
+    public static function set(string $key, mixed $data): bool
     {
         self::$_resource[$key] = $data;
 
@@ -52,9 +49,9 @@ class Resource
      * Append Resource
      *
      * @param string $key
-     * @param array $data
+     * @param mixed $data
      */
-    public static function append(string $key, $data): bool
+    public static function append(string $key, mixed $data): bool
     {
         if (false === array_key_exists($key, self::$_resource)) {
             self::$_resource[$key] = [];

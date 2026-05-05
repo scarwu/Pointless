@@ -14,27 +14,16 @@ use Pointless\Library\Utility;
 
 abstract class Format
 {
-    /**
-     * @var string
-     */
-    protected $type = null;
-
-    /**
-     * @var string
-     */
-    protected $name = null;
-
-    /**
-     * @var array
-     */
-    protected $questionList = [];
+    protected ?string $type = null;
+    protected ?string $name = null;
+    protected array $questionList = [];
 
     /**
      * Get Type
      *
      * @return string
      */
-    final public function getType()
+    final public function getType(): ?string
     {
         return $this->type;
     }
@@ -44,7 +33,7 @@ abstract class Format
      *
      * @return string
      */
-    final public function getName()
+    final public function getName(): ?string
     {
         return $this->name;
     }
@@ -54,7 +43,7 @@ abstract class Format
      *
      * @return array
      */
-    final public function getQuestionList()
+    final public function getQuestionList(): array
     {
         return $this->questionList;
     }
@@ -66,7 +55,7 @@ abstract class Format
      *
      * @return array
      */
-    final public function saveToFile($info)
+    final public function saveToFile(array $info): array
     {
         $type = $info['type'];
         $filename = $info['filename'];
@@ -94,7 +83,7 @@ abstract class Format
      *
      * @return array
      */
-    public function convertInput($input)
+    public function convertInput(array $input): array
     {
         return [];
     }
@@ -106,7 +95,7 @@ abstract class Format
      *
      * @return array
      */
-    public function convertPost($post)
+    public function convertPost(array $post): array
     {
         return [];
     }

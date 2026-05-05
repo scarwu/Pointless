@@ -14,15 +14,13 @@ use Pointless\Extend\Extension;
 
 class Atom extends Extension
 {
-    public function __construct()
-    {
-        $this->path = 'atom.xml';
-    }
+    protected ?string $path = 'atom.xml';
 
     /**
      * Render
      */
-    public function render($data)
+    #[\Override]
+    public function render(array $data): string
     {
         $scheme = $data['blog']['config']['withSSL'] ? 'https' : 'http';
         $domainName = $data['blog']['config']['domainName'];
@@ -92,7 +90,7 @@ class Atom extends Extension
      * @param string
      * @return string
      */
-    private function uuid($input)
+    private function uuid(string $input): string
     {
         $chars = md5($input);
 

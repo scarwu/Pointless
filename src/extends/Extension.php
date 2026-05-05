@@ -12,17 +12,14 @@ namespace Pointless\Extend;
 
 abstract class Extension
 {
-    /**
-     * @var string
-     */
-    protected $path = null;
+    protected ?string $path = null;
 
     /**
      * Run Extension
      *
      * @return string
      */
-    final public function getPath()
+    final public function getPath(): ?string
     {
         return $this->path;
     }
@@ -34,5 +31,5 @@ abstract class Extension
      *
      * @return string
      */
-    abstract public function render($data);
+    abstract public function render(array $data): string;
 }

@@ -24,7 +24,7 @@ class BlogTask extends Task
     /**
      * Help Info
      */
-    public function helpInfo($isShowDetail = false)
+    public function helpInfo(bool $isShowDetail = false): void
     {
         $this->io->log('blog                    - Blog control');
     }
@@ -32,7 +32,8 @@ class BlogTask extends Task
     /**
      * Lifecycle Funtions
      */
-    public function up()
+    #[\Override]
+    public function up(): mixed
     {
         $this->showBanner();
         (new InitTask)->helpInfo();
@@ -50,7 +51,8 @@ class BlogTask extends Task
         }
     }
 
-    public function run()
+    #[\Override]
+    public function run(array $params = []): void
     {
         $config = Resource::get('blog:config');
 

@@ -14,17 +14,14 @@ use Pointless\Extend\ThemeHandler;
 
 class Page extends ThemeHandler
 {
-    public function __construct()
-    {
-        $this->type = 'page';
-    }
-
+    protected ?string $type = 'page';
     /**
      * Init Data
      *
      * @param array
      */
-    public function initData($data)
+    #[\Override]
+    public function initData(array $data): void
     {
         $data['articleByPage'] = [];
         $articleList = $data['postBundle']['article'];
@@ -43,7 +40,8 @@ class Page extends ThemeHandler
      *
      * @return array
      */
-    public function getContainerDataList()
+    #[\Override]
+    public function getContainerDataList(): array
     {
         $articleList = $this->data['articleByPage'];
         $keys = array_keys($articleList);
@@ -63,13 +61,13 @@ class Page extends ThemeHandler
             $container['paging']['totalIndex'] = $totalIndex;
             $container['paging']['currentIndex'] = $currentIndex + 1;
 
-            if (true === isset($keys[$currentIndex - 1])) {
+            if (isset($keys[$currentIndex - 1])) {
                 $prevKey = $keys[$currentIndex - 1];
                 $container['paging']['prevTitle'] = $prevKey;
                 $container['paging']['prevUrl'] = "page/{$prevKey}/";
             }
 
-            if (true === isset($keys[$currentIndex + 1])) {
+            if (isset($keys[$currentIndex + 1])) {
                 $nextKey = $keys[$currentIndex + 1];
                 $container['paging']['nextTitle'] = $nextKey;
                 $container['paging']['nextUrl'] = "page/{$nextKey}/";

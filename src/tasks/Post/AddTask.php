@@ -20,7 +20,7 @@ class AddTask extends Task
     /**
      * Help Info
      */
-    public function helpInfo()
+    public function helpInfo(): void
     {
         $this->io->log('post add                - Add new post');
     }
@@ -28,7 +28,8 @@ class AddTask extends Task
     /**
      * Lifecycle Funtions
      */
-    public function up()
+    #[\Override]
+    public function up(): mixed
     {
         // Init Blog
         if (false === BlogCore::init()) {
@@ -38,7 +39,8 @@ class AddTask extends Task
         }
     }
 
-    public function run()
+    #[\Override]
+    public function run(array $params = []): void
     {
         // Select Format Item
         $formatItem = $this->selectFormatItem();
@@ -67,7 +69,7 @@ class AddTask extends Task
         if (null === $filepath) {
             $this->io->error($formatItem->getName() . " {$filename} is exsist.");
 
-            return false;
+            return;
         }
 
         $this->io->notice($formatItem->getName() . " {$filename} was created.");

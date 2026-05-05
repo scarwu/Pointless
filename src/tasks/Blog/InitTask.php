@@ -24,7 +24,7 @@ class InitTask extends Task
     /**
      * Help Info
      */
-    public function helpInfo()
+    public function helpInfo(): void
     {
         $this->io->log('blog init <path?>       - Init blog');
     }
@@ -32,20 +32,21 @@ class InitTask extends Task
     /**
      * Lifecycle Funtions
      */
-    public function run()
+    #[\Override]
+    public function run(array $params = []): void
     {
         // [ 'blog', 'init', '<path>' ]
         $path = (null !== $this->io->getArguments(2))
             ? $this->io->getArguments(2) : '';
 
-        if (false === (bool) preg_match('/^\/(.+)/', $path)) {
+        if (!str_starts_with($path, '/') || strlen($path) <= 1) {
             $path = getcwd() . ('' !== $path ? "/{$path}" : $path);
         }
 
         // Load Blog Config
         $blog = Utility::loadJsonFile(HOME_ROOT . '/blog.json');
 
-        if (false === is_array($blog)) {
+        if (!is_array($blog)) {
             $blog = [];
         }
 
@@ -57,7 +58,7 @@ class InitTask extends Task
         if (false === BlogCore::init()) {
             $this->io->error('Init Blog Failed.');
 
-            return false;
+            return;
         }
 
         $this->io->notice("Default blog is setting to path \"{$path}\".");

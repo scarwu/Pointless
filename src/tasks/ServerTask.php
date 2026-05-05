@@ -21,7 +21,7 @@ class ServerTask extends Task
     /**
      * Help Info
      */
-    public function helpInfo($isShowDetail = false)
+    public function helpInfo(bool $isShowDetail = false): void
     {
         $this->io->log('server                  - Built-in web server');
     }
@@ -29,7 +29,8 @@ class ServerTask extends Task
     /**
      * Lifecycle Funtions
      */
-    public function up()
+    #[\Override]
+    public function up(): mixed
     {
         $this->showBanner();
         (new StartTask)->helpInfo();
@@ -44,18 +45,19 @@ class ServerTask extends Task
         }
     }
 
-    public function run()
+    #[\Override]
+    public function run(array $params = []): void
     {
         // Load & Save Blog Config
         $blog = Utility::loadJsonFile(HOME_ROOT . '/blog.json');
 
-        if (false === is_array($blog)
-            || false === isset($blog['server'])
-            || false === is_array($blog['server'])
+        if (!is_array($blog)
+            || !isset($blog['server'])
+            || !is_array($blog['server'])
         ) {
             $this->io->error('Server is not running.');
 
-            return false;
+            return;
         }
 
         if (false === Utility::isCommandRunning($blog['server']['command'])) {
@@ -65,7 +67,7 @@ class ServerTask extends Task
 
             Utility::saveJsonFile(HOME_ROOT . '/blog.json', $blog);
 
-            return false;
+            return;
         }
 
         $this->io->notice('Status:');

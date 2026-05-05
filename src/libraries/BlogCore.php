@@ -19,19 +19,15 @@ class BlogCore
 {
     private function __construct() {}
 
-    private static $_isInited = false;
-
-    /**
-     * @var object
-     */
-    private static $_parsedown = null;
+    private static bool $_isInited = false;
+    private static ?\Parsedown $_parsedown = null;
 
     /**
      * Initialize
      *
      * @return bool
      */
-    public static function init()
+    public static function init(): bool
     {
         if (true === self::$_isInited) {
             return true;
@@ -42,13 +38,13 @@ class BlogCore
             // Load Config
             $blog = Utility::loadJsonFile(HOME_ROOT . '/blog.json');
 
-            if (false === is_array($blog)
-                || false === is_string($blog['path'])
+            if (!is_array($blog)
+                || !is_string($blog['path'])
             ) {
                 return false;
             }
 
-            if (false === Utility::mkdir($blog['path'])) {
+            if (!Utility::mkdir($blog['path'])) {
                 return false;
             }
 
@@ -68,16 +64,16 @@ class BlogCore
 
         require BLOG_ROOT . '/config.php';
 
-        if (false === isset($config['theme']) || '' === $config['theme']) {
+        if (!isset($config['theme']) || '' === $config['theme']) {
             $config['theme'] = 'Classic';
         }
 
-        if (false === isset($config['timezone']) || '' === $config['timezone']) {
+        if (!isset($config['timezone']) || '' === $config['timezone']) {
             $config['timezone'] = 'Etc/UTC';
         }
 
         if (false === getenv('BLOG_THEME')) {
-            if (true === file_exists(BLOG_ROOT . "/themes/{$config['theme']}")) {
+            if (file_exists(BLOG_ROOT . "/themes/{$config['theme']}")) {
                 define('BLOG_THEME', BLOG_ROOT . "/themes/{$config['theme']}");
             } else {
                 define('BLOG_THEME', APP_ROOT . '/sample/themes/Classic');
@@ -98,15 +94,15 @@ class BlogCore
         Resource::set('blog:config', $config);
 
         // Copy Sample Files
-        if (false === file_exists(BLOG_ROOT . '/config.php')) {
+        if (!file_exists(BLOG_ROOT . '/config.php')) {
             Utility::copy(APP_ROOT . '/sample/config.php', BLOG_ROOT . '/config.php');
         }
 
-        if (false === file_exists(BLOG_POST)) {
+        if (!file_exists(BLOG_POST)) {
             Utility::copy(APP_ROOT . '/sample/posts', BLOG_POST);
         }
 
-        if (false === file_exists(BLOG_ROOT . '/themes')) {
+        if (!file_exists(BLOG_ROOT . '/themes')) {
             Utility::copy(APP_ROOT . '/sample/themes', BLOG_ROOT . '/themes');
         }
 
@@ -141,13 +137,13 @@ class BlogCore
      *
      * @return array
      */
-    public static function getPostList(?string $type = null, bool $isParseRaw = false)
+    public static function getPostList(?string $type = null, bool $isParseRaw = false): array
     {
         $list = [];
         $handle = opendir(BLOG_POST . "/{$type}");
 
         while ($filename = readdir($handle)) {
-            if (false === (bool) preg_match('/.md$/', $filename)) {
+            if (!str_ends_with($filename, '.md')) {
                 continue;
             }
 
@@ -160,17 +156,16 @@ class BlogCore
                 throw new CustomException('blogCore:getPostList:loadMarkdownFile:error');
             }
 
-            if (true === $isParseRaw) {
+            if ($isParseRaw) {
                 $parseResult = self::parseMarkdownRaw($markdown['raw']);
 
-                if (false === is_array($parseResult)) {
+                if (!is_array($parseResult)) {
                     throw new CustomException('blogCore:getPostList:parseMarkdownRaw:error');
                 }
 
                 $markdown['title'] = $parseResult['title'];
                 $markdown['content'] = $parseResult['content'];
 
-                // unset($markdown['raw']);
             }
 
             $markdown['filename'] = $filename;
@@ -179,7 +174,7 @@ class BlogCore
             $markdown['createTime'] = filectime($markdown['filepath']);
             $markdown['modifyTime'] = filemtime($markdown['filepath']);
 
-            $key = (true === isset($markdown['params']['date']) && true === isset($markdown['params']['time']))
+            $key = (isset($markdown['params']['date'], $markdown['params']['time']))
                 ? "{$markdown['params']['date']} {$markdown['params']['time']}"
                 : $markdown['filename'];
 
@@ -231,11 +226,11 @@ class BlogCore
         $handle = opendir(BLOG_ROOT . '/themes');
 
         while ($filename = readdir($handle)) {
-            if (true === in_array($filename, ['.', '..'])) {
+            if (in_array($filename, ['.', '..'])) {
                 continue;
             }
 
-            if (false === is_dir(BLOG_ROOT . "/themes/{$filename}")) {
+            if (!is_dir(BLOG_ROOT . "/themes/{$filename}")) {
                 continue;
             }
 

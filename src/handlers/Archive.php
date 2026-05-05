@@ -14,24 +14,21 @@ use Pointless\Extend\ThemeHandler;
 
 class Archive extends ThemeHandler
 {
-    public function __construct()
-    {
-        $this->type = 'archive';
-    }
-
+    protected ?string $type = 'archive';
     /**
      * Init Data
      *
      * @param array
      */
-    public function initData($data)
+    #[\Override]
+    public function initData(array $data): void
     {
         $data['articleByArchive'] = [];
 
         foreach ($data['postBundle']['article'] as $post) {
             $archive = $post['year'];
 
-            if (false === isset($data['articleByArchive'][$archive])) {
+            if (!isset($data['articleByArchive'][$archive])) {
                 $data['articleByArchive'][$archive] = [];
             }
 
@@ -48,7 +45,8 @@ class Archive extends ThemeHandler
      *
      * @return array
      */
-    public function getSideData()
+    #[\Override]
+    public function getSideData(): array
     {
         return $this->data['articleByArchive'];
     }
@@ -58,7 +56,8 @@ class Archive extends ThemeHandler
      *
      * @return array
      */
-    public function getContainerDataList()
+    #[\Override]
+    public function getContainerDataList(): array
     {
         $articleList = $this->data['articleByArchive'];
         $keys = array_keys($articleList);
@@ -79,13 +78,13 @@ class Archive extends ThemeHandler
             $container['paging']['totalIndex'] = $totalIndex;
             $container['paging']['currentIndex'] = $currentIndex + 1;
 
-            if (true === isset($keys[$currentIndex - 1])) {
+            if (isset($keys[$currentIndex - 1])) {
                 $prevKey = $keys[$currentIndex - 1];
                 $container['paging']['prevTitle'] = $prevKey;
                 $container['paging']['prevUrl'] = "archive/{$prevKey}/";
             }
 
-            if (true === isset($keys[$currentIndex + 1])) {
+            if (isset($keys[$currentIndex + 1])) {
                 $nextKey = $keys[$currentIndex + 1];
                 $container['paging']['nextTitle'] = $nextKey;
                 $container['paging']['nextUrl'] = "archive/{$nextKey}/";
