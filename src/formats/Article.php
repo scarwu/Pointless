@@ -86,7 +86,6 @@ class Article extends Format
      *
      * @return array
      */
-    #[\Override]
     public function convertPost(array $post): array
     {
         $format = Resource::get('blog:config')['post']['article']['format'];
