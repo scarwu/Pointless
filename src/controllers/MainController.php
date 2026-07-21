@@ -33,6 +33,11 @@ class MainController extends Controller
      */
     private $viewData = [];
 
+    /**
+     * Up
+     *
+     * @return bool
+     */
     public function up(): bool
     {
         // Get Resources
@@ -113,14 +118,18 @@ class MainController extends Controller
 
         // Set View Layout
         $this->view->setLayoutPath('layout');
+
+        return true;
     }
 
     /**
      * Describe Action
      *
      * @param array $params
+     *
+     * @return bool
      */
-    public function indexAction(array $params = [])
+    public function indexAction(array $params = []): bool
     {
         $path = trim($this->req->uri(), '/');
         $path = urldecode($path);
@@ -145,14 +154,18 @@ class MainController extends Controller
             'sideList' => $this->sideList,
             'container' => $containerList["{$path}/"]
         ]));
+
+        return true;
     }
 
     /**
      * Article Action
      *
      * @param array $params
+     *
+     * @return bool
      */
-    public function articleAction(array $params = [])
+    public function articleAction(array $params = []): bool
     {
         $path = 'article/' . (0 !== count($params) ? join('/', $params) . '/' : '');
         $path = urldecode($path);
@@ -172,14 +185,18 @@ class MainController extends Controller
             'sideList' => $this->sideList,
             'container' => $containerList[$path]
         ]));
+
+        return true;
     }
 
     /**
      * Page Action
      *
      * @param array $params
+     *
+     * @return bool
      */
-    public function pageAction(array $params = [])
+    public function pageAction(array $params = []): bool
     {
         $path = 'page/' . (0 !== count($params) ? join('/', $params) . '/' : '');
         $path = urldecode($path);
@@ -199,14 +216,18 @@ class MainController extends Controller
             'sideList' => $this->sideList,
             'container' => $containerList[$path]
         ]));
+
+        return true;
     }
 
     /**
      * Archive Action
      *
      * @param array $params
+     *
+     * @return bool
      */
-    public function archiveAction(array $params = [])
+    public function archiveAction(array $params = []): bool
     {
         $path = 'archive/' . (0 !== count($params) ? join('/', $params) . '/' : '');
         $path = urldecode($path);
@@ -226,14 +247,18 @@ class MainController extends Controller
             'sideList' => $this->sideList,
             'container' => $containerList[$path]
         ]));
+
+        return true;
     }
 
     /**
      * Category Action
      *
      * @param array $params
+     *
+     * @return bool
      */
-    public function categoryAction(array $params = [])
+    public function categoryAction(array $params = []): bool
     {
         $path = 'category/' . (0 !== count($params) ? join('/', $params) . '/' : '');
         $path = urldecode($path);
@@ -253,14 +278,18 @@ class MainController extends Controller
             'sideList' => $this->sideList,
             'container' => $containerList[$path]
         ]));
+
+        return true;
     }
 
     /**
      * Tag Action
      *
      * @param array $params
+     *
+     * @return bool
      */
-    public function tagAction(array $params = [])
+    public function tagAction(array $params = []): bool
     {
         $path = 'tag/' . (0 !== count($params) ? join('/', $params) . '/' : '');
         $path = urldecode($path);
@@ -280,14 +309,18 @@ class MainController extends Controller
             'sideList' => $this->sideList,
             'container' => $containerList[$path]
         ]));
+
+        return true;
     }
 
     /**
      * Editor Action
      *
      * @param array $params
+     *
+     * @return bool
      */
-    public function editorAction(array $params = [])
+    public function editorAction(array $params = []): bool
     {
         $path = trim($this->req->uri(), '/');
         $path = urldecode($path);
@@ -295,5 +328,7 @@ class MainController extends Controller
         // Set View
         $this->view->setIndexPath(BLOG_EDITOR . '/views/index');
         $this->view->setData($this->viewData);
+
+        return true;
     }
 }

@@ -24,7 +24,6 @@ class Page extends ThemeHandler
      *
      * @param array $data
      */
-    #[\Override]
     public function initData(array $data): void
     {
         $data['articleByPage'] = [];
@@ -44,7 +43,6 @@ class Page extends ThemeHandler
      *
      * @return array
      */
-    #[\Override]
     public function getContainerDataList(): array
     {
         $articleList = $this->data['articleByPage'];

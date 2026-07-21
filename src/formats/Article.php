@@ -19,17 +19,17 @@ class Article extends Format
     /**
      * @var string
      */
-    protected $type = 'article';
+    protected ?string $type = 'article';
 
     /**
      * @var string
      */
-    protected $name = 'Article';
+    protected ?string $name = 'Article';
 
     /**
      * @var array
      */
-    protected $questionList = [
+    protected array $questionList = [
         [
             'name' => 'title',
             'statement' => 'Enter Title:'
@@ -55,7 +55,6 @@ class Article extends Format
      *
      * @return array
      */
-    #[\Override]
     public function convertInput(array $input): array
     {
         $time = time();

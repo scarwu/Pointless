@@ -14,13 +14,13 @@ $root = realpath(dirname(__FILE__) . '/..');
 include "{$root}/src/libraries/Utility.php";
 
 // Auto update vendor
-if (!file_exists("{$root}/src/vendor")) {
+if (false === file_exists("{$root}/src/vendor")) {
     chdir($root);
     system('composer install');
 }
 
 // Copy File to temp
-if (file_exists("{$root}/temp")) {
+if (true === file_exists("{$root}/temp")) {
     Pointless\Library\Utility::remove("{$root}/temp");
 }
 
@@ -54,7 +54,7 @@ foreach ([
 }
 
 // Clear Phar
-if (file_exists("{$root}/poi.phar")) {
+if (true === file_exists("{$root}/poi.phar")) {
     unlink("{$root}/poi.phar");
 }
 
@@ -84,11 +84,11 @@ $phar->stopBuffering();
 chmod("{$root}/poi.phar", 0755);
 
 // Release Phar
-if (isset($_SERVER['argv'][1])
+if (null !== $_SERVER['argv'][1]
     && '-r' === $_SERVER['argv'][1]) {
 
     // Clear Phar
-    if (file_exists("{$root}/bin/poi")) {
+    if (true === file_exists("{$root}/bin/poi")) {
         unlink("{$root}/bin/poi");
     }
 

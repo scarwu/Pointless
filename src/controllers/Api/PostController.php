@@ -19,8 +19,12 @@ class PostController extends Controller
 {
     /**
      * Get List Action
+     *
+     * @param array $params
+     *
+     * @return array
      */
-    public function getListAction(array $params = [])
+    public function getListAction(array $params = []): array
     {
         if (0 === count($params)) {
             http_response_code(400);
@@ -64,8 +68,12 @@ class PostController extends Controller
 
     /**
      * Get Item Action
+     *
+     * @param array $params
+     *
+     * @return array
      */
-    public function getItemAction(array $params = [])
+    public function getItemAction(array $params = []): array
     {
         if (0 === count($params)) {
             http_response_code(400);
@@ -120,8 +128,12 @@ class PostController extends Controller
 
     /**
      * Create Item Action
+     *
+     * @param array $params
+     *
+     * @return array
      */
-    public function createItemAction(array $params = [])
+    public function createItemAction(array $params = []): array
     {
         if (0 === count($params)) {
             http_response_code(400);
@@ -142,8 +154,12 @@ class PostController extends Controller
 
     /**
      * Update Item Action
+     *
+     * @param array $params
+     *
+     * @return array
      */
-    public function updateItemAction(array $params = [])
+    public function updateItemAction(array $params = []): array
     {
         if (0 === count($params)) {
             http_response_code(400);
@@ -193,8 +209,12 @@ class PostController extends Controller
 
     /**
      * Remove Item Action
+     *
+     * @param array $params
+     *
+     * @return array
      */
-    public function removeItemAction(array $params = [])
+    public function removeItemAction(array $params = []): array
     {
         if (0 === count($params)) {
             http_response_code(400);
@@ -232,8 +252,12 @@ class PostController extends Controller
 
     /**
      * Get Media List Action
+     *
+     * @param array $params
+     *
+     * @return array
      */
-    public function getMediaListAction(array $params = [])
+    public function getMediaListAction(array $params = []): array
     {
         if (0 === count($params)) {
             http_response_code(400);
@@ -274,8 +298,12 @@ class PostController extends Controller
 
     /**
      * Upload Media Item Action
+     *
+     * @param array $params
+     *
+     * @return array
      */
-    public function uploadMediaItemAction(array $params = [])
+    public function uploadMediaItemAction(array $params = []): array
     {
         if (0 === count($params)) {
             http_response_code(400);
@@ -313,8 +341,12 @@ class PostController extends Controller
 
     /**
      * Remove Media Item Action
+     *
+     * @param array $params
+     *
+     * @return array
      */
-    public function removeMediaItemAction(array $params = [])
+    public function removeMediaItemAction(array $params = []): array
     {
         if (0 === count($params)) {
             http_response_code(400);

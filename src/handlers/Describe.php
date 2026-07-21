@@ -24,7 +24,6 @@ class Describe extends ThemeHandler
      *
      * @param array $data
      */
-    #[\Override]
     public function initData(array $data): void
     {
         $this->data = $data;
@@ -35,7 +34,6 @@ class Describe extends ThemeHandler
      *
      * @return array
      */
-    #[\Override]
     public function getContainerDataList(): array
     {
         $containerList = [];

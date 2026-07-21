@@ -16,6 +16,13 @@ use Oni\Web\Controller\Ajax as Controller;
 
 class ConfigController extends Controller
 {
+    /**
+     * Load Item Action
+     *
+     * @param array $params
+     *
+     * @return array
+     */
     public function loadItemAction(array $params = [])
     {
         if (0 < count($params)) {
@@ -34,6 +41,13 @@ class ConfigController extends Controller
         ];
     }
 
+    /**
+     * Save Item Action
+     *
+     * @param array $params
+     *
+     * @return array
+     */
     public function saveItemAction(array $params = [])
     {
         if (0 < count($params)) {

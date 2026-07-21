@@ -126,9 +126,9 @@ class StartTask extends Task
         // Get PID
         $output = [];
 
-        exec(implode(array_map(function ($env) {
+        exec(implode(' ', array_map(function ($env) {
             return "{$env['key']}={$env['value']}";
-        }, $envs), ' ') . " {$command} > /dev/null 2>&1 & echo $!", $output);
+        }, $envs)) . " {$command} > /dev/null 2>&1 & echo $!", $output);
 
         $pid = $output[0];
 

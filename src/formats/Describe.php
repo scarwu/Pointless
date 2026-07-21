@@ -19,17 +19,17 @@ class Describe extends Format
     /**
      * @var string
      */
-    protected $type = 'describe';
+    protected ?string $type = 'describe';
 
     /**
      * @var string
      */
-    protected $name = 'Describe';
+    protected ?string $name = 'Describe';
 
     /**
      * @var array
      */
-    protected $questionList = [
+    protected array $questionList = [
         [
             'name' => 'title',
             'statement' => 'Enter Title:'

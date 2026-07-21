@@ -24,7 +24,6 @@ class Tag extends ThemeHandler
      *
      * @param array $data
      */
-    #[\Override]
     public function initData(array $data): void
     {
         $data['articleByTag'] = [];
@@ -49,7 +48,6 @@ class Tag extends ThemeHandler
      *
      * @return array
      */
-    #[\Override]
     public function getSideData(): array
     {
         return $this->data['articleByTag'];
@@ -60,7 +58,6 @@ class Tag extends ThemeHandler
      *
      * @return array
      */
-    #[\Override]
     public function getContainerDataList(): array
     {
         $articleList = $this->data['articleByTag'];

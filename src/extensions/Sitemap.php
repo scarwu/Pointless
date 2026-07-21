@@ -22,7 +22,6 @@ class Sitemap extends Extension
     /**
      * Render
      */
-    #[\Override]
     public function render(array $data): string
     {
         $scheme = $data['blog']['config']['withSSL'] ? 'https' : 'http';

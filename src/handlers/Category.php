@@ -24,7 +24,6 @@ class Category extends ThemeHandler
      *
      * @param array $data
      */
-    #[\Override]
     public function initData(array $data): void
     {
         $data['articleByCategory'] = [];
@@ -49,7 +48,6 @@ class Category extends ThemeHandler
      *
      * @return array
      */
-    #[\Override]
     public function getSideData(): array
     {
         return $this->data['articleByCategory'];
@@ -60,7 +58,6 @@ class Category extends ThemeHandler
      *
      * @return array
      */
-    #[\Override]
     public function getContainerDataList(): array
     {
         $articleList = $this->data['articleByCategory'];
