@@ -85,7 +85,7 @@ class Utility
                     continue;
                 }
 
-                self::chown("{$path}/{$command}", $user, $group);
+                self::chown("{$path}/{$filename}", $user, $group);
             }
 
             closedir($handle);
@@ -245,7 +245,7 @@ class Utility
      *
      * @return bool
      */
-    public static function saveJsonFile(string $path, $data): bool
+    public static function saveJsonFile(string $path, mixed $data): bool
     {
         if (true === file_exists($path)) {
             self::remove($path);
@@ -263,7 +263,7 @@ class Utility
      *
      * @return mixed
      */
-    public static function loadJsonFile(string $path)
+    public static function loadJsonFile(string $path): mixed
     {
         if (false === file_exists($path)) {
             return null;

@@ -24,15 +24,17 @@ class BlogTask extends Task
     /**
      * Help Info
      */
-    public function helpInfo($isShowDetail = false)
+    public function helpInfo()
     {
         $this->io->log('blog                    - Blog control');
     }
 
     /**
      * Lifecycle Funtions
+     *
+     * @return bool
      */
-    public function up()
+    public function up(): bool
     {
         $this->showBanner();
         (new InitTask)->helpInfo();
@@ -48,9 +50,18 @@ class BlogTask extends Task
 
             return false;
         }
+
+        return true;
     }
 
-    public function run()
+    /**
+     * Run
+     *
+     * @param array $params
+     *
+     * @return bool
+     */
+    public function run(array $params = []): bool
     {
         $config = Resource::get('blog:config');
 
@@ -63,5 +74,7 @@ class BlogTask extends Task
         $this->io->log("Theme    - {$config['theme']}");
         $this->io->log("Timezone - {$config['timezone']}");
         $this->io->log("Editor   - {$config['editor']}");
+
+        return true;
     }
 }

@@ -45,10 +45,6 @@ EOF;
      */
     protected function editFile(string $path): bool
     {
-        if (false === is_string($path)) {
-            return false;
-        }
-
         $editor = Resource::get('blog:config')['editor'];
 
         if (false === Utility::commandExists($editor)) {
@@ -88,7 +84,7 @@ EOF;
     /**
      * Select Post Data
      */
-    protected function selectPostData($type): ?array
+    protected function selectPostData(string $type): ?array
     {
         $postList = BlogCore::getPostList($type, true);
         $postList = array_reverse($postList);

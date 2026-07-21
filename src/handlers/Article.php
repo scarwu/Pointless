@@ -22,9 +22,10 @@ class Article extends ThemeHandler
     /**
      * Init Data
      *
-     * @param array
+     * @param array $data
      */
-    public function initData($data)
+    #[\Override]
+    public function initData(array $data): void
     {
         $this->data = $data;
     }
@@ -34,7 +35,8 @@ class Article extends ThemeHandler
      *
      * @return array
      */
-    public function getContainerDataList()
+    #[\Override]
+    public function getContainerDataList(): array
     {
         $articleList = $this->data['postBundle']['article'];
         $keys = array_keys($articleList);

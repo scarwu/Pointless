@@ -47,7 +47,8 @@ class Describe extends Format
      *
      * @return array
      */
-    public function convertInput($input)
+    #[\Override]
+    public function convertInput(array $input): array
     {
         $filename = Utility::pathReplace($input['url']);
         $filename = strtolower($filename);
@@ -72,7 +73,8 @@ class Describe extends Format
      *
      * @return array
      */
-    public function convertPost($post)
+    #[\Override]
+    public function convertPost(array $post): array
     {
         if (false === (bool) preg_match('/\.html$/', $post['params']['url'])) {
             $post['params']['url'] .= '/';

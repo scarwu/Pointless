@@ -55,7 +55,8 @@ class Article extends Format
      *
      * @return array
      */
-    public function convertInput($input)
+    #[\Override]
+    public function convertInput(array $input): array
     {
         $time = time();
         $filename = Utility::pathReplace($input['url']);
@@ -86,7 +87,8 @@ class Article extends Format
      *
      * @return array
      */
-    public function convertPost($post)
+    #[\Override]
+    public function convertPost(array $post): array
     {
         $format = Resource::get('blog:config')['post']['article']['format'];
         $format = trim($format, '/');

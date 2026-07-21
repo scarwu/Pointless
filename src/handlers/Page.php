@@ -22,9 +22,10 @@ class Page extends ThemeHandler
     /**
      * Init Data
      *
-     * @param array
+     * @param array $data
      */
-    public function initData($data)
+    #[\Override]
+    public function initData(array $data): void
     {
         $data['articleByPage'] = [];
         $articleList = $data['postBundle']['article'];
@@ -43,7 +44,8 @@ class Page extends ThemeHandler
      *
      * @return array
      */
-    public function getContainerDataList()
+    #[\Override]
+    public function getContainerDataList(): array
     {
         $articleList = $this->data['articleByPage'];
         $keys = array_keys($articleList);

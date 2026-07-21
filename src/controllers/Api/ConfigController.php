@@ -16,7 +16,7 @@ use Oni\Web\Controller\Ajax as Controller;
 
 class ConfigController extends Controller
 {
-    public function loadItemAction($params = [])
+    public function loadItemAction(array $params = [])
     {
         if (0 < count($params)) {
             http_response_code(404);
@@ -34,7 +34,7 @@ class ConfigController extends Controller
         ];
     }
 
-    public function saveItemAction($params = [])
+    public function saveItemAction(array $params = [])
     {
         if (0 < count($params)) {
             http_response_code(404);

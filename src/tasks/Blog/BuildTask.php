@@ -29,8 +29,10 @@ class BuildTask extends Task
 
     /**
      * Lifecycle Funtions
+     *
+     * @return bool
      */
-    public function up()
+    public function up(): bool
     {
         // Init Blog
         if (false === BlogCore::init()) {
@@ -44,9 +46,18 @@ class BuildTask extends Task
         Loader::append('Pointless\Handler', APP_ROOT . '/handlers');
         Loader::append('Pointless\Extension', BLOG_EXTENSION);
         Loader::append('Pointless\Extension', APP_ROOT . '/extensions');
+
+        return true;
     }
 
-    public function run()
+    /**
+     * Run
+     *
+     * @param array $params
+     *
+     * @return bool
+     */
+    public function run(array $params = []): bool
     {
         $startTime = microtime(true);
         $startMemory = memory_get_usage();
@@ -229,6 +240,8 @@ class BuildTask extends Task
         $memory = sprintf('%.3f', abs(memory_get_usage() - $startMemory) / 1024);
 
         $this->io->info("Generate finish, {$time}s and memory usage {$memory}KB.");
+
+        return true;
     }
 
     /**
@@ -236,8 +249,10 @@ class BuildTask extends Task
      *
      * @param string $path
      * @param string $data
+     *
+     * @return void
      */
-    private function saveToDisk($path, $data)
+    private function saveToDisk(string $path, string $data): void
     {
         $realpath = BLOG_BUILD . "/{$path}";
 

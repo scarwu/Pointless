@@ -33,7 +33,7 @@ class MainController extends Controller
      */
     private $viewData = [];
 
-    public function up()
+    public function up(): bool
     {
         // Get Resources
         $systemConstant = Resource::get('system:constant');
@@ -120,7 +120,7 @@ class MainController extends Controller
      *
      * @param array $params
      */
-    public function indexAction($params = [])
+    public function indexAction(array $params = [])
     {
         $path = trim($this->req->uri(), '/');
         $path = urldecode($path);
@@ -152,7 +152,7 @@ class MainController extends Controller
      *
      * @param array $params
      */
-    public function articleAction($params = [])
+    public function articleAction(array $params = [])
     {
         $path = 'article/' . (0 !== count($params) ? join('/', $params) . '/' : '');
         $path = urldecode($path);
@@ -179,7 +179,7 @@ class MainController extends Controller
      *
      * @param array $params
      */
-    public function pageAction($params = [])
+    public function pageAction(array $params = [])
     {
         $path = 'page/' . (0 !== count($params) ? join('/', $params) . '/' : '');
         $path = urldecode($path);
@@ -206,7 +206,7 @@ class MainController extends Controller
      *
      * @param array $params
      */
-    public function archiveAction($params = [])
+    public function archiveAction(array $params = [])
     {
         $path = 'archive/' . (0 !== count($params) ? join('/', $params) . '/' : '');
         $path = urldecode($path);
@@ -233,7 +233,7 @@ class MainController extends Controller
      *
      * @param array $params
      */
-    public function categoryAction($params = [])
+    public function categoryAction(array $params = [])
     {
         $path = 'category/' . (0 !== count($params) ? join('/', $params) . '/' : '');
         $path = urldecode($path);
@@ -260,7 +260,7 @@ class MainController extends Controller
      *
      * @param array $params
      */
-    public function tagAction($params = [])
+    public function tagAction(array $params = [])
     {
         $path = 'tag/' . (0 !== count($params) ? join('/', $params) . '/' : '');
         $path = urldecode($path);
@@ -287,7 +287,7 @@ class MainController extends Controller
      *
      * @param array $params
      */
-    public function editorAction($params = [])
+    public function editorAction(array $params = [])
     {
         $path = trim($this->req->uri(), '/');
         $path = urldecode($path);

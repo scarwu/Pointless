@@ -20,7 +20,14 @@ use Pointless\Extend\Task;
 
 class IntroTask extends Task
 {
-    public function run($params = [])
+    /**
+     * Run
+     *
+     * @param array $params
+     *
+     * @return bool
+     */
+    public function run(array $params = []): bool
     {
         $this->showBanner();
 
@@ -47,5 +54,7 @@ class IntroTask extends Task
             : "{$constant['build']['version']} ({$date})";
 
         $this->io->info($text);
+
+        return true;
     }
 }

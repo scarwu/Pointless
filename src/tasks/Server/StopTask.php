@@ -26,8 +26,10 @@ class StopTask extends Task
 
     /**
      * Lifecycle Funtions
+     *
+     * @return bool
      */
-    public function up()
+    public function up(): bool
     {
         // Init Blog
         if (false === BlogCore::init()) {
@@ -35,9 +37,18 @@ class StopTask extends Task
 
             return false;
         }
+
+        return true;
     }
 
-    public function run()
+    /**
+     * Run
+     *
+     * @param array $params
+     *
+     * @return bool
+     */
+    public function run(array $params = []): bool
     {
         $this->io->notice('Stopping Server');
 
@@ -64,5 +75,7 @@ class StopTask extends Task
         $blog['server'] = null;
 
         Utility::saveJsonFile(HOME_ROOT . '/blog.json', $blog);
+
+        return true;
     }
 }

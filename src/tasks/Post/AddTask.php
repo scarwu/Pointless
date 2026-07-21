@@ -27,8 +27,10 @@ class AddTask extends Task
 
     /**
      * Lifecycle Funtions
+     *
+     * @return bool
      */
-    public function up()
+    public function up(): bool
     {
         // Init Blog
         if (false === BlogCore::init()) {
@@ -36,9 +38,18 @@ class AddTask extends Task
 
             return false;
         }
+
+        return true;
     }
 
-    public function run()
+    /**
+     * Run
+     *
+     * @param array $params
+     *
+     * @return bool
+     */
+    public function run(array $params = []): bool
     {
         // Select Format Item
         $formatItem = $this->selectFormatItem();
@@ -74,5 +85,7 @@ class AddTask extends Task
 
         // Call CLI Editor to open file
         $this->editFile($filepath);
+
+        return true;
     }
 }

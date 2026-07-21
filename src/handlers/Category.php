@@ -22,9 +22,10 @@ class Category extends ThemeHandler
     /**
      * Init Data
      *
-     * @param array
+     * @param array $data
      */
-    public function initData($data)
+    #[\Override]
+    public function initData(array $data): void
     {
         $data['articleByCategory'] = [];
 
@@ -38,7 +39,7 @@ class Category extends ThemeHandler
             $data['articleByCategory'][$category][] = $post;
         }
 
-        uksort($data['articleByCategory'], 'strnatcasecmp');
+        uksort($data['articleByCategory'], strnatcasecmp(...));
 
         $this->data = $data;
     }
@@ -48,7 +49,8 @@ class Category extends ThemeHandler
      *
      * @return array
      */
-    public function getSideData()
+    #[\Override]
+    public function getSideData(): array
     {
         return $this->data['articleByCategory'];
     }
@@ -58,7 +60,8 @@ class Category extends ThemeHandler
      *
      * @return array
      */
-    public function getContainerDataList()
+    #[\Override]
+    public function getContainerDataList(): array
     {
         $articleList = $this->data['articleByCategory'];
         $keys = array_keys($articleList);

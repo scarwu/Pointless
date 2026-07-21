@@ -20,7 +20,7 @@ class ThemeController extends Controller
     /**
      * Get List Action
      */
-    public function getListAction($params = [])
+    public function getListAction(array $params = [])
     {
         if (0 < count($params)) {
             http_response_code(404);
@@ -41,7 +41,7 @@ class ThemeController extends Controller
     /**
      * Install Item Action
      */
-    public function installItemAction($params = [])
+    public function installItemAction(array $params = [])
     {
         if (0 < count($params)) {
             http_response_code(404);
@@ -102,7 +102,7 @@ class ThemeController extends Controller
     /**
      * Uninstall Item Action
      */
-    public function uninstallItemAction($params = [])
+    public function uninstallItemAction(array $params = [])
     {
         if (0 === count($params)) {
             http_response_code(400);

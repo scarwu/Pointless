@@ -18,15 +18,17 @@ class UpdateTask extends Task
     /**
      * Help Info
      */
-    public function helpInfo($isShowDetail = false)
+    public function helpInfo()
     {
         $this->io->log('update                  - System self-update');
     }
 
     /**
      * Lifecycle Funtions
+     *
+     * @return bool
      */
-    public function up()
+    public function up(): bool
     {
         $this->showBanner();
         $this->io->writeln();
@@ -48,9 +50,18 @@ class UpdateTask extends Task
 
             return false;
         }
+
+        return true;
     }
 
-    public function run()
+    /**
+     * Run
+     *
+     * @param array $params
+     *
+     * @return bool
+     */
+    public function run(array $params = []): bool
     {
         $anwser = $this->io->ask('Are you sure to update system? [y/N]');
         $anwser = strtolower($anwser);
@@ -70,5 +81,7 @@ class UpdateTask extends Task
         } else {
             $this->io->warning('Update system skipped.');
         }
+
+        return true;
     }
 }

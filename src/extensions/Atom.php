@@ -22,7 +22,8 @@ class Atom extends Extension
     /**
      * Render
      */
-    public function render($data)
+    #[\Override]
+    public function render(array $data): string
     {
         $scheme = $data['blog']['config']['withSSL'] ? 'https' : 'http';
         $domainName = $data['blog']['config']['domainName'];
@@ -89,10 +90,10 @@ class Atom extends Extension
     /**
      * UUID Generator
      *
-     * @param string
+     * @param string $input
      * @return string
      */
-    private function uuid($input)
+    private function uuid(string $input): string
     {
         $chars = md5($input);
 

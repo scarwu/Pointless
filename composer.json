@@ -16,7 +16,7 @@
     },
     "require": {
         "php": ">=8.4.0",
-        "scarwu/oni": "^2.0.0",
+        "scarwu/oni": "dev-master",
         "erusev/parsedown": "dev-master"
     },
     "require-dev": {

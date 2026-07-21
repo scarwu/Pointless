@@ -27,8 +27,10 @@ class ThemeTask extends Task
 
     /**
      * Lifecycle Funtions
+     *
+     * @return bool
      */
-    public function up()
+    public function up(): bool
     {
         $this->showBanner();
         (new InstallTask)->helpInfo();
@@ -41,14 +43,25 @@ class ThemeTask extends Task
 
             return false;
         }
+
+        return true;
     }
 
-    public function run()
+    /**
+     * Run
+     *
+     * @param array $params
+     *
+     * @return bool
+     */
+    public function run(array $params = []): bool
     {
         $this->io->notice('Status:');
 
         $count = count(BlogCore::getThemeList());
 
         $this->io->log("{$count} theme(s).");
+
+        return true;
     }
 }

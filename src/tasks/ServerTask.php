@@ -21,15 +21,17 @@ class ServerTask extends Task
     /**
      * Help Info
      */
-    public function helpInfo($isShowDetail = false)
+    public function helpInfo()
     {
         $this->io->log('server                  - Built-in web server');
     }
 
     /**
      * Lifecycle Funtions
+     *
+     * @return bool
      */
-    public function up()
+    public function up(): bool
     {
         $this->showBanner();
         (new StartTask)->helpInfo();
@@ -42,9 +44,18 @@ class ServerTask extends Task
 
             return false;
         }
+
+        return true;
     }
 
-    public function run()
+    /**
+     * Run
+     *
+     * @param array $params
+     *
+     * @return bool
+     */
+    public function run(array $params = []): bool
     {
         // Load & Save Blog Config
         $blog = Utility::loadJsonFile(HOME_ROOT . '/blog.json');
@@ -71,5 +82,7 @@ class ServerTask extends Task
         $this->io->notice('Status:');
         $this->io->log("PID - {$blog['server']['pid']}");
         $this->io->log("URL - {$blog['server']['url']}");
+
+        return true;
     }
 }

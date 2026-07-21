@@ -27,8 +27,10 @@ class UninstallTask extends Task
 
     /**
      * Lifecycle Funtions
+     *
+     * @return bool
      */
-    public function up()
+    public function up(): bool
     {
         // Init Blog
         if (false === BlogCore::init()) {
@@ -36,9 +38,18 @@ class UninstallTask extends Task
 
             return false;
         }
+
+        return true;
     }
 
-    public function run()
+    /**
+     * Run
+     *
+     * @param array $params
+     *
+     * @return bool
+     */
+    public function run(array $params = []): bool
     {
         // Select Theme Data
         $themeData = $this->selectThemeData();
@@ -63,5 +74,7 @@ class UninstallTask extends Task
 
             $this->io->notice("Successfully uninstalled theme \"{$title}\".");
         }
+
+        return true;
     }
 }

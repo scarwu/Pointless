@@ -31,8 +31,12 @@ class InitTask extends Task
 
     /**
      * Lifecycle Funtions
+     *
+     * @param array $params
+     *
+     * @return bool
      */
-    public function run()
+    public function run(array $params = []): bool
     {
         // [ 'blog', 'init', '<path>' ]
         $path = (null !== $this->io->getArguments(2))
@@ -61,5 +65,7 @@ class InitTask extends Task
         }
 
         $this->io->notice("Default blog is setting to path \"{$path}\".");
+
+        return true;
     }
 }

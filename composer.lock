@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ec236acec7a25f9e1cfeb5b24f0e3165",
+    "content-hash": "ffc255a71151dfc4f336d4331c87b2a2",
     "packages": [
         {
             "name": "erusev/parsedown",
@@ -65,16 +65,16 @@
         },
         {
             "name": "scarwu/oni",
-            "version": "2.0.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/scarwu/Oni.git",
-                "reference": "275a8287d01cc5c73fccdc3e0b358683c698f9d8"
+                "reference": "8dca790107c05e9f1e6e7a9850b2b769e17c5a8e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/scarwu/Oni/zipball/275a8287d01cc5c73fccdc3e0b358683c698f9d8",
-                "reference": "275a8287d01cc5c73fccdc3e0b358683c698f9d8",
+                "url": "https://api.github.com/repos/scarwu/Oni/zipball/8dca790107c05e9f1e6e7a9850b2b769e17c5a8e",
+                "reference": "8dca790107c05e9f1e6e7a9850b2b769e17c5a8e",
                 "shasum": ""
             },
             "require": {
@@ -83,6 +83,7 @@
             "require-dev": {
                 "phpunit/phpunit": "^13"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-0": {
@@ -104,9 +105,9 @@
             "homepage": "https://github.com/scarwu/Oni",
             "support": {
                 "issues": "https://github.com/scarwu/Oni/issues",
-                "source": "https://github.com/scarwu/Oni/tree/2.0.0"
+                "source": "https://github.com/scarwu/Oni/tree/master"
             },
-            "time": "2026-05-05T18:29:30+00:00"
+            "time": "2026-07-21T15:52:55+00:00"
         }
     ],
     "packages-dev": [
@@ -2014,7 +2015,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "erusev/parsedown": 20
+        "erusev/parsedown": 20,
+        "scarwu/oni": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

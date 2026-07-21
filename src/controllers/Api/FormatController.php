@@ -20,7 +20,7 @@ class FormatController extends Controller
     /**
      * Get List Action
      */
-    public function getListAction($params = [])
+    public function getListAction(array $params = [])
     {
         if (0 === count($params)) {
             http_response_code(400);
@@ -54,7 +54,7 @@ class FormatController extends Controller
     /**
      * Get List Action
      */
-    public function getItemAction($params = [])
+    public function getItemAction(array $params = [])
     {
         if (0 === count($params)) {
             http_response_code(400);

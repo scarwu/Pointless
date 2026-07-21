@@ -189,7 +189,7 @@ class BlogCore
         closedir($handle);
 
         // Sort List
-        uksort($list, 'strnatcasecmp');
+        uksort($list, strnatcasecmp(...));
 
         return array_values($list);
     }
@@ -248,7 +248,7 @@ class BlogCore
         closedir($handle);
 
         // Sort List
-        uksort($list, 'strnatcasecmp');
+        uksort($list, strnatcasecmp(...));
 
         return array_values($list);
     }

@@ -27,8 +27,10 @@ class DeployTask extends Task
 
     /**
      * Lifecycle Funtions
+     *
+     * @return bool
      */
-    public function up()
+    public function up(): bool
     {
         // Init Blog
         if (false === BlogCore::init()) {
@@ -43,9 +45,18 @@ class DeployTask extends Task
 
             return false;
         }
+
+        return true;
     }
 
-    public function run()
+    /**
+     * Run
+     *
+     * @param array $params
+     *
+     * @return bool
+     */
+    public function run(array $params = []): bool
     {
         $config = Resource::get('blog:config');
         $target = $config['deploy']['target'];
@@ -98,5 +109,7 @@ class DeployTask extends Task
 
             return false;
         }
+
+        return true;
     }
 }

@@ -28,8 +28,10 @@ class InstallTask extends Task
 
     /**
      * Lifecycle Funtions
+     *
+     * @return bool
      */
-    public function up()
+    public function up(): bool
     {
         // Init Blog
         if (false === BlogCore::init()) {
@@ -37,9 +39,18 @@ class InstallTask extends Task
 
             return false;
         }
+
+        return true;
     }
 
-    public function run()
+    /**
+     * Run
+     *
+     * @param array $params
+     *
+     * @return bool
+     */
+    public function run(array $params = []): bool
     {
         // [ 'theme', 'install', '<gitRepo>' ]
         $gitRepo = $this->io->getArguments(2);
@@ -81,5 +92,7 @@ class InstallTask extends Task
 
         // Remove Temp Folder
         Utility::remove($tmpFolder);
+
+        return true;
     }
 }

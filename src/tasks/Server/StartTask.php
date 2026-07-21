@@ -34,8 +34,10 @@ class StartTask extends Task
 
     /**
      * Lifecycle Funtions
+     *
+     * @return bool
      */
-    public function up()
+    public function up(): bool
     {
         // Init Blog
         if (false === BlogCore::init()) {
@@ -43,9 +45,18 @@ class StartTask extends Task
 
             return false;
         }
+
+        return true;
     }
 
-    public function run()
+    /**
+     * Run
+     *
+     * @param array $params
+     *
+     * @return bool
+     */
+    public function run(array $params = []): bool
     {
         $this->io->notice('Starting Server');
 
@@ -109,7 +120,7 @@ class StartTask extends Task
         if (true === Utility::isCommandRunning($command)) {
             $this->io->info('Server is running.');
 
-            return true;
+            return false;
         }
 
         // Get PID
@@ -157,5 +168,7 @@ class StartTask extends Task
         ];
 
         Utility::saveJsonFile(HOME_ROOT . '/blog.json', $blog);
+
+        return true;
     }
 }

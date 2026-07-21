@@ -29,8 +29,10 @@ class PostTask extends Task
 
     /**
      * Lifecycle Funtions
+     *
+     * @return bool
      */
-    public function up()
+    public function up(): bool
     {
         $this->showBanner();
         (new AddTask)->helpInfo();
@@ -44,9 +46,18 @@ class PostTask extends Task
 
             return false;
         }
+
+        return true;
     }
 
-    public function run()
+    /**
+     * Run
+     *
+     * @param array $params
+     *
+     * @return bool
+     */
+    public function run(array $params = []): bool
     {
         $this->io->notice('Status:');
 
@@ -60,5 +71,7 @@ class PostTask extends Task
 
             $this->io->log("{$count} {$name} post(s).");
         }
+
+        return true;
     }
 }
